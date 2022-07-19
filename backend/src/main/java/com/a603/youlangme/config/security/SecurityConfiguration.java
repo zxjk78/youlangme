@@ -8,10 +8,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
@@ -35,11 +43,10 @@ public class SecurityConfiguration {
                 .csrf().disable() // REST API 이므로 상태를 저장하지 않기 때문에 CSRF 보안을 설정할 필요가 없으므로 disable
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Jwt로 인증하므로 세션이 필요하지 않음
                 .and()
-                    .authorizeRequests() // URL 별 권한 관리 시작
-                        .antMatchers(HttpMethod.POST, "/login", "/signup", "/reissue").permitAll() // 로그인, 회원가입은 누구나 허용
-                        .antMatchers(HttpMethod.GET, "/exception/**").permitAll() // exception Handling을 위해 permit
-                        //.antMatchers("/*/users").hasRole("ADMIN")
-                        .anyRequest().hasRole("USER") // 그 외 요청은 인증된 USER만 가능
+                    .authorizeRequests() // exception Handling을 위해 permit
+                    .antMatchers("/login", "/signup", "/reissue", "/exception/**").permitAll() // 로그인, 회원가입은 누구나 허용
+                    // exception Handling을 위해 permit
+                    .and().cors()// 그 외 요청은 인증된 USER만 가능
                 .and()
                     .exceptionHandling()
 
@@ -55,6 +62,8 @@ public class SecurityConfiguration {
                     .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
