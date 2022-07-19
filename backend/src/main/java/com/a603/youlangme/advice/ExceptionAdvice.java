@@ -21,7 +21,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult defaultException(HttpServletRequest request, Exception e) {
-        //e.printStackTrace();
+        e.printStackTrace();
         return responseService.getFailResult(ErrorCode.DefaultException.getCode(), ErrorCode.DefaultException.getMessage());
     }
 
