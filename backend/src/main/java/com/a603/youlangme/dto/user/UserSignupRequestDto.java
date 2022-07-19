@@ -11,20 +11,17 @@ import java.util.Collections;
 public class UserSignupRequestDto {
     private String email;
     private String password;
-    private String name;
 
     @Builder
-    public UserSignupRequestDto(String email, String password, String name) {
+    public UserSignupRequestDto(String email, String password) {
         this.email = email;
         this.password = password;
-        this.name = name;
     }
 
     public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .name(name)
                 .roles(Collections.singletonList("ROLE_USER")) // security에서 검증할떄 USER
                 .build();
     }
