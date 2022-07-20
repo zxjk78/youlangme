@@ -44,12 +44,13 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private Long exp;
+    private Long exp = 0L;
 
+    @Enumerated(EnumType.STRING)
     private Language mylanguage;
 
+    @Enumerated(EnumType.STRING)
     private Language yourlanguage;
-
 
 
     @ElementCollection(fetch = FetchType.EAGER) // Proxy 객체가 반환되어 권한을 제대로 확인할 수 없는 경우를 방지
@@ -103,6 +104,10 @@ public class User extends BaseEntity implements UserDetails {
     // 나를 팔로우 해주는 사람들
     @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL)
     private List<Follow> followers = new ArrayList<>();
+
+
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+    private  List<UserFavorite> userFavorites;
 
 
 

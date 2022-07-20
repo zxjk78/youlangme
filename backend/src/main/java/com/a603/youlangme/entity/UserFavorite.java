@@ -1,15 +1,28 @@
 package com.a603.youlangme.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.*;
 
 @Entity
 public class UserFavorite extends BaseEntity{
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    // cascade 설정 시 UserFavorite 삭제하면 유저와 관심사도 사라져버림
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="favorite_id")
     private Favorite favorite;
+
+    protected UserFavorite() {}
+
+    @Builder
+    public UserFavorite(User user, Favorite favorite){
+        this.user=user;
+        this.favorite=favorite;
+    }
+
 }

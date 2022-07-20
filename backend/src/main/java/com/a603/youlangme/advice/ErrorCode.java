@@ -15,8 +15,8 @@ public enum ErrorCode {
     RefreshTokenNotEqualException(1005, "리프레시 토큰이 일치하지 않음"),
     RefreshTokenExpiredException(1006, "리프레시 토큰이 만료됨, 재로그인 필요"),
     RefreshTokenNotFoundException(1007, "리프레시 토큰이 DB에 존재하지 않음"),
-
-    UnAllowedAccessException(1008, "허용하지 않는 접근 방식")
+    UnAllowedAccessException(1008, "허용하지 않는 접근 방식"),
+    DataNotFoundException(1009, "DB에 데이터가 존재하지 않음")
     ;
 
     private int code;

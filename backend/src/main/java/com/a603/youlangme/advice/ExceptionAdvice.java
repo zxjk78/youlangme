@@ -72,4 +72,16 @@ public class ExceptionAdvice {
     protected CommonResult refreshTokenException(HttpServletRequest request, RefreshTokenNotFoundException e) {
         return responseService.getFailResult(ErrorCode.RefreshTokenNotFoundException.getCode(), ErrorCode.RefreshTokenNotFoundException.getMessage());
     }
+
+    @ExceptionHandler(UnAllowedAccessException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult unAllowedAccessException(HttpServletRequest request, UnAllowedAccessException e) {
+        return responseService.getFailResult(ErrorCode.UnAllowedAccessException.getCode(), ErrorCode.UnAllowedAccessException.getMessage());
+    }
+
+    @ExceptionHandler(DataNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult dataNotFoundException(HttpServletRequest request, DataNotFoundException e) {
+        return responseService.getFailResult(ErrorCode.DataNotFoundException.getCode(), ErrorCode.DataNotFoundException.getMessage());
+    }
 }
