@@ -33,13 +33,13 @@ public class SignService {
         if(!passwordEncoder.matches(userLoginRequestDto.getPassword(), user.getPassword()))
             throw new EmailLoginFailedException();
 
-        TokenResponseDto tokenDto = jwtProvider.createTokenDto(user.getUserId(), user.getRoles());
+        TokenResponseDto tokenDto = jwtProvider.createTokenDto(user.getId(), user.getRoles());
 
         RefreshToken refreshToken = RefreshToken.builder()
-                .tokenKey(user.getUserId())
+                .tokenKey(user.getId())
                 .token(tokenDto.getRefreshToken())
                 .build();
-        RefreshToken savedRefreshToken = refreshTokenRepository.findByTokenKey(user.getUserId()).orElse(null);
+        RefreshToken savedRefreshToken = refreshTokenRepository.findByTokenKey(user.getId()).orElse(null);
         if (savedRefreshToken == null)
             refreshTokenRepository.save(refreshToken);
         else {
@@ -68,14 +68,14 @@ public class SignService {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(UserNotFoundException::new);
 
-        RefreshToken refreshToken = refreshTokenRepository.findByTokenKey(user.getUserId())
+        RefreshToken refreshToken = refreshTokenRepository.findByTokenKey(user.getId())
                 .orElseThrow(RefreshTokenNotFoundException::new);
 
         if (!refreshToken.getToken().equals(tokenRequestDto.getRefreshToken()))
             throw new RefreshTokenNotEqualException();
 
         // AccessToken, RefreshToken 재발급, 저장
-        TokenResponseDto newCreatedToken = jwtProvider.createTokenDto(user.getUserId(), user.getRoles());
+        TokenResponseDto newCreatedToken = jwtProvider.createTokenDto(user.getId(), user.getRoles());
         RefreshToken updateRefreshToken = refreshToken.updateToken(newCreatedToken.getRefreshToken());
         refreshTokenRepository.save(updateRefreshToken);
 

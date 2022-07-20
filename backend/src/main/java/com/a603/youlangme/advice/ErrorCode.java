@@ -14,7 +14,10 @@ public enum ErrorCode {
     AccessDenied(1004, "해당 자원에 접근하기 위한 권한이 충분하지 않음"),
     RefreshTokenNotEqualException(1005, "리프레시 토큰이 일치하지 않음"),
     RefreshTokenExpiredException(1006, "리프레시 토큰이 만료됨, 재로그인 필요"),
-    RefreshTokenNotFoundException(1007, "리프레시 토큰이 DB에 존재하지 않음");
+    RefreshTokenNotFoundException(1007, "리프레시 토큰이 DB에 존재하지 않음"),
+
+    UnAllowedAccessException(1008, "허용하지 않는 접근 방식")
+    ;
 
     private int code;
     private String message;
