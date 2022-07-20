@@ -1,0 +1,54 @@
+$blue: #228be6;
+$gray: #495057;
+$pink: #f06595;
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $blue;
+  color: #fff;
+  background: $blue;
+  height: 2.25rem;
+  border: none;
+  cursor: pointer;
+  // 주석은 //을 사용하는 것 같다 멀티라인은 /**/
+
+  @mixin font-color($color) {
+    color: $color;
+  }
+  @mixin btn-color($color) {
+    background: $color;
+  }
+
+  &:hover {
+    background: lighten($color: $blue, $amount: 30%);
+    transition: 0.5s;
+  }
+  &.large {
+    width: 200px;
+  }
+  &.medium {
+    width: 100px;
+  }
+  &.green {
+    @include font-color(#000);
+    @include btn-color(green);
+  }
+  &.red {
+    @include font-color(#fff);
+    @include btn-color(red);
+  }
+  &.grey {
+    @include font-color(#fff);
+    @include btn-color(grey);
+  }
+  &.purple {
+    @include font-color(#fff);
+    @include btn-color(#e5aeff);
+  }
+
+  &.rounded {
+    border-radius: 15px;
+  }
+}
