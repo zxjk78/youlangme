@@ -23,7 +23,7 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
-//@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = true)
 //@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration {
     private final JwtProvider jwtProvider;
@@ -38,15 +38,16 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        http    .cors().and()
                 .httpBasic().disable() // 초기 설정은 비 인증시 로그인 폼으로 리다이렉트 되는데 REST API 이므로 disable
                 .csrf().disable() // REST API 이므로 상태를 저장하지 않기 때문에 CSRF 보안을 설정할 필요가 없으므로 disable
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Jwt로 인증하므로 세션이 필요하지 않음
                 .and()
                     .authorizeRequests() // exception Handling을 위해 permit
-                    .antMatchers("/login", "/signup", "/reissue", "/exception/**").permitAll() // 로그인, 회원가입은 누구나 허용
+                    .antMatchers("/login", "/signup", "/reissue", "/exception/**", "/favorite/list").permitAll() // 로그인, 회원가입은 누구나 허용
                     // exception Handling을 위해 permit
-                    .and().cors()// 그 외 요청은 인증된 USER만 가능
+                .anyRequest().hasRole("USER")
+
                 .and()
                     .exceptionHandling()
 

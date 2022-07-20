@@ -99,6 +99,7 @@ public class JwtProvider {
 
     // HTTP Request Header에서 Token 파싱 ( "X-AUTH-TOKEN: jwt" )
     public String resolveToken(HttpServletRequest request) {
+        System.out.println(request.getHeaderNames());
         return request.getHeader("X-AUTH-TOKEN");
     }
 

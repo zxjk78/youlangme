@@ -12,6 +12,7 @@ import com.a603.youlangme.service.FollowService;
 import com.a603.youlangme.service.ResponseService;
 import com.a603.youlangme.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/follow")
 @RequiredArgsConstructor
+@Slf4j
 public class FollowController {
 
     private final FollowService followService;
@@ -43,7 +45,7 @@ public class FollowController {
 
         if (loginUser == null) throw new AccessDeniedException();
         if (userToFollow == null) throw new UserNotFoundException();
-        if (loginUser.getId() != userToFollow.getId()) throw new UnAllowedAccessException();
+        if (loginUser.getId() == userToFollow.getId()) throw new UnAllowedAccessException();
 
         Follow newFollow = Follow.builder().follower(loginUser).followee(userToFollow).build();
         followService.regist(newFollow);
