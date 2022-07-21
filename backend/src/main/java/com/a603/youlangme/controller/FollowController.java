@@ -1,6 +1,7 @@
 package com.a603.youlangme.controller;
 
 import com.a603.youlangme.advice.exception.AccessDeniedException;
+import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.dto.follow.FollowFolloweeResponseDto;
@@ -49,11 +50,30 @@ public class FollowController {
         if (loginUser == null) throw new AccessDeniedException();
         if (userToFollow == null) throw new UserNotFoundException();
         if (loginUser.getId() == userToFollow.getId()) throw new UnAllowedAccessException();
+        // 이미 팔로우 중인지 확인
+        if (followService.isAlreadyFollowed(loginUser, userToFollow)) throw new UnAllowedAccessException();
 
         Follow newFollow = Follow.builder().follower(loginUser).followee(userToFollow).build();
         followService.regist(newFollow);
         return responseService.getSuccessResult();
 
+    }
+
+    // 팔로우 취소
+    @DeleteMapping("/{id}")
+    public CommonResult cancleFollow(@PathVariable("id") Long id) {
+        // 로그인 유저 가져오기
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User loginUser = (User) authentication.getPrincipal();
+
+        Follow follow = followService.searchFollowById(id).orElseThrow(DataNotFoundException::new);
+
+        if(loginUser.getId() != follow.getFollower().getId()) throw new AccessDeniedException();
+
+        followService.deleteFollow(id);
+
+        return responseService.getSuccessResult();
     }
 
     // follower 숫자 불러오기 (이 유저를 follow 하는 사람 숫자)
@@ -96,7 +116,8 @@ public class FollowController {
                 .map(follow -> {
                     User follower = follow.getFollower();
                     return FollowFollowerResponseDto.builder()
-                            .id(follower.getId())
+                            .id(follow.getId())
+                            .followerId(follower.getId())
                             .name(follower.getName())
                             .nationality(follower.getNationality())
                             .image(follower.getImage())
@@ -129,7 +150,8 @@ public class FollowController {
                 .map(follow -> {
                     User followee = follow.getFollowee();
                     return FollowFolloweeResponseDto.builder()
-                            .id(followee.getId())
+                            .id(follow.getId())
+                            .followeeId(followee.getId())
                             .name(followee.getName())
                             .nationality(followee.getNationality())
                             .image(followee.getImage())
