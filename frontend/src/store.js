@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authSlice from "./features/auth/authSlice";
-import modifyReducer from "./features/auth/modify/modify-slice";
+// 나는 reducer를 default로 export 함
+import modifyReducer from "./features/auth/modify/modifySlice";
 
 const reducer = combineReducers({
   auth: authSlice.reducer,

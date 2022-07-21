@@ -77,14 +77,6 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
     },
-    // [nameDupCheck.fulfilled]: (state, action) => {
-    //   console.log(state)
-    //   console.log(state.isLoggedIn)
-
-    //   console.log(state.modify)
-
-    //   // state.modify.nickName = action.payload
-    // },
     
   },
 });

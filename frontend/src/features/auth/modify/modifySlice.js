@@ -6,8 +6,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // };
 const API_URL = "http://127.0.0.1:8080/";
 const user = JSON.parse(localStorage.getItem("user"));
-const accessToken = user.accessToken;
 
+const accessToken = user.accessToken;
+const getConfig = {headers:{'X-Auth-Token': accessToken}}
+const postConfig = {headers:{
+  "Content-Type": "application/json",
+  'X-Auth-Token': accessToken}}
 
 const initState = {
     isNameUnique: false,
@@ -20,35 +24,32 @@ const initState = {
     favoriteList: [], // favorite : DB에서 받아서 렌더링
 }
 
-export const nameDupCheck = createAsyncThunk("CHECK_NICKNAME_DUP", async (name, thunkAPI) => {
+// 직렬화 오류 non-serial 어쩌고: 견본 코드가 response를 그대로 보내는데 이게 직렬화가 안되서 벌어지는 문제였음
+// response.data로 보냄
+export const nameDupCheck = createAsyncThunk("Modify/nickname_check", async (name, thunkAPI) => {
   try {
     const response = await axios.get(API_URL + `user/check-name/?name=${name}`,
-    {headers:{      
-      'X-Auth-Token': accessToken
-    }}
+    // 엑세스 토큰이 필요하다.
+    getConfig
     );
-    return response;
+    return response.data;
   } catch (err) {
     return thunkAPI.rejectWithValue(err.response);
   }
 });
 
-export const dispatchUserBasicInfo = createAsyncThunk('DISPATCH_USER_INFO', async (userBasicInfo, thunkAPI)=> {
+export const dispatchUserBasicInfo = createAsyncThunk('Modify/dispatch_userInfo', async (userBasicInfo, thunkAPI)=> {
   try {
     const response = await axios.post(API_URL + 'user/basic-info',
     JSON.stringify(userBasicInfo),
-    {headers:{
-      "Content-Type": "application/json",
-      'X-Auth-Token': accessToken
-    }}
-    // {...config, 'X-Auth-Token': accessToken}
+    // post는 직렬화까지 거치고 객체 토큰이 필요하다.
+    postConfig
     );
-    return response;
+    return response.data;
   } catch(error) {
     return thunkAPI.rejectWithValue(error.message)
   }
 });
-
 
 
 const reducers = {
@@ -96,15 +97,16 @@ const modifySlice = createSlice({
   initialState: initState,
   reducers: reducers,
   extraReducers:{
+    // pending, fulfilled, rejected 는 비동기 처리 시의 프로미스 상태이다.
     [nameDupCheck.fulfilled]: (state, action) => {
-      const isDup = action.payload.data.data
-      
+      const isDup = action.payload.data
       state.isNameUnique = !isDup
       
     },
   }
 })
-// 일반 reducer는 action에, thunk는 그냥 export
+// 일반 reducer는 actions로 export, thunk는 위에서 export하는 나름의 규칙? 
+// 코드 더 치게 되는데 생각 좀 해봐야 할듯
 export const modifyActions = modifySlice.actions;
 
 export default modifySlice.reducer;

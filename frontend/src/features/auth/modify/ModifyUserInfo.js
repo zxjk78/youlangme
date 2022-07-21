@@ -7,58 +7,44 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import moment from "moment";
-// import Select from "../../../common/UI/Select";
 
-// 단순 서버 API
-// import {fetchHobbies} from './modifyAPI';
+// 리덕스 안거치는 단순 서버 교신 API
+import {fetchHobbies} from './modifyAPI';
 
 // state
 import { useState, useRef, useEffect } from "react";
 // redux
 import {useSelector, useDispatch} from 'react-redux';
-import { modifyActions, dispatchUserBasicInfo  } from "./modify-slice";
-import {nameDupCheck} from "./modify-slice";
+import { modifyActions, dispatchUserBasicInfo  } from "./modifySlice";
+import {nameDupCheck} from "./modifySlice";
 // router
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 // css
 import classes from "./ModifyUserInfo.module.scss";
 
 
-//tmp data 
+//하드코딩한 데이터 
 import * as dataList from './data';
-
-import axios from 'axios'
 const nationOptions = dataList.nationOptions
 const languageOptions = dataList.languageOptions
-const API_URL = "http://127.0.0.1:8080/";
 
 const ModifyUserInfo = () => {
   const [chipHobbies, setChipHobbies] = useState([]);
-  
-  // API 문서를 만들지 말지 고민
-  useEffect(()=>{
-    const fetchHobbies = async () => {
-      const res = await axios.get(API_URL + 'favorite/list')
-      console.log(res.data.data)
-      setChipHobbies(res.data.data.map(item => { return {...item, isSelected:false}} ))
-    }
-    fetchHobbies() 
+    useEffect(()=>{
+    fetchHobbies(setChipHobbies) 
   },[])
 
 
 
 
-  // const history = useHistory();
+  const history = useHistory();
   const nickNameRef = useRef();
   
   // redux
   const userInfo = useSelector(state => state.modify)
   
 
-  const dispatch = useDispatch();
-  console.log('리덕스 테스트중', userInfo)
-  
-  
+  const dispatch = useDispatch();  
   
   
   const nickNameInputChangeHandler = () => {
@@ -73,7 +59,9 @@ const ModifyUserInfo = () => {
     } else {
       try {
         const response = await dispatch(nameDupCheck(nickName));
-        const isDup = response.payload.data.data
+        // const isDup = response.payload.data.data
+        const isDup = response.payload.data
+        console.log(isDup);
         if (!isDup) {
           dispatch(modifyActions.setName(nickName));
           alert("사용 가능한 아이디입니다.");
@@ -147,7 +135,6 @@ const ModifyUserInfo = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    console.log(userInfo);
     try {
       const response = await dispatch(dispatchUserBasicInfo(userInfo));
       console.log(response);
@@ -155,12 +142,11 @@ const ModifyUserInfo = () => {
       console.log(error);
     }
     
-    // history.push("/main");
+    history.push("/main");
   };
 
   let formIsValid = true;
   for (const key in userInfo) {
-    // console.log(key, userInfo[key])
     if (!userInfo[key] || userInfo.favoriteList.length === 0) {
       formIsValid = false;
       break;
