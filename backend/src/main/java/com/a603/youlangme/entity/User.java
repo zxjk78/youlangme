@@ -1,8 +1,5 @@
 package com.a603.youlangme.entity;
 
-import com.a603.youlangme.enums.Gender;
-import com.a603.youlangme.enums.Language;
-import com.a603.youlangme.enums.Nationality;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
 @Table(name = "user")
 public class User extends BaseEntity implements UserDetails {
 
-    @Column(unique = true, nullable = true, length = 30)
+    @Column(nullable = true, length = 30)
     String name;
 
     @Column(nullable = false, unique = true, length = 50)
@@ -34,21 +31,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 100)
     String password;
 
-    @Column(nullable = false)
-    private int age;
-
-    @Enumerated(EnumType.STRING)
-    private Nationality nationality;
-
-    //enum으로 해결
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
-    private Long exp;
-
-    private Language mylanguage;
-
-    private Language yourlanguage;
 
 
 
@@ -92,18 +74,4 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
-
-
-    // 내가 팔로우 하는 사람들
-    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
-    private List<Follow> followees = new ArrayList<>();
-
-    // 나를 팔로우 해주는 사람들
-    @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL)
-    private List<Follow> followers = new ArrayList<>();
-
-
-
 }
