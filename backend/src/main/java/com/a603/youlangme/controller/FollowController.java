@@ -56,18 +56,37 @@ public class FollowController {
 
     }
 
-    // follower들 (이 유저를 follow)
-    @GetMapping("/follower/{userId}")
-    public ManyResult<FollowFollowerResponseDto>  listFollower(@PathVariable("userId") Long userId) {
-        // 로그인 유저 가져오기
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User loginUser = (User) authentication.getPrincipal();
+    // follower 숫자 불러오기 (이 유저를 follow 하는 사람 숫자)
+    @GetMapping("/follower-cnt/{userId}")
+    public OneResult<Integer> countFollower(@PathVariable("userId") Long userId) {
+        User user = userService.findUserById(userId);
+        Integer cnt = followService.getFollowerNum(user);
 
+        return responseService.getOneResult(cnt);
+    }
+
+    // followee 숫자 불러오기 (이 유저가 follow 하는 사람 숫자)
+    @GetMapping("/followee-cnt/{userId}")
+    public OneResult<Integer> countFollowee(@PathVariable("userId") Long userId) {
+        User user = userService.findUserById(userId);
+        Integer cnt = followService.getFolloweeNum(user);
+
+        return responseService.getOneResult(cnt);
+    }
+
+    // follower들 (이 유저를 follow 하는 사람)
+    @GetMapping("/followers/{userId}")
+    public ManyResult<FollowFollowerResponseDto>  listFollower(@PathVariable("userId") Long userId) {
         // 본인만 볼 수 있다면 아래를 추가
-        //if(loginUser.getId() != userId) throw  new UnAllowedAccessException();
-        //if(loginUser == null) throw new AccessDeniedException();
-        // ------
+
+        // 로그인 유저 가져오기
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        Authentication authentication = context.getAuthentication();
+//        User loginUser = (User) authentication.getPrincipal();
+//
+//        if(loginUser.getId() != userId) throw  new UnAllowedAccessException();
+//        if(loginUser == null) throw new AccessDeniedException();
+//         ------
 
         User followee = userService.findUserById(userId);
 
@@ -89,17 +108,18 @@ public class FollowController {
     }
 
     // followee들 (이 유저의 followings)
-    @GetMapping("/followee/{userId}")
+    @GetMapping("/followees/{userId}")
     public ManyResult<FollowFolloweeResponseDto>  listFollowee(@PathVariable("userId") Long userId) {
-        // 로그인 유저 가져오기
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User loginUser = (User) authentication.getPrincipal();
-
         // 본인만 볼 수 있다면 아래를 추가
-        //if(loginUser.getId() != userId) throw  new UnAllowedAccessException();
-        //if(loginUser == null) throw new AccessDeniedException();
-        // ------
+
+        // 로그인 유저 가져오기
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        Authentication authentication = context.getAuthentication();
+//        User loginUser = (User) authentication.getPrincipal();
+//
+//        if(loginUser.getId() != userId) throw  new UnAllowedAccessException();
+//        if(loginUser == null) throw new AccessDeniedException();
+//         ------
 
         User follower = userService.findUserById(userId);
 
@@ -119,4 +139,6 @@ public class FollowController {
 
         return responseService.getManyResult(followees);
     }
+
+
 }

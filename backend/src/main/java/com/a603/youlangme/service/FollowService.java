@@ -27,4 +27,12 @@ public class FollowService {
     public List<Follow> searchFollowByFollower(User follower) {
         return followRepository.findAllByFollower(follower);
     }
+
+    public Integer getFollowerNum(User user) {
+        return followRepository.countByFollowee(user);
+    }
+
+    public Integer getFolloweeNum(User user) {
+        return followRepository.countByFollower(user);
+    }
 }
