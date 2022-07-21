@@ -19,6 +19,7 @@ public enum ErrorCode {
     DataNotFoundException(1009, "DB에 데이터가 존재하지 않음")
     ;
 
+
     private int code;
     private String message;
 }

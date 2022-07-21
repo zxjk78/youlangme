@@ -1,11 +1,14 @@
 import "./App.css";
 import React from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Switch, BrowserRouter } from "react-router-dom";
 import Login from "./features/auth/login/Login";
 // import { useSelector } from "react-redux";
 import SignUp from "./features/auth/signup/SignUp";
 import ModifyUserInfo from "./features/auth/modify/ModifyUserInfo";
 import Main from "./features/main/Main";
+import PrivateRoute from "./common/routes/PrivateRoute"
+import PublicRoute from "./common/routes/PublicRoute"
+
 // import { useSelector } from "react-redux";
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
@@ -13,10 +16,10 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Login}></Route>
-          <Route path="/main" component={Main}></Route>
-          <Route path="/signup" component={SignUp}></Route>
-          <Route path="/modify" component={ModifyUserInfo}></Route>
+          <PublicRoute restricted exact path="/" component={Login}></PublicRoute>
+          <PublicRoute restricted path="/signup" component={SignUp}></PublicRoute>
+          <PrivateRoute path="/modify" component={ModifyUserInfo}></PrivateRoute>
+          <PrivateRoute path="/main" component={Main}></PrivateRoute>
         </Switch>
       </BrowserRouter>
     </div>

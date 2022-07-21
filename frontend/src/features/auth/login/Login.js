@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -15,7 +15,8 @@ const Login = (props) => {
   // const { message } = useSelector((state) => state.message);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { isLoggedIn } = useSelector((state) => state.auth);
+  
   // useEffect(() => {
   //   dispatch(clearMessage());
   // }, [dispatch]);
@@ -41,9 +42,7 @@ const Login = (props) => {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        if (isLoggedIn) {
-          history.push("/modify");
-        }
+        history.push("/modify")
       })
       .catch(() => {
         setLoading(false);

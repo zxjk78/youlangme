@@ -1,8 +1,5 @@
 package com.a603.youlangme.entity;
 
-import com.a603.youlangme.enums.Gender;
-import com.a603.youlangme.enums.Language;
-import com.a603.youlangme.enums.Nationality;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
 @Table(name = "user")
 public class User extends BaseEntity implements UserDetails {
 
-    @Column(unique = true, nullable = true, length = 30)
+    @Column(nullable = true, length = 30)
     String name;
 
     @Column(nullable = false, unique = true, length = 50)
@@ -33,6 +30,7 @@ public class User extends BaseEntity implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false, length = 100)
     String password;
+
 
     @Column(nullable = false)
     private int age;
@@ -51,6 +49,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Language yourlanguage;
+
 
 
     @ElementCollection(fetch = FetchType.EAGER) // Proxy 객체가 반환되어 권한을 제대로 확인할 수 없는 경우를 방지
@@ -93,6 +92,7 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 
 
 
