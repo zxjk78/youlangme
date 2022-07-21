@@ -51,6 +51,8 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Language yourlanguage;
 
+    private String image;
+
 
     @ElementCollection(fetch = FetchType.EAGER) // Proxy 객체가 반환되어 권한을 제대로 확인할 수 없는 경우를 방지
     @Builder.Default
