@@ -1,8 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const config = {
+  headers: { "Content-Type": "application/json" }, 
+};
 const API_URL = "http://127.0.0.1:8080/";
 const user = JSON.parse(localStorage.getItem("user"));
+const accessToken = user.accessToken;
+
 export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
   try {
     const response = await axios.post(API_URL + "login/", userInfo);
@@ -28,9 +33,11 @@ export const logout = createAsyncThunk("LOGOUT", async () => {
   localStorage.removeItem("user");
 });
 
-export const nickname = createAsyncThunk("NICKNAME", async (name, thunkAPI) => {
+export const nameDupCheck = createAsyncThunk("NICKNAME", async (name, thunkAPI) => {
   try {
-    const response = await axios.get(API_URL + `user/check-name/?name=${name}`);
+    const response = await axios.get(API_URL + `user/check-name/?name=${name}`,
+    {headers:{'X-Auth-Token': accessToken}}
+    );
     console.log(response.data.data);
     return response;
   } catch (err) {
@@ -49,7 +56,7 @@ const authSlice = createSlice({
     login,
     signup,
     logout,
-    nickname,
+    // nameDupCheck,
   },
   extraReducers: {
     [signup.fulfilled]: (state, action) => {
@@ -70,6 +77,15 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
     },
+    // [nameDupCheck.fulfilled]: (state, action) => {
+    //   console.log(state)
+    //   console.log(state.isLoggedIn)
+
+    //   console.log(state.modify)
+
+    //   // state.modify.nickName = action.payload
+    // },
+    
   },
 });
 

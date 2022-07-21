@@ -1,118 +1,167 @@
+// component
 import Button from "../../../common/UI/Button";
-import { Chip } from "@mui/material";
-import Select from "../../../common/UI/Select";
 
-import classes from "./ModifyUserInfo.scss";
-import { useState, useRef } from "react";
-import { nickname } from "../authSlice";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+//material UI
+import { FormControl, Select, MenuItem, InputLabel, NativeSelect, TextField, Chip } from '@mui/material';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import moment from "moment";
+// import Select from "../../../common/UI/Select";
 
-const languageOptions = ["한국어", "영어", "일본어", "중국어"];
+// 단순 서버 API
+// import {fetchHobbies} from './modifyAPI';
 
-const hobbys = [
-  "영화",
-  "스포츠",
-  "음악",
-  "재테크",
-  "여행",
-  "코딩",
-  "게임",
-  "맛집",
-  "요리",
-  "카페",
-  "독서",
-  "반려동물",
-  "파티",
-  "콜렉팅",
-];
+// state
+import { useState, useRef, useEffect } from "react";
+// redux
+import {useSelector, useDispatch} from 'react-redux';
+import { modifyActions, dispatchUserBasicInfo  } from "./modify-slice";
+import {nameDupCheck} from "./modify-slice";
+// router
+// import { useHistory } from "react-router-dom";
+// css
+import classes from "./ModifyUserInfo.module.scss";
 
-const hobbies2 = hobbys.map((hobby) => {
-  return { hobby: hobby, isSelected: false };
-});
 
-const profileData = {
-  nickName: "",
-  hobbies: [],
-  teachLanguage: "",
-  learnLanguage: "",
-};
+//tmp data 
+import * as dataList from './data';
+
+import axios from 'axios'
+const nationOptions = dataList.nationOptions
+const languageOptions = dataList.languageOptions
+const API_URL = "http://127.0.0.1:8080/";
 
 const ModifyUserInfo = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
+  const [chipHobbies, setChipHobbies] = useState([]);
+  
+  // API 문서를 만들지 말지 고민
+  useEffect(()=>{
+    const fetchHobbies = async () => {
+      const res = await axios.get(API_URL + 'favorite/list')
+      console.log(res.data.data)
+      setChipHobbies(res.data.data.map(item => { return {...item, isSelected:false}} ))
+    }
+    fetchHobbies() 
+  },[])
+
+
+
+
+  // const history = useHistory();
   const nickNameRef = useRef();
-  const [profileInfo, setProfileInfo] = useState(profileData);
+  
+  // redux
+  const userInfo = useSelector(state => state.modify)
+  
 
+  const dispatch = useDispatch();
+  console.log('리덕스 테스트중', userInfo)
+  
+  
+  
+  
   const nickNameInputChangeHandler = () => {
-    setProfileInfo((prevState) => {
-      return { ...prevState, nickName: "" };
-    });
+    dispatch(modifyActions.setIsNameUnique(false))
   };
-  const nickNameCheckHandler = () => {
-    const newName = nickNameRef.current.value;
 
-    if (newName.trim() === "") {
-      alert("아이디 입력해주세요");
+  const nickNameDupCheckHandler = async () => {
+    const nickName = nickNameRef.current.value;
+    
+    if (nickName.trim() === "") {
+      alert("아이디를 입력해주세요");
     } else {
-      dispatch(nickname(newName));
-      //백엔드 검사 로직
-      setProfileInfo((prevState) => {
-        return { ...prevState, nickName: newName };
-      });
-      alert("사용 가능한 아이디입니다.");
+      try {
+        const response = await dispatch(nameDupCheck(nickName));
+        const isDup = response.payload.data.data
+        if (!isDup) {
+          dispatch(modifyActions.setName(nickName));
+          alert("사용 가능한 아이디입니다.");
+        } else {
+          dispatch(modifyActions.setName(''));
+          alert("이미 존재하는 아이디입니다.");
+        }
+
+
+      } catch (error) {
+        console.log(error)
+      }     
     }
   };
-  const changeTeachHandler = (value) => {
-    setProfileInfo((prevState) => {
-      return { ...prevState, teachLanguage: value };
-    });
-  };
-  const changeLearnHandler = (value) => {
-    setProfileInfo((prevState) => {
-      return { ...prevState, learnLanguage: value };
-    });
-  };
-  const addHobbyHandler = (event) => {
-    const hobby = event.currentTarget.dataset.value;
-    if (profileInfo.hobbies.length >= 3) return;
+  const changeGenderHandler = (event) => {
+    const gender = event.target.value
+    dispatch(modifyActions.setGender(gender))
+  }
+  const changeNationHandler = (event) => {
+    const nationality = event.target.value
+    dispatch(modifyActions.setNationality(nationality))
+  }
+  const changeTeachHandler = (event) => {
+    const myLanguage = event.target.value
 
-    setProfileInfo((prevState) => {
-      return { ...prevState, hobbies: [...prevState.hobbies, hobby] };
-    });
-    for (const obj of hobbies2) {
-      if (obj.hobby === hobby) {
+    dispatch(modifyActions.setMyLang(myLanguage))
+
+  };
+  const changeLearnHandler = (event) => {
+    const yourLanguage = event.target.value
+    dispatch(modifyActions.setYourLang(yourLanguage))
+
+  };
+
+    // material UI 날짜 관련 함수
+    const birthdayChangeHandler = (changedDate) => {
+      const m = moment(changedDate);
+      const tmp = {
+        birthYear: m.year(),
+        birthMonth: m.month() + 1,
+        birthDay: m.day()
+      }
+
+      dispatch(modifyActions.setBirthday(tmp))
+    }
+  
+
+
+  const addHobbyHandler = (event) => {
+    const hobbyId = Number(event.currentTarget.dataset.value);
+    if (userInfo.favoriteList.length >= 3) return;
+
+    dispatch(modifyActions.addFavorite(hobbyId))
+    for (const obj of chipHobbies) {
+      if (obj.id === hobbyId) {
         obj.isSelected = !obj.isSelected;
       }
     }
   };
   const removeHobbyHandler = (event) => {
-    const hobby = event.currentTarget.dataset.value;
-    setProfileInfo((prevState) => {
-      return {
-        ...prevState,
-        hobbies: prevState.hobbies.filter((item) => item !== hobby),
-      };
-    });
-
-    for (const obj of hobbies2) {
-      if (obj.hobby === hobby) {
+    const hobbyId = Number(event.currentTarget.dataset.value);
+    
+    dispatch(modifyActions.removeFavorite(hobbyId))
+    for (const obj of chipHobbies) {
+      if (obj.id === hobbyId) {
         obj.isSelected = !obj.isSelected;
       }
     }
   };
 
-  const onSubmitHandler = (event) => {
-    // 제출 이전에 어떻게 비활성화를 시킬 것인가?
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    console.log(profileInfo);
-    history.push("/main");
+    console.log(userInfo);
+    try {
+      const response = await dispatch(dispatchUserBasicInfo(userInfo));
+      console.log(response);
+    } catch(error){
+      console.log(error);
+    }
+    
+    // history.push("/main");
   };
 
   let formIsValid = true;
-  for (const key in profileInfo) {
-    if (!profileInfo[key]) {
+  for (const key in userInfo) {
+    // console.log(key, userInfo[key])
+    if (!userInfo[key] || userInfo.favoriteList.length === 0) {
       formIsValid = false;
       break;
     }
@@ -120,64 +169,149 @@ const ModifyUserInfo = () => {
 
   return (
     <>
-      <div className={classes.container}>
+    <div className={classes.container}>
+
+      <div className={`${classes.formContainer}`}>
         <form onSubmit={onSubmitHandler}>
-          <h4>닉네임</h4>
-          <div className={classes.nicknameContainer}>
-            <input
+          <h5>닉네임</h5>
+          <div className={`${classes.nicknameContainer}`}>
+            <input 
               type="text"
               id="nickname"
               ref={nickNameRef}
               onChange={nickNameInputChangeHandler}
             />
+
             <Button
               type="button"
               size="small"
-              color="purple"
-              onClick={nickNameCheckHandler}
+              color="nicknameDupCheck"
+              onClick={nickNameDupCheckHandler}
+              onChange={nickNameInputChangeHandler}
             >
-              중복확인
+              {userInfo.isNameUnique ? '사용 가능': '중복 확인'}
             </Button>
           </div>
-          <br />
+          <h5>생년월일</h5>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DesktopDatePicker
+            // label="생년월일"
+            inputFormat="yyyy-MM-dd"
+            value={new Date(Object.values(userInfo.birthday))}
+            onChange={birthdayChangeHandler}
+            renderInput={(params) => <TextField {...params} />}
+          />
+
+        </LocalizationProvider>
+
+      <h5>매칭 옵션</h5>
+        <div className={`${classes.twoInputsContainer}`}>
+
+        <div>
+          <FormControl variant="standard" sx={{minWidth: 120, maxWidth:240}}>   
+          <InputLabel id="nation-label">국적</InputLabel>
+
+            <Select
+              labelId="nation-label"
+              id="nation"
+              defaultValue={''}
+              value={userInfo.nation}
+              label="nation"
+              inputProps={{
+                name: 'nation',
+                id: 'uncontrolled-native',
+              }}
+              onChange={changeNationHandler}
+            >
+              {nationOptions.map(item=>  (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>) )}
+            </Select>
+            
+            </FormControl>
+        </div>
+        <div>
+        <FormControl variant="standard" sx={{minWidth: 120, maxWidth:240}}>  
+        <InputLabel id="gender-label">성별</InputLabel>
+
+        <Select
+            labelId="gender-label"
+            id="gender"
+            defaultValue={''}
+            value={userInfo.gender}
+            label="gender"
+            inputProps={{
+              name: 'gender',
+              id: 'uncontrolled-native',
+            }}
+            onChange={changeGenderHandler}
+          >
+            <MenuItem value="">성별 선택</MenuItem>
+            <MenuItem value="MALE">남성</MenuItem>
+            <MenuItem value="FEMALE">여성</MenuItem>            
+            
+          </Select>
+          
+          </FormControl>
+
+        </div>
+
+        </div>
+     
+
           <div className={classes.languageSelectionContainer}>
-            <h4>언어 선택</h4>
             <div>
-              <div>
-                <h5>가르칠 언어</h5>
-                <Select
-                  topic="미선택"
-                  options={languageOptions}
-                  changeOptionHandler={changeTeachHandler}
-                />
-              </div>
-              <div>
-                <h5>배울 언어</h5>
-                <Select
-                  topic="미선택"
-                  options={languageOptions}
-                  changeOptionHandler={changeLearnHandler}
-                />
-              </div>
+
+        <div>
+        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+          내 언어
+        </InputLabel>
+        <NativeSelect
+          defaultValue={null}
+          inputProps={{
+            name: 'myLanguage',
+            id: 'uncontrolled-native',
+          }}
+          onChange={changeTeachHandler}
+
+        >
+          {languageOptions.map(item => <option key={item.id} value={item.id}>{item.name}</option> )}
+
+        </NativeSelect>
+        </div>
+        <div>
+        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+          학습 희망 언어
+        </InputLabel>
+        <NativeSelect
+          defaultValue={null}
+          inputProps={{
+            name: 'learnLanguage',
+            id: 'uncontrolled-native',
+          }}
+          onChange={changeLearnHandler}
+
+        >
+          {languageOptions.map(item => <option key={item.id} value={item.id}>{item.name}</option> )}
+
+        </NativeSelect>
+        </div>
             </div>
           </div>
           <div className={classes.interestContainer}>
-            <h4>흥미</h4>
             <p>
               관심 있는 분야를 선택해 주세요 <span>(최대 3개)</span>
             </p>
             {/* 이부분에 chips 로 여러 개를 만들어서 사용함 */}
             <div className={classes["chipsContaier"]}>
-              {hobbies2.map((obj) => {
+              {chipHobbies.map((obj) => {
                 return (
                   <Chip
-                    key={obj.hobby}
-                    label={obj.hobby}
+                    key={obj.id}
+                    label={obj.name}
                     onClick={
                       !obj.isSelected ? addHobbyHandler : removeHobbyHandler
                     }
-                    data-value={obj.hobby}
-                    color={obj.isSelected ? "secondary" : "default"}
+                    data-value={obj.id}
+                    color={obj.isSelected ? "warning" : "default"}
                   />
                 );
               })}
@@ -195,6 +329,8 @@ const ModifyUserInfo = () => {
           </div>
         </form>
       </div>
+      </div>
+
     </>
   );
 };
