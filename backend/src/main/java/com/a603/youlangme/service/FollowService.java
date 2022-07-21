@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +21,31 @@ public class FollowService {
         followRepository.save(newFollow);
     }
 
+    public Optional<Follow> searchFollowById(Long id) {
+        return followRepository.findById(id);
+    }
+
     public List<Follow> searchFollowByFollowee(User followee) {
         return followRepository.findAllByFollowee(followee);
     }
 
     public List<Follow> searchFollowByFollower(User follower) {
         return followRepository.findAllByFollower(follower);
+    }
+
+    public Integer getFollowerNum(User user) {
+        return followRepository.countByFollowee(user);
+    }
+
+    public Integer getFolloweeNum(User user) {
+        return followRepository.countByFollower(user);
+    }
+
+    public void deleteFollow(Long id) {
+        followRepository.deleteById(id);
+    }
+
+    public boolean isAlreadyFollowed(User loginUser, User userToFollow) {
+        return followRepository.findByFollowerAndFollowee(loginUser,userToFollow) != null;
     }
 }

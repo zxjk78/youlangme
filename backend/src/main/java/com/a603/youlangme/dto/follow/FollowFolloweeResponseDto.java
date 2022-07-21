@@ -11,6 +11,7 @@ import lombok.Getter;
 public class FollowFolloweeResponseDto {
 
     private Long id;
+    private Long followeeId;
     private String name;
     private Nationality nationality;
     private String image;
