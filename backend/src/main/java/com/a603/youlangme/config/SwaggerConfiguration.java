@@ -72,7 +72,7 @@ public class SwaggerConfiguration {
     UiConfiguration uiConfig() {
         return UiConfigurationBuilder.builder()
                 // Allow swagger's TRY IT OUT
-                .supportedSubmitMethods(newArrayList("get","post").toArray(new String[0])) // try it 기능 활성화 범위
+                .supportedSubmitMethods(newArrayList("get","post","delete","put").toArray(new String[0])) // try it 기능 활성화 범위
                 .operationsSorter(METHOD)
                 .build();
     }
