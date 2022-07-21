@@ -38,6 +38,15 @@ export const nickname = createAsyncThunk("NICKNAME", async (name, thunkAPI) => {
   }
 });
 
+export const socialLogin = createAsyncThunk("SOCIALLOGIN", async (thunkAPI) => {
+  try {
+    const response = await axios.post(API_URL + "oauth2/authorization/google");
+    return response;
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err.response);
+  }
+});
+
 const initialState = user
   ? { isLoggedIn: true, user }
   : { isLoggedIn: false, user: null };
@@ -50,6 +59,7 @@ const authSlice = createSlice({
     signup,
     logout,
     nickname,
+    socialLogin,
   },
   extraReducers: {
     [signup.fulfilled]: (state, action) => {

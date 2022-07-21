@@ -6,8 +6,9 @@ import Login from "./features/auth/login/Login";
 import SignUp from "./features/auth/signup/SignUp";
 import ModifyUserInfo from "./features/auth/modify/ModifyUserInfo";
 import Main from "./features/main/Main";
-import PrivateRoute from "./common/routes/PrivateRoute"
-import PublicRoute from "./common/routes/PublicRoute"
+import PrivateRoute from "./common/routes/PrivateRoute";
+import PublicRoute from "./common/routes/PublicRoute";
+import Social from "./features/auth/social/Social";
 
 // import { useSelector } from "react-redux";
 function App() {
@@ -16,9 +17,22 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <PublicRoute restricted exact path="/" component={Login}></PublicRoute>
-          <PublicRoute restricted path="/signup" component={SignUp}></PublicRoute>
-          <PrivateRoute path="/modify" component={ModifyUserInfo}></PrivateRoute>
+          <PublicRoute
+            restricted
+            exact
+            path="/"
+            component={Login}
+          ></PublicRoute>
+          <PublicRoute
+            restricted
+            path="/signup"
+            component={SignUp}
+          ></PublicRoute>
+          <PublicRoute path="/social" component={Social}></PublicRoute>
+          <PrivateRoute
+            path="/modify"
+            component={ModifyUserInfo}
+          ></PrivateRoute>
           <PrivateRoute path="/main" component={Main}></PrivateRoute>
         </Switch>
       </BrowserRouter>

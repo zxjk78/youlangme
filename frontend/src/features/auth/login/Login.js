@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { login } from "../authSlice";
+import { login, socialLogin } from "../authSlice";
 // import GoogleButton from "./Forms/GoogleButton";
 import classes from "./Login.module.scss";
 import { Link, useHistory } from "react-router-dom";
@@ -16,7 +16,7 @@ const Login = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   // const { isLoggedIn } = useSelector((state) => state.auth);
-  
+
   // useEffect(() => {
   //   dispatch(clearMessage());
   // }, [dispatch]);
@@ -42,21 +42,16 @@ const Login = (props) => {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        history.push("/modify")
+        history.push("/modify");
       })
       .catch(() => {
         setLoading(false);
       });
   };
 
-  // const googleLogin = () => {
-  //   dispatch(socialLogin())
-  //     .unwrap()
-
-  //     .catch(() => {
-  //       setLoading(false);
-  //     });
-  // };
+  const googleLogin = () => {
+    dispatch(socialLogin());
+  };
 
   return (
     <div className={classes.login}>
@@ -95,8 +90,8 @@ const Login = (props) => {
             </div>
           </Form>
         </Formik>
-        {/* <GoogleButton /> */}
-        {/* <button onClick={googleLogin}>테스트용 구글 </button> */}
+        {/* <GoogleButton /> */}0
+        <button onClick={googleLogin}>테스트용 구글 </button>
         <Link to="/signup">회원가입 하시겠습니까?</Link>
       </div>
     </div>
