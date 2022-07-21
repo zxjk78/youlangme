@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -49,6 +48,8 @@ public class User extends BaseEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Language yourlanguage;
+
+    private String image;
 
 
 
@@ -110,5 +111,10 @@ public class User extends BaseEntity implements UserDetails {
     private  List<UserFavorite> userFavorites;
 
 
-
+    public void updateBasicInfo(String name, Language myLanguage, Language yourLanguage, Nationality nationality) {
+        this.name = name;
+        this.mylanguage = myLanguage;
+        this.yourlanguage = yourLanguage;
+        this.nationality = nationality;
+    }
 }

@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -44,20 +46,19 @@ public class UserService {
         Language myLanguage = basicInfo.getMyLanguage();
         Language yourLanguage = basicInfo.getYourLanguage();
         Nationality nationality = basicInfo.getNationality();
+        List<Long> favoriteIdList =  basicInfo.getFavoriteList();
 
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) return;
 
-        user.setName(name);
-        user.setMylanguage(myLanguage);
-        user.setYourlanguage(yourLanguage);
-        user.setNationality(nationality);
+        user.updateBasicInfo(name, myLanguage, yourLanguage, nationality);
 
+        // userFavorite 수정
         user.getUserFavorites().clear();
         userFavoriteRepository.deleteByUserId(user.getId());
 
         if(basicInfo.getFavoriteList().isEmpty() || basicInfo.getFavoriteList().size()>3) throw new UnAllowedAccessException();
-        for (Long favoriteId : basicInfo.getFavoriteList()) {
+        for (Long favoriteId : favoriteIdList) {
             Favorite favorite = favoriteRepository.findById(favoriteId).orElseThrow(DataNotFoundException::new);
             UserFavorite userFavorite = UserFavorite.builder().user(user).favorite(favorite).build();
             user.getUserFavorites().add(userFavorite);
