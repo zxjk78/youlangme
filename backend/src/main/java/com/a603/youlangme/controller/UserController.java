@@ -1,5 +1,6 @@
 package com.a603.youlangme.controller;
 
+import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.*;
@@ -38,12 +39,11 @@ public class UserController {
 
 
     // 유저 정보 조회 (유저 테이블)
-    // 시큐리티 설정....
     @GetMapping("/{id}")
     public OneResult<UserEntireInfoResponseDto> getEntireInfo(@PathVariable("id") Long id) {
 
         User user = userService.findUserById(id);
-
+        if(user==null) throw new UserNotFoundException();
         return responseService.getOneResult(new UserEntireInfoResponseDto(user));
     }
 
@@ -75,10 +75,7 @@ public class UserController {
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
 
-        log.info("=3=3=3==3=3=="+userSetBasicInfoRequestDto.toString());
         userService.updateBasicInfo(loginUser.getId(), userSetBasicInfoRequestDto);
-
-
 
         return responseService.getSuccessResult();
     }

@@ -5,6 +5,7 @@ import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.dto.follow.FollowFolloweeResponseDto;
+import com.a603.youlangme.dto.follow.FollowFollowerFolloweeCntResponseDto;
 import com.a603.youlangme.dto.follow.FollowFollowerResponseDto;
 import com.a603.youlangme.dto.follow.FollowRegisterRequestDto;
 import com.a603.youlangme.entity.Follow;
@@ -69,11 +70,27 @@ public class FollowController {
 
         Follow follow = followService.searchFollowById(id).orElseThrow(DataNotFoundException::new);
 
-        if(loginUser.getId() != follow.getFollower().getId()) throw new AccessDeniedException();
+        if (loginUser.getId() != follow.getFollower().getId()) throw new AccessDeniedException();
 
         followService.deleteFollow(id);
 
         return responseService.getSuccessResult();
+    }
+
+    // follower, followee 동시 조회
+    @GetMapping("/follower-followee-cnt/{userId}")
+    public OneResult<FollowFollowerFolloweeCntResponseDto> countFollowerFollowee(@PathVariable("userId") Long userId) {
+        User user = userService.findUserById(userId);
+        Integer followerCnt = followService.getFollowerNum(user);
+        Integer followeeCnt = followService.getFolloweeNum(user);
+
+        return responseService.getOneResult(
+                FollowFollowerFolloweeCntResponseDto
+                        .builder()
+                        .followerCnt(followerCnt)
+                        .followeeCnt(followeeCnt)
+                        .build());
+
     }
 
     // follower 숫자 불러오기 (이 유저를 follow 하는 사람 숫자)
@@ -96,7 +113,7 @@ public class FollowController {
 
     // follower들 (이 유저를 follow 하는 사람)
     @GetMapping("/followers/{userId}")
-    public ManyResult<FollowFollowerResponseDto>  listFollower(@PathVariable("userId") Long userId) {
+    public ManyResult<FollowFollowerResponseDto> listFollower(@PathVariable("userId") Long userId) {
         // 본인만 볼 수 있다면 아래를 추가
 
         // 로그인 유저 가져오기
@@ -130,7 +147,7 @@ public class FollowController {
 
     // followee들 (이 유저의 followings)
     @GetMapping("/followees/{userId}")
-    public ManyResult<FollowFolloweeResponseDto>  listFollowee(@PathVariable("userId") Long userId) {
+    public ManyResult<FollowFolloweeResponseDto> listFollowee(@PathVariable("userId") Long userId) {
         // 본인만 볼 수 있다면 아래를 추가
 
         // 로그인 유저 가져오기
