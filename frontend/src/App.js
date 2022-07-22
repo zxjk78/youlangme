@@ -1,14 +1,14 @@
-import "./App.css";
-import React from "react";
-import { Switch, BrowserRouter } from "react-router-dom";
-import Login from "./features/auth/login/Login";
+import './App.css';
+import React from 'react';
+import { Switch, BrowserRouter } from 'react-router-dom';
+import Login from './features/auth/login/Login';
 // import { useSelector } from "react-redux";
-import SignUp from "./features/auth/signup/SignUp";
-import ModifyUserInfo from "./features/auth/modify/ModifyUserInfo";
-import Main from "./features/main/Main";
-import PrivateRoute from "./common/routes/PrivateRoute";
-import PublicRoute from "./common/routes/PublicRoute";
-import Social from "./features/auth/social/Social";
+import SignUp from './features/auth/signup/SignUp';
+import ModifyUserInfo from './features/auth/modify/ModifyUserInfo';
+import Main from './features/main/Main';
+import PrivateRoute from './common/routes/PrivateRoute';
+import PublicRoute from './common/routes/PublicRoute';
+import Social from './features/auth/social/Social';
 
 // import { useSelector } from "react-redux";
 function App() {
