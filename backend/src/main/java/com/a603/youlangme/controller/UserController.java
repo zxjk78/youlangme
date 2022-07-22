@@ -2,10 +2,7 @@ package com.a603.youlangme.controller;
 
 import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
-import com.a603.youlangme.dto.user.UserCheckEmailRequestDto;
-import com.a603.youlangme.dto.user.UserCheckNameRequestDto;
-import com.a603.youlangme.dto.user.UserProfileResponseDto;
-import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
+import com.a603.youlangme.dto.user.*;
 import com.a603.youlangme.entity.Favorite;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.Language;
@@ -38,6 +35,18 @@ public class UserController {
 
     private final UserService userService;
     private final ResponseService responseService;
+
+
+    // 유저 정보 조회 (유저 테이블)
+    // 시큐리티 설정....
+    @GetMapping("/{id}")
+    public OneResult<UserEntireInfoResponseDto> getEntireInfo(@PathVariable("id") Long id) {
+
+        User user = userService.findUserById(id);
+
+        return responseService.getOneResult(new UserEntireInfoResponseDto(user));
+    }
+
 
     // 이메일 중복 체크
     @GetMapping("/check-email")
