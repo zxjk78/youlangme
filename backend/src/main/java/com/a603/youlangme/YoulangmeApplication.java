@@ -1,5 +1,6 @@
 package com.a603.youlangme;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableJpaAuditing // JPA Auditing을 활성화
 @SpringBootApplication
 public class YoulangmeApplication {
+
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(YoulangmeApplication.class, args);
