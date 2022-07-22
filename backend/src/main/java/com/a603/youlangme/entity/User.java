@@ -51,7 +51,29 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Language yourlanguage;
 
+
+    // Profile start
+
+    @Column(nullable = true, length = 50)
+    private String description;
+
+    @Column(nullable = true, length = 50)
     private String image;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserBadge> userBadges = new ArrayList<>();
+
+    public void updateDescription(String description) {
+        this.description = description;
+    }
+
+    public void updateImage(String image) {
+        this.image = image;
+    }
+
+    // Profile end
+
+
 
 
     @ElementCollection(fetch = FetchType.EAGER) // Proxy 객체가 반환되어 권한을 제대로 확인할 수 없는 경우를 방지

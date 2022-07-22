@@ -18,12 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(
-                    name = "X-AUTH-TOKEN",
-                    value = "로그인으로 받은 AccessToken",
-                    required = true, dataType = "String", paramType = "header")
-    })
     @ApiOperation(value = "로그인 후 이용", notes = "액세스 토큰이 필요한 요청")
     @PostMapping("/access")
     public ResponseEntity access () {
