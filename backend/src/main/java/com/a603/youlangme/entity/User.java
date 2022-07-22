@@ -51,7 +51,7 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Language yourlanguage;
 
-<<<<<<< backend/src/main/java/com/a603/youlangme/entity/User.java
+
     // Profile start
 
     @Column(nullable = true, length = 50)
@@ -72,9 +72,9 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     // Profile end
-=======
 
->>>>>>> backend/src/main/java/com/a603/youlangme/entity/User.java
+
+
 
     @ElementCollection(fetch = FetchType.EAGER) // Proxy 객체가 반환되어 권한을 제대로 확인할 수 없는 경우를 방지
     @Builder.Default
