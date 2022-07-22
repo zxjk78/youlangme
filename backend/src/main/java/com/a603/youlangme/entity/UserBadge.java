@@ -1,12 +1,16 @@
 package com.a603.youlangme.entity;
 
-import com.a603.youlangme.enums.Achievement;
+import com.a603.youlangme.enums.BadgeSelect;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserBadge extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -18,6 +22,6 @@ public class UserBadge extends BaseEntity{
     private Badge badge;
 
     @Enumerated(EnumType.STRING)
-    private Achievement achievement;
+    private BadgeSelect badgeSelect;
 
 }
