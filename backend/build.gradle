@@ -37,7 +37,7 @@ dependencies {
 	implementation("io.springfox:springfox-bean-validators:3.0.0")
 	implementation("io.springfox:springfox-boot-starter:3.0.0")
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
+	implementation 'commons-io:commons-io:2.11.0'
 
 }
 

@@ -76,6 +76,6 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         cookie.setMaxAge(300);
         response.addCookie(cookie);
 
-        getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/home");
+        getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/social");
     }
 }
