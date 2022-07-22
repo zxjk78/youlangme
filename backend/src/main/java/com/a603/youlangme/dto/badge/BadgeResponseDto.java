@@ -1,6 +1,6 @@
 package com.a603.youlangme.dto.badge;
 
-import com.a603.youlangme.enums.Achievement;
+import com.a603.youlangme.enums.BadgeSelect;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,14 +15,11 @@ public class BadgeResponseDto {
 
     String description;
 
-    String image;
+    BadgeSelect badgeSelect;
 
-    Achievement achievement;
-
-    public BadgeResponseDto(Long id, String name, String description, String image) {
+    public BadgeResponseDto(Long id, String name, String description) {
         this.id = id;
         this.name = name;
-        this.image = image;
         this.description = description;
     }
 }

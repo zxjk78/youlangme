@@ -57,7 +57,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = true, length = 50)
     private String description;
 
-    @Column(nullable = true, length = 50)
+    @Column(nullable = true, length = 255)
     private String image;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

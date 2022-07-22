@@ -2,28 +2,24 @@ package com.a603.youlangme.service;
 
 import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
+import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.UserProfileResponseDto;
 import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
-import com.a603.youlangme.entity.Favorite;
-import com.a603.youlangme.entity.User;
-import com.a603.youlangme.entity.UserBadge;
-import com.a603.youlangme.entity.UserFavorite;
-import com.a603.youlangme.enums.Achievement;
+import com.a603.youlangme.entity.*;
+import com.a603.youlangme.enums.BadgeSelect;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.Nationality;
-import com.a603.youlangme.repository.FavoriteRepository;
-import com.a603.youlangme.repository.UserFavoriteRepository;
-import com.a603.youlangme.repository.UserRepository;
+import com.a603.youlangme.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,7 +30,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final FavoriteRepository favoriteRepository;
+    private final FollowRepository followRepository;
     private final UserFavoriteRepository userFavoriteRepository;
+    private final UserBadgeRepository userBadgeRepository;
+    private final BadgeRepository badgeRepository;
 
     public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
@@ -75,53 +74,71 @@ public class UserService {
 
     // Profile Start
 
-    @Transactional
-    public void updateUserDescription(Long userId, String desc) {
+    public String readUserDescription(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
-        user.updateDescription(desc);
+        return user.getDescription();
     }
 
     @Transactional
-    public void updateUserImage(Long userId, MultipartFile file) throws IOException {
+    public String updateUserDescription(Long userId, String description) {
+        User user = userRepository.findById(userId).orElse(null);
+        user.updateDescription(description);
+        return description;
+    }
+
+    public String readUserImage(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        return user.getImage();
+    }
+
+    @Transactional
+    public String updateUserImage(Long userId, MultipartFile file) throws IOException {
         User user = userRepository.findById(userId).orElse(null);
 
         String path = System.getProperty("user.dir");
         String fileName = user.getId() + ".jpg";
-        File f = new File(path + "src/main/resources/static/" + fileName);
-        if(f.exists()) {
-        //    f.delete();
-        }
-        user.updateImage(path + fileName);
+        File f = new File(path + "\\src\\main\\resources\\static\\" + fileName);
+        if(!f.getParentFile().exists())
+            f.getParentFile().mkdir();
+        file.transferTo(f);
+        user.updateImage(path + "\\src\\main\\resources\\static\\" + fileName);
+        return path + "\\src\\main\\resources\\static\\" + fileName;
     }
 
-    public byte[] findUserImage(Long userId) throws IOException {
-        User user = userRepository.findById(userId).orElse(null);
-        InputStream imageStream = new FileInputStream(user.getImage());
-        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-        imageStream.close();
-        return imageByteArray;
-    }
-
-    public UserProfileResponseDto findUserProfile(Long userId) throws IOException {
+    public UserProfileResponseDto readUserProfile(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         UserProfileResponseDto userProfileResponseDto = new UserProfileResponseDto();
         userProfileResponseDto.setName(user.getName());
-        userProfileResponseDto.setDescription(user.getDescription());
-        userProfileResponseDto.setUserImage(user.getImage());
-        userProfileResponseDto.setExp(user.getExp());
-
+        userProfileResponseDto.setYourlanguage(user.getYourlanguage());
+        userProfileResponseDto.setMylanguage(user.getMylanguage());
         for (UserFavorite userFavorite : user.getUserFavorites()) {
             userProfileResponseDto.favorites.add(userFavorite.getFavorite().getName());
-        }
-
-        for (UserBadge userBadge : user.getUserBadges()) {
-            BadgeResponseDto badgeDto = userBadge.getBadge().getBadgeDto();
-            badgeDto.setAchievement(userBadge.getAchievement());
-            userProfileResponseDto.badgeResponseDtos.add(badgeDto);
         }
         return userProfileResponseDto;
     }
 
+    public List<BadgeResponseDto> readBadgeList(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        List<BadgeResponseDto> badgeResponseDtoList = new ArrayList<>();
+        for (UserBadge userBadge : user.getUserBadges()) {
+            BadgeResponseDto badgeResponseDto = userBadge.getBadge().getBadgeDto();
+            badgeResponseDto.setBadgeSelect(userBadge.getBadgeSelect());
+            badgeResponseDtoList.add(badgeResponseDto);
+        }
+        return badgeResponseDtoList;
+    }
+
+    @Transactional
+    public void updateBadgeList(Long userId, List<BadgeRequestDto> badgeRequestDtoList) {
+        User user = userRepository.findById(userId).orElse(null);
+        userBadgeRepository.deleteByUserId(user.getId());
+        List<UserBadge> userBadgeList = user.getUserBadges();
+        userBadgeList.clear();
+        for (BadgeRequestDto badgeRequestDto : badgeRequestDtoList) {
+            userBadgeRepository.save(new UserBadge(user, badgeRepository.findById(badgeRequestDto.getId()).orElse(null), badgeRequestDto.getBadgeSelect()));
+        }
+
+    }
 
     // Profile end
 }

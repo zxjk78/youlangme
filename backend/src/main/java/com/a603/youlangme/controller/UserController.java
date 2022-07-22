@@ -1,11 +1,14 @@
 package com.a603.youlangme.controller;
 
+import com.a603.youlangme.dto.badge.BadgeRequestDto;
+import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.*;
 import com.a603.youlangme.entity.Favorite;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.Nationality;
 import com.a603.youlangme.response.CommonResult;
+import com.a603.youlangme.response.ManyResult;
 import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.ResponseService;
 import com.a603.youlangme.service.UserService;
@@ -20,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -81,51 +85,54 @@ public class UserController {
 
     // Profile Start
 
-    @PostMapping("/description") // Create & Update
+    @GetMapping("/description/{id}") // Read
+    public OneResult<String> getUserDescription (@PathVariable(value ="id") Long userId) {
+        return responseService.getOneResult(userService.readUserDescription(userId));
+    }
+
+    @PutMapping("/description") // Update
     public CommonResult setUserDescription (@RequestBody Map<String, String> descriptionMap) {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
-
         userService.updateUserDescription(loginUser.getId(), descriptionMap.get("description"));
 
         return responseService.getSuccessResult();
     }
 
     @GetMapping("/image/{id}") // Read
-    public CommonResult showUserImage(@PathVariable(value = "id") Long id) throws IOException {
-        byte[] image = userService.findUserImage(id);
-        return responseService.getOneResult(image);
+    public OneResult<String> getUserImage (@PathVariable(value = "id") Long userId) {
+        return responseService.getOneResult(userService.readUserImage(userId));
     }
 
-    @PostMapping("/image") // Create & Update
-    public CommonResult setUserImage (@RequestParam("imageFile") MultipartFile file) throws IOException {
+    @PutMapping("/image") // Update
+    public OneResult<String> setUserImage (@RequestParam("imageFile") MultipartFile file) throws IOException {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
 
-        userService.updateUserImage(loginUser.getId(), file);
-
-        return responseService.getSuccessResult();
+        return responseService.getOneResult(userService.updateUserImage(loginUser.getId(), file));
     }
 
     @GetMapping("/profile/{id}") // Read
-    public OneResult<UserProfileResponseDto> showUserProfile (@PathVariable(value ="id") Long id) throws IOException {
-        UserProfileResponseDto userProfileResponseDto = userService.findUserProfile(id);
+    public OneResult<UserProfileResponseDto> getUserProfile (@PathVariable(value ="id") Long id) {
+        UserProfileResponseDto userProfileResponseDto = userService.readUserProfile(id);
         return responseService.getOneResult(userProfileResponseDto);
     }
 
 
-    // test
-    @PostMapping("/images") // Create & Update
-    public CommonResult setUserImages (@RequestParam("imageFile") List<MultipartFile> files, @RequestParam("asd") String asd) throws IOException {
+    @GetMapping("/badge/{id}") // Read
+    public ManyResult<BadgeResponseDto> getUserBadgeList (@PathVariable(value ="id") Long userId) {
+        return responseService.getManyResult(userService.readBadgeList(userId));
+    }
+
+    @PutMapping("/badge") // Update
+    public CommonResult setUserBadgeList(@RequestBody List<BadgeRequestDto> badgeRequestDtoList) {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
 
-        //userService.updateUserImage(loginUser.getId(), file);
-        System.out.println(files);
-        System.out.println(asd);
+        userService.updateBadgeList(loginUser.getId(), badgeRequestDtoList);
         return responseService.getSuccessResult();
     }
 
