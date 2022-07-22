@@ -7,7 +7,7 @@ import { Chip } from '@mui/material';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
-import { fetchProfile } from './fetchProfileAPI';
+import { fetchProfile, fetchProfileImg, fetchDescription } from './fetchProfileAPI';
 
 // state
 import { useState, useRef, useEffect } from 'react';
@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 // css
+import classes from './MyPage.module.scss';
 
 
 
@@ -26,14 +27,20 @@ import { useParams } from 'react-router-dom';
 const MyPage = () => {
   const params = useParams();
   const [profileInfo, setProfileInfo] = useState(null);
+  const [profileImg, setProfileImg] = useState(null);
+  const [profileDescription, setProfileDescription] = useState('');
   // console.log(params.userId);
 
   useEffect(() => {
     fetchProfile(setProfileInfo, params.userId);
+    fetchProfileImg(setProfileImg, params.userId);
+    fetchDescription(setProfileDescription, params.userId);
   }, []);
+
+
   
   const colors = [ "primary", "secondary", "success", "info", "error", "warning" ]
-  const chosenColor = colors[Math.floor(Math.random()*colors.length)]
+  // const chosenColor = colors[Math.floor(Math.random()*colors.length)]
 
   
   // // 의존성에 fetchProfile 추가하면 fetchProfile에 useCallback 함수로.
@@ -148,22 +155,26 @@ const MyPage = () => {
     <div>
       <h1>My Page</h1>
       
-      {profileInfo && 
+      {profileImg && <img src={profileImg} alt="프로필 이미지" />}
+      {profileInfo && profileDescription && 
         <div>
           <h2>{profileInfo.name}</h2>
-          <h2>{profileInfo.mylanguage}</h2>
-          <h2>{profileInfo.yourlanguage}</h2>
+          <p>{profileDescription}</p>
+          <br />
+          <p>me:  {profileInfo.mylanguage}</p>
+          <p>you:  {profileInfo.yourlanguage}</p>
           {/* <h1>{profileInfo.favorites.map((fav) => {return profileInfo.favorites.indexOf(fav)})}</h1> */}
-          {profileInfo.favorites.map((fav) => {
-            return (
-              <Chip
-                key={profileInfo.favorites.indexOf(fav)}
-                label={fav} 
-                color={colors[Math.floor(Math.random()*colors.length)]}
-              />
-            );
-          })}
-
+          <div>
+            {profileInfo.favorites.map((fav) => {
+              return (
+                <Chip
+                  key={profileInfo.favorites.indexOf(fav)}
+                  label={fav} 
+                  color={colors[Math.floor(Math.random()*colors.length)]}
+                />
+              );
+            })}
+          </div>
         </div>
       }
     </div>
