@@ -1,18 +1,18 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const config = {
-  headers: { "Content-Type": "application/json" }, 
+  headers: { 'Content-Type': 'application/json' },
 };
-const API_URL = "http://127.0.0.1:8080/";
-const user = JSON.parse(localStorage.getItem("user"));
+const API_URL = 'http://127.0.0.1:8080/';
+const user = JSON.parse(localStorage.getItem('user'));
 const accessToken = user.accessToken;
 
-export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
+export const login = createAsyncThunk('LOGIN', async (userInfo, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + "login/", userInfo);
+    const response = await axios.post(API_URL + 'login/', userInfo);
     console.log(response);
-    localStorage.setItem("user", JSON.stringify(response.data.data));
+    localStorage.setItem('user', JSON.stringify(response.data.data));
     console.log(user);
     return response;
   } catch (err) {
@@ -20,25 +20,38 @@ export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
   }
 });
 
-export const signup = createAsyncThunk("SIGNUP", async (userInfo, thunkAPI) => {
+export const signup = createAsyncThunk('SIGNUP', async (userInfo, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + "signup/", userInfo);
+    const response = await axios.post(API_URL + 'signup/', userInfo);
     return response;
   } catch (err) {
     return thunkAPI.rejectWithValue();
   }
 });
 
-export const logout = createAsyncThunk("LOGOUT", async () => {
-  localStorage.removeItem("user");
+export const logout = createAsyncThunk('LOGOUT', async () => {
+  localStorage.removeItem('user');
 });
 
-export const nameDupCheck = createAsyncThunk("NICKNAME", async (name, thunkAPI) => {
+export const nameDupCheck = createAsyncThunk(
+  'NICKNAME',
+  async (name, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        API_URL + `user/check-name/?name=${name}`,
+        { headers: { 'X-Auth-Token': accessToken } }
+      );
+      console.log(response.data.data);
+      return response;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response);
+    }
+  }
+);
+
+export const socialLogin = createAsyncThunk('SOCIALLOGIN', async (thunkAPI) => {
   try {
-    const response = await axios.get(API_URL + `user/check-name/?name=${name}`,
-    {headers:{'X-Auth-Token': accessToken}}
-    );
-    console.log(response.data.data);
+    const response = await axios.post(API_URL + 'oauth2/authorization/google');
     return response;
   } catch (err) {
     return thunkAPI.rejectWithValue(err.response);
@@ -50,7 +63,7 @@ const initialState = user
   : { isLoggedIn: false, user: null };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     login,
@@ -77,7 +90,6 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
     },
-    
   },
 });
 
