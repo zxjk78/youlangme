@@ -15,7 +15,13 @@ const languageOptions = [
   {name: '스페인어', id:'SPANISH'},
   {name: '일본어', id:'JAPANESE'},
 ];
+const genderOptions = [
+  {name: '성별 선택', id:''},
+  {name: '남성', id:'MALE'},
+  {name: '여성', id:'FEMALE'},
+
+];
 
 
 
-export {nationOptions, languageOptions }
+export {nationOptions, languageOptions, genderOptions }

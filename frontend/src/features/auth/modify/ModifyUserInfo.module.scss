@@ -7,14 +7,16 @@
   width: 100vw;
   height: 100vh;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .formContainer {
   position: absolute;
   right: 10%;
-  
-
-  
+  display: flex;
+  align-items: center;  
   width: 24%;
   height: 75%;
   padding: 15px;
@@ -33,7 +35,7 @@
     margin: 0px auto;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 15px 0px;
     justify-content: space-around;
     h5 {
       margin: 5px 0px;

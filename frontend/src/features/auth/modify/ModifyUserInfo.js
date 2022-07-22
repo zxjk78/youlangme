@@ -3,6 +3,7 @@ import Button from "../../../common/UI/Button";
 
 //material UI
 import { FormControl, Select, MenuItem, InputLabel, NativeSelect, TextField, Chip } from '@mui/material';
+import MuiSelect from "../../../common/UI/MuiSelect";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -24,9 +25,8 @@ import classes from "./ModifyUserInfo.module.scss";
 
 
 //하드코딩한 데이터 
-import * as dataList from './data';
-const nationOptions = dataList.nationOptions
-const languageOptions = dataList.languageOptions
+import * as selectData from './selectData';
+const {nationOptions, languageOptions, genderOptions} = selectData
 
 const ModifyUserInfo = () => {
   const [chipHobbies, setChipHobbies] = useState([]);
@@ -34,6 +34,7 @@ const ModifyUserInfo = () => {
     fetchHobbies(setChipHobbies) 
   },[])
 
+  
 
 
 
@@ -42,7 +43,7 @@ const ModifyUserInfo = () => {
   
   // redux
   const userInfo = useSelector(state => state.modify)
-  
+  console.log('리덕스 테스트:', userInfo)
 
   const dispatch = useDispatch();  
   
@@ -77,6 +78,7 @@ const ModifyUserInfo = () => {
     }
   };
   const changeGenderHandler = (event) => {
+
     const gender = event.target.value
     dispatch(modifyActions.setGender(gender))
   }
@@ -194,93 +196,54 @@ const ModifyUserInfo = () => {
         <div className={`${classes.twoInputsContainer}`}>
 
         <div>
-          <FormControl variant="standard" sx={{minWidth: 120, maxWidth:240}}>   
-          <InputLabel id="nation-label">국적</InputLabel>
+          <MuiSelect
+          labelId="nation-label"
+          id="nation"
+          value={userInfo.nation}
+          selectName="국적"
+          onChange={changeNationHandler}
+          optionList={nationOptions}
+          />      
 
-            <Select
-              labelId="nation-label"
-              id="nation"
-              defaultValue={''}
-              value={userInfo.nation}
-              label="nation"
-              inputProps={{
-                name: 'nation',
-                id: 'uncontrolled-native',
-              }}
-              onChange={changeNationHandler}
-            >
-              {nationOptions.map(item=>  (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>) )}
-            </Select>
-            
-            </FormControl>
         </div>
         <div>
-        <FormControl variant="standard" sx={{minWidth: 120, maxWidth:240}}>  
-        <InputLabel id="gender-label">성별</InputLabel>
-
-        <Select
-            labelId="gender-label"
-            id="gender"
-            defaultValue={''}
-            value={userInfo.gender}
-            label="gender"
-            inputProps={{
-              name: 'gender',
-              id: 'uncontrolled-native',
-            }}
-            onChange={changeGenderHandler}
-          >
-            <MenuItem value="">성별 선택</MenuItem>
-            <MenuItem value="MALE">남성</MenuItem>
-            <MenuItem value="FEMALE">여성</MenuItem>            
-            
-          </Select>
-          
-          </FormControl>
+          <MuiSelect
+          labelId="gender-label"
+          id="gender"
+          value={userInfo.gender}
+          selectName="성별"
+          onChange={changeGenderHandler}
+          optionList={genderOptions}
+          />      
 
         </div>
-
         </div>
      
 
-          <div className={classes.languageSelectionContainer}>
-            <div>
-
+      <div className={classes.languageSelectionContainer}>
         <div>
-        <InputLabel variant="standard" htmlFor="uncontrolled-native">
-          내 언어
-        </InputLabel>
-        <NativeSelect
-          defaultValue={null}
-          inputProps={{
-            name: 'myLanguage',
-            id: 'uncontrolled-native',
-          }}
+      <div>
+          <MuiSelect
+          labelId="myLanguage-label"
+          id="myLanguage"
+          value={userInfo.myLanguage}
+          selectName="내 언어"
           onChange={changeTeachHandler}
-
-        >
-          {languageOptions.map(item => <option key={item.id} value={item.id}>{item.name}</option> )}
-
-        </NativeSelect>
-        </div>
-        <div>
-        <InputLabel variant="standard" htmlFor="uncontrolled-native">
-          학습 희망 언어
-        </InputLabel>
-        <NativeSelect
-          defaultValue={null}
-          inputProps={{
-            name: 'learnLanguage',
-            id: 'uncontrolled-native',
-          }}
+          optionList={languageOptions}
+          />      
+      </div>
+      <div>
+          <MuiSelect
+          labelId="yourLanguage-label"
+          id="yourLanguage"
+          value={userInfo.yourLanguage}
+          selectName="학습 언어"
           onChange={changeLearnHandler}
+          optionList={languageOptions}
+          />      
+      </div>
 
-        >
-          {languageOptions.map(item => <option key={item.id} value={item.id}>{item.name}</option> )}
-
-        </NativeSelect>
-        </div>
-            </div>
+      </div>
           </div>
           <div className={classes.interestContainer}>
             <p>
