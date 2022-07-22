@@ -3,9 +3,8 @@ import { useDispatch } from "react-redux";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { login } from "../authSlice";
 
-import { login, socialLogin } from "../authSlice";
-// import GoogleButton from "./Forms/GoogleButton";
 import classes from "./Login.module.scss";
 import { Link, useHistory } from "react-router-dom";
 
@@ -50,7 +49,13 @@ const Login = (props) => {
   };
 
   const googleLogin = () => {
-    dispatch(socialLogin());
+    // dispatch(socialLogin())
+    //   .unwrap()
+
+    //   .catch(() => {
+    //     setLoading(false);
+    //   });
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
   };
 
   return (
@@ -90,8 +95,8 @@ const Login = (props) => {
             </div>
           </Form>
         </Formik>
-        {/* <GoogleButton /> */}0
-        <button onClick={googleLogin}>테스트용 구글 </button>
+
+        <button onClick={googleLogin}>테스트용 구글</button>
         <Link to="/signup">회원가입 하시겠습니까?</Link>
       </div>
     </div>

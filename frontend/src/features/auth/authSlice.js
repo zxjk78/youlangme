@@ -37,15 +37,20 @@ export const nickname = createAsyncThunk("NICKNAME", async (name, thunkAPI) => {
     return thunkAPI.rejectWithValue(err.response);
   }
 });
-
-export const socialLogin = createAsyncThunk("SOCIALLOGIN", async (thunkAPI) => {
-  try {
-    const response = await axios.post(API_URL + "oauth2/authorization/google");
-    return response;
-  } catch (err) {
-    return thunkAPI.rejectWithValue(err.response);
-  }
-});
+// const social = () => {
+//   return (window.location.href = API_URL + "oauth2/authorization/google");
+// };
+// export const socialLogin = createAsyncThunk(
+//   "auth/sociallogin",
+//   async (thunkAPI) => {
+//     try {
+//       const data = await social();
+//       return { user: data };
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.response);
+//     }
+//   }
+// );
 
 const initialState = user
   ? { isLoggedIn: true, user }
@@ -59,7 +64,9 @@ const authSlice = createSlice({
     signup,
     logout,
     nickname,
-    socialLogin,
+    socialLogin(state) {
+      return { isLoggedIn: true, user };
+    },
   },
   extraReducers: {
     [signup.fulfilled]: (state, action) => {
@@ -82,5 +89,5 @@ const authSlice = createSlice({
     },
   },
 });
-
+export let { socialLogin } = authSlice.actions;
 export default authSlice;
