@@ -60,19 +60,19 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
         Cookie cookie = new Cookie("accessToken", tokenDto.getAccessToken());
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setMaxAge(300);
         response.addCookie(cookie);
 
         cookie = new Cookie("refreshToken", tokenDto.getRefreshToken());
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setMaxAge(300);
         response.addCookie(cookie);
 
         cookie = new Cookie("accessTokenExpireDate", String.valueOf(tokenDto.getAccessTokenExpireDate()));
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setMaxAge(300);
         response.addCookie(cookie);
 
