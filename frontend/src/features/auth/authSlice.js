@@ -6,7 +6,7 @@ const config = {
 };
 const API_URL = 'http://127.0.0.1:8080/';
 const user = JSON.parse(localStorage.getItem('user'));
-const accessToken = user.accessToken;
+// const accessToken = user ? user.accessToken : null;
 
 export const login = createAsyncThunk('LOGIN', async (userInfo, thunkAPI) => {
   try {
@@ -33,21 +33,21 @@ export const logout = createAsyncThunk('LOGOUT', async () => {
   localStorage.removeItem('user');
 });
 
-export const nameDupCheck = createAsyncThunk(
-  'NICKNAME',
-  async (name, thunkAPI) => {
-    try {
-      const response = await axios.get(
-        API_URL + `user/check-name/?name=${name}`,
-        { headers: { 'X-Auth-Token': accessToken } }
-      );
-      console.log(response.data.data);
-      return response;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.response);
-    }
-  }
-);
+// export const nameDupCheck = createAsyncThunk(
+//   'NICKNAME',
+//   async (name, thunkAPI) => {
+//     try {
+//       const response = await axios.get(
+//         API_URL + `user/check-name/?name=${name}`,
+//         { headers: { 'X-Auth-Token': accessToken } }
+//       );
+//       console.log(response.data.data);
+//       return response;
+//     } catch (err) {
+//       return thunkAPI.rejectWithValue(err.response);
+//     }
+//   }
+// );
 
 export const socialLogin = createAsyncThunk('SOCIALLOGIN', async (thunkAPI) => {
   try {

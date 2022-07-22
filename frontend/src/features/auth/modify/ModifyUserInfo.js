@@ -39,7 +39,7 @@ const ModifyUserInfo = () => {
   // redux
   const userInfo = useSelector((state) => state.modify);
   const dispatch = useDispatch();
-  // console.log('리덕스 테스트:', userInfo)
+  console.log('리덕스 테스트:', userInfo);
 
   // eventHandler
   const nickNameInputChangeHandler = () => {
