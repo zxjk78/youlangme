@@ -6,6 +6,7 @@ import Login from './features/auth/login/Login';
 import SignUp from './features/auth/signup/SignUp';
 import ModifyUserInfo from './features/auth/modify/ModifyUserInfo';
 import Main from './features/main/Main';
+import MyPage from './features/profile/MyPage';
 import PrivateRoute from './common/routes/PrivateRoute';
 import PublicRoute from './common/routes/PublicRoute';
 import Social from './features/auth/social/Social';
@@ -33,6 +34,10 @@ function App() {
             path="/modify"
             component={ModifyUserInfo}
           ></PrivateRoute>
+          <PrivateRoute path="/profile/:userId" exact component={MyPage}>
+            {/* <PrivateRoute path="activity" component={MyActivity}></PrivateRoute> */}
+            {/* <PrivateRoute path="articles" component={MyArticleList}></PrivateRoute> */}
+          </PrivateRoute>
           <PrivateRoute path="/main" component={Main}></PrivateRoute>
         </Switch>
       </BrowserRouter>
