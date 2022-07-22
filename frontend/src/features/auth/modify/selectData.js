@@ -19,9 +19,6 @@ const genderOptions = [
   {name: '성별 선택', id:''},
   {name: '남성', id:'MALE'},
   {name: '여성', id:'FEMALE'},
-
 ];
-
-
 
 export {nationOptions, languageOptions, genderOptions }
