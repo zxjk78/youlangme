@@ -108,9 +108,14 @@ public class UserService {
     public UserProfileResponseDto readUserProfile(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         UserProfileResponseDto userProfileResponseDto = new UserProfileResponseDto();
+        // 이거 나중에 user entity에서 dto로 한번에 바꿀예정
         userProfileResponseDto.setName(user.getName());
         userProfileResponseDto.setYourlanguage(user.getYourlanguage());
         userProfileResponseDto.setMylanguage(user.getMylanguage());
+        userProfileResponseDto.setGender(user.getGender());
+        userProfileResponseDto.setNationality(user.getNationality());
+        userProfileResponseDto.setAge(user.getAge());
+
         for (UserFavorite userFavorite : user.getUserFavorites()) {
             userProfileResponseDto.favorites.add(userFavorite.getFavorite().getName());
         }
