@@ -1,7 +1,7 @@
-@import "../../../assets/reset.css";
+// @import "../../../assets/reset.css";
 
 .container {
-  background-image: url("../../../assets/background_temp.png");
+  background-image: url('../../../assets/background_temp.png');
   background-size: cover;
   background-repeat: no-repeat;
   width: 100vw;
@@ -16,7 +16,7 @@
   position: absolute;
   right: 10%;
   display: flex;
-  align-items: center;  
+  align-items: center;
   width: 24%;
   height: 75%;
   padding: 15px;
@@ -27,8 +27,6 @@
   background-color: #f6c0ff;
   // background-color: #B865C6;
   text-align: left;
-
-
 
   form {
     width: 90%;
@@ -53,11 +51,11 @@
       display: flex;
       justify-content: space-between;
       border-bottom: solid 1px black;
-      
+
       input {
         width: 75%;
         height: 40px;
-        border:none;
+        border: none;
         background-color: transparent;
         align-self: flex-end;
       }
@@ -66,9 +64,8 @@
         width: 25%;
         height: 40px;
       }
-
     }
-    
+
     .languageSelectionContainer {
       & > div {
         width: 80%;
@@ -82,13 +79,12 @@
       margin: 0px auto;
       display: flex;
       justify-content: space-between;
-
     }
     .interestContainer {
       span {
         font-weight: bold;
       }
-      p{
+      p {
         margin: 0;
       }
       .chipsContaier {
@@ -107,5 +103,3 @@
   display: flex;
   justify-content: center;
 }
-
-

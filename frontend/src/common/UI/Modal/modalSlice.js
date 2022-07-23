@@ -3,20 +3,27 @@ import { createSlice } from '@reduxjs/toolkit';
 const modalState = {
   isVisible: false,
   backDropClickClose: true,
+  backDropTransparent: false,
 };
 
 const reducer = {
   offModal(state) {
     state.isVisible = false;
   },
-  // modal의 검은 바탕을 클릭했을 때 사라지게 할 것인지 아닌지를
+  // modal backdrop을 보이게 만들 것인지 아닌지
+  // modal의 바깥을 클릭했을 때 사라지게 할 것인지 아닌지,
   // action에 담아서 보내도록 만듬, 아무값도 안보내면 true
   onModal(state, action) {
-    console.log(action);
-    console.log(action.payload);
+    const option = action.payload;
     state.isVisible = true;
     state.backDropClickClose =
-      typeof action.payload !== 'undefined' ? action.payload : true;
+      typeof option.backDropClickClose !== 'undefined'
+        ? option.backDropClickClose
+        : true;
+    state.backDropTransparent =
+      typeof option.backDropTransparent !== 'undefined'
+        ? option.backDropTransparent
+        : false;
   },
 };
 

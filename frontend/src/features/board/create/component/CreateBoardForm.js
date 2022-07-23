@@ -1,8 +1,12 @@
+import { useRef, useState } from 'react';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { modalActions } from '../../../../common/UI/Modal/modalSlice';
+// API
+import { createBoard } from '../../boardAPI';
+
 // component
-import BoardImageUploadModal from './BoardImageUploadModal';
+import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
 // mUI
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -10,15 +14,36 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import classes from './CreateBoardForm.module.scss';
 
 const CreateBoardForm = () => {
+  const [images, setImages] = useState([]);
+  const contentRef = useRef();
   const isImageUploadVisible = useSelector((state) => state.modal.isVisible);
   const dispatch = useDispatch();
   const addPhotoHander = () => {
-    dispatch(modalActions.onModal(false));
+    dispatch(
+      modalActions.onModal({
+        backDropClickClose: false,
+        backDropTransparent: true,
+      })
+    );
+  };
+
+  const modalImageLoadHandler = (files) => {
+    console.log('제출 form에서 보여줘야함', files);
+    setImages(files);
+  };
+  const boardUploadHandler = (event) => {
+    event.preventDefault();
+    const uploadContent = contentRef.current.value;
+    const uploadImages = images;
+    createBoard(uploadContent, uploadImages);
+    // url 자신의 것으로 이동해야함 history 어쩌고?
   };
 
   return (
     <>
-      {isImageUploadVisible && <BoardImageUploadModal />}
+      {isImageUploadVisible && (
+        <BoardImageUploadModal selectImageFromModal={modalImageLoadHandler} />
+      )}
       <div className={classes.wrapper}>
         <div className={classes.container}>
           <div className={classes.title}>
@@ -33,13 +58,14 @@ const CreateBoardForm = () => {
             <img src="http://www.geonames.org/flags/x/kr.gif" alt="국기" />
           </div>
           <hr />
-          <form>
+          <form onSubmit={boardUploadHandler}>
             <textarea
               name=""
               id=""
               cols="50"
               rows="20"
               defaultValue="임시 텍스트에리어"
+              ref={contentRef}
             />
 
             <div className={classes.addPhotoButton} onClick={addPhotoHander}>
@@ -48,9 +74,14 @@ const CreateBoardForm = () => {
 
             <div className={classes.imageAndButtonContainer}>
               <div className={classes.imageContainer}>
-                <img src="" alt="이미지견본1" />
-                <img src="" alt="이미지견본2" />
-                <div>이미지 현재 장 수 보여주는 이미지랑 크기 똑같은</div>
+                {images.map((file) => (
+                  <div key={file.preview}>
+                    <img src={file.preview} alt="" />
+                  </div>
+                ))}
+                {/* <img src="" alt="이미지견본1" />
+                <img src="" alt="이미지견본2" /> */}
+                <div className={classes.extraImage}>+ 몇 장</div>
               </div>
               <div className={classes.buttonContainer}>
                 <button type="button">취소</button>
