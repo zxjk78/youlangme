@@ -94,7 +94,7 @@ const ImageDragNDrop = (props) => {
   }, [files]);
 
   const onButtonClickHander = () => {
-    props.selectImageFromModal(files);
+    props.loadImageFromModal(files);
   };
 
   const isImageUploaded = () => {

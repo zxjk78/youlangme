@@ -29,7 +29,7 @@ const CreateBoardForm = () => {
 
   const modalImageLoadHandler = (files) => {
     console.log('제출 form에서 보여줘야함', files);
-    setImages(files);
+    setImages(() => images.concat(files));
   };
   const boardUploadHandler = (event) => {
     event.preventDefault();
@@ -42,7 +42,7 @@ const CreateBoardForm = () => {
   return (
     <>
       {isImageUploadVisible && (
-        <BoardImageUploadModal selectImageFromModal={modalImageLoadHandler} />
+        <BoardImageUploadModal loadImageFromModal={modalImageLoadHandler} />
       )}
       <div className={classes.wrapper}>
         <div className={classes.container}>

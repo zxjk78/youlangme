@@ -13,8 +13,8 @@ const BoardImageUploadModal = (props) => {
   const closeModalHandler = () => {
     dispatch(modalActions.offModal());
   };
-  const ImageFromContainer = (files) => {
-    props.selectImageFromModal(files);
+  const loadImageFromModal = (files) => {
+    props.loadImageFromModal(files);
     dispatch(modalActions.offModal());
   };
   return (
@@ -28,7 +28,7 @@ const BoardImageUploadModal = (props) => {
             </div>
             <CloseIcon onClick={closeModalHandler} />
           </div>
-          <ImageDragNDrop selectImageFromModal={ImageFromContainer} />
+          <ImageDragNDrop loadImageFromModal={loadImageFromModal} />
         </div>
       </Modal>
     </>
