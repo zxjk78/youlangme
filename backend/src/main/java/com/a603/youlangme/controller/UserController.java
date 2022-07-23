@@ -99,6 +99,7 @@ public class UserController {
 
     @GetMapping("/image/{id}") // Read
     public OneResult<String> getUserImage (@PathVariable(value = "id") Long userId) {
+        System.out.println("=========1==========1============1=====");
         return responseService.getOneResult(userService.readUserImage(userId));
     }
 

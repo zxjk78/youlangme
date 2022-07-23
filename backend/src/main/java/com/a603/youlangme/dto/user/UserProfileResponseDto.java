@@ -10,6 +10,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -26,5 +27,11 @@ public class UserProfileResponseDto {
     public Language yourlanguage;
 
     public List<String> favorites = new ArrayList<>();
+
+    public Gender gender;
+
+    public Nationality nationality;
+
+    public int age;
 
 }
