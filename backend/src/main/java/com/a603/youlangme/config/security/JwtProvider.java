@@ -60,11 +60,11 @@ public class JwtProvider {
                     .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact(); // 압축해서 jws 생성
 
-        LocalDateTime createdTime = LocalDateTime.now().plusHours(1);
-        System.out.println("CREATED TIME : " + createdTime);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String accessTokenExpireDate = createdTime.format(formatter);
-        System.out.println(accessTokenExpireDate);
+//        LocalDateTime createdTime = LocalDateTime.now().plusHours(1);
+//        System.out.println("CREATED TIME : " + createdTime);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        String accessTokenExpireDate = createdTime.format(formatter);
+//        System.out.println(accessTokenExpireDate);
 
         String refreshToken = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
@@ -75,7 +75,7 @@ public class JwtProvider {
                 .grantType("Bearer") // Bearer : JWT 혹은 OAuth에 대한 토큰을 사용한다는 의미
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .accessTokenExpireDate(accessTokenExpireDate) // 만료시간을 넘겨줘서 브라우저에서 액세스 토큰이 만료되었는지 확인하는 용도
+                .accessTokenExpireDate(accessTokenValidMillisecond) // 만료시간을 넘겨줘서 브라우저에서 액세스 토큰이 만료되었는지 확인하는 용도
                 .build();
     }
 
