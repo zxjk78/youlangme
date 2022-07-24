@@ -1,9 +1,14 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { createBoardActions } from '../../createBoardSlice';
 
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-
+// component
 import ImageThumbContainer from './ImageThumbContainer';
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+// static data
+import { MAX_IMAGE_LIMIT } from '../../data';
 
 const msgStyle = {
   height: '100%',
@@ -51,16 +56,22 @@ const focusedStyle = {
 };
 
 const ImageDragNDrop = (props) => {
-  const maxLimit = 6;
+  const maxLimit = MAX_IMAGE_LIMIT;
   const [files, setFiles] = useState([]);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const loadedImgCnt = useSelector(
+    (state) => state.createBoard.loadedImgFileCnt
+  );
+  const dispatch = useDispatch();
+
   const { getRootProps, getInputProps, isFocused } = useDropzone({
     accept: {
       'image/*': [],
     },
     onDrop: (acceptedFiles) => {
-      if (files.length >= maxLimit) {
+      if (loadedImgCnt + acceptedFiles.length > maxLimit) {
         // alert('몇개이상 안됨')
+        console.log('이미지 최대 갯수 초과');
         return;
       }
 
@@ -70,9 +81,9 @@ const ImageDragNDrop = (props) => {
             preview: URL.createObjectURL(file),
           })
         );
-
         return [...files].concat(newAddedFiles);
       });
+      dispatch(createBoardActions.addFileCnt(acceptedFiles.length));
     },
     maxFiles: maxLimit,
     multiple: true,
@@ -87,11 +98,11 @@ const ImageDragNDrop = (props) => {
     [isFocused]
   );
 
-  useEffect(() => {
-    console.log(files);
-    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [files]);
+  // useEffect(() => {
+  //   console.log(files);
+  //   // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+  //   return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  // }, [files]);
 
   const onButtonClickHander = () => {
     props.loadImageFromModal(files);

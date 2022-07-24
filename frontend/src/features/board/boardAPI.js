@@ -3,7 +3,7 @@ const API_URL = 'http://127.0.0.1:8080/';
 
 export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
-  console.log('post 게시글 생성요청');
+  console.log('boardAPI post 게시글 생성요청');
   console.log(content, images);
   const formData = new FormData();
   formData.append('images', images);

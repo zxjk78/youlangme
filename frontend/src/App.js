@@ -38,8 +38,12 @@ function App() {
           ></PrivateRoute>
           <PrivateRoute path="/main" component={Main}></PrivateRoute>
 
-          {/* 화면 보면서 컴포넌트 제작할 때 사용하는 publicRoute  */}
-          <PublicRoute exact path="/test" component={Board}></PublicRoute>
+          {/* 화면 보면서 컴포넌트 제작할 때 사용하는 PrivateRoute  */}
+          <PrivateRoute
+            exact
+            path="/board/create"
+            component={Board}
+          ></PrivateRoute>
         </Switch>
       </BrowserRouter>
     </div>
