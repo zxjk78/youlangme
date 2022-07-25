@@ -4,10 +4,12 @@
 //material UI
 import { Chip } from '@mui/material';
 
+// component 
+import ProfileImage from './ProfileImage'
 
 
 // 리덕스 안거치는 단순 서버 통신 API
-import { fetchProfile, fetchProfileImg, fetchDescription } from './fetchProfileAPI';
+import { fetchProfile, fetchDescription } from './ProfileAPI';
 
 // state
 import { useState, useRef, useEffect } from 'react';
@@ -27,13 +29,13 @@ import classes from './MyPage.module.scss';
 const MyPage = () => {
   const params = useParams();
   const [profileInfo, setProfileInfo] = useState(null);
-  const [profileImg, setProfileImg] = useState(null);
+
   const [profileDescription, setProfileDescription] = useState('');
   // console.log(params.userId);
 
   useEffect(() => {
     fetchProfile(setProfileInfo, params.userId);
-    fetchProfileImg(setProfileImg, params.userId);
+    
     fetchDescription(setProfileDescription, params.userId);
   }, []);
 
@@ -154,8 +156,8 @@ const MyPage = () => {
   return (
     <div>
       <h1>My Page</h1>
+      <ProfileImage />
       
-      {profileImg && <img src={profileImg} alt="프로필 이미지" />}
       {profileInfo && profileDescription && 
         <div>
           <h2>{profileInfo.name}</h2>
@@ -163,7 +165,6 @@ const MyPage = () => {
           <br />
           <p>me:  {profileInfo.mylanguage}</p>
           <p>you:  {profileInfo.yourlanguage}</p>
-          {/* <h1>{profileInfo.favorites.map((fav) => {return profileInfo.favorites.indexOf(fav)})}</h1> */}
           <div>
             {profileInfo.favorites.map((fav) => {
               return (

@@ -81,3 +81,32 @@ export const fetchDescription =  async (setDesc, userId) =>  {
     return err.response;
   }
 };
+
+
+
+// Profile Image put 요청 API
+export const UploadProfileImg =  async (uploadedProfileImg, setUploadedProfileImg) =>  {
+  console.log('업로드 시작')
+  console.log(uploadedProfileImg)
+
+  try {
+    if (uploadedProfileImg) {
+      const formData = new FormData()
+      formData.append('imageFile', uploadedProfileImg);
+
+      await axios.put(
+      API_URL + `user/image`, formData,
+      // 엑세스 토큰이 필요하다.
+      { headers: { 'X-Auth-Token': accessToken, 'Content-Type' : 'multipart/form-data'} }
+      );
+      alert("서버에 프로필 사진 등록되었습니다!");
+      // setUploadedProfileImg({
+      //   profileImageFile: "",
+      //   previewImageURL: ".../assets/defaultuser.png",
+      // });
+    }
+  } catch (err) {
+      console.log('에러')
+      alert("사진을 등록하세요!")
+    }
+}
