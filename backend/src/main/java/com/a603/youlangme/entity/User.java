@@ -64,6 +64,9 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserBadge> userBadges = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserBoardLike> userBoardLikes = new ArrayList<>();
+
     public void updateDescription(String description) {
         this.description = description;
     }
