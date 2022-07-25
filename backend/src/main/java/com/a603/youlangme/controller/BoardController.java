@@ -2,9 +2,12 @@ package com.a603.youlangme.controller;
 
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.dto.board.BoardDto;
+import com.a603.youlangme.entity.UserBoardLike;
 import com.a603.youlangme.response.CommonResult;
+import com.a603.youlangme.response.ManyResult;
 import com.a603.youlangme.service.BoardService;
 import com.a603.youlangme.service.ResponseService;
+import com.nimbusds.oauth2.sdk.SuccessResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -60,4 +63,23 @@ public class BoardController {
         boardService.read(id);
         return responseService.getSuccessResult();
     }
+
+    @GetMapping("/like/{id}")
+    public ManyResult<UserBoardLike> like(@PathVariable(value = "id") Long boardId) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+
+        return responseService.getManyResult(null);
+    }
+
+    @GetMapping("/dislike/{id}")
+    public ManyResult<UserBoardLike> dislike(@PathVariable(value = "id") Long boardId) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+
+        return responseService.getManyResult(null);
+    }
+
 }

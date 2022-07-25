@@ -5,7 +5,9 @@ import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.dto.board.BoardDto;
+import com.a603.youlangme.entity.UserBoardLike;
 import com.a603.youlangme.repository.BoardRepository;
+import com.a603.youlangme.repository.UserBoardLikeRepository;
 import com.a603.youlangme.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class BoardService {
 
     @Autowired
     BoardRepository boardRepository;
+
+    @Autowired
+    UserBoardLikeRepository userBoardLikeRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -43,5 +48,18 @@ public class BoardService {
 
     public void read(Long id){
         Board board=boardRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Transactional
+    public void likeBoard(Long userId, Long boardId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Board board = boardRepository.findById(boardId).orElse(null);
+        userBoardLikeRepository.save(new UserBoardLike(user, board));
+        userBoardLikeRepository.findByUserId(userId);
+    }
+
+    @Transactional
+    public void dislikeBoard(Long boardId, Long userId) {
+
     }
 }

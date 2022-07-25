@@ -15,6 +15,8 @@ import com.a603.youlangme.service.ResponseService;
 import com.a603.youlangme.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -110,9 +113,12 @@ public class UserController {
     }
 
     @GetMapping("/image/{id}") // Read
-    public OneResult<String> getUserImage (@PathVariable(value = "id") Long userId) {
+    public Resource getUserImage (@PathVariable(value = "id") Long userId) throws MalformedURLException {
         System.out.println("=========1==========1============1=====");
-        return responseService.getOneResult(userService.readUserImage(userId));
+        String path = userService.readUserImage(userId);
+        System.out.println(path);
+        File file = new File(path);
+        return new UrlResource("file:"+file.getPath());
     }
 
     @PutMapping("/image") // Update
