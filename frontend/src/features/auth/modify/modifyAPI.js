@@ -7,7 +7,6 @@ const getConfig = { headers: { 'X-Auth-Token': accessToken } };
 
 // 리덕스랑 관련없는 서버 통신 API들 모음
 // chips에 담을 hobby 데이터 fetch
-
 export const fetchHobbies = async (setHobbiesFn) => {
   console.log('fetch 취미');
   // const response = await axios.get(API_URL + `favorite/list`);
@@ -16,8 +15,7 @@ export const fetchHobbies = async (setHobbiesFn) => {
     // 엑세스 토큰이 필요하다.
     getConfig
   );
-  console.log(response);
-  setHobbiesFn(
+  setHobbiesFn(() =>
     response.data.data.map((item) => {
       return { ...item, isSelected: false };
     })
