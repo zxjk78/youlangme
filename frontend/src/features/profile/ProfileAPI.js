@@ -16,7 +16,7 @@ const API_URL = 'http://127.0.0.1:8080/';
 // 프로필 기본정보(username, languages, favorites) API
 export const fetchProfile =  async (setProfileData, userId) =>  {
     
-    // console.log('fetch 프로필');
+    console.log('fetch 프로필');
 
     try {
       const response = await axios.get(
@@ -38,26 +38,26 @@ export const fetchProfile =  async (setProfileData, userId) =>  {
 
 
 // 프로필 이미지 불러오는 API
-export const fetchProfileImg =  async (setProfileImage, userId) =>  {
+// export const fetchProfileImg =  async (setProfileImage, userId) =>  {
   
-  console.log('fetch 이미지');
+//   console.log('fetch 이미지');
 
-  try {
-    const response = await axios.get(
-      API_URL + `user/image/${userId}`,
-      // 엑세스 토큰이 필요하다.
-      getConfig
-    );
-    // console.log(response.data.data)
-    setProfileImage(
-      response.data.data
-    );
+//   try {
+//     const response = await axios.get(
+//       API_URL + `user/image/${userId}`,
+//       // 엑세스 토큰이 필요하다.
+//       getConfig
+//     );
+//     // console.log(response.data.data)
+//     setProfileImage(
+//       API_URL + `user/image/${userId}`
+//     );
 
-  } catch (err) {
-    console.log('에러')
-    return err.response;
-  }
-};
+//   } catch (err) {
+//     console.log('에러')
+//     return err.response;
+//   }
+// };
 
 
 // description 불러오는 API
@@ -100,10 +100,10 @@ export const UploadProfileImg =  async (uploadedProfileImg, setUploadedProfileIm
       { headers: { 'X-Auth-Token': accessToken, 'Content-Type' : 'multipart/form-data'} }
       );
       alert("서버에 프로필 사진 등록되었습니다!");
-      // setUploadedProfileImg({
-      //   profileImageFile: "",
-      //   previewImageURL: ".../assets/defaultuser.png",
-      // });
+      // const previewImageURL = URL.createObjectURL(uploadedProfileImg);
+      setUploadedProfileImg({
+        profileImageFile: ""
+      });
     }
   } catch (err) {
       console.log('에러')

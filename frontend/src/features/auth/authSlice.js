@@ -15,9 +15,10 @@ export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
     const response = await axios.post(API_URL + "login/", userInfo);
     console.log(response);
     localStorage.setItem("user", JSON.stringify(response.data.data));
-    console.log(user);
-    return response;
-  } catch (err) {
+    const response1 = await axios.get(API_URL + "user/login-user",{ headers: { 'X-Auth-Token': response.data.data.accessToken } })
+    return response1.data
+    }
+    catch (err) {
     return thunkAPI.rejectWithValue();
   }
 });
@@ -33,6 +34,7 @@ export const signup = createAsyncThunk("SIGNUP", async (userInfo, thunkAPI) => {
 
 export const logout = createAsyncThunk("LOGOUT", async () => {
   localStorage.removeItem("user");
+  return { isLoggedIn: true, user, currentUser: {name:null} }
 });
 
 export const getUser = createAsyncThunk("GETUSER", async (thunkAPI)=> {
@@ -44,9 +46,9 @@ export const getUser = createAsyncThunk("GETUSER", async (thunkAPI)=> {
   }
 })
 
-const initialState = user
-  ? { isLoggedIn: true, user, currentUser }
-  : { isLoggedIn: false, user: null, currentUser };
+const initialState = currentUser
+  ? { isLoggedIn: true, currentUser }
+  : { isLoggedIn: false,  currentUser: {name: null} };
 
 const authSlice = createSlice({
   name: "auth",
@@ -56,7 +58,7 @@ const authSlice = createSlice({
     signup,
     logout,
     socialLogin(state) {
-      return { isLoggedIn: true, user };
+      return { isLoggedIn: true, user, currentUser };
     },
     getUser
   },
@@ -69,15 +71,15 @@ const authSlice = createSlice({
     },
     [login.fulfilled]: (state, action) => {
       state.isLoggedIn = true;
-      state.user = action.payload.data;
+      state.currentUser = action.payload.data
     },
     [login.rejected]: (state, action) => {
       state.isLoggedIn = false;
-      state.user = null;
+      state.currentuser = null;
     },
     [logout.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
-      state.user = null;
+      state.currentUser = {name: null}
     },
     [getUser.fulfilled] : (state, action) => {
       state.currentUser = action.payload.data
