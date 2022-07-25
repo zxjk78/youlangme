@@ -7,6 +7,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import classes from './BoardMainItem.module.scss';
 
 const BoardMainItem = (props) => {
+  const createdTime = new Date(props.createdTime);
+  const content = props.content;
+  const username = props.username;
+  const profileImageUrl = props.userImgUrl;
+  const createdAt =
+    new Date().getDate() - createdTime.getDate() === 0
+      ? `${createdTime.getHours()}:${String(createdTime.getMinutes()).padStart(
+          2,
+          '0'
+        )}`
+      : `${createdTime.getMonth() + 1}/${createdTime.getDate()}`;
+
   return (
     <>
       <div className={classes.wrapper}>
