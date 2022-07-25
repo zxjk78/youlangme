@@ -6,6 +6,9 @@ import axios from "axios";
 // };
 const API_URL = "http://127.0.0.1:8080/";
 const user = JSON.parse(localStorage.getItem("user"));
+const accessToken = user ? user.accessToken : null;
+const getConfig = { headers: { 'X-Auth-Token': accessToken } };
+const currentUser = {name: null}
 
 export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
   try {
@@ -32,9 +35,18 @@ export const logout = createAsyncThunk("LOGOUT", async () => {
   localStorage.removeItem("user");
 });
 
+export const getUser = createAsyncThunk("GETUSER", async (thunkAPI)=> {
+  try{
+    const response = await axios.get(API_URL + "user/login-user", getConfig)
+    return response.data
+  } catch(err){
+    return thunkAPI.rejectWithValue()
+  }
+})
+
 const initialState = user
-  ? { isLoggedIn: true, user }
-  : { isLoggedIn: false, user: null };
+  ? { isLoggedIn: true, user, currentUser }
+  : { isLoggedIn: false, user: null, currentUser };
 
 const authSlice = createSlice({
   name: "auth",
@@ -46,6 +58,7 @@ const authSlice = createSlice({
     socialLogin(state) {
       return { isLoggedIn: true, user };
     },
+    getUser
   },
   extraReducers: {
     [signup.fulfilled]: (state, action) => {
@@ -66,6 +79,13 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
     },
+    [getUser.fulfilled] : (state, action) => {
+      state.currentUser = action.payload.data
+      state.isLoggedIn = true
+    },
+    [getUser.rejected] : (state, action) => {
+      state.currentUser = null
+    }
   },
 });
 export let { socialLogin } = authSlice.actions;
