@@ -25,6 +25,9 @@ public class Board extends BaseEntity {
 
     @OneToMany(mappedBy="board", cascade = CascadeType.ALL)
     private List<BoardImg> imgList = new ArrayList<>();
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<UserBoardLike> userBoardLikes = new ArrayList<>();
+
 
     //엔티티 용
     public static Board of(String contents, User author) {

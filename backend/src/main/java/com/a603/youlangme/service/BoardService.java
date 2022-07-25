@@ -2,21 +2,26 @@ package com.a603.youlangme.service;
 
 import com.a603.youlangme.advice.exception.BoardNotFoundException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.dto.board.BoardDto;
 import com.a603.youlangme.repository.BoardImgRepository;
+import com.a603.youlangme.entity.UserBoardLike;
 import com.a603.youlangme.repository.BoardRepository;
+import com.a603.youlangme.repository.UserBoardLikeRepository;
 import com.a603.youlangme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +32,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardImgRepository boardImgRepository;
     private final UserRepository userRepository;
+    private final UserBoardLikeRepository userBoardLikeRepository;
+
 
     @Transactional
     public void savePost(BoardDto boardDto, Long id) throws IOException {
@@ -75,5 +82,38 @@ public class BoardService {
 
     public List<BoardImg> searchBoardImgList(Board board) {
         return boardImgRepository.findAllByBoard(board);
+    }
+
+    @Transactional
+    public void likeBoard(Long userId, Long boardId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Board board = boardRepository.findById(boardId).orElse(null);
+        userBoardLikeRepository.save(new UserBoardLike(user, board));
+    }
+
+    @Transactional
+    public void dislikeBoard(Long userId, Long boardId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Board board = boardRepository.findById(boardId).orElse(null);
+        userBoardLikeRepository.deleteByUserAndBoard(user, board);
+    }
+
+    public List<Long> readUserBoardLike(Long userId) {
+        List<UserBoardLike> userBoardLikes = userBoardLikeRepository.findAllByUserId(userId);
+        List<Long> likeList = new ArrayList<>();
+        for (UserBoardLike userBoardLike : userBoardLikes) {
+            likeList.add(userBoardLike.getBoard().getId());
+        }
+        return likeList;
+    }
+
+    public List<LikeUserResponseDto> readLikeUsers(Long boardId) {
+        List<UserBoardLike> userBoardLikes = userBoardLikeRepository.findAllByBoardId(boardId);
+        List<LikeUserResponseDto> likeUserResponseDtoList = new ArrayList<>();
+        for (UserBoardLike userBoardLike : userBoardLikes) {
+            User user = userBoardLike.getUser();
+            likeUserResponseDtoList.add(new LikeUserResponseDto(user.getId(), user.getName(), user.getImage()));
+        }
+        return likeUserResponseDtoList;
     }
 }

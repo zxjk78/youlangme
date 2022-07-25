@@ -3,12 +3,17 @@ package com.a603.youlangme.controller;
 import com.a603.youlangme.dto.board.BoardReadResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
+import com.a603.youlangme.dto.like.LikeUserResponseDto;
+import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.dto.board.BoardDto;
+import com.a603.youlangme.entity.UserBoardLike;
 import com.a603.youlangme.response.CommonResult;
+import com.a603.youlangme.response.ManyResult;
 import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.BoardService;
 import com.a603.youlangme.service.ResponseService;
+import com.nimbusds.oauth2.sdk.SuccessResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -71,4 +76,36 @@ public class BoardController {
 
         return responseService.getOneResult(res);
     }
+
+    @PostMapping("/like/{id}")
+    public CommonResult like(@PathVariable(value = "id") Long boardId) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        boardService.likeBoard(user.getId(), boardId);
+        return responseService.getSuccessResult();
+    }
+
+    @DeleteMapping("/dislike/{id}")
+    public CommonResult dislike(@PathVariable(value = "id") Long boardId) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        boardService.dislikeBoard(user.getId(), boardId);
+        return responseService.getSuccessResult();
+    }
+
+    @GetMapping("/likes")
+    public ManyResult<Long> likes() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        return responseService.getManyResult(boardService.readUserBoardLike(user.getId()));
+    }
+
+    @GetMapping("/likeUsers/{id}")
+    public ManyResult<LikeUserResponseDto> likeUsers(@PathVariable(value = "id") Long boardId) {
+        return responseService.getManyResult(boardService.readLikeUsers(boardId));
+    }
+
 }
