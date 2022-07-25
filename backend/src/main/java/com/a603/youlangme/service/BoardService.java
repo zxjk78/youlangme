@@ -29,7 +29,7 @@ public class BoardService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void savePost(BoardDto boardDto, Long id, List<MultipartFile> pics) throws IOException {
+    public void savePost(BoardDto boardDto, Long id) throws IOException {
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new); //한번에 예외처리 방식
         Board board = Board.builder()
                 .contents(boardDto.getContents())
@@ -38,11 +38,14 @@ public class BoardService {
 
         boardRepository.save(board);
 
+
         // 이미지 list 저장
         String path = System.getProperty("user.dir"); // 현재 디렉토리 가져오기
 
+        List<MultipartFile> pics = boardDto.getPics();
+
         for (MultipartFile pic : pics) {
-            File file = new File(path + "src/main/resources/static/" + pic.getOriginalFilename());
+            File file = new File(path + "/src/main/resources/static/" + pic.getOriginalFilename());
 
             // 폴더가 없다면 폴더를 생성을 해준다.
             if (!file.getParentFile().exists()) file.getParentFile().mkdirs();

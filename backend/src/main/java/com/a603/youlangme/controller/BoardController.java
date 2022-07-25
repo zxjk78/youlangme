@@ -39,7 +39,7 @@ public class BoardController {
         Authentication authentication = context.getAuthentication();
         User user=((User)authentication.getPrincipal()); //지금 로그인한 사람 데이터 가져온 것
 
-        boardService.savePost(boardDto,user.getId(), boardDto.getPics());
+        boardService.savePost(boardDto,user.getId());
         return responseService.getSuccessResult();
     }
 

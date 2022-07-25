@@ -17,7 +17,7 @@ public class ImageController {
     @GetMapping("/{filename}")
     public Resource showImage(@PathVariable String filename) throws MalformedURLException {
         String path = System.getProperty("user.dir"); // 현재 디렉토리 가져오기
-        File file = new File(path + "src/main/resources/static/" + filename);
+        File file = new File(path + "/src/main/resources/static/" + filename);
         return new UrlResource("file:"+file.getPath());
     }
 
