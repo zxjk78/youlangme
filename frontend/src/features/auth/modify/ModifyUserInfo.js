@@ -88,11 +88,11 @@ const ModifyUserInfo = () => {
 
   // material UI 날짜 관련 함수
   const birthdayChangeHandler = (changedDate) => {
-    const m = moment(changedDate);
+    const m = moment(changedDate).toObject();
     const tmp = {
-      birthYear: m.year(),
-      birthMonth: m.month() + 1,
-      birthDay: m.day(),
+      birthYear: m.years,
+      birthMonth: m.months + 1,
+      birthDay: m.date,
     };
     dispatch(modifyActions.setBirthday(tmp));
   };
@@ -171,7 +171,6 @@ const ModifyUserInfo = () => {
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
-            <h5>매칭 옵션</h5>
             <div className={`${classes.twoInputsContainer}`}>
               <div>
                 <MuiSelect

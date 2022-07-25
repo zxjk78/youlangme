@@ -10,8 +10,11 @@ import MyPage from './features/profile/MyPage';
 import PrivateRoute from './common/routes/PrivateRoute';
 import PublicRoute from './common/routes/PublicRoute';
 import Social from './features/auth/social/Social';
-
 // import { useSelector } from "react-redux";
+
+// test용 코드
+import Board from './features/board/Board';
+
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -39,6 +42,13 @@ function App() {
             {/* <PrivateRoute path="articles" component={MyArticleList}></PrivateRoute> */}
           </PrivateRoute>
           <PrivateRoute path="/main" component={Main}></PrivateRoute>
+
+          {/* 화면 보면서 컴포넌트 제작할 때 사용하는 PrivateRoute  */}
+          <PrivateRoute
+            exact
+            path="/board/create"
+            component={Board}
+          ></PrivateRoute>
         </Switch>
       </BrowserRouter>
     </div>
