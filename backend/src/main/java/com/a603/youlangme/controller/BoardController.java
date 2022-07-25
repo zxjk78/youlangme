@@ -1,5 +1,8 @@
 package com.a603.youlangme.controller;
 
+import com.a603.youlangme.dto.board.BoardReadResponseDto;
+import com.a603.youlangme.entity.Board;
+import com.a603.youlangme.entity.BoardImg;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.User;
@@ -19,6 +22,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @Api(tags = "4. BoardController")
 @RestController
@@ -32,10 +39,11 @@ public class BoardController {
     ResponseService responseService;
 
     @PostMapping
-    public CommonResult write(@RequestBody BoardDto boardDto){
+    public CommonResult write(@ModelAttribute BoardDto boardDto ) throws IOException {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User user=((User)authentication.getPrincipal()); //지금 로그인한 사람 데이터 가져온 것
+
         boardService.savePost(boardDto,user.getId());
         return responseService.getSuccessResult();
     }
@@ -59,12 +67,14 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public CommonResult read(@PathVariable(value = "id") Long id){
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User user=((User)authentication.getPrincipal());
-        boardService.read(id);
-        return responseService.getSuccessResult();
+    public OneResult<BoardReadResponseDto> read(@PathVariable(value = "id") Long id){
+
+        Board board = boardService.read(id);
+        List<BoardImg> boardImgList = boardService.searchBoardImgList(board);
+
+        BoardReadResponseDto res = BoardReadResponseDto.of(board,boardImgList);
+
+        return responseService.getOneResult(res);
     }
 
     @PostMapping("/like/{id}")

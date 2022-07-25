@@ -84,4 +84,10 @@ public class ExceptionAdvice {
     protected CommonResult dataNotFoundException(HttpServletRequest request, DataNotFoundException e) {
         return responseService.getFailResult(ErrorCode.DataNotFoundException.getCode(), ErrorCode.DataNotFoundException.getMessage());
     }
+
+    @ExceptionHandler(ImgSaveFailException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult imgSaveFailException(HttpServletRequest request, ImgSaveFailException e) {
+        return responseService.getFailResult(ErrorCode.ImgSaveFailException.getCode(), ErrorCode.ImgSaveFailException.getMessage());
+    }
 }

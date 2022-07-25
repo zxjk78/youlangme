@@ -23,6 +23,8 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Reply> replyList = new ArrayList<>();
 
+    @OneToMany(mappedBy="board", cascade = CascadeType.ALL)
+    private List<BoardImg> imgList = new ArrayList<>();
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<UserBoardLike> userBoardLikes = new ArrayList<>();
 
