@@ -14,7 +14,7 @@ import Social from './features/auth/social/Social';
 
 // test용 코드
 import Board from './features/board/Board';
-
+import BoardMainItem from './features/main/feed/components/BoardMainItem';
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -49,6 +49,11 @@ function App() {
             path="/board/create"
             component={Board}
           ></PrivateRoute>
+          <PublicRoute
+            exact
+            path="/test"
+            component={BoardMainItem}
+          ></PublicRoute>
         </Switch>
       </BrowserRouter>
     </div>

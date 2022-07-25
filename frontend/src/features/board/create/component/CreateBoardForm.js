@@ -51,8 +51,9 @@ const CreateBoardForm = () => {
     event.preventDefault();
     const uploadContent = contentRef.current.value;
     const uploadImages = images;
-    createBoard(uploadContent, uploadImages);
+    const response = createBoard(uploadContent, uploadImages);
     // url 자신의 프로필 페이지로 이동해야함 history 어쩌고?
+    // response 가 정상이면
   };
 
   return (
