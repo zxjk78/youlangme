@@ -1,0 +1,41 @@
+.container {
+  width: 500px;
+  height: 500px;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    background-color: #b865c6;
+    div {
+      width: 50%;
+      display: flex;
+    }
+  }
+  .uploadBoxWrapper {
+    width: 90%;
+    height: 70%;
+    background-color: #f9f3ee;
+    margin: 0px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .uploadBoxContainer {
+      width: 90%;
+      height: 90%;
+      border: dashed 2px #4b4b4b;
+      svg {
+        font-size: 200px;
+      }
+    }
+  }
+}

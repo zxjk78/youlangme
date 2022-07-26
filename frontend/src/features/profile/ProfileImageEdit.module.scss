@@ -1,0 +1,12 @@
+.uploaderWrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  .uploadButton{
+      button{
+          margin: 0 5px;
+      }
+  }
+}
