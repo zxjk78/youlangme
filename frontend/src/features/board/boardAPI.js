@@ -7,7 +7,7 @@ export const createBoard = async (content, images) => {
   const formData = new FormData();
 
   if (images.length === 0) {
-    formData.set('pics', images);
+    formData.set('pics', []);
   }
 
   for (let i = 0; i < images.length; i++) {

@@ -52,7 +52,7 @@ const BoardDetail = (props) => {
           <div className={classes.wrapper}>
             <div className={classes.header}>
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png"
+                src={`${API_URL}image/profile/${boardDetail.userId}.jpg`}
                 alt="유저 프로파일 이미지"
               />
               <div className={classes.username}>{boardDetail.userName}</div>
@@ -74,9 +74,16 @@ const BoardDetail = (props) => {
                 {boardDetail.contents}
               </div>
               <div className={classes.likeCommentCnt}>
-                <FavoriteBorderIcon />
-                <ChatBubbleOutlineIcon />
+                <div>
+                  <FavoriteBorderIcon />
+                  좋아요 수: board/likes
+                </div>
+                <div>
+                  <ChatBubbleOutlineIcon />
+                  댓글 수: reply/replyList/boardId의 응답.length
+                </div>
               </div>
+              <br />
             </div>
             <div className={classes.comment}>
               <div className={classes.header}>
