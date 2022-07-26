@@ -112,14 +112,14 @@ public class UserController {
         return responseService.getSuccessResult();
     }
 
-    @GetMapping("/image/{id}") // Read
-    public Resource getUserImage (@PathVariable(value = "id") Long userId) throws MalformedURLException {
-        System.out.println("=========1==========1============1=====");
-        String path = userService.readUserImage(userId);
-        System.out.println(path);
-        File file = new File(path);
-        return new UrlResource("file:"+file.getPath());
-    }
+//    @GetMapping("/image/{id}") // Read
+//    public Resource getUserImage (@PathVariable(value = "id") Long userId) throws MalformedURLException {
+//        System.out.println("=========1==========1============1=====");
+//        String path = userService.readUserImage(userId);
+//        File file = new File(path);
+//        System.out.println("file:"+file.getPath());
+//        return new UrlResource("file:"+file.getPath());
+//    }
 
     @PutMapping("/image") // Update
     public OneResult<String> setUserImage (@RequestParam("imageFile") MultipartFile file) throws IOException {
