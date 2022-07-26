@@ -1,30 +1,30 @@
 // component
-import Button from '../../../common/UI/Button';
+import Button from "../../../common/UI/Button";
 
 //material UI
-import { TextField, Chip } from '@mui/material';
-import MuiSelect from '../../../common/UI/MuiSelect';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import moment from 'moment';
+import { TextField, Chip } from "@mui/material";
+import MuiSelect from "../../../common/UI/MuiSelect";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import moment from "moment";
 
 // 리덕스 안거치는 단순 서버 통신 API
-import { fetchHobbies } from './modifyAPI';
+import { fetchHobbies } from "./modifyAPI";
 
 // state
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 // redux
-import { useSelector, useDispatch } from 'react-redux';
-import { modifyActions, dispatchUserBasicInfo } from './modifySlice';
-import { nameDupCheck } from './modifySlice';
+import { useSelector, useDispatch } from "react-redux";
+import { modifyActions, dispatchUserBasicInfo } from "./modifySlice";
+import { nameDupCheck } from "./modifySlice";
 // router
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 // css
-import classes from './ModifyUserInfo.module.scss';
+import classes from "./ModifyUserInfo.module.scss";
 
 //하드코딩한 데이터
-import * as selectData from './selectData';
+import * as selectData from "./selectData";
 const { nationOptions, languageOptions, genderOptions } = selectData;
 
 const ModifyUserInfo = () => {
@@ -40,7 +40,7 @@ const ModifyUserInfo = () => {
   // redux
   const userInfo = useSelector((state) => state.modify);
   const dispatch = useDispatch();
-  console.log('리덕스 테스트:', userInfo);
+  console.log("리덕스 테스트:", userInfo);
 
   // eventHandler
   const nickNameInputChangeHandler = () => {
@@ -50,8 +50,8 @@ const ModifyUserInfo = () => {
   const nickNameDupCheckHandler = async () => {
     const nickName = nickNameRef.current.value;
 
-    if (nickName.trim() === '') {
-      alert('아이디를 입력해주세요');
+    if (nickName.trim() === "") {
+      alert("아이디를 입력해주세요");
     } else {
       try {
         const response = await dispatch(nameDupCheck(nickName));
@@ -60,10 +60,10 @@ const ModifyUserInfo = () => {
         console.log(isDup);
         if (!isDup) {
           dispatch(modifyActions.setName(nickName));
-          alert('사용 가능한 아이디입니다.');
+          alert("사용 가능한 아이디입니다.");
         } else {
-          dispatch(modifyActions.setName(''));
-          alert('이미 존재하는 아이디입니다.');
+          dispatch(modifyActions.setName(""));
+          alert("이미 존재하는 아이디입니다.");
         }
       } catch (error) {
         console.log(error);
@@ -127,7 +127,7 @@ const ModifyUserInfo = () => {
     } catch (error) {
       console.log(error);
     }
-    history.push('/main');
+    document.location.href = "/main";
   };
 
   let formIsValid = true;
@@ -159,7 +159,7 @@ const ModifyUserInfo = () => {
                 onClick={nickNameDupCheckHandler}
                 onChange={nickNameInputChangeHandler}
               >
-                {userInfo.isNameUnique ? '사용 가능' : '중복 확인'}
+                {userInfo.isNameUnique ? "사용 가능" : "중복 확인"}
               </Button>
             </div>
             <h5>생년월일</h5>
@@ -224,7 +224,7 @@ const ModifyUserInfo = () => {
                 관심 있는 분야를 선택해 주세요 <span>(최대 3개)</span>
               </p>
               {/* 이부분에 chips 로 여러 개를 만들어서 사용함 */}
-              <div className={classes['chipsContaier']}>
+              <div className={classes["chipsContaier"]}>
                 {chipHobbies.map((obj) => {
                   return (
                     <Chip
@@ -234,7 +234,7 @@ const ModifyUserInfo = () => {
                         !obj.isSelected ? addHobbyHandler : removeHobbyHandler
                       }
                       data-value={obj.id}
-                      color={obj.isSelected ? 'warning' : 'default'}
+                      color={obj.isSelected ? "warning" : "default"}
                     />
                   );
                 })}
@@ -243,9 +243,9 @@ const ModifyUserInfo = () => {
             <div className={classes.submitBtn}>
               <Button
                 size={`large`}
-                color={!formIsValid ? 'grey' : 'purple'}
+                color={!formIsValid ? "grey" : "purple"}
                 disabled={!formIsValid}
-                rounded={'rounded'}
+                rounded={"rounded"}
               >
                 정보 등록
               </Button>

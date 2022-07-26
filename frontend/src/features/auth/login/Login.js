@@ -37,7 +37,7 @@ const Login = (props) => {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        history.push("/");
+        document.location.href = "/main";
       })
       .catch(() => {
         setLoading(false);
