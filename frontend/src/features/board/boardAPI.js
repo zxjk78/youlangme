@@ -5,8 +5,10 @@ export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // console.log('boardAPI post 게시글 생성요청');
   const formData = new FormData();
+  if (images.length === 0) {
+    formData.set('pics', images);
+  }
 
-  formData.set('pics', images);
   for (let i = 0; i < images.length; i++) {
     formData.append('pics', images[i]);
   }
