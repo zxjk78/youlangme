@@ -1,7 +1,7 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { logout } from "../auth/authSlice";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { logout } from '../auth/authSlice';
 const Main = () => {
   const { isLoggedIn, currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -19,6 +19,10 @@ const Main = () => {
       <div>
         <Link to="/board">게시판 작업</Link>
       </div>
+      <div>
+        <Link to="/board/create">게시판 생성작업</Link>
+      </div>
+
       <div>
         <Link to={`/profile/${currentUser.id}`}>프로필 작업</Link>
       </div>

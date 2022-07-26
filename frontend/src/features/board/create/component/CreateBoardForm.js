@@ -60,6 +60,9 @@ const CreateBoardForm = () => {
       alert('오류가 발생했습니다.');
     }
   };
+  const cancelHandler = (event) => {
+    history.goBack();
+  };
 
   return (
     <>
@@ -127,7 +130,9 @@ const CreateBoardForm = () => {
                   </div>
                 </div>
                 <div className={classes.buttonContainer}>
-                  <button type="button">취소</button>
+                  <button type="button" onClick={cancelHandler}>
+                    취소
+                  </button>
                   <button type="submit">작성</button>
                 </div>
               </div>
