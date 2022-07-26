@@ -41,7 +41,7 @@ const Login = (props) => {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        history.push("/modify");
+        history.push("/main");
       })
       .catch(() => {
         setLoading(false);

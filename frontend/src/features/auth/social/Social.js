@@ -38,7 +38,7 @@ const Social = () => {
       dispatch(socialLogin());
     }
   }, [dispatch]);
-  history.push("/modify");
+  history.push("/main");
   return <div></div>;
 };
 
