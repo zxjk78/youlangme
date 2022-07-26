@@ -2,6 +2,7 @@ package com.a603.youlangme.service;
 
 import com.a603.youlangme.advice.exception.BoardNotFoundException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.dto.board.BoardPagingDto;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
@@ -12,6 +13,10 @@ import com.a603.youlangme.entity.UserBoardLike;
 import com.a603.youlangme.repository.BoardRepository;
 import com.a603.youlangme.repository.UserBoardLikeRepository;
 import com.a603.youlangme.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +29,8 @@ import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true) //조회 하는 부분 최적화
@@ -46,7 +53,6 @@ public class BoardService {
                 .contents(boardDto.getContents())
                 .author(user)
                 .build();
-
         boardRepository.save(board);
 
 
@@ -167,5 +173,34 @@ public class BoardService {
             likeUserResponseDtoList.add(new LikeUserResponseDto(user.getId(), user.getName(), user.getImage()));
         }
         return likeUserResponseDtoList;
+    }
+
+    public List<BoardPagingDto>BoardInit(User user){
+        List<BoardPagingDto>boardList=boardRepository.Boardfind(user.getId()).stream()
+                .map(board -> BoardPagingDto.builder()
+                        .contents(board.getContents())
+                        .name(user.getName())
+                        .createdTime(board.getCreatedDate())
+                        .build()).collect(Collectors.toList());
+        return boardList;
+    }
+
+    public Page<BoardPagingDto>boardPaging(User user,Pageable pageable,Long click) {
+//        Page<BoardPagingDto> boards = boardRepository.BoardList(PageRequest.of(0, 5)).stream()
+//                .map(board -> BoardPagingDto.builder()
+//                        .contents(board.getContents())
+//                        .name(user.getName()).
+//                        createdTime(board.getCreatedDate())
+//                        .build()).collect(Collectors.toList());
+        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click)));
+        Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
+            @Override
+            public BoardPagingDto apply(Board board) {
+                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getContents(), user.getName(), board.getCreatedDate());
+                return boardPagingDto;
+            }
+        });
+
+        return boards;
     }
 }
