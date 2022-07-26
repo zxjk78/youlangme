@@ -12,7 +12,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import classes from './BoardDetailModal.module.scss';
-import { set } from 'date-fns/esm';
 const BoardDetail = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
   const [commentList, setCommentList] = useState([]);
@@ -110,7 +109,7 @@ const BoardDetail = (props) => {
                     isLiked={isLiked}
                     like={likeHandler}
                     dislike={dislikeHandler}
-                    cnt={likeUsers.length}
+                    likeUsers={likeUsers}
                   />
                 </div>
                 <div>
