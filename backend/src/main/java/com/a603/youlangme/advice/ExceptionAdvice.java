@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice // 모든 @Controller에서 발생하는 예외를 잡아 처리함, Json 형식으로 에러 응답
 @RequiredArgsConstructor
-public class ExceptionAdvice {
+public class  ExceptionAdvice {
     private final ResponseService responseService;
 
     @ExceptionHandler(Exception.class)
@@ -83,5 +83,11 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult dataNotFoundException(HttpServletRequest request, DataNotFoundException e) {
         return responseService.getFailResult(ErrorCode.DataNotFoundException.getCode(), ErrorCode.DataNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(ImgSaveFailException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult imgSaveFailException(HttpServletRequest request, ImgSaveFailException e) {
+        return responseService.getFailResult(ErrorCode.ImgSaveFailException.getCode(), ErrorCode.ImgSaveFailException.getMessage());
     }
 }

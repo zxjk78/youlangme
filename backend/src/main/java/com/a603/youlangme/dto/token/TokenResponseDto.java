@@ -11,5 +11,5 @@ public class TokenResponseDto {
     private String grantType;
     private String accessToken;
     private String refreshToken;
-    private String accessTokenExpireDate;
+    private Long accessTokenExpireDate;
 }

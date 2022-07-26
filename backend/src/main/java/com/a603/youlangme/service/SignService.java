@@ -81,4 +81,10 @@ public class SignService {
 
         return newCreatedToken;
     }
+
+    @Transactional
+    public void logout(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        refreshTokenRepository.deleteByTokenKey(user.getId());
+    }
 }

@@ -15,6 +15,8 @@ import com.a603.youlangme.service.ResponseService;
 import com.a603.youlangme.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +45,21 @@ public class UserController {
     @GetMapping("/{id}")
     public OneResult<UserEntireInfoResponseDto> getEntireInfo(@PathVariable("id") Long id) {
 
+
         User user = userService.findUserById(id);
         if(user==null) throw new UserNotFoundException();
         return responseService.getOneResult(new UserEntireInfoResponseDto(user));
+    }
+
+    // 로그인 유저 정보 조회 (유저 테이블)
+    @GetMapping("/login-user")
+    public OneResult<UserLoginUserResponseDto> loadLoginUserInfo() {
+        // 로그인 유저 가져오기
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User loginUser = (User) authentication.getPrincipal();
+
+        return responseService.getOneResult(new UserLoginUserResponseDto(loginUser));
     }
 
 
@@ -97,11 +112,14 @@ public class UserController {
         return responseService.getSuccessResult();
     }
 
-    @GetMapping("/image/{id}") // Read
-    public OneResult<String> getUserImage (@PathVariable(value = "id") Long userId) {
-        System.out.println("=========1==========1============1=====");
-        return responseService.getOneResult(userService.readUserImage(userId));
-    }
+//    @GetMapping("/image/{id}") // Read
+//    public Resource getUserImage (@PathVariable(value = "id") Long userId) throws MalformedURLException {
+//        System.out.println("=========1==========1============1=====");
+//        String path = userService.readUserImage(userId);
+//        File file = new File(path);
+//        System.out.println("file:"+file.getPath());
+//        return new UrlResource("file:"+file.getPath());
+//    }
 
     @PutMapping("/image") // Update
     public OneResult<String> setUserImage (@RequestParam("imageFile") MultipartFile file) throws IOException {
