@@ -5,6 +5,7 @@ import com.a603.youlangme.dto.token.TokenRequestDto;
 import com.a603.youlangme.dto.token.TokenResponseDto;
 import com.a603.youlangme.dto.user.UserLoginRequestDto;
 import com.a603.youlangme.dto.user.UserSignupRequestDto;
+import com.a603.youlangme.entity.User;
 import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.ResponseService;
@@ -13,9 +14,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "1. SignUp / LogIn")
 @RequiredArgsConstructor
@@ -47,5 +49,14 @@ public class SignController {
             @ApiParam(value = "토큰 재발급 DTO", required = true)
             @RequestBody TokenRequestDto tokenRequestDto) {
             return responseService.getOneResult(signService.reissue(tokenRequestDto));
+    }
+
+    @DeleteMapping("/log-out")
+    public CommonResult logout () {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User loginUser = (User) authentication.getPrincipal();
+        signService.logout(loginUser.getId());
+        return responseService.getSuccessResult();
     }
 }

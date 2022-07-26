@@ -13,6 +13,7 @@ import com.a603.youlangme.repository.BoardRepository;
 import com.a603.youlangme.repository.UserBoardLikeRepository;
 import com.a603.youlangme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +35,10 @@ public class BoardService {
     private final UserRepository userRepository;
     private final UserBoardLikeRepository userBoardLikeRepository;
 
+    @Value("${image.board.path}")
+    private String boardPath;
+
+
 
     @Transactional
     public void savePost(BoardDto boardDto, Long id) throws IOException {
@@ -52,7 +57,7 @@ public class BoardService {
         List<MultipartFile> pics = boardDto.getPics();
 
         for (MultipartFile pic : pics) {
-            File file = new File(path + "/src/main/resources/static/" + pic.getOriginalFilename());
+            File file = new File(path + boardPath + pic.getOriginalFilename());
 
             // 폴더가 없다면 폴더를 생성을 해준다.
             if (!file.getParentFile().exists()) file.getParentFile().mkdirs();

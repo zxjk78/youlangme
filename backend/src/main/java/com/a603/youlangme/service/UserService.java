@@ -13,6 +13,7 @@ import com.a603.youlangme.enums.Nationality;
 import com.a603.youlangme.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +47,10 @@ public class UserService {
     public User findUserByName(String name) {
         return userRepository.findByName(name).orElse(null);
     }
+
+    @Value("${image.profile.path}")
+    private String profilePath;
+
 
     @Transactional
     public void updateBasicInfo(Long userId, UserSetBasicInfoRequestDto basicInfo) {
@@ -97,12 +102,12 @@ public class UserService {
 
         String path = System.getProperty("user.dir");
         String fileName = user.getId() + ".jpg";
-        File f = new File(path + "\\src\\main\\resources\\static\\" + fileName);
+        File f = new File(path + profilePath + fileName);
         if(!f.getParentFile().exists())
             f.getParentFile().mkdir();
         file.transferTo(f);
-        user.updateImage(path + "\\src\\main\\resources\\static\\" + fileName);
-        return path + "\\src\\main\\resources\\static\\" + fileName;
+        user.updateImage(path + profilePath + fileName);
+        return path + profilePath + fileName;
     }
 
     public UserProfileResponseDto readUserProfile(Long userId) {
