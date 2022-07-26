@@ -1,5 +1,6 @@
 package com.a603.youlangme.config;
 
+import com.a603.youlangme.config.logging.LoggingFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
+import java.util.Arrays;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -56,20 +58,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addResourceLocations("classpath:/dist/js/");
     }
 
-    public Filter requestLoggingFilter() {
-        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
-        loggingFilter.setIncludeClientInfo(true);
-        loggingFilter.setIncludeQueryString(true);
-        loggingFilter.setIncludePayload(true);
-        loggingFilter.setIncludeHeaders(true);
-        loggingFilter.setMaxPayloadLength(64000);
-        return loggingFilter;
-    }
-
-    @Bean
-    public FilterRegistrationBean loggingFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean(requestLoggingFilter());
-        registration.addUrlPatterns("/api/*");
-        return registration;
-    }
 }
