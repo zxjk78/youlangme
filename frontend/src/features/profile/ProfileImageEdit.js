@@ -11,7 +11,7 @@ import { Avatar, Button, Modal, Box, Typography } from "@mui/material";
 // 리덕스 안거치는 단순 서버 통신 API
 import { UploadProfileImg } from './ProfileAPI';
 
-import defaultuser from './images/defaultuser.png'
+// import defaultuser from './images/defaultuser.png'
 
 
 
@@ -27,7 +27,7 @@ const ProfileImageEdit = () => {
   
   const [profileImg, setProfileImg] = useState({
     profileImageFile: "",
-    previewImageURL: defaultuser,
+    previewImageURL: "",
   });
 
   const [isUploadClicked, setIsUploadClicked] = useState(false)
@@ -57,7 +57,7 @@ const ProfileImageEdit = () => {
     URL.revokeObjectURL(profileImg.previewImageURL);
     setProfileImg({
       profileImageFile: "",
-      previewImageURL: defaultuser,
+      previewImageURL: "",
     });
     setOpen(false);
   }
@@ -117,7 +117,7 @@ const ProfileImageEdit = () => {
           </Button>
 
           <div className={classes.uploadButton}>
-            <Avatar src={profileImg.previewImageURL} sx={{ width: 200, height: 200 }} alt="profile"/>
+            <Avatar src={profileImg.previewImageURL} sx={{ width: 200, height: 200 }} />
             <Button color="error" variant="contained" onClick={deleteImage}>
               취소 
             </Button>

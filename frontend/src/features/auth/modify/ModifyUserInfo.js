@@ -32,7 +32,6 @@ const ModifyUserInfo = () => {
 
   useEffect(() => {
     fetchHobbies(setChipHobbies);
-    console.log(2, chipHobbies);
   }, []);
 
   const history = useHistory();

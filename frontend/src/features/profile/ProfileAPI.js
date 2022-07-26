@@ -12,23 +12,27 @@ const API_URL = 'http://127.0.0.1:8080/';
 // 리덕스랑 관련없는 서버 통신 API들 모음
 
 // 프로필 기본정보(username, languages, favorites) API
-export const fetchProfile = async (setProfileData, userId) => {
-  console.log('fetch 프로필');
+export const fetchProfile =  async (setProfileData, userId) =>  {
+    
+    console.log('fetch 프로필');
 
-  try {
-    const response = await axios.get(
-      API_URL + `user/profile/${userId}`,
-      // 엑세스 토큰이 필요하다.
-      getConfig
-    );
-    // console.log(response.data.data)
-    setProfileData(response.data.data);
-    // console.log(response.data.data)
-  } catch (err) {
-    console.log('에러');
-    return err.response;
-  }
-};
+    try {
+      const response = await axios.get(
+        API_URL + `user/profile/${userId}`,
+        // 엑세스 토큰이 필요하다.
+        getConfig
+      );
+      // console.log(response.data.data)
+      setProfileData(
+        response.data.data
+      );
+      // console.log(response.data.data)
+
+    } catch (err) {
+      console.log('프로필 에러')
+      return err.response;
+    }
+  };
 
 // 프로필 이미지 불러오는 API
 // export const fetchProfileImg =  async (setProfileImage, userId) =>  {

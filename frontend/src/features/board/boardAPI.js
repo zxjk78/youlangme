@@ -5,6 +5,7 @@ export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // console.log('boardAPI post 게시글 생성요청');
   const formData = new FormData();
+
   if (images.length === 0) {
     formData.set('pics', images);
   }
@@ -28,6 +29,22 @@ export const createBoard = async (content, images) => {
     });
     // console.log('board post api', response.data);
     return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchBoard = async (boardId, setStateFn) => {
+  console.log('boardId로 게시글 상세정보 받기');
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const header = {
+    'X-Auth-Token': accessToken,
+  };
+  try {
+    const response = await axios.get(API_URL + `board/${boardId}`, {
+      headers: header,
+    });
+    setStateFn(response.data.data);
   } catch (error) {
     console.log(error);
   }
