@@ -16,13 +16,14 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import classes from './CreateBoardForm.module.scss';
 // static data
 import { MAX_IMAGE_LIMIT } from '../data';
+import { useHistory } from 'react-router-dom';
 
 const CreateBoardForm = () => {
   const [images, setImages] = useState([]);
   const contentRef = useRef();
   const isImageUploadVisible = useSelector((state) => state.modal.isVisible);
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const imageLimit = MAX_IMAGE_LIMIT;
 
   const addPhotoHander = () => {
@@ -47,12 +48,17 @@ const CreateBoardForm = () => {
       })
     );
   };
-  const boardUploadHandler = (event) => {
+  const boardUploadHandler = async (event) => {
     event.preventDefault();
     const uploadContent = contentRef.current.value;
     const uploadImages = images;
-    createBoard(uploadContent, uploadImages);
-    // url 자신의 프로필 페이지로 이동해야함 history 어쩌고?
+    const data = await createBoard(uploadContent, uploadImages);
+
+    if (data.success) {
+      history.push('/');
+    } else {
+      alert('오류가 발생했습니다.');
+    }
   };
 
   return (

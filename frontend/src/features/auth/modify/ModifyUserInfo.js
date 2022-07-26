@@ -29,8 +29,10 @@ const { nationOptions, languageOptions, genderOptions } = selectData;
 
 const ModifyUserInfo = () => {
   const [chipHobbies, setChipHobbies] = useState([]);
+
   useEffect(() => {
     fetchHobbies(setChipHobbies);
+    console.log(2, chipHobbies);
   }, []);
 
   const history = useHistory();
