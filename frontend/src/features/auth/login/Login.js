@@ -31,17 +31,13 @@ const Login = (props) => {
   });
 
   const handleLogin = (formValue) => {
+    setLoading(true);
     const { email, password } = formValue;
-    const data = {
-      email,
-      password,
-    };
-    console.log(data);
 
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        history.push("/main");
+        document.location.href = "/main";
       })
       .catch(() => {
         setLoading(false);

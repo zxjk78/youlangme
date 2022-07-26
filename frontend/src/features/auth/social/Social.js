@@ -38,7 +38,7 @@ const Social = () => {
       dispatch(socialLogin());
     }
   }, [dispatch]);
-  history.push("/main");
+  document.location.href = "/main";
   return <div></div>;
 };
 
