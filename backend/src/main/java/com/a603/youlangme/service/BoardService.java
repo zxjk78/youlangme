@@ -36,8 +36,7 @@ public class BoardService {
     private final UserBoardLikeRepository userBoardLikeRepository;
 
     @Value("${image.board.path}")
-    private String boardPath;
-
+    private String BOARD_IMG_PATH;
 
 
     @Transactional
@@ -56,8 +55,10 @@ public class BoardService {
 
         List<MultipartFile> pics = boardDto.getPics();
 
+        if(pics == null) return;
+
         for (MultipartFile pic : pics) {
-            File file = new File(path + boardPath + pic.getOriginalFilename());
+            File file = new File(path + BOARD_IMG_PATH + pic.getOriginalFilename());
 
             // 폴더가 없다면 폴더를 생성을 해준다.
             if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
@@ -71,17 +72,63 @@ public class BoardService {
 
     }
 
-    public void delete(Long id) {
-        boardRepository.deleteById(id);
+    @Transactional
+    public void delete(Board board) throws IOException  {
+        // 이미지 파일 삭제
+        List<BoardImg> picsToDelete = boardImgRepository.findAllByBoard(board);
+
+        String path = System.getProperty("user.dir"); // 현재 디렉토리 가져오기
+
+        for (BoardImg pic : picsToDelete) {
+            File file = new File(path + BOARD_IMG_PATH + pic.getPath());
+
+            // 파일을 파일 시스템에서 삭제
+            file.delete();
+            // DB에서도 삭제
+            boardImgRepository.delete(pic);
+        }
+
+        boardRepository.delete(board);
     }
 
     @Transactional
-    public void updatePost(BoardDto boardDto, Long id) {
+    public void updatePost(BoardDto boardDto, Long id)  throws IOException {
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+
+        // 이미지 수정
+        String path = System.getProperty("user.dir"); // 현재 디렉토리 가져오기
+
+        // 1. 기존 이미지 삭제
+        List<BoardImg> picsToDelete = boardImgRepository.findAllByBoard(board);
+        for (BoardImg pic : picsToDelete) {
+            File file = new File(path + BOARD_IMG_PATH + pic.getPath());
+
+            // 파일을 파일 시스템에서 삭제
+            file.delete();
+            // DB에서도 삭제
+            boardImgRepository.delete(pic);
+        }
+
+        // 2. 새 이미지 등록
+        List<MultipartFile> pics = boardDto.getPics();
+
+        for (MultipartFile pic : pics) {
+            File file = new File(path + BOARD_IMG_PATH + pic.getOriginalFilename());
+
+            // 폴더가 없다면 폴더를 생성을 해준다.
+            if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+
+            // 파일을 파일 시스템 내로 이전시킨다.
+            pic.transferTo(file);
+            // BoardImg DB 저장
+            BoardImg img = BoardImg.builder().board(board).path(file.getName()).build();
+            boardImgRepository.save(img);
+        }
+
         board.updatePost(boardDto.getContents());
     }
 
-    public Board read(Long id) {
+    public Board read(Long id){
         return boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
     }
 

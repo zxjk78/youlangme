@@ -11,4 +11,5 @@ import java.util.List;
 public interface BoardImgRepository extends JpaRepository<BoardImg, Long> {
 
     List<BoardImg> findAllByBoard(Board board);
+
 }
