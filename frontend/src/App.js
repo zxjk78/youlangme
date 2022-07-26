@@ -45,7 +45,16 @@ function App() {
           <PrivateRoute path="/main" component={Main}></PrivateRoute>
 
           {/* 화면 보면서 컴포넌트 제작할 때 사용하는 PrivateRoute  */}
-          <PrivateRoute exact path="/board" component={Board}></PrivateRoute>
+          <PrivateRoute
+            exact
+            path="/board/create"
+            component={Board}
+          ></PrivateRoute>
+          <PrivateRoute
+            exact
+            path="/board/detail/:boardId"
+            component={BoardDetailModal}
+          ></PrivateRoute>
           {/* <PublicRoute 
             exact
             path="/test1"
