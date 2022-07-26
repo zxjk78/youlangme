@@ -3,6 +3,8 @@ package com.a603.youlangme.service;
 import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.ManyResult;
 import com.a603.youlangme.response.OneResult;
+import com.a603.youlangme.response.PageResult;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,6 +53,13 @@ public class ResponseService {
         result.setSuccess(false);
         result.setCode(code);
         result.setMessage(message);
+    }
+
+    public <T> PageResult<T> getPageResult(Page<T> list) {
+        PageResult<T> result = new PageResult<>();
+        result.setData(list);
+        setSuccessResult(result);
+        return result;
     }
 
 }
