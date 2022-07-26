@@ -1,5 +1,6 @@
 package com.a603.youlangme.controller;
 
+import com.a603.youlangme.advice.exception.AccessDeniedException;
 import com.a603.youlangme.dto.board.BoardReadResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
@@ -49,19 +50,27 @@ public class BoardController {
     }
 
     @DeleteMapping("/{id}")
-    public CommonResult delete(@PathVariable(value ="id") Long id){
+    public CommonResult delete(@PathVariable(value ="id") Long id)  throws IOException{
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
-        User user=((User)authentication.getPrincipal());
-        boardService.delete(id);
+        User loginUser=((User)authentication.getPrincipal());
+
+        Board boardToDelete = boardService.read(id);
+        if(!loginUser.getId().equals(boardToDelete.getAuthor().getId())) throw new AccessDeniedException();
+
+        boardService.delete(boardToDelete);
         return responseService.getSuccessResult();
     }
 
     @PutMapping("/{id}")
-    public CommonResult update(@PathVariable(value = "id") Long id, BoardDto boardDto){
+    public CommonResult update(@PathVariable(value = "id") Long id, BoardDto boardDto)  throws IOException {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
-        User user=((User)authentication.getPrincipal());
+        User loginUser=((User)authentication.getPrincipal());
+
+        Board boardToUpdate = boardService.read(id);
+        if(!loginUser.getId().equals(boardToUpdate.getAuthor().getId())) throw new AccessDeniedException();
+
         boardService.updatePost(boardDto,id);
         return responseService.getSuccessResult();
     }
