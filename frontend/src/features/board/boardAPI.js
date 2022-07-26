@@ -6,11 +6,16 @@ export const createBoard = async (content, images) => {
   // console.log('boardAPI post 게시글 생성요청');
   const formData = new FormData();
 
+  formData.set('pics', images);
   for (let i = 0; i < images.length; i++) {
     formData.append('pics', images[i]);
   }
-
   formData.append('contents', content);
+
+  // key-val pair 확인
+  for (let pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
+  }
 
   try {
     const response = await axios.post(API_URL + `board`, formData, {
