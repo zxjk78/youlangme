@@ -28,7 +28,7 @@ import java.util.Collections;
 @Configuration
 //@EnableWebSecurity(debug = true)
 //@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfiguration {
+public class                            SecurityConfiguration {
     private final JwtProvider jwtProvider;
 
     private final WebOAuth2SuccessHandler oAuthSuccessHandler;
@@ -84,6 +84,6 @@ public class SecurityConfiguration {
     public WebSecurityCustomizer webSecurityCustomizer() {
         // Swagger 관련 Url 예외처리
         return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
-                "/swagger-ui/index.html", "/webjars/**", "/swagger/**", "/swagger-ui/**");
+                "/swagger-ui/index.html", "/webjars/**", "/swagger/**", "/swagger-ui/**", "/resources/**");
     }
 }
