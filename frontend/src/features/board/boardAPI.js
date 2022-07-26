@@ -6,25 +6,21 @@ export const createBoard = async (content, images) => {
   // console.log('boardAPI post 게시글 생성요청');
   const formData = new FormData();
 
-  if (images.length === 0) {
-    formData.set('pics', []);
-  }
-
   for (let i = 0; i < images.length; i++) {
     formData.append('pics', images[i]);
   }
   formData.append('contents', content);
 
-  // key-val pair 확인
-  for (let pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
-  }
+  // // key-val pair 확인
+  // for (let pair of formData.entries()) {
+  //   console.log(pair[0], pair[1]);
+  // }
 
   try {
     const response = await axios.post(API_URL + `board`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'X-Auth-Token': accessToken,
+        'X-AUTH-TOKEN': accessToken,
       },
     });
     // console.log('board post api', response.data);
@@ -34,8 +30,8 @@ export const createBoard = async (content, images) => {
   }
 };
 
-export const fetchBoard = async (boardId, setStateFn) => {
-  console.log('boardId로 게시글 상세정보 받기');
+export const fetchBoard = async (boardId) => {
+  // console.log('boardId로 게시글 상세정보 받기');
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   const header = {
     'X-Auth-Token': accessToken,
@@ -44,7 +40,77 @@ export const fetchBoard = async (boardId, setStateFn) => {
     const response = await axios.get(API_URL + `board/${boardId}`, {
       headers: header,
     });
-    setStateFn(response.data.data);
+    const response2 = await axios.get(API_URL + `reply/replyList/${boardId}`, {
+      headers: header,
+    });
+
+    const response3 = await axios.get(API_URL + `board/likeUsers/${boardId}`, {
+      headers: header,
+    });
+
+    const boardInfo = {
+      boardDetail: response.data.data,
+      commentList: response2.data.data,
+      likeUsers: response3.data.data,
+    };
+    return boardInfo;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const addComment = async (boardId, comment) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
+  const header = {
+    'Content-Type': 'application/json',
+    'X-Auth-Token': accessToken,
+  };
+  try {
+    const response = await axios.post(
+      API_URL + `reply/board/${boardId}`,
+      { contents: comment, pid: currentUserId },
+      {
+        headers: header,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const like = async (boardId) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const header = {
+    'Content-Type': 'application/json',
+    'X-Auth-Token': accessToken,
+  };
+  try {
+    const response = await axios.post(API_URL + `board/like/${boardId}`, null, {
+      headers: header,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const dislike = async (boardId, userId) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const header = {
+    'Content-Type': 'application/json',
+    'X-Auth-Token': accessToken,
+  };
+  try {
+    const response = await axios.delete(
+      API_URL + `board/dislike/${boardId}`,
+
+      {
+        headers: header,
+      }
+    );
+    return response.data;
   } catch (error) {
     console.log(error);
   }
