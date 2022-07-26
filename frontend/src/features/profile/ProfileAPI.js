@@ -31,7 +31,7 @@ export const fetchProfile =  async (setProfileData, userId) =>  {
       // console.log(response.data.data)
 
     } catch (err) {
-      console.log('에러')
+      console.log('프로필 에러')
       return err.response;
     }
   };
