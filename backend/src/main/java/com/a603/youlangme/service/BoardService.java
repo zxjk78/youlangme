@@ -93,7 +93,6 @@ public class BoardService {
 
     @Transactional
     public void updatePost(BoardDto boardDto, Long id)  throws IOException {
-        System.out.println("###@@@***  <"+id+">" );
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
 
         // 이미지 수정
