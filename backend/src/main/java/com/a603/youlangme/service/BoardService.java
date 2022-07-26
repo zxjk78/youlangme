@@ -13,6 +13,7 @@ import com.a603.youlangme.entity.UserBoardLike;
 import com.a603.youlangme.repository.BoardRepository;
 import com.a603.youlangme.repository.UserBoardLikeRepository;
 import com.a603.youlangme.repository.UserRepository;
+import com.a603.youlangme.util.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import java.util.ArrayList;
@@ -45,6 +48,38 @@ public class BoardService {
     @Value("${image.board.path}")
     private String BOARD_IMG_PATH;
 
+    // String 해시화 메서드
+    public String getFileNameHash(String fileName){
+        String hash = null;
+        try {
+            hash = SHA256.encrypt(LocalDateTime.now().toString());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        return hash;
+    }
+
+    // 게시글 이미지 파일들 저장(서버저장, DB에 경로 저장) 처리 메서드
+    public void savePics(Board board, List<MultipartFile> pics) throws IOException{
+        if(pics==null) return;
+
+        String path = System.getProperty("user.dir"); // 현재 디렉토리 가져오기
+
+        for (MultipartFile pic : pics) {
+            String hashedFileName = getFileNameHash(pic.getOriginalFilename());
+            String saveFileName = hashedFileName+"_"+pic.getOriginalFilename();
+            File file = new File(path + BOARD_IMG_PATH + saveFileName);
+
+            // 폴더가 없다면 폴더를 생성을 해준다.
+            if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+
+            // 파일을 파일 시스템 내로 이전시킨다.
+            pic.transferTo(file);
+            // BoardImg DB 저장
+            BoardImg img = BoardImg.builder().board(board).path(saveFileName).build();
+            boardImgRepository.save(img);
+        }
+    }
 
     @Transactional
     public void savePost(BoardDto boardDto, Long id) throws IOException {
@@ -53,6 +88,7 @@ public class BoardService {
                 .contents(boardDto.getContents())
                 .author(user)
                 .build();
+
         boardRepository.save(board);
 
 
@@ -60,22 +96,7 @@ public class BoardService {
         String path = System.getProperty("user.dir"); // 현재 디렉토리 가져오기
 
         List<MultipartFile> pics = boardDto.getPics();
-
-        if(pics == null) return;
-
-        for (MultipartFile pic : pics) {
-            File file = new File(path + BOARD_IMG_PATH + pic.getOriginalFilename());
-
-            // 폴더가 없다면 폴더를 생성을 해준다.
-            if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-
-            // 파일을 파일 시스템 내로 이전시킨다.
-            pic.transferTo(file);
-            // BoardImg DB 저장
-            BoardImg img = BoardImg.builder().board(board).path(file.getName()).build();
-            boardImgRepository.save(img);
-        }
-
+        savePics(board, pics);
     }
 
     @Transactional
@@ -87,7 +108,6 @@ public class BoardService {
 
         for (BoardImg pic : picsToDelete) {
             File file = new File(path + BOARD_IMG_PATH + pic.getPath());
-
             // 파일을 파일 시스템에서 삭제
             file.delete();
             // DB에서도 삭제
@@ -117,19 +137,7 @@ public class BoardService {
 
         // 2. 새 이미지 등록
         List<MultipartFile> pics = boardDto.getPics();
-
-        for (MultipartFile pic : pics) {
-            File file = new File(path + BOARD_IMG_PATH + pic.getOriginalFilename());
-
-            // 폴더가 없다면 폴더를 생성을 해준다.
-            if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-
-            // 파일을 파일 시스템 내로 이전시킨다.
-            pic.transferTo(file);
-            // BoardImg DB 저장
-            BoardImg img = BoardImg.builder().board(board).path(file.getName()).build();
-            boardImgRepository.save(img);
-        }
+        savePics(board,pics);
 
         board.updatePost(boardDto.getContents());
     }
