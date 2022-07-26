@@ -55,6 +55,16 @@ function App() {
             path="/board/detail/:boardId"
             component={BoardDetailModal}
           ></PrivateRoute>
+          {/* <PublicRoute 
+            exact
+            path="/board/create"
+            component={Board}
+          ></PrivateRoute>
+          <PrivateRoute
+            exact
+            path="/board/detail/:boardId"
+            component={BoardDetailModal}
+          ></PrivateRoute>
         </Switch>
       </BrowserRouter>
     </div>
