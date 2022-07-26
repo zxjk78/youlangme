@@ -10,7 +10,6 @@ export default function PrivateRoute({ component: Component, ...rest }) {
   const { isLoggedIn, currentUser } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getUser());
-    history.push("/main");
     return () => {
       dispatch(logout());
     };
