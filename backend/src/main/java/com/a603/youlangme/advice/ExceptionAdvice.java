@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice // 모든 @Controller에서 발생하는 예외를 잡아 처리함, Json 형식으로 에러 응답
 @RequiredArgsConstructor
-public class ExceptionAdvice {
+public class  ExceptionAdvice {
     private final ResponseService responseService;
 
     @ExceptionHandler(Exception.class)

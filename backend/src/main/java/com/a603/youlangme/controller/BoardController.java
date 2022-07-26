@@ -1,7 +1,9 @@
 package com.a603.youlangme.controller;
 
+import com.a603.youlangme.dto.board.BoardPagingDto;
 import com.a603.youlangme.advice.exception.AccessDeniedException;
 import com.a603.youlangme.dto.board.BoardReadResponseDto;
+import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
@@ -12,6 +14,7 @@ import com.a603.youlangme.entity.UserBoardLike;
 import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.ManyResult;
 import com.a603.youlangme.response.OneResult;
+import com.a603.youlangme.response.PageResult;
 import com.a603.youlangme.service.BoardService;
 import com.a603.youlangme.service.ResponseService;
 import com.nimbusds.oauth2.sdk.SuccessResponse;
@@ -19,6 +22,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -115,6 +122,25 @@ public class BoardController {
     @GetMapping("/likeUsers/{id}")
     public ManyResult<LikeUserResponseDto> likeUsers(@PathVariable(value = "id") Long boardId) {
         return responseService.getManyResult(boardService.readLikeUsers(boardId));
+    }
+
+
+    @GetMapping("/list")
+    public ManyResult<BoardPagingDto>BoardPage(){
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        List<BoardPagingDto> boardPagingDtoList=boardService.BoardInit(user);
+        return responseService.getManyResult(boardPagingDtoList);
+    }
+
+    @GetMapping("/paging")
+    public PageResult<BoardPagingDto> BoardPaging(@PageableDefault(size=5,sort = "createdTime",direction = Sort.Direction.DESC) Pageable pageable,Long click){
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        Page<BoardPagingDto> boardPagingList=boardService.boardPaging(user,pageable,click);
+        return responseService.getPageResult(boardPagingList);
     }
 
 }
