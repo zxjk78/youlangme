@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { logout } from "../auth/authSlice";
 const Main = () => {
-  const { isLoggedIn, currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
   const logoutHandler = () => {
     dispatch(logout());
+    history.push("/main");
   };
   console.log(currentUser.id);
 
