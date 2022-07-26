@@ -81,8 +81,6 @@ export const fetchDescription =  async (setDesc, userId) =>  {
     return err.response;
   }
 };
-<<<<<<< HEAD:frontend/src/features/profile/fetchProfileAPI.js
-=======
 
 
 
@@ -112,4 +110,3 @@ export const UploadProfileImg =  async (uploadedProfileImg, setUploadedProfileIm
       alert("사진을 등록하세요!")
     }
 }
->>>>>>> aff07ad8310d8bc1f7f629b26f06426fba3d48b1:frontend/src/features/profile/ProfileAPI.js
