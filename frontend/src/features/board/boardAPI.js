@@ -80,6 +80,26 @@ export const deleteBoard = async (boardId) => {
     console.log(error);
   }
 };
+export const updateBoard = async (boardId) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const header = {
+    'X-Auth-Token': accessToken,
+  };
+
+  try {
+    const response = await axios.put(
+      API_URL + `board/${boardId}`,
+      { data: '데이터 들어가는 부분' },
+      {
+        headers: header,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const addComment = async (boardId, comment) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
@@ -119,7 +139,7 @@ export const like = async (boardId) => {
     console.log(error);
   }
 };
-export const dislike = async (boardId, userId) => {
+export const dislike = async (boardId) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   const header = {
     'Content-Type': 'application/json',
