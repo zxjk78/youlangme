@@ -122,12 +122,14 @@ const ModifyUserInfo = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      const response = await dispatch(dispatchUserBasicInfo(userInfo));
-      console.log(response);
+      dispatch(dispatchUserBasicInfo(userInfo))
+        .unwrap()
+        .then(() => {
+          document.location.href = "/main";
+        });
     } catch (error) {
       console.log(error);
     }
-    document.location.href = "/main";
   };
 
   let formIsValid = true;
