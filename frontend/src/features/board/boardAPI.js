@@ -4,30 +4,20 @@ const API_URL = 'http://127.0.0.1:8080/';
 export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // console.log('boardAPI post 게시글 생성요청, formData 사용할지, 그냥 key-val로 보낼지 결정');
-  // const formData = new FormData();
+  const formData = new FormData();
 
-  // for (let i = 0; i < images.length; i++) {
-  //   formData.append('pics', images[i]);
-  // }
-  // formData.append('contents', content);
-
-  // // key-val pair 확인
-  // for (let pair of formData.entries()) {
-  //   console.log(pair[0], pair[1]);
-  // }
+  for (let i = 0; i < images.length; i++) {
+    formData.append('pics', images[i]);
+  }
+  formData.append('contents', content);
 
   try {
-    const response = await axios.post(
-      API_URL + `board`,
-      { contents: content, pics: images },
-      // formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'X-AUTH-TOKEN': accessToken,
-        },
-      }
-    );
+    const response = await axios.post(API_URL + `board`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-AUTH-TOKEN': accessToken,
+      },
+    });
     // console.log('board post api', response.data);
     return response.data;
   } catch (error) {
@@ -58,6 +48,7 @@ export const fetchBoard = async (boardId) => {
       commentList: response2.data.data,
       likeUsers: response3.data.data,
     };
+
     return boardInfo;
   } catch (error) {
     console.log(error);
@@ -80,20 +71,22 @@ export const deleteBoard = async (boardId) => {
     console.log(error);
   }
 };
-export const updateBoard = async (boardId) => {
+export const updateBoard = async (boardId, content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const formData = new FormData();
+
+  for (let i = 0; i < images.length; i++) {
+    formData.append('pics', images[i]);
+  }
+  formData.append('contents', content);
   const header = {
     'X-Auth-Token': accessToken,
   };
 
   try {
-    const response = await axios.put(
-      API_URL + `board/${boardId}`,
-      { data: '데이터 들어가는 부분' },
-      {
-        headers: header,
-      }
-    );
+    const response = await axios.put(API_URL + `board/${boardId}`, formData, {
+      headers: header,
+    });
 
     return response.data;
   } catch (error) {

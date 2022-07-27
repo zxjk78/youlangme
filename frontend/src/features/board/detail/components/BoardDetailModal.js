@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-
+import { Link } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router-dom';
 // API
 import {
@@ -37,7 +37,7 @@ const BoardDetail = (props) => {
           setIsliked(true);
         }
       }
-
+      console.log(boardInfo);
       setBoardDetail(boardInfo.boardDetail);
       setCommentList(boardInfo.commentList);
       setLikeUsers(boardInfo.likeUsers);
@@ -88,8 +88,7 @@ const BoardDetail = (props) => {
     }
     // delete API 요청
     const data = await deleteBoard(boardId);
-
-    if (data === true) {
+    if (data.success === true) {
       history.push('/main');
     }
   };
@@ -164,7 +163,7 @@ const BoardDetail = (props) => {
               JSON.parse(localStorage.getItem('currentUser')).id && (
               <div className={classes.authOptionContainer}>
                 <button type="button" onClick={updateBoardHandler}>
-                  수정
+                  <Link to={`/board/update/${boardId}`}>수정</Link>
                 </button>
                 <button type="button" onClick={deleteBoardHandler}>
                   삭제
