@@ -20,6 +20,7 @@ import { modifyActions, dispatchUserBasicInfo } from "./modifySlice";
 import { nameDupCheck } from "./modifySlice";
 // router
 import { useHistory } from "react-router-dom";
+import { modifyUser } from "../authSlice";
 // css
 import classes from "./ModifyUserInfo.module.scss";
 
@@ -121,13 +122,18 @@ const ModifyUserInfo = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+
     try {
-      const response = await dispatch(dispatchUserBasicInfo(userInfo));
-      console.log(response);
+      dispatch(modifyUser(ModifyUserInfo));
+      dispatch(dispatchUserBasicInfo(userInfo))
+        .unwrap()
+        .then(() => {
+          console.log("테스트");
+          document.location.href = "/main";
+        });
     } catch (error) {
       console.log(error);
     }
-    document.location.href = "/main";
   };
 
   let formIsValid = true;
