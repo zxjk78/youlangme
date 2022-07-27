@@ -4,8 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // css
 import classes from "./ProfileImageEdit.module.scss";
-import { Avatar, Button, Modal, Box, Typography } from "@mui/material";
 
+// mui material
+import { Avatar, Button, Modal, Box, Icon, Typography, IconButton } from "@mui/material";
+import { green } from '@mui/material/colors';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
@@ -20,7 +22,8 @@ const ProfileImageEdit = () => {
   const { currentUser } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
   // console.log(' 프로필 리덕스 테스트:', currentUser);
-  
+  const API_URL = 'http://127.0.0.1:8080/';
+
   const [open, setOpen] = useState(false);
   const profileUploadHandler = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -70,7 +73,7 @@ const ProfileImageEdit = () => {
       // URL.createObjectURL(profileImg.previewImageURL);
     }  
   }, [profileImg.previewImageURL]);
-
+  
   
   const sendImageToServer = () => {
     
@@ -94,7 +97,9 @@ const ProfileImageEdit = () => {
 
   return (
     <>
-      <Button type="primary" variant="outlined" onClick={profileUploadHandler}>프로필 사진 업로드</Button>
+      {/* IconButton fontawesome으로 만들기 */}
+      {/* <IconButton className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</IconButton> */}
+      <Icon className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</Icon>
 
       <Modal
         open={open}

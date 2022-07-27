@@ -1,10 +1,122 @@
-img {
-  width: 20%;
-  height: 20%;
+.card {
+  // sx={{ width: 400, height: 700 }}
+  display: flex;
+  // margin: auto;
+  // align-items: space-around;
+
+  width: 85%;
+  // min-height: 600px;
+  height: 730px;
+
   margin-left: 5%;
+  margin-top: 3%;
+
+  background: #F9F3EE !important;
+  border: 3px solid #CAD1D8;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+  // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  .left_profile {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    margin-top: 1%;
+    margin-left: 3%;
+
+    .header {
+
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .avatar {
+      // justify-content: center;
+      text-align: center;
+      margin-top: 10%;
+
+      .flag {
+        width: 100px;
+        height: 70px
+      }
+    }
+
+    .profile_content {
+      margin-top: 10px;
+
+      .name {
+        margin-left: 20px;
+      }
+
+      .follow {
+        display: flex;
+        .follow_greys {
+          color: #B8C5D0;
+        }
+
+        .cnt {
+          margin: 3px;
+          font-weight: 800;
+          font-size: 16px;
+          line-height: 24px;
+        }
+      }
+
+
+
+      
+      .description_card {
+        width: 90%;
+        margin-top: 20px;
+        padding: 20px 10px 20px 20px;
+        min-height: 120px;
+        max-height: 160px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid #CAD6E2;
+        border-radius: 20px;
+      }
+
+      .rest_info {
+        width: 90%;
+        margin-top: 20px;
+        // margin-bottom: 20px;
+        padding: 15px 10px 12px 20px;
+
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid #CAD6E2;
+        border-radius: 20px;
+
+        .languages {
+          display: flex;
+
+          .greys {
+            color: #CAD1D8;
+          }
+  
+          .language {
+            font-weight: 800;
+            font-size: 16px;
+            line-height: 24px;
+          }
+
+        }
+
+
+        .favorite_chips {
+          width: 95%;
+          display: flex;
+          justify-content: space-around;
+
+          .chip {
+            padding: 0px 4px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+  }
+
+
 }
 
-.flag {
-  width: 100px;
-  height: 50px
-}
+

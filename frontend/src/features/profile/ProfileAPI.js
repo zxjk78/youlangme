@@ -34,27 +34,25 @@ export const fetchProfile =  async (setProfileData, userId) =>  {
     }
   };
 
-// 프로필 이미지 불러오는 API
-// export const fetchProfileImg =  async (setProfileImage, userId) =>  {
+// // 프로필 이미지 불러오는 API
+export const fetchProfileImg =  async (setProfileImage, userId) =>  {
+  console.log('fetch 이미지');
 
-//   console.log('fetch 이미지');
+  try {
+    const response = await axios.get(
+      API_URL + `image/profile/${userId}.jpg`,
+    );
+    console.log(response.config.url)
+    setProfileImage(
+      // API_URL + `image/profile/${userId}.jpg`
+      response.config.url
+    );
 
-//   try {
-//     const response = await axios.get(
-//       API_URL + `user/image/${userId}`,
-//       // 엑세스 토큰이 필요하다.
-//       getConfig
-//     );
-//     // console.log(response.data.data)
-//     setProfileImage(
-//       API_URL + `user/image/${userId}`
-//     );
-
-//   } catch (err) {
-//     console.log('에러')
-//     return err.response;
-//   }
-// };
+  } catch (err) {
+    console.log('에러')
+    return err.response;
+  }
+};
 
 // description 불러오는 API
 export const fetchDescription = async (setDesc, userId) => {
