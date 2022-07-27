@@ -1,15 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 // API
-import { fetchBoard, addComment, like, dislike } from '../../boardAPI';
+import {
+  fetchBoard,
+  addComment,
+  like,
+  dislike,
+  deleteBoard,
+} from '../../boardAPI';
 import Modal from '../../../../common/UI/Modal/Modal';
 //components
 import CommentListItem from './CommentListItem';
 import LikeContainer from './LikeContainer';
 // mui
 import CircularProgress from '@mui/material/CircularProgress';
-
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import classes from './BoardDetailModal.module.scss';
 const BoardDetail = (props) => {
@@ -21,7 +26,7 @@ const BoardDetail = (props) => {
   const boardId = useParams().boardId;
   const API_URL = 'http://127.0.0.1:8080/';
   const commentRef = useRef();
-
+  const history = useHistory();
   useEffect(() => {
     (async () => {
       const boardInfo = await fetchBoard(boardId);
@@ -50,7 +55,7 @@ const BoardDetail = (props) => {
     const response = await addComment(boardId, newComment);
     if (response) {
       setCommentList((prevState) => {
-        return [...prevState]; // 이부분 백엔드 쪽에 insert한 댓글 데이터 보내달라고 요청 필요
+        return [...prevState]; // 사용 후 재 fetch
       });
     }
   };
@@ -75,6 +80,20 @@ const BoardDetail = (props) => {
       );
     }
   };
+  const updateBoardHandler = () => {};
+  const deleteBoardHandler = async () => {
+    const confirm = window.confirm('정말 삭제하시겠습니까?');
+    if (!confirm) {
+      return;
+    }
+    // delete API 요청
+    const data = await deleteBoard(boardId);
+
+    if (data === true) {
+      history.push('/main');
+    }
+  };
+
   return (
     <>
       {!isLoading ? (
@@ -140,6 +159,18 @@ const BoardDetail = (props) => {
                 ))}
               </div>
             </div>
+
+            {boardDetail.userId ===
+              JSON.parse(localStorage.getItem('currentUser')).id && (
+              <div className={classes.authOptionContainer}>
+                <button type="button" onClick={updateBoardHandler}>
+                  수정
+                </button>
+                <button type="button" onClick={deleteBoardHandler}>
+                  삭제
+                </button>
+              </div>
+            )}
           </div>
         </Modal>
       ) : (

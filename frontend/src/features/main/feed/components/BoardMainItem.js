@@ -5,12 +5,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 // css
 import classes from './BoardMainItem.module.scss';
-
+const API_URL = 'http://127.0.0.1:8080/';
 const BoardMainItem = (props) => {
-  const createdTime = new Date(props.createdTime);
-  const content = props.content;
-  const username = props.username;
-  const profileImageUrl = props.userImgUrl;
+  const boardInfo = props.boardInfo;
+  const createdTime = new Date(boardInfo.createdTime);
+  const contents = boardInfo.contents;
+  const username = boardInfo.name;
+  const userPk = boardInfo.id;
+  const boardPk = boardInfo.pk;
   const createdAt =
     new Date().getDate() - createdTime.getDate() === 0
       ? `${createdTime.getHours()}:${String(createdTime.getMinutes()).padStart(
@@ -26,21 +28,14 @@ const BoardMainItem = (props) => {
           <div className={classes.header}>
             <div className={classes.author}>
               <img
-                src="https://www.akamai.com/site/im-demo/perceptual-standard.jpg?imbypass=true"
+                src={`${API_URL}image/profile/${userPk}.jpg`}
                 alt="프로필 이미지명"
               />
-              <div>유저명</div>
+              <div>{username}</div>
             </div>
-            <div className={classes.createdAt}>생성시간</div>
+            <div className={classes.createdAt}>{createdAt}</div>
           </div>
-          <div className={classes.content}>
-            글내용 몇자 이하글내용 몇자 이하만 보이게글내용 몇자 이하만
-            보이게글내용 몇자 이하만 보이게글내용 몇자 이하만 보이게글내용 몇자
-            이하만 보이게글내용 몇자 이하만 보이게글내용 몇글내용 몇자 이하만
-            글내용 몇자 이하만 보이게글내용 몇자 이하만 보이게글내용 몇자 이하만
-            글내용 몇자 이하만 보이게글내용 몇자 이하만 보이게 보이게 보이게자
-            이하만 보이게글내용 몇자 이하만 보이게만 보이게
-          </div>
+          <div className={classes.content}>{contents}</div>
           <div className={classes.footerWrapper}>
             <div className={classes.footer}>
               <ChatBubbleOutlineIcon />

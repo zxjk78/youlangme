@@ -2,6 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import Header from '../../common/UI/Header/Header';
+import Feed from './feed/components/Feed';
+
 import { logout } from '../auth/authSlice';
 const Main = () => {
   const { currentUser } = useSelector((state) => state.auth);
@@ -38,6 +40,8 @@ const Main = () => {
         <Link to="/modify">수정</Link>
       </div>
       <button onClick={logoutHandler}>로그아웃</button>
+
+      <Feed />
     </div>
   );
 };
