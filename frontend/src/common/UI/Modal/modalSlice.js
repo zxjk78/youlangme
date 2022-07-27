@@ -17,11 +17,11 @@ const reducer = {
     const option = action.payload;
     state.isVisible = true;
     state.backDropClickClose =
-      typeof option.backDropClickClose !== 'undefined'
+      option.backDropClickClose !== 'undefined'
         ? option.backDropClickClose
         : true;
     state.backDropTransparent =
-      typeof option.backDropTransparent !== 'undefined'
+      option.backDropTransparent !== 'undefined'
         ? option.backDropTransparent
         : false;
   },

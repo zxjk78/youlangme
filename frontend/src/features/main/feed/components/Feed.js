@@ -1,11 +1,16 @@
 // redux
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
 import { modalActions } from '../../../../common/UI/Modal/modalSlice';
-
+//API
+import { fetchBoard } from '../../mainAPI';
+import BoardMainItem from './BoardMainItem';
 import BoardDetailModal from '../../../board/detail/components/BoardDetailModal';
 import classes from './Feed.module.scss';
 
 const Feed = (props) => {
+  const [boardList, setBoardList] = useState([]);
+  const [pageNum, setPageNum] = useState(1);
   const dispatch = useDispatch();
   const boardDetailVisible = useSelector((state) => state.modal.isVisible);
   const showBoardDetailHandler = (event) => {
@@ -14,6 +19,24 @@ const Feed = (props) => {
     dispatch(modalActions.onModal({ backDropTransparent: true }));
   };
 
+  const fetchBoardPageHandler = async (event) => {
+    console.log('게시글 더보기 버튼 클릭', event.target);
+    // 페이지 번호 담아서 api에 요청하고, 받아와서 list 뒤에 추가
+    const data = await fetchBoard(pageNum + 1);
+
+    if (data) {
+      setPageNum((prevState) => prevState + 1);
+
+      setBoardList([...boardList, ...data]); // 이 과정에서 5~10뿐만 아니라 0~5까지 전체 렌더링이 되고 있는지 파악 필요
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      const data = await fetchBoard();
+      setBoardList(data);
+    })();
+  }, []);
+
   return (
     <>
       <div className={classes.wrapper}>
@@ -21,13 +44,18 @@ const Feed = (props) => {
           <div className={classes.boardDetailModal}>
             {boardDetailVisible && <BoardDetailModal boardNo={props.xxx} />}
           </div>
-          {props.feedList.map((item, index) => (
-            <div
-              key={item.id}
+          게시글 정보 받을 때, 유저 pk값 받기 필요
+          {boardList.map((item) => (
+            <BoardMainItem
+              key={item.createdTime}
+              boardInfo={item}
               onClick={showBoardDetailHandler}
-            >{`${index}  리스트 아이템 나열`}</div>
+            />
           ))}
         </div>
+        <button type="button" onClick={fetchBoardPageHandler}>
+          더보기
+        </button>
       </div>
     </>
   );

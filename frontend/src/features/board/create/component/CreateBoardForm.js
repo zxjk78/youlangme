@@ -55,7 +55,7 @@ const CreateBoardForm = () => {
     const data = await createBoard(uploadContent, uploadImages);
 
     if (data.success) {
-      history.push('/');
+      history.push('/main');
     } else {
       alert('오류가 발생했습니다.');
     }
