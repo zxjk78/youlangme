@@ -48,4 +48,8 @@ public class FollowService {
     public boolean isAlreadyFollowed(User loginUser, User userToFollow) {
         return followRepository.findByFollowerAndFollowee(loginUser,userToFollow) != null;
     }
+
+    public Follow searchFollowByFollowerAndFollowee(User follower, User followee) {
+        return followRepository.findByFollowerAndFollowee(follower, followee);
+    }
 }

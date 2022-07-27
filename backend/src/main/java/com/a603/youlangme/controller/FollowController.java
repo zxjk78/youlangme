@@ -7,7 +7,6 @@ import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.dto.follow.FollowFolloweeResponseDto;
 import com.a603.youlangme.dto.follow.FollowFollowerFolloweeCntResponseDto;
 import com.a603.youlangme.dto.follow.FollowFollowerResponseDto;
-import com.a603.youlangme.dto.follow.FollowRegisterRequestDto;
 import com.a603.youlangme.entity.Follow;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.response.CommonResult;
@@ -39,18 +38,18 @@ public class FollowController {
 
 
     // 팔로우 추가
-    @PostMapping()
-    public CommonResult registFollow(@RequestBody FollowRegisterRequestDto followRegisterRequestDto) {
+    @PostMapping("/{userId}")
+    public CommonResult registFollow(@PathVariable("userId") Long userToFollowId) {
         // 로그인 유저 가져오기
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
 
-        User userToFollow = userService.findUserById(followRegisterRequestDto.getUserIdToFollow());
+        User userToFollow = userService.findUserById(userToFollowId);
 
         if (loginUser == null) throw new AccessDeniedException();
         if (userToFollow == null) throw new UserNotFoundException();
-        if (loginUser.getId() == userToFollow.getId()) throw new UnAllowedAccessException();
+        if (loginUser.getId().equals(userToFollow.getId())) throw new UnAllowedAccessException();
         // 이미 팔로우 중인지 확인
         if (followService.isAlreadyFollowed(loginUser, userToFollow)) throw new UnAllowedAccessException();
 
@@ -61,18 +60,20 @@ public class FollowController {
     }
 
     // 팔로우 취소
-    @DeleteMapping("/{id}")
-    public CommonResult cancleFollow(@PathVariable("id") Long id) {
+    @DeleteMapping("/{userId}")
+    public CommonResult cancleFollow(@PathVariable("userId") Long userToUnfollowId) {
         // 로그인 유저 가져오기
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
 
-        Follow follow = followService.searchFollowById(id).orElseThrow(DataNotFoundException::new);
+        User followee = userService.findUserById(userToUnfollowId);
+        Follow follow = followService.searchFollowByFollowerAndFollowee(loginUser, followee);
+        if(follow==null) throw new DataNotFoundException();
 
-        if (loginUser.getId() != follow.getFollower().getId()) throw new AccessDeniedException();
+        if (!loginUser.getId().equals(follow.getFollower().getId())) throw new AccessDeniedException();
 
-        followService.deleteFollow(id);
+        followService.deleteFollow(follow.getId());
 
         return responseService.getSuccessResult();
     }
