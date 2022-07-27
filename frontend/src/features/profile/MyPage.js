@@ -1,19 +1,10 @@
-// // component
 
 import * as React from 'react';
 
 
-//material UI
-import { Avatar, Chip, Stack, Badge, Card, CardMedia, CardContent, Typography
-  , Button  } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { green, blue, yellow, purple, deepOrange, red } from '@mui/material/colors';
-import { CompareArrows, GTranslate, Group } from '@mui/icons-material';
-
 // component 
 import ProfileImageEdit from './ProfileImageEdit'
-
-import KoreaFlag from './images/KoreaFlag.png'
+import Follow from './Follow';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
@@ -32,7 +23,14 @@ import { useParams } from 'react-router-dom';
 // css
 import classes from './MyPage.module.scss';
 
+//material UI
+import { Avatar, Chip, Stack, Badge, Card, CardMedia, CardContent, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { green, blue, yellow, purple, deepOrange, red } from '@mui/material/colors';
+import { CompareArrows, GTranslate } from '@mui/icons-material';
 
+// image
+import KoreaFlag from './images/KoreaFlag.png'
 
 
 
@@ -41,15 +39,14 @@ const MyPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const [profileDescription, setProfileDescription] = useState('');
-  const [followCnt, setFollowCnt] = useState({
-    followerCnt: 0, followeeCnt: 0
-  });
+
+
   // console.log(params.userId);
 
   // redux
   const { currentUser } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
-  console.log('리덕스 테스트:', currentUser );
+  // console.log('리덕스 테스트:', currentUser );
 
   
   const isCurrentUser = currentUser.id === Number(params.userId);
@@ -59,7 +56,6 @@ const MyPage = () => {
     fetchProfile(setProfileInfo, params.userId);
     fetchProfileImg(setProfileImg, params.userId);
     fetchDescription(setProfileDescription, params.userId);
-    fetchFollow(setFollowCnt, params.userId);
   }, []);
 
 
@@ -75,12 +71,6 @@ const MyPage = () => {
   // // 의존성에 fetchProfile 추가하면 fetchProfile에 useCallback 함수로.
 
 
-  // 팔로우 되어있으면 true, 아니면 false인 isfollowed도 만들기
-  const [isFollowed, setIsFollowed] = useState(false);
-
-  const followHandler = () => {
-
-  }
 
   return (
     <div>
@@ -112,22 +102,7 @@ const MyPage = () => {
                 {profileInfo.name}
               </Typography>
 
-              {/* follow 되어있으면 팔로우 취소도 만들기!!!! */}
-              {!isCurrentUser && <Button onClick={followHandler} variant="contained" 
-                size="small" fullWidth color="secondary"
-                sx={{borderRadius: '25px', letterSpacing: 3 }}>팔로우</Button>}
-
-              <div className={classes.follow}>
-                <Group sx={{  fontSize: 27, mx: 2, color: '#B8C5D0'}} />
-                <div className={classes.followCnt}>
-                  <span className={classes.follow_greys}>팔로워 </span>
-                  <span className={classes.cnt}>{followCnt.followerCnt} </span>
-                  <span className={classes.follow_greys}> 팔로잉 </span>
-                  <span className={classes.cnt}>{followCnt.followeeCnt} </span>
-                </div>
-                
-
-              </div>
+              <Follow profileUserId={params.userId}/>
               
               <Card className={classes.description_card}>
                 <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'light' }}>
@@ -136,12 +111,12 @@ const MyPage = () => {
               </Card>
               <Card className={classes.rest_info}>
                 <div className={classes.languages}>
-                  <GTranslate sx={{  fontSize: 20, mr: 2, color: '#B8C5D0'}} />
+                  <GTranslate sx={{  fontSize: 18, mr: 2, color: '#B8C5D0'}} />
                   <div>
                     <span className={classes.language}>{profileInfo.mylanguage} </span>
                     <span className={classes.greys}>me</span>
-                    <CompareArrows sx={{  fontSize: 20, mx: 1 }} />
-                    <span className={classes.language}> {profileInfo.yourlanguage}</span>
+                    <CompareArrows sx={{  fontSize: 18, mx: 1 }} />
+                    <span className={classes.language}>{profileInfo.yourlanguage}</span>
                     <span className={classes.greys}> you</span>
 
                   </div>
