@@ -62,6 +62,9 @@ const authSlice = createSlice({
       return { ...state, isLoggedIn: true };
     },
     getUser,
+    modifyUser(state, action) {
+      state.currentUser = { ...action.payload.data };
+    },
   },
   extraReducers: {
     [signup.fulfilled]: (state, action) => {
@@ -90,4 +93,5 @@ const authSlice = createSlice({
   },
 });
 export let { socialLogin } = authSlice.actions;
+export let { modifyUser } = authSlice.actions;
 export default authSlice;
