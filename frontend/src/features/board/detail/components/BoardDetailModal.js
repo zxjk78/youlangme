@@ -37,7 +37,7 @@ const BoardDetail = (props) => {
           setIsliked(true);
         }
       }
-      console.log(boardInfo);
+      // console.log(boardInfo);
       setBoardDetail(boardInfo.boardDetail);
       setCommentList(boardInfo.commentList);
       setLikeUsers(boardInfo.likeUsers);
@@ -80,7 +80,14 @@ const BoardDetail = (props) => {
       );
     }
   };
-  const updateBoardHandler = () => {};
+  const updateBoardHandler = () => {
+    const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
+    if (currentUserId !== boardDetail.userId) {
+      alert('부적절한 접근입니다.');
+      return;
+    }
+    history.push(`/board/update/${boardId}`);
+  };
   const deleteBoardHandler = async () => {
     const confirm = window.confirm('정말 삭제하시겠습니까?');
     if (!confirm) {
@@ -163,7 +170,7 @@ const BoardDetail = (props) => {
               JSON.parse(localStorage.getItem('currentUser')).id && (
               <div className={classes.authOptionContainer}>
                 <button type="button" onClick={updateBoardHandler}>
-                  <Link to={`/board/update/${boardId}`}>수정</Link>
+                  수정{' '}
                 </button>
                 <button type="button" onClick={deleteBoardHandler}>
                   삭제

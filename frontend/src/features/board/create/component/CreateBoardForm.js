@@ -19,9 +19,9 @@ import classes from './CreateBoardForm.module.scss';
 import { MAX_IMAGE_LIMIT } from '../data';
 
 // 어떤 방식으로던 이동해옴, 라우터로부터 수정인지 생성인지 알아냄
-const API_URL = 'http://127.0.0.1:8080/';
 
 const CreateBoardForm = () => {
+  const API_URL = 'http://127.0.0.1:8080/';
   const boardId = useParams().boardId;
 
   const [boardInfo, setBoardInfo] = useState(null);
@@ -32,12 +32,14 @@ const CreateBoardForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const imageLimit = MAX_IMAGE_LIMIT;
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
+  // src => file object with preview prop function
   const convertURLtoFile = async (url) => {
     const response = await fetch(url);
     const data = await response.blob();
-    const ext = url.split('.').pop(); // url 구조에 맞게 수정할 것
-    const filename = url.split('/').pop(); // url 구조에 맞게 수정할 것
+    const ext = url.split('.').pop();
+    const filename = url.split('/').pop();
     const metadata = { type: `image/${ext}` };
     const file = new File([data], filename, metadata);
 
@@ -45,12 +47,10 @@ const CreateBoardForm = () => {
     return file;
   };
   useEffect(() => {
-    console.log('didmount');
     if (boardId) {
       (async () => {
         setIsLoading(true);
         const tmpInfo = await fetchBoard(boardId);
-        // console.log(tmpInfo);
         setBoardInfo(() => tmpInfo.boardDetail);
         const imageSrcs = tmpInfo.boardDetail.imgList;
         const convertedList = await Promise.all(
@@ -59,7 +59,6 @@ const CreateBoardForm = () => {
             return convertURLtoFile(url);
           })
         );
-        console.log(convertedList); //(2) [Promise, Promise] 동기 비동기 문제 : promise.all
         setImages((prevState) => prevState.concat(convertedList));
         setIsLoading(false);
       })();
@@ -92,7 +91,7 @@ const CreateBoardForm = () => {
     event.preventDefault();
     const uploadContent = contentRef.current.value;
     const uploadImages = images;
-    console.log(uploadContent, uploadImages);
+
     let data;
     if (!boardId) {
       data = await createBoard(uploadContent, uploadImages);
@@ -126,17 +125,19 @@ const CreateBoardForm = () => {
               <div className={classes.userInfo}>
                 <div>
                   <img
-                    src="http://www.geonames.org/flags/x/kr.gif"
+                    src={`http://www.geonames.org/flags/x/${currentUser.nationality
+                      .slice(0, 2)
+                      .toLowerCase()}.gif`}
                     className={classes.flag}
                     alt="국기"
                   />
                   <img
-                    src="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
+                    src={`${API_URL}image/profile/${currentUser.id}.jpg`}
                     className={classes.profile}
-                    alt="프로필 이미지 작게"
+                    alt="프로필"
                   />
                 </div>
-                <h3>이름</h3>
+                <h3>{currentUser.name}</h3>
               </div>
               <hr />
               <form onSubmit={boardUploadHandler}>
