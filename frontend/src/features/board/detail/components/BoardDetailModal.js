@@ -37,7 +37,7 @@ const BoardDetail = (props) => {
           setIsliked(true);
         }
       }
-
+      console.log(boardInfo);
       setBoardDetail(boardInfo.boardDetail);
       setCommentList(boardInfo.commentList);
       setLikeUsers(boardInfo.likeUsers);
@@ -88,8 +88,7 @@ const BoardDetail = (props) => {
     }
     // delete API 요청
     const data = await deleteBoard(boardId);
-
-    if (data === true) {
+    if (data.success === true) {
       history.push('/main');
     }
   };

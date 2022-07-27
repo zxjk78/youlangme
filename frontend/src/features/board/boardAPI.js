@@ -4,12 +4,12 @@ const API_URL = 'http://127.0.0.1:8080/';
 export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // console.log('boardAPI post 게시글 생성요청, formData 사용할지, 그냥 key-val로 보낼지 결정');
-  // const formData = new FormData();
+  const formData = new FormData();
 
-  // for (let i = 0; i < images.length; i++) {
-  //   formData.append('pics', images[i]);
-  // }
-  // formData.append('contents', content);
+  for (let i = 0; i < images.length; i++) {
+    formData.append('pics', images[i]);
+  }
+  formData.append('contents', content);
 
   // // key-val pair 확인
   // for (let pair of formData.entries()) {
@@ -19,8 +19,8 @@ export const createBoard = async (content, images) => {
   try {
     const response = await axios.post(
       API_URL + `board`,
-      { contents: content, pics: images },
-      // formData,
+      // { contents: content, pics: images },
+      formData,
       {
         headers: {
           'Content-Type': 'multipart/form-data',
