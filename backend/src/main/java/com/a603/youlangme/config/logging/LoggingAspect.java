@@ -1,12 +1,18 @@
 package com.a603.youlangme.config.logging;
 
 
+import com.a603.youlangme.entity.Log;
+import com.a603.youlangme.entity.User;
+import com.a603.youlangme.repository.LogRepository;
 import com.google.common.base.Joiner;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
@@ -21,28 +27,33 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @Aspect
+@RequiredArgsConstructor
 public class LoggingAspect {
 
-    @Around("within(com.a603.youlangme.controller..*))")
+    private final LogRepository logRepository;
+
+    @Around("@annotation(com.a603.youlangme.config.logging.Logging)")
     public Object logging(ProceedingJoinPoint pjp) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-
         ContentCachingRequestWrapper cachingRequest = (ContentCachingRequestWrapper) request;
 
-        System.out.println(request.getMethod());
-        System.out.println(request.getRequestURL());
-        if ("POST".equalsIgnoreCase(request.getMethod()) || "PUT".equalsIgnoreCase(request.getMethod())){
-            byte[] buf = cachingRequest.getContentAsByteArray();
-            System.out.println(new String(buf, 0, buf.length, cachingRequest.getCharacterEncoding()));
-        }
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User loginUser = ((User) authentication.getPrincipal());
+
+        Long userId = loginUser.getId();
+        String action = pjp.getSignature().getName();
 
         long startAt = System.currentTimeMillis();
 
         Object result = pjp.proceed();
 
+        Long targetId = (Long) result;
+
         long endAt = System.currentTimeMillis();
 
-        System.out.println(endAt - startAt);
+        logRepository.save(new Log(userId, action, targetId));
+
         return result;
     }
 

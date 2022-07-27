@@ -15,6 +15,7 @@ public class UserSetBasicInfoRequestDto {
     private String name;
 
     private Language myLanguage;
+
     private Language yourLanguage;
 
     private Nationality nationality;

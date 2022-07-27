@@ -3,6 +3,7 @@ package com.a603.youlangme.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import sun.nio.cs.UTF_8;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Board extends BaseEntity {
 
-    @Lob
+    @Column(length=2000)
+    //@Lob
     private String contents;
 
     @JoinColumn(name="author_id")

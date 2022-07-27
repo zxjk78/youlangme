@@ -15,7 +15,6 @@ import java.util.ArrayList;
 @Builder
 public class BoardPagingDto {
 
-    @Lob
     private String contents;
 
     private String name;

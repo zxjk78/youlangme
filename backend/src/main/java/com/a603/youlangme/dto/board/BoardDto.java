@@ -18,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 public class BoardDto implements Serializable {
 
-    @Lob
     private String contents;
 
     private List<MultipartFile> pics;

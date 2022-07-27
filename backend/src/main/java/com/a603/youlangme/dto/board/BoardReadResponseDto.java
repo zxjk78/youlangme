@@ -17,7 +17,6 @@ import java.util.List;
 @Getter
 public class BoardReadResponseDto {
 
-    @Lob
     private String contents;
 
     private LocalDateTime createdTime;

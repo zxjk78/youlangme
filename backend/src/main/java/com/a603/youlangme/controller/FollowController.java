@@ -54,7 +54,7 @@ public class FollowController {
         if (followService.isAlreadyFollowed(loginUser, userToFollow)) throw new UnAllowedAccessException();
 
         Follow newFollow = Follow.builder().follower(loginUser).followee(userToFollow).build();
-        followService.regist(newFollow);
+        followService.saveFollow(newFollow);
         return responseService.getSuccessResult();
 
     }
