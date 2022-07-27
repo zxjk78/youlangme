@@ -1,30 +1,30 @@
-import axios from 'axios';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from "axios";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // const config = {
 //   headers: { "Content-Type": "application/json" },
 // };
-const API_URL = 'http://127.0.0.1:8080/';
+const API_URL = "http://127.0.0.1:8080/";
 
 const initState = {
   isNameUnique: false,
-  name: '',
-  nationality: '',
-  gender: '',
-  birthday: { birthYear: '2000', birthMonth: '01', birthDay: '01' },
-  myLanguage: '',
-  yourLanguage: '',
+  name: "",
+  nationality: "",
+  gender: "",
+  birthday: { birthYear: "2000", birthMonth: "01", birthDay: "01" },
+  myLanguage: "",
+  yourLanguage: "",
   favoriteList: [], // favorite : DB에서 받아서 렌더링
 };
 
 // 직렬화 오류 non-serial 어쩌고: 견본 코드가 response를 그대로 보내는데 이게 직렬화가 안되서 벌어지는 문제였음
 // response.data로 보냄
 export const nameDupCheck = createAsyncThunk(
-  'Modify/nickname_check',
+  "Modify/nickname_check",
   async (name, thunkAPI) => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user ? user.accessToken : null;
-    const getConfig = { headers: { 'X-Auth-Token': accessToken } };
+    const getConfig = { headers: { "X-Auth-Token": accessToken } };
 
     try {
       const response = await axios.get(
@@ -40,20 +40,20 @@ export const nameDupCheck = createAsyncThunk(
 );
 
 export const dispatchUserBasicInfo = createAsyncThunk(
-  'Modify/dispatch_userInfo',
+  "Modify/dispatch_userInfo",
   async (userBasicInfo, thunkAPI) => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     const accessToken = user ? user.accessToken : null;
     const postConfig = {
       headers: {
-        'Content-Type': 'application/json',
-        'X-Auth-Token': accessToken,
+        "Content-Type": "application/json",
+        "X-Auth-Token": accessToken,
       },
     };
 
     try {
       const response = await axios.post(
-        API_URL + 'user/basic-info',
+        API_URL + "user/basic-info",
         JSON.stringify(userBasicInfo),
         // post는 직렬화까지 거치고 객체 토큰이 필요하다.
         postConfig
@@ -100,7 +100,7 @@ const reducers = {
 };
 
 const modifySlice = createSlice({
-  name: 'modify',
+  name: "modify",
   initialState: initState,
   reducers: reducers,
   extraReducers: {
@@ -108,6 +108,27 @@ const modifySlice = createSlice({
     [nameDupCheck.fulfilled]: (state, action) => {
       const isDup = action.payload.data;
       state.isNameUnique = !isDup;
+    },
+
+    [dispatchUserBasicInfo.fulfilled]: (state, action) => {
+      state.isNameUnique = false;
+      state.name = "";
+      state.nationality = "";
+      state.gender = "";
+      state.birthday = { birthYear: "2000", birthMonth: "01", birthDay: "01" };
+      state.myLanguage = "";
+      state.yourLanguage = "";
+      state.favoriteList = [];
+    },
+    [dispatchUserBasicInfo.rejected]: (state, action) => {
+      state.isNameUnique = false;
+      state.name = "";
+      state.nationality = "";
+      state.gender = "";
+      state.birthday = { birthYear: "2000", birthMonth: "01", birthDay: "01" };
+      state.myLanguage = "";
+      state.yourLanguage = "";
+      state.favoriteList = [];
     },
   },
 });
