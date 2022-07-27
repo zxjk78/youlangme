@@ -18,7 +18,7 @@ public class FollowService {
 
     @Logging
     public Long saveFollow(Follow newFollow) {
-        return followRepository.save(newFollow).getId();
+        return followRepository.save(newFollow).getFollowee().getId();
     }
 
     public Optional<Follow> searchFollowById(Long id) {

@@ -143,4 +143,7 @@ public class User extends BaseEntity implements UserDetails {
         this.yourlanguage = yourLanguage;
         this.nationality = nationality;
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Log> logs = new ArrayList<>();
 }
