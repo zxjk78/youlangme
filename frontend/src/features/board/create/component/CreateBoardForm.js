@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../../../../common/UI/Modal/modalSlice';
 import { createBoardActions } from '../createBoardSlice';
 // API
-import { createBoard, fetchBoard } from '../../boardAPI';
+import { createBoard, fetchBoard, updateBoard } from '../../boardAPI';
 
 // component
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
@@ -33,43 +33,34 @@ const CreateBoardForm = () => {
   const history = useHistory();
   const imageLimit = MAX_IMAGE_LIMIT;
 
-  // const convertSrcFile = async (url) => {
-  //   const fileName = Math.random() + url.slice(1, 10);
-  //   const imgResponse = await fetch(url);
-  //   const contentType = imgResponse.headers.get('content-type');
-  //   const blob = await imgResponse.blob();
-  //   const tmpFile = new File([blob], fileName, { contentType });
-  //   Object.assign(tmpFile, {
-  //     preview: URL.createObjectURL(tmpFile),
-  //   });
-  //   return tmpFile;
-  // };
+  const convertURLtoFile = async (url) => {
+    const response = await fetch(url);
+    const data = await response.blob();
+    const ext = url.split('.').pop(); // url 구조에 맞게 수정할 것
+    const filename = url.split('/').pop(); // url 구조에 맞게 수정할 것
+    const metadata = { type: `image/${ext}` };
+    const file = new File([data], filename, metadata);
 
+    Object.assign(file, { preview: URL.createObjectURL(file) });
+    return file;
+  };
   useEffect(() => {
     console.log('didmount');
     if (boardId) {
       (async () => {
         setIsLoading(true);
         const tmpInfo = await fetchBoard(boardId);
-        console.log(tmpInfo);
+        // console.log(tmpInfo);
         setBoardInfo(() => tmpInfo.boardDetail);
-        const imageUrls = tmpInfo.boardDetail.imgList;
-
-        // const convertImages = imageUrls.map(async (imageSrc) => {
-        //   const url = `${API_URL}image/board/${imageSrc}`;
-        //   const fileName = String(url);
-
-        //   fetch(url).then(async (response) => {
-        //     const contentType = response.headers.get('content-type');
-        //     const blob = await response.blob();
-        //     const file = new File([blob], fileName, { contentType });
-
-        //     console.log(file);
-        //     console.log(URL.createObjectURL(file));
-        //   });
-        // });
-        // setImages((prevState) => prevState.concat(convertImages)); // 이부분 object file로 만들어야함
-
+        const imageSrcs = tmpInfo.boardDetail.imgList;
+        const convertedList = await Promise.all(
+          imageSrcs.map((item) => {
+            const url = `${API_URL}image/board/${item}`;
+            return convertURLtoFile(url);
+          })
+        );
+        console.log(convertedList); //(2) [Promise, Promise] 동기 비동기 문제 : promise.all
+        setImages((prevState) => prevState.concat(convertedList));
         setIsLoading(false);
       })();
     }
@@ -101,7 +92,13 @@ const CreateBoardForm = () => {
     event.preventDefault();
     const uploadContent = contentRef.current.value;
     const uploadImages = images;
-    const data = await createBoard(uploadContent, uploadImages);
+    console.log(uploadContent, uploadImages);
+    let data;
+    if (!boardId) {
+      data = await createBoard(uploadContent, uploadImages);
+    } else {
+      data = await updateBoard(boardId, uploadContent, uploadImages);
+    }
 
     if (data.success) {
       history.push('/main');
@@ -157,16 +154,20 @@ const CreateBoardForm = () => {
 
                 <div className={classes.imageAndButtonContainer}>
                   <div className={classes.imageContainer}>
-                    {images.map((file, index) => (
-                      <div key={file.preview} className={classes.fileImage}>
-                        <HighlightOffIcon
-                          className={classes.removeImgButton}
-                          data-index={index}
-                          onClick={imageRemoveHandler}
-                        />
-                        <img src={file.preview} alt="" />
-                      </div>
-                    ))}
+                    {images.length !== 0 &&
+                      images.map((file, index) => {
+                        // console.log(file); //promise file이 반환되는 문제 해결 필요
+                        return (
+                          <div key={file.preview} className={classes.fileImage}>
+                            <HighlightOffIcon
+                              className={classes.removeImgButton}
+                              data-index={index}
+                              onClick={imageRemoveHandler}
+                            />
+                            <img src={file.preview} alt="" />
+                          </div>
+                        );
+                      })}
                     <div
                       className={classes.addPhotoButton}
                       onClick={addPhotoHander}
