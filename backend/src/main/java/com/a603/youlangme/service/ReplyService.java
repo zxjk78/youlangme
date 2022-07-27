@@ -32,7 +32,7 @@ public class ReplyService {
     ReplyRepository replyRepository;
 
     @Transactional
-    public void saveReply(ReplyDto replyDto, Long boardId,Long UserId){
+    public Long saveReply(ReplyDto replyDto, Long boardId,Long UserId){
         Board board=boardRepository.findById(boardId).orElseThrow(BoardNotFoundException::new);
 
         User user=userRepository.findById(UserId).orElseThrow(UserNotFoundException::new); //댓글작성자 정보
@@ -49,6 +49,7 @@ public class ReplyService {
         if(reply.getPid()==-1){
             replynow.initpid(reply.getId());
         }
+        return replynow.getId();
     }
 
     @Transactional

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Lob;
 
 @Getter
@@ -13,8 +14,6 @@ import javax.persistence.Lob;
 @NoArgsConstructor
 public class ReplyDto {
 
-
-    @Lob
     private String contents;
 
     private Long pid;

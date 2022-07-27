@@ -1,6 +1,7 @@
 package com.a603.youlangme.config.security;
 
 
+import com.a603.youlangme.config.logging.LoggingFilter;
 import com.a603.youlangme.service.oauth.WebOAuth2SuccessHandler;
 import com.a603.youlangme.service.oauth.WebOAuth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
@@ -44,6 +49,10 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+
         http.cors().and()
                 .httpBasic().disable() // 초기 설정은 비 인증시 로그인 폼으로 리다이렉트 되는데 REST API 이므로 disable
                 .csrf().disable() // REST API 이므로 상태를 저장하지 않기 때문에 CSRF 보안을 설정할 필요가 없으므로 disable
@@ -63,6 +72,7 @@ public class SecurityConfiguration {
                 .accessDeniedHandler(new WebAccessDeniedHandler())
 
                 .and()
+                .addFilterBefore(filter, CsrfFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
                 .authorizationEndpoint()
