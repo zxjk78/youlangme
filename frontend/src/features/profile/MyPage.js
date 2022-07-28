@@ -4,12 +4,12 @@ import * as React from 'react';
 
 // component 
 import ProfileImageEdit from './ProfileImageEdit'
-import Follow from './Follow';
+import Follow from './Follow/Follow';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
 import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';
-import { fetchFollow } from './FollowAPI';
+import { fetchFollow } from './Follow/FollowAPI';
 
 // state
 import { useState, useRef, useEffect } from 'react';
@@ -56,7 +56,7 @@ const MyPage = () => {
     fetchProfile(setProfileInfo, params.userId);
     fetchProfileImg(setProfileImg, params.userId);
     fetchDescription(setProfileDescription, params.userId);
-  }, []);
+  }, [params.userId]);
 
 
   

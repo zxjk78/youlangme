@@ -42,7 +42,7 @@ export const fetchProfileImg =  async (setProfileImage, userId) =>  {
     const response = await axios.get(
       API_URL + `image/profile/${userId}.jpg`,
     );
-    console.log(response.config.url)
+    console.log( '나는 이미지', response.config.url)
     setProfileImage(
       // API_URL + `image/profile/${userId}.jpg`
       response.config.url
