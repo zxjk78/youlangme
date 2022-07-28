@@ -1,18 +1,10 @@
 import * as React from 'react';
 
-<<<<<<< HEAD
-
-// component 
-import ProfileImageEdit from './ProfileImageEdit'
-import Follow from './Follow/Follow';
-
-=======
 // component
 import ProfileImageEdit from './ProfileImageEdit';
-import Follow from './Follow';
+import Follow from './Follow/Follow';
 import Modal from '../../common/UI/Modal/Modal';
 import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
->>>>>>> 7fc4668848ed68d4a9a6fc047515f46088aa89c4
 
 // 리덕스 안거치는 단순 서버 통신 API
 import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';

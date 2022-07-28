@@ -10,12 +10,14 @@ import PrivateRoute from './common/routes/PrivateRoute';
 import PublicRoute from './common/routes/PublicRoute';
 import Social from './features/auth/social/Social';
 // import { useSelector } from "react-redux";
-// test용 코드
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
 import BoardMainItem from './features/main/feed/components/BoardMainItem';
 import StartMatching from './features/matching/StartMatching';
 import ModifyPage from './features/auth/modify/ModifyPage';
+
+import NotFound from './features/other/NotFound/NotFound';
+
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -59,6 +61,7 @@ function App() {
             component={BoardDetailModal}
           ></PrivateRoute>
           {/* test용 public route */}
+          <PrivateRoute path="*" component={NotFound}></PrivateRoute>
         </Switch>
       </BrowserRouter>
     </div>
