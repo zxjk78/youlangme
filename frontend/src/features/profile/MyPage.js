@@ -2,6 +2,7 @@ import * as React from 'react';
 
 // component
 import ProfileImageEdit from './ProfileImageEdit';
+import ProfileDescEdit from './ProfileDescEdit';
 import Follow from './Follow/Follow';
 import Modal from '../../common/UI/Modal/Modal';
 import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
@@ -71,12 +72,18 @@ const MyPage = () => {
   };
 
   const updateProfileImg = (isUpdated) => {
-      console.log(isUpdated, '업데이트여부')
+      console.log(isUpdated, '이미지 업데이트여부')
       if (isUpdated) {
         setIsUploaded(true)
       }
     }
-    
+  const updateProfileDesc = (isUpdated) => {
+    console.log(isUpdated, '자기소개 업데이트여부')
+    if (isUpdated) {
+      setIsUploaded(true)
+    }
+  }
+  
   
 
   useEffect(() => {
@@ -156,6 +163,7 @@ const MyPage = () => {
                   </Typography>
                   <Follow profileUserId={params.userId} />
 
+                  {isCurrentUser && <ProfileDescEdit desc={profileDescription} getNewProfileDesc={updateProfileDesc}/>}
                   <Card className={classes.description_card}>
                     <Typography
                       variant="body2"

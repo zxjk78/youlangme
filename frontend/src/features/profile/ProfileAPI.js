@@ -73,11 +73,8 @@ export const fetchDescription = async (setDesc, userId) => {
 };
 
 // Profile Image put 요청 API
-export const UploadProfileImg = async (
-  uploadedProfileImg,
-  setUploadedProfileImg
-) => {
-  console.log('업로드 시작');
+export const uploadProfileImg = async (uploadedProfileImg, setUploadedProfileImg) => {
+  console.log('프로필 사진 업로드 시작');
   console.log(uploadedProfileImg);
 
   try {
@@ -106,3 +103,27 @@ export const UploadProfileImg = async (
     alert('사진을 등록하세요!');
   }
 };
+
+export const submitDescription = async (uploadedDescription) => {
+  console.log('업로드 시작');
+  console.log(uploadedDescription);
+
+  try {
+      await axios.put(
+        API_URL + `user/description`,
+        { 'description' : uploadedDescription },
+        // 엑세스 토큰이 필요하다.
+        {
+          headers: {
+            'X-Auth-Token': accessToken,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+      alert('자기소개가 등록되었습니다!');
+    
+  } catch (err) {
+    console.log('에러');
+    alert('자기소개를 등록하세요!');
+  }
+}
