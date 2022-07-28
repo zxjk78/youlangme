@@ -77,6 +77,8 @@ const ModifyUserInfo = (props) => {
     nationality;
 
   useEffect(() => {
+    const existUserInfo = props.userInfo;
+    console.log(existUserInfo);
     (async () => {
       setIsLoading(true);
       const hobbies = await fetchHobbies();
