@@ -6,11 +6,10 @@ import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.Nationality;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-//@AllArgsConstructor
-//@Builder
 public class UserLoginUserResponseDto {
 
     private Long id;
@@ -26,6 +25,8 @@ public class UserLoginUserResponseDto {
     private Nationality nationality;
 
     private Gender gender;
+
+    private LocalDate birthDay;
 
     private Long exp = 0L;
 
@@ -45,6 +46,7 @@ public class UserLoginUserResponseDto {
         this.exp = user.getExp();
         this.mylanguage=user.getMylanguage();
         this.yourlanguage=user.getYourlanguage();
-        this.image= user.getImage();
+        this.image = user.getImage();
+        this.birthDay = user.getBirthDay();
     }
 }

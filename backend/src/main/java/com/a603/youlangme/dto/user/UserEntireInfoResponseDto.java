@@ -12,6 +12,7 @@ import lombok.Getter;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -33,6 +34,8 @@ public class UserEntireInfoResponseDto {
 
     private Gender gender;
 
+    private LocalDate birthDay;
+
     private Long exp = 0L;
 
     private Language mylanguage;
@@ -52,5 +55,6 @@ public class UserEntireInfoResponseDto {
         this.mylanguage=user.getMylanguage();
         this.yourlanguage=user.getYourlanguage();
         this.image= user.getImage();
+        this.birthDay = user.getBirthDay();
     }
 }

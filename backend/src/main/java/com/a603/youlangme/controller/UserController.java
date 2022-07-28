@@ -98,6 +98,7 @@ public class UserController {
     // Profile Start
 
     @GetMapping("/description/{id}") // Read
+
     public OneResult<String> getUserDescription (@PathVariable(value ="id") Long userId) {
         return responseService.getOneResult(userService.readUserDescription(userId));
     }

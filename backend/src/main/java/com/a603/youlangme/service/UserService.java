@@ -54,16 +54,13 @@ public class UserService {
 
     @Transactional
     public void updateBasicInfo(Long userId, UserSetBasicInfoRequestDto basicInfo) {
-        String name = basicInfo.getName();
-        Language myLanguage = basicInfo.getMyLanguage();
-        Language yourLanguage = basicInfo.getYourLanguage();
-        Nationality nationality = basicInfo.getNationality();
+
         List<Long> favoriteIdList =  basicInfo.getFavoriteList();
 
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) return;
 
-        user.updateBasicInfo(name, myLanguage, yourLanguage, nationality);
+        user.updateBasicInfo(basicInfo);
 
         // userFavorite 수정
         user.getUserFavorites().clear();
@@ -120,6 +117,7 @@ public class UserService {
         userProfileResponseDto.setGender(user.getGender());
         userProfileResponseDto.setNationality(user.getNationality());
         userProfileResponseDto.setAge(user.getAge());
+        userProfileResponseDto.setBirthDay(user.getBirthDay());
 
         for (UserFavorite userFavorite : user.getUserFavorites()) {
             userProfileResponseDto.favorites.add(userFavorite.getFavorite().getId());

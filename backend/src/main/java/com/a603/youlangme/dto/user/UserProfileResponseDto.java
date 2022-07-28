@@ -9,6 +9,7 @@ import lombok.*;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,8 @@ public class UserProfileResponseDto {
     public List<Long> favorites = new ArrayList<>();
 
     public Gender gender;
+
+    public LocalDate birthDay;
 
     public Nationality nationality;
 
