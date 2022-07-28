@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { useHistory, useParams } from 'react-router-dom';
 // API
 import {
@@ -102,7 +101,11 @@ const BoardDetail = (props) => {
 
   return (
     <>
-      {!isLoading ? (
+      {isLoading ? (
+        <div>
+          <CircularProgress />
+        </div>
+      ) : (
         <Modal>
           <div className={classes.wrapper}>
             <div className={classes.header}>
@@ -179,10 +182,6 @@ const BoardDetail = (props) => {
             )}
           </div>
         </Modal>
-      ) : (
-        <div>
-          <CircularProgress />
-        </div>
       )}
     </>
   );

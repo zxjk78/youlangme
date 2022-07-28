@@ -9,6 +9,7 @@ import { createBoard, fetchBoard, updateBoard } from '../../boardAPI';
 
 // component
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
+import UserInfo from '../../../profile/UserInfo/UserInfo';
 // mUI
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -122,23 +123,7 @@ const CreateBoardForm = () => {
               {!boardInfo ? '새 게시물' : '게시물 수정'}
             </div>
             <div className={classes.formContainer}>
-              <div className={classes.userInfo}>
-                <div>
-                  <img
-                    src={`http://www.geonames.org/flags/x/${currentUser.nationality
-                      .slice(0, 2)
-                      .toLowerCase()}.gif`}
-                    className={classes.flag}
-                    alt="국기"
-                  />
-                  <img
-                    src={`${API_URL}image/profile/${currentUser.id}.jpg`}
-                    className={classes.profile}
-                    alt="프로필"
-                  />
-                </div>
-                <h3>{currentUser.name}</h3>
-              </div>
+              <UserInfo />
               <hr />
               <form onSubmit={boardUploadHandler}>
                 <textarea
