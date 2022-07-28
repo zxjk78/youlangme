@@ -22,6 +22,9 @@ import classes from './ModifyUserInfo.module.scss';
 
 //하드코딩한 데이터
 import * as selectData from './data';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../authSlice';
+
 const { nationOptions, languageOptions, genderOptions } = selectData;
 
 const ModifyUserInfo = (props) => {
@@ -44,9 +47,11 @@ const ModifyUserInfo = (props) => {
     "nationality": "CHINA",
     "yourlanguage": "CHINESE"
   },
+  
+  */
 
-*/
-
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [fetchedFavorite, setFetchedFavorite] = useState([]);
 
@@ -86,8 +91,6 @@ const ModifyUserInfo = (props) => {
       setIsLoading(false);
     })();
   }, []);
-
-  const history = useHistory();
 
   // eventHandlers
   const nameInputChangeHandler = () => {
@@ -186,7 +189,9 @@ const ModifyUserInfo = (props) => {
     try {
       const response = await dispatchUserBasicInfo(tmpUserInfo, isUpdate);
       if (response.success) {
-        document.location.href = '/main';
+        dispatch(getUser()).then(() => {
+          history.replace('/main');
+        });
       }
     } catch (error) {
       console.log(error);
