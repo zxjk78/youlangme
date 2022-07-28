@@ -46,7 +46,7 @@ export const dispatchUserBasicInfo = async (userInfo, isUpdate) => {
 
   try {
     let response;
-    if (isUpdate) {
+    if (!isUpdate) {
       response = await axios.post(
         API_URL + 'user/basic-info',
         JSON.stringify(userInfo),
@@ -60,6 +60,7 @@ export const dispatchUserBasicInfo = async (userInfo, isUpdate) => {
       );
     }
 
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
