@@ -22,6 +22,9 @@ import classes from './ModifyUserInfo.module.scss';
 
 //하드코딩한 데이터
 import * as selectData from './data';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../authSlice';
+
 const { nationOptions, languageOptions, genderOptions } = selectData;
 
 const ModifyUserInfo = (props) => {
@@ -44,9 +47,11 @@ const ModifyUserInfo = (props) => {
     "nationality": "CHINA",
     "yourlanguage": "CHINESE"
   },
+  
+  */
 
-*/
-
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [fetchedFavorite, setFetchedFavorite] = useState([]);
 
@@ -68,7 +73,7 @@ const ModifyUserInfo = (props) => {
     birthDay: '01',
   });
 
-  let formIsValid =
+  const formIsValid =
     userFavoriteList.length > 0 &&
     isNameUnique &&
     gender &&
@@ -87,8 +92,6 @@ const ModifyUserInfo = (props) => {
     })();
   }, []);
 
-  const history = useHistory();
-
   // eventHandlers
   const nameInputChangeHandler = () => {
     setIsNameUnique(() => false);
@@ -103,7 +106,7 @@ const ModifyUserInfo = (props) => {
     try {
       const isDup = await nameDupCheck(name);
       // console.log('중복검사', isDup);
-      if (!isDup) {
+      if (!isDup || name === props.userInfo?.name) {
         alert('사용 가능한 아이디입니다.');
         setName((prevState) => name);
         setIsNameUnique(() => true);
@@ -186,7 +189,9 @@ const ModifyUserInfo = (props) => {
     try {
       const response = await dispatchUserBasicInfo(tmpUserInfo, isUpdate);
       if (response.success) {
-        document.location.href = '/main';
+        dispatch(getUser()).then(() => {
+          history.replace('/main');
+        });
       }
     } catch (error) {
       console.log(error);
@@ -311,20 +316,14 @@ const ModifyUserInfo = (props) => {
               </div>
             </div>
             <div className={classes.submitBtn}>
-              {!props.userInfo ? (
-                <Button
-                  size={`large`}
-                  color={!formIsValid ? 'grey' : 'purple'}
-                  disabled={!formIsValid}
-                  rounded={'rounded'}
-                >
-                  정보 등록
-                </Button>
-              ) : (
-                <Button size={`large`} color={'purple'} rounded={'rounded'}>
-                  정보 수정
-                </Button>
-              )}
+              <Button
+                size={`large`}
+                color={!formIsValid ? 'grey' : 'purple'}
+                disabled={!formIsValid}
+                rounded={'rounded'}
+              >
+                {!props.userInfo ? '정보 등록' : '정보 수정'}
+              </Button>
             </div>
           </form>
         </div>
