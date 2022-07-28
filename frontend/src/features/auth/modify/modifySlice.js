@@ -1,3 +1,5 @@
+// 안쓰는 문서됨
+
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
