@@ -149,7 +149,7 @@ const ModifyUserInfo = (props) => {
     setUserFavoriteList((prevState) => [...prevState, hobbyId]);
     for (const obj of fetchedFavorite) {
       if (obj.id === hobbyId) {
-        obj.isSelected = !obj.isSelected;
+        obj.isSelected = true;
       }
     }
   };
@@ -161,7 +161,7 @@ const ModifyUserInfo = (props) => {
     );
     for (const obj of fetchedFavorite) {
       if (obj.id === hobbyId) {
-        obj.isSelected = !obj.isSelected;
+        obj.isSelected = false;
       }
     }
   };
