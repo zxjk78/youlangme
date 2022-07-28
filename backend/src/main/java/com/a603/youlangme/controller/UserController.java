@@ -82,7 +82,7 @@ public class UserController {
     }
 
     // 사용자 기본 정보 저장
-    @PostMapping("/basic-info")
+    @PutMapping("/basic-info")
     public CommonResult setBasicInfo(@RequestBody UserSetBasicInfoRequestDto userSetBasicInfoRequestDto){
 
         // 로그인 유저 가져오기
