@@ -59,4 +59,10 @@ public class SignController {
         signService.logout(loginUser.getId());
         return responseService.getSuccessResult();
     }
+
+    @GetMapping("/findPwd/{email}")
+    public CommonResult findPwd(@PathVariable(value ="email") String email){
+        signService.findEmail(email);
+        return responseService.getSuccessResult();
+    }
 }
