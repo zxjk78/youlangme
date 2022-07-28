@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
 import { login } from "../authSlice";
-// import GoogleButton from "./Forms/GoogleButton";
+
 import classes from "./Login.module.scss";
 import { Link, useHistory } from "react-router-dom";
 
@@ -15,7 +14,8 @@ const Login = (props) => {
   // const { message } = useSelector((state) => state.message);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { isLoggedIn } = useSelector((state) => state.auth);
+
   // useEffect(() => {
   //   dispatch(clearMessage());
   // }, [dispatch]);
@@ -31,33 +31,28 @@ const Login = (props) => {
   });
 
   const handleLogin = (formValue) => {
+    setLoading(true);
     const { email, password } = formValue;
-    const data = {
-      email,
-      password,
-    };
-    console.log(data);
 
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        if (isLoggedIn) {
-          history.push("/modify");
-        }
+        document.location.href = "/main";
       })
       .catch(() => {
         setLoading(false);
       });
   };
 
-  // const googleLogin = () => {
-  //   dispatch(socialLogin())
-  //     .unwrap()
+  const googleLogin = () => {
+    // dispatch(socialLogin())
+    //   .unwrap()
 
-  //     .catch(() => {
-  //       setLoading(false);
-  //     });
-  // };
+    //   .catch(() => {
+    //     setLoading(false);
+    //   });
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
 
   return (
     <div className={classes.login}>
@@ -96,8 +91,8 @@ const Login = (props) => {
             </div>
           </Form>
         </Formik>
-        {/* <GoogleButton /> */}
-        {/* <button onClick={googleLogin}>테스트용 구글 </button> */}
+
+        <button onClick={googleLogin}>테스트용 구글</button>
         <Link to="/signup">회원가입 하시겠습니까?</Link>
       </div>
     </div>

@@ -11,6 +11,7 @@ $pink: #f06595;
   background: $blue;
   height: 2.25rem;
   border: none;
+  font-weight: 900;
   cursor: pointer;
   // 주석은 //을 사용하는 것 같다 멀티라인은 /**/
 
@@ -43,9 +44,14 @@ $pink: #f06595;
     @include font-color(#fff);
     @include btn-color(grey);
   }
+  &.nicknameDupCheck {
+    @include font-color(#B865C6);
+    @include btn-color(#E4DCCF);
+
+  }
   &.purple {
     @include font-color(#fff);
-    @include btn-color(#e5aeff);
+    @include btn-color(#33003b);
   }
 
   &.rounded {

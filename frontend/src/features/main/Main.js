@@ -1,23 +1,53 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { logout } from "../auth/authSlice";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import Header from '../../common/UI/Header/Header';
+import Feed from './feed/components/Feed';
+
+import { logout } from '../auth/authSlice';
+
+import UserInfo from '../profile/UserInfo/UserInfo';
+
 const Main = () => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
   const logoutHandler = () => {
-    dispatch(logout());
-    history.push("/");
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        document.location.href = '/';
+      });
   };
-  console.log(isLoggedIn);
+  // console.log(currentUser.name);
+  if (currentUser.name === null) {
+    history.push('/modify');
+  }
   // const { user } = useSelector((state) => state.auth);
   // console.log(user);
   return (
     <div>
+      {currentUser.name && <Header></Header>}
       <h2>이곳은 임시 홈페이지</h2>
-      <p>{isLoggedIn}</p>
+      <div>
+        <Link to="/board">게시판 작업</Link>
+      </div>
+      <div>
+        <Link to="/board/create">게시판 생성작업</Link>
+      </div>
+      <div>
+        <Link to="/board/detail/1">게시글 상세기능</Link>
+      </div>
+
+      <div>
+        <Link to={`/profile/${currentUser.id}`}>프로필 작업</Link>
+      </div>
+      <div>
+        <Link to="/modify">수정</Link>
+      </div>
       <button onClick={logoutHandler}>로그아웃</button>
+
+      {/* <Feed /> */}
     </div>
   );
 };
