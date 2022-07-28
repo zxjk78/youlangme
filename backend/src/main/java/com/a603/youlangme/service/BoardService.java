@@ -203,7 +203,7 @@ public class BoardService {
 //                        .name(user.getName()).
 //                        createdTime(board.getCreatedDate())
 //                        .build()).collect(Collectors.toList());
-        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click)));
+        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click+1)));
         Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
             @Override
             public BoardPagingDto apply(Board board) {
