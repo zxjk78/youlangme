@@ -28,7 +28,7 @@ const ModifyUserInfo = (props) => {
   // profile 안에서 모달로 부르는 방식이면, props로 받는 것도 가능함, ?. 연산자 + || 연산자 이용 = 프로퍼티가 존재 안하면
   // props 랑 연산자 이용해서 재사용 시도해보기?
 
-  // cannot read undefined 에러 없이
+  // ?. 는 property 읽을 때 없는값이면 cannot read undefined 에러 없이
   // undefined 출력하는 연산자
   const existUserInfo = props.userInfo;
   /*
