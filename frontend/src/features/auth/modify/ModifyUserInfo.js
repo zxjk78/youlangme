@@ -140,11 +140,8 @@ const ModifyUserInfo = (props) => {
   // material UI 날짜 관련 함수
   const birthdayChangeHandler = (changedDate) => {
     const m = moment(changedDate).toObject();
-    const tmp = {
-      birthYear: m.years,
-      birthMonth: m.months + 1,
-      birthDay: m.date,
-    };
+    const tmp = m.format('YYYY-MM-DD');
+    console.log(tmp);
     setBirthday((prevState) => tmp);
   };
   const addHobbyHandler = (event) => {

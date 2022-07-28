@@ -45,6 +45,12 @@ export const dispatchUserBasicInfo = async (userInfo, isUpdate) => {
   };
 
   try {
+    // const response = await axios.put(
+    //   API_URL + 'user/basic-info',
+    //   JSON.stringify(userInfo),
+    //   postConfig
+    // );
+
     let response;
     if (!isUpdate) {
       response = await axios.post(
@@ -60,7 +66,7 @@ export const dispatchUserBasicInfo = async (userInfo, isUpdate) => {
       );
     }
 
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
