@@ -139,10 +139,9 @@ const ModifyUserInfo = (props) => {
 
   // material UI 날짜 관련 함수
   const birthdayChangeHandler = (changedDate) => {
-    const m = moment(changedDate).toObject();
-    const tmp = m.format('YYYY-MM-DD');
-    console.log(tmp);
-    setBirthday((prevState) => tmp);
+    const m = moment(changedDate).format('YYYY-MM-DD');
+    console.log(m);
+    setBirthday((prevState) => m);
   };
   const addHobbyHandler = (event) => {
     const hobbyId = Number(event.currentTarget.dataset.value);
@@ -227,7 +226,7 @@ const ModifyUserInfo = (props) => {
                   <DesktopDatePicker
                     // label="생년월일"
                     inputFormat="yyyy-MM-dd"
-                    value={new Date(Object.values(birthday))}
+                    value={birthday}
                     onChange={birthdayChangeHandler}
                     renderInput={(params) => <TextField {...params} />}
                   />
