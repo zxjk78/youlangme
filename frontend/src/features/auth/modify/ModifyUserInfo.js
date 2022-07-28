@@ -199,7 +199,7 @@ const ModifyUserInfo = (props) => {
                 type="text"
                 id="name"
                 ref={nameRef}
-                value={name}
+                defaultValue={existUserInfo?.name || name}
                 onChange={nameInputChangeHandler}
               />
 
