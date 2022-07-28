@@ -21,7 +21,7 @@ import { modifyUser } from '../authSlice';
 import classes from './ModifyUserInfo.module.scss';
 
 //하드코딩한 데이터
-import * as selectData from './selectData';
+import * as selectData from './data';
 const { nationOptions, languageOptions, genderOptions } = selectData;
 
 const ModifyUserInfo = (props) => {
@@ -31,6 +31,7 @@ const ModifyUserInfo = (props) => {
   // ?. 는 property 읽을 때 없는값이면 cannot read undefined 에러 없이
   // undefined 출력하는 연산자
   const existUserInfo = props.userInfo;
+  console.log(existUserInfo);
   /*
  props.userInfo = {
     "age": 0,
@@ -198,6 +199,7 @@ const ModifyUserInfo = (props) => {
                 type="text"
                 id="name"
                 ref={nameRef}
+                value={name}
                 onChange={nameInputChangeHandler}
               />
 
@@ -211,16 +213,20 @@ const ModifyUserInfo = (props) => {
                 {isNameUnique ? '사용 가능' : '중복 확인'}
               </Button>
             </div>
-            <h5>생년월일</h5>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-                // label="생년월일"
-                inputFormat="yyyy-MM-dd"
-                value={new Date(Object.values(birthday))}
-                onChange={birthdayChangeHandler}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
+            {!existUserInfo && (
+              <>
+                <h5>생년월일</h5>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    // label="생년월일"
+                    inputFormat="yyyy-MM-dd"
+                    value={new Date(Object.values(birthday))}
+                    onChange={birthdayChangeHandler}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </>
+            )}
             <div className={`${classes.twoInputsContainer}`}>
               <div>
                 <MuiSelect
@@ -281,12 +287,18 @@ const ModifyUserInfo = (props) => {
                     return (
                       <Chip
                         key={obj.id}
-                        label={obj.name}
+                        label={selectData.favorites[obj.id]}
                         onClick={
-                          !obj.isSelected ? addHobbyHandler : removeHobbyHandler
+                          userFavoriteList.includes(obj.name) || !obj.isSelected
+                            ? addHobbyHandler
+                            : removeHobbyHandler
                         }
                         data-value={obj.id}
-                        color={obj.isSelected ? 'warning' : 'default'}
+                        color={
+                          userFavoriteList.includes(obj.name) || obj.isSelected
+                            ? 'warning'
+                            : 'default'
+                        }
                       />
                     );
                   })

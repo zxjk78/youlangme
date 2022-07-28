@@ -4,6 +4,7 @@ import * as React from 'react';
 import ProfileImageEdit from './ProfileImageEdit';
 import Follow from './Follow';
 import Modal from '../../common/UI/Modal/Modal';
+import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
 
 // 리덕스 안거치는 단순 서버 통신 API
 import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';
@@ -14,7 +15,7 @@ import { useState, useRef, useEffect } from 'react';
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
-
+import { modalActions } from '../../common/UI/Modal/modalSlice';
 // router
 import { useParams } from 'react-router-dom';
 
@@ -48,10 +49,11 @@ import KoreaFlag from './images/KoreaFlag.png';
 
 const MyPage = () => {
   const params = useParams();
+  const dispatch = useDispatch();
   const [profileInfo, setProfileInfo] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const [profileDescription, setProfileDescription] = useState('');
-
+  const isModalVisible = useSelector((state) => state.modal.isVisible);
   // console.log(params.userId);
 
   // redux
@@ -61,6 +63,10 @@ const MyPage = () => {
 
   const isCurrentUser = currentUser.id === Number(params.userId);
   // console.log(isCurrentUser);
+
+  const modifyModalHandler = () => {
+    dispatch(modalActions.onModal());
+  };
 
   useEffect(() => {
     fetchProfile(setProfileInfo, params.userId);
@@ -86,7 +92,11 @@ const MyPage = () => {
 
   return (
     <div>
-      <Modal></Modal>
+      {profileInfo && isModalVisible && (
+        <Modal>
+          <ModifyUserInfo userInfo={profileInfo} />
+        </Modal>
+      )}
       {profileInfo && <div> 국적: {profileInfo.nationality}</div>}
       {/* currentUser의 프로필페이지에서만 profileImageEdit 가능하게 */}
       <Card className={classes.card}>
@@ -124,8 +134,8 @@ const MyPage = () => {
                   component="div"
                 >
                   {profileInfo.name}
+                  <button onClick={modifyModalHandler}>유저정보 수정</button>
                 </Typography>
-
                 <Follow profileUserId={params.userId} />
 
                 <Card className={classes.description_card}>
@@ -160,7 +170,7 @@ const MyPage = () => {
                       return (
                         <Chip
                           key={profileInfo.favorites.indexOf(fav)}
-                          label={fav}
+                          label={fav} // 이부분 취미를 변경해달라고 요청
                           color={
                             colors[Math.floor(Math.random() * colors.length)]
                           }
