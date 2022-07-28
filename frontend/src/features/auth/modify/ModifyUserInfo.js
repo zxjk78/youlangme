@@ -73,7 +73,7 @@ const ModifyUserInfo = (props) => {
     birthDay: '01',
   });
 
-  let formIsValid =
+  const formIsValid =
     userFavoriteList.length > 0 &&
     isNameUnique &&
     gender &&
@@ -106,7 +106,7 @@ const ModifyUserInfo = (props) => {
     try {
       const isDup = await nameDupCheck(name);
       // console.log('중복검사', isDup);
-      if (!isDup) {
+      if (!isDup || name === props.userInfo?.name) {
         alert('사용 가능한 아이디입니다.');
         setName((prevState) => name);
         setIsNameUnique(() => true);
@@ -316,20 +316,14 @@ const ModifyUserInfo = (props) => {
               </div>
             </div>
             <div className={classes.submitBtn}>
-              {!props.userInfo ? (
-                <Button
-                  size={`large`}
-                  color={!formIsValid ? 'grey' : 'purple'}
-                  disabled={!formIsValid}
-                  rounded={'rounded'}
-                >
-                  정보 등록
-                </Button>
-              ) : (
-                <Button size={`large`} color={'purple'} rounded={'rounded'}>
-                  정보 수정
-                </Button>
-              )}
+              <Button
+                size={`large`}
+                color={!formIsValid ? 'grey' : 'purple'}
+                disabled={!formIsValid}
+                rounded={'rounded'}
+              >
+                {!props.userInfo ? '정보 등록' : '정보 수정'}
+              </Button>
             </div>
           </form>
         </div>
