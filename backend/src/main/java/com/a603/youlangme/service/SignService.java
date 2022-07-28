@@ -15,11 +15,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
+import java.time.Instant;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -96,13 +102,14 @@ public class SignService {
     }
 
     @Transactional
-    public void findEmail(String email){
+    public void findEmail(String email) throws MessagingException {
         User user=userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         SimpleMailMessage simpleMailMessage =new SimpleMailMessage();
+        simpleMailMessage.setSubject("title");
         simpleMailMessage.setFrom("ssafyskj@gmail.com");
         simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject("title");
-        simpleMailMessage.setText("123456");
+        simpleMailMessage.setText("blabla");
+
         javaMailSender.send(simpleMailMessage);
     }
 }
