@@ -15,7 +15,7 @@ const StartMatching = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const [myLanguage, setMyLanguage] = useState(currentUser.myLanguage);
   const [yourLanguage, setYourLanguage] = useState(currentUser.yourLanguage);
-  const [hobbyId, setHobbyId] = useState(0);
+  const [hobbyId, setHobbyId] = useState(null);
   const [hobbyName, setHobbyName] = useState("");
 
   const changeTeachHandler = (event) => {
@@ -25,21 +25,21 @@ const StartMatching = () => {
     setYourLanguage(event.target.value);
   };
 
-  const addHobbyHandler = (event) => {
+  const changeHobbyHandler = (event) => {
+    event.preventDefault();
+    if (hobbyId) {
+      for (const obj of chipHobbies) {
+        if (obj.id === hobbyId) {
+          obj.isSelected = !obj.isSelected;
+          setHobbyName("");
+        }
+      }
+    }
     setHobbyId(Number(event.currentTarget.dataset.value));
     for (const obj of chipHobbies) {
       if (obj.id === hobbyId) {
         obj.isSelected = !obj.isSelected;
         setHobbyName(obj.name);
-      }
-    }
-  };
-  const removeHobbyHandler = (event) => {
-    setHobbyId(null);
-    for (const obj of chipHobbies) {
-      if (obj.id === hobbyId) {
-        obj.isSelected = !obj.isSelected;
-        setHobbyName("");
       }
     }
   };
@@ -78,9 +78,7 @@ const StartMatching = () => {
                     <Chip
                       key={obj.id}
                       label={obj.name}
-                      onClick={
-                        !obj.isSelected ? addHobbyHandler : removeHobbyHandler
-                      }
+                      onClick={changeHobbyHandler}
                       data-value={obj.id}
                       color={obj.isSelected ? "warning" : "default"}
                     />
