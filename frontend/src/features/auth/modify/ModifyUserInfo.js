@@ -30,8 +30,8 @@ const ModifyUserInfo = (props) => {
 
   // ?. 는 property 읽을 때 없는값이면 cannot read undefined 에러 없이
   // undefined 출력하는 연산자
-  const existUserInfo = props.userInfo;
-  console.log(existUserInfo);
+  // const props.userInfo = { ...props.userInfo };
+
   /*
  props.userInfo = {
     "age": 0,
@@ -50,16 +50,16 @@ const ModifyUserInfo = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchedFavorite, setFetchedFavorite] = useState([]);
 
-  const [name, setName] = useState(existUserInfo?.name || '');
-  const [gender, setGender] = useState(existUserInfo?.gender || '');
-  const [myLang, setMyLang] = useState(existUserInfo?.mylanguage || '');
-  const [yourLang, setYourLang] = useState(existUserInfo?.yourlanguage || '');
+  const [name, setName] = useState(props.userInfo?.name || '');
+  const [gender, setGender] = useState(props.userInfo?.gender || '');
+  const [myLang, setMyLang] = useState(props.userInfo?.mylanguage || '');
+  const [yourLang, setYourLang] = useState(props.userInfo?.yourlanguage || '');
   const [isNameUnique, setIsNameUnique] = useState(false);
   const [userFavoriteList, setUserFavoriteList] = useState(
-    existUserInfo?.favorites || []
+    props.userInfo?.favorites || []
   );
   const [nationality, setNationality] = useState(
-    existUserInfo?.nationality || ''
+    props.userInfo?.nationality || ''
   );
   const nameRef = useRef();
   const [birthday, setBirthday] = useState({
@@ -146,6 +146,8 @@ const ModifyUserInfo = (props) => {
   };
   const addHobbyHandler = (event) => {
     const hobbyId = Number(event.currentTarget.dataset.value);
+    // console.log('add', hobbyId, userFavoriteList);
+
     if (userFavoriteList.length >= 3) return;
     setUserFavoriteList((prevState) => [...prevState, hobbyId]);
     for (const obj of fetchedFavorite) {
@@ -156,6 +158,7 @@ const ModifyUserInfo = (props) => {
   };
   const removeHobbyHandler = (event) => {
     const hobbyId = Number(event.currentTarget.dataset.value);
+    // console.log('remove', hobbyId, userFavoriteList);
     if (userFavoriteList.length === 0) return;
     setUserFavoriteList((prevState) =>
       prevState.filter((item) => item !== hobbyId)
@@ -178,8 +181,10 @@ const ModifyUserInfo = (props) => {
       yourLanguage: yourLang,
       favoriteList: userFavoriteList,
     };
+
+    const isUpdate = props.userInfo ? true : false;
     try {
-      const response = await dispatchUserBasicInfo(tmpUserInfo);
+      const response = await dispatchUserBasicInfo(tmpUserInfo, isUpdate);
       if (response.success) {
         document.location.href = '/main';
       }
@@ -199,7 +204,7 @@ const ModifyUserInfo = (props) => {
                 type="text"
                 id="name"
                 ref={nameRef}
-                defaultValue={existUserInfo?.name || name}
+                defaultValue={props.userInfo?.name || name}
                 onChange={nameInputChangeHandler}
               />
 
@@ -213,7 +218,7 @@ const ModifyUserInfo = (props) => {
                 {isNameUnique ? '사용 가능' : '중복 확인'}
               </Button>
             </div>
-            {!existUserInfo && (
+            {!props.userInfo && (
               <>
                 <h5>생년월일</h5>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -289,13 +294,13 @@ const ModifyUserInfo = (props) => {
                         key={obj.id}
                         label={selectData.favorites[obj.id]}
                         onClick={
-                          userFavoriteList.includes(obj.name) || !obj.isSelected
-                            ? addHobbyHandler
-                            : removeHobbyHandler
+                          userFavoriteList.includes(Number(obj.id))
+                            ? removeHobbyHandler
+                            : addHobbyHandler
                         }
                         data-value={obj.id}
                         color={
-                          userFavoriteList.includes(obj.name) || obj.isSelected
+                          userFavoriteList.includes(obj.id) || obj.isSelected
                             ? 'warning'
                             : 'default'
                         }
@@ -306,14 +311,20 @@ const ModifyUserInfo = (props) => {
               </div>
             </div>
             <div className={classes.submitBtn}>
-              <Button
-                size={`large`}
-                color={!formIsValid ? 'grey' : 'purple'}
-                disabled={!formIsValid}
-                rounded={'rounded'}
-              >
-                정보 등록
-              </Button>
+              {!props.userInfo ? (
+                <Button
+                  size={`large`}
+                  color={!formIsValid ? 'grey' : 'purple'}
+                  disabled={!formIsValid}
+                  rounded={'rounded'}
+                >
+                  정보 등록
+                </Button>
+              ) : (
+                <Button size={`large`} color={'purple'} rounded={'rounded'}>
+                  정보 수정
+                </Button>
+              )}
             </div>
           </form>
         </div>

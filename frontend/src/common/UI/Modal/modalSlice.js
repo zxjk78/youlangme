@@ -14,7 +14,7 @@ const reducer = {
   // modal의 바깥을 클릭했을 때 사라지게 할 것인지 아닌지,
   // action에 담아서 보내도록 만듬, 아무값도 안보내면 true
   onModal(state, action) {
-    console.log('here');
+    // console.log('here');
     const option = action.payload;
     state.isVisible = true;
     state.backDropClickClose = option?.backDropClickClose || true;
