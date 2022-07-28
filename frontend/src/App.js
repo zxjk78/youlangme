@@ -61,7 +61,7 @@ function App() {
             component={BoardDetailModal}
           ></PrivateRoute>
           {/* test용 public route */}
-          <PublicRoute path="*" component={NotFound}></PublicRoute>
+          <PrivateRoute path="*" component={NotFound}></PrivateRoute>
         </Switch>
       </BrowserRouter>
     </div>
