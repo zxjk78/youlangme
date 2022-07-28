@@ -13,8 +13,6 @@ const API_URL = 'http://127.0.0.1:8080/';
 
 
 export const fetchFollowCnt =  async (setFollowCount, userId) =>  {
-    
-  console.log('fetch 팔로우 카운트');
 
   try {
     const response = await axios.get(
@@ -37,8 +35,7 @@ export const fetchFollowCnt =  async (setFollowCount, userId) =>  {
 
 // followers 배열 받아오기
 export const fetchFollowers =  async (setFlwers, userId) =>  {
-  console.log('fetch 팔로워');
-  
+
   try {
     const response = await axios.get(
       API_URL + `follow/followers/${userId}`,
@@ -65,8 +62,6 @@ export const fetchFollowers =  async (setFlwers, userId) =>  {
 // followees 배열 받아오기
 export const fetchFollowees = async (setFlwees, userId) =>  {
   
-    console.log('fetch 팔로잉');
-  
     try {
       const response = await axios.get(
         API_URL + `follow/followees/${userId}`,
@@ -87,7 +82,7 @@ export const fetchFollowees = async (setFlwees, userId) =>  {
 
 
 
-export const fetchFollowOrNot = async (setIsFlw, userId) =>  {
+export const fetchFollowOrNot = async (setIsFlw, userId, currentUserId) =>  {
 
   try {
     const response = await axios.get(
@@ -96,7 +91,7 @@ export const fetchFollowOrNot = async (setIsFlw, userId) =>  {
       getConfig
     );
     console.log(response.data.data)
-    if (response.data.data.find(flwer=>flwer.followerId === userId)){ 
+    if (response.data.data.find(flwer=>flwer.followerId === currentUserId)){ 
         console.log('팔로우 하고 있음. ');
         setIsFlw(true) } else {
           setIsFlw(false)
@@ -110,43 +105,40 @@ export const fetchFollowOrNot = async (setIsFlw, userId) =>  {
 };
 
 
-  
-
-
-// // follow 요청
-// export const sendFollow =  async (setIsFlwed, userId) =>  {
+// follow 요청
+export const sendFollow =  async (setIsFlwed, userId) =>  {
     
-//   console.log('팔로우 버튼 클릭');
+  console.log('팔로우 버튼 클릭');
 
-//   try {
-//     await axios.post(
-//       API_URL + `follow/${userId}`, {},
-//       getConfig 
-//     );
-//     // console.log(response.data.message)
-//     setIsFlwed(true)
+  try {
+    await axios.post(
+      API_URL + `follow/${userId}`, {},
+      getConfig 
+    );
+    // console.log(response.data.message)
+    setIsFlwed(true)
 
-//   } catch (err) {
-//     console.log('팔로우 요청 에러')
-//     return err.response;
-//   }
-// };
+  } catch (err) {
+    console.log('팔로우 요청 에러')
+    return err.response;
+  }
+};
 
-// // unfollow 요청
-// export const sendUnfollow =  async (setIsFlwed, userId) =>  {
+// unfollow 요청
+export const sendUnfollow =  async (setIsFlwed, userId) =>  {
     
-//   console.log('언팔로우 버튼 클릭');
+  console.log('언팔로우 버튼 클릭');
 
-//   try {
-//     await axios.delete(
-//       API_URL + `follow/${userId}`,
-//       getConfig 
-//     );
-//     // console.log(response.data.message)
-//     setIsFlwed(false)
+  try {
+    await axios.delete(
+      API_URL + `follow/${userId}`,
+      getConfig 
+    );
+    // console.log(response.data.message)
+    setIsFlwed(false)
 
-//   } catch (err) {
-//     console.log('언팔로우 요청 에러')
-//     return err.response;
-//   }
-// };
+  } catch (err) {
+    console.log('언팔로우 요청 에러')
+    return err.response;
+  }
+};

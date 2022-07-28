@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  .container {
+    margin-left: 5%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  width: 100%;
+  background-color: none;
+  .imageContainer {
+    position: relative;
+    .userProfileImg {
+      width: 50px;
+      height: 50px;
+      border-radius: 70%;
+      overflow: hidden;
+    }
+    .userNationFlag {
+      width: 30px;
+      height: 15px;
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+    }
+  }
+  .name {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}

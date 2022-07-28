@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux/es/exports";
-import { useState, useEffect } from "react";
-import MuiSelect from "../../common/UI/MuiSelect";
-import * as selectData from "../../features/auth/modify/selectData";
-import classes from "./StartMatching.module.scss";
-import { fetchHobbies } from "../../features/auth/modify/modifyAPI";
-import { Chip } from "@mui/material";
+import { useSelector } from 'react-redux/es/exports';
+import { useState, useEffect } from 'react';
+import MuiSelect from '../../common/UI/MuiSelect';
+import * as selectData from '../auth/modify/data';
+import classes from './StartMatching.module.scss';
+import { fetchHobbies } from '../../features/auth/modify/modifyAPI';
+import { Chip } from '@mui/material';
 const StartMatching = () => {
   const { languageOptions } = selectData;
   const [chipHobbies, setChipHobbies] = useState([]);
@@ -15,8 +15,13 @@ const StartMatching = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const [myLanguage, setMyLanguage] = useState(currentUser.myLanguage);
   const [yourLanguage, setYourLanguage] = useState(currentUser.yourLanguage);
+<<<<<<< HEAD
   const [hobbyId, setHobbyId] = useState(null);
   const [hobbyName, setHobbyName] = useState("");
+=======
+  const [hobbyId, setHobbyId] = useState(0);
+  const [hobbyName, setHobbyName] = useState('');
+>>>>>>> ae1aea1cf1e475b30e63e33342610efc4b4159e8
 
   const changeTeachHandler = (event) => {
     setMyLanguage(event.target.value);
@@ -43,6 +48,17 @@ const StartMatching = () => {
       }
     }
   };
+
+  const removeHobbyHandler = (event) => {
+    setHobbyId(null);
+    for (const obj of chipHobbies) {
+      if (obj.id === hobbyId) {
+        obj.isSelected = !obj.isSelected;
+        setHobbyName('');
+      }
+    }
+  };
+
 
   return (
     <div className={classes.container}>
@@ -72,7 +88,7 @@ const StartMatching = () => {
             </div>
             <div className={classes.interestContainer}>
               <h4>상대방과 대화하고 싶은 주제를 골라주세요</h4>
-              <div className={classes["chipsContaier"]}>
+              <div className={classes['chipsContaier']}>
                 {chipHobbies.map((obj) => {
                   return (
                     <Chip
@@ -80,7 +96,7 @@ const StartMatching = () => {
                       label={obj.name}
                       onClick={changeHobbyHandler}
                       data-value={obj.id}
-                      color={obj.isSelected ? "warning" : "default"}
+                      color={obj.isSelected ? 'warning' : 'default'}
                     />
                   );
                 })}

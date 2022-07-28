@@ -1,10 +1,10 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { logout } from "../../../features/auth/authSlice";
-import classes from "./Header.module.scss";
-import youlangme from "../../../assets/youlangme.jpg";
-import go from "../../../assets/go.png";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { logout } from '../../../features/auth/authSlice';
+import classes from './Header.module.scss';
+import youlangme from '../../../assets/youlangme.jpg';
+import go from '../../../assets/go.png';
 const Header = () => {
   const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const Header = () => {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        document.location.href = "/";
+        document.location.href = '/';
       });
   };
   return (
