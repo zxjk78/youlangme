@@ -17,7 +17,7 @@ import { UploadProfileImg } from './ProfileAPI';
 
 
 
-const ProfileImageEdit = () => {
+const ProfileImageEdit = (props) => {
   // redux
   const { currentUser } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const ProfileImageEdit = () => {
     previewImageURL: "",
   });
 
-  const [isUploadClicked, setIsUploadClicked] = useState(false)
+
 
 
   let inputRef;
@@ -78,6 +78,7 @@ const ProfileImageEdit = () => {
   const sendImageToServer = () => {
     
     UploadProfileImg(profileImg.profileImageFile, setProfileImg);
+    props.getNewProfileImg(true)
     setOpen(false);
   }
 

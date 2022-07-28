@@ -10,7 +10,7 @@ import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
 import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';
 
 // state
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -53,6 +53,7 @@ const MyPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const [profileDescription, setProfileDescription] = useState('');
+  const [isUploaded, setIsUploaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
   const isModalVisible = useSelector((state) => state.modal.isVisible);
   // console.log(params.userId);
@@ -69,15 +70,26 @@ const MyPage = () => {
     dispatch(modalActions.onModal());
   };
 
+  const updateProfileImg = (isUpdated) => {
+      console.log(isUpdated, '업데이트여부')
+      if (isUpdated) {
+        setIsUploaded(true)
+      }
+    }
+    
+  
+
   useEffect(() => {
     fetchProfile(setProfileInfo, params.userId);
     fetchProfileImg(setProfileImg, params.userId);
     fetchDescription(setProfileDescription, params.userId);
     setIsLoading(false);
+    setIsUploaded(false)
     return () => {
       setProfileImg(null)
     }
-  }, [params.userId]);
+  }, [params.userId, isUploaded]);
+
 
   const colors = [
     'primary',
@@ -98,8 +110,6 @@ const MyPage = () => {
   return (
 
       <div>
-
-        
         {profileInfo && isModalVisible && (
           <Modal>
             <ModifyUserInfo userInfo={profileInfo} />
@@ -128,7 +138,7 @@ const MyPage = () => {
                 overlap="circular"
               >
                 <Avatar sx={{ width: 200, height: 200 }} src={profileImg} />
-                {isCurrentUser && <ProfileImageEdit />}
+                {isCurrentUser && <ProfileImageEdit getNewProfileImg={updateProfileImg}/>}
               </Badge>}
             </CardMedia>
 
