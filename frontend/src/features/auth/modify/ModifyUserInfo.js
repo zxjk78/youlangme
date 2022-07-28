@@ -24,16 +24,42 @@ import classes from './ModifyUserInfo.module.scss';
 import * as selectData from './selectData';
 const { nationOptions, languageOptions, genderOptions } = selectData;
 
-const ModifyUserInfo = () => {
+const ModifyUserInfo = (props) => {
+  // profile 안에서 모달로 부르는 방식이면, props로 받는 것도 가능함, ?. 연산자 + || 연산자 이용 = 프로퍼티가 존재 안하면
+  // props 랑 연산자 이용해서 재사용 시도해보기?
+
+  // cannot read undefined 에러 없이
+  // undefined 출력하는 연산자
+  const existUserInfo = props.userInfo;
+  /*
+ props.userInfo = {
+    "age": 0,
+    "favorites": [
+      "string"
+    ],
+    "gender": "FEMALE",
+    "mylanguage": "CHINESE",
+    "name": "string",
+    "nationality": "CHINA",
+    "yourlanguage": "CHINESE"
+  },
+
+*/
+
   const [isLoading, setIsLoading] = useState(false);
   const [fetchedFavorite, setFetchedFavorite] = useState([]);
-  const [name, setName] = useState('');
+
+  const [name, setName] = useState(existUserInfo?.name || '');
+  const [gender, setGender] = useState(existUserInfo?.gender || '');
+  const [myLang, setMyLang] = useState(existUserInfo?.mylanguage || '');
+  const [yourLang, setYourLang] = useState(existUserInfo?.yourlanguage || '');
   const [isNameUnique, setIsNameUnique] = useState(false);
-  const [userFavoriteList, setUserFavoriteList] = useState([]);
-  const [gender, setGender] = useState('');
-  const [nationality, setNationality] = useState('');
-  const [myLang, setMyLang] = useState('');
-  const [yourLang, setYourLang] = useState('');
+  const [userFavoriteList, setUserFavoriteList] = useState(
+    existUserInfo?.favorites || []
+  );
+  const [nationality, setNationality] = useState(
+    existUserInfo?.nationality || ''
+  );
   const nameRef = useRef();
   const [birthday, setBirthday] = useState({
     birthYear: '2000',
@@ -53,7 +79,7 @@ const ModifyUserInfo = () => {
     (async () => {
       setIsLoading(true);
       const hobbies = await fetchHobbies();
-      console.log(hobbies);
+      // console.log(hobbies);
       setFetchedFavorite(hobbies);
 
       setIsLoading(false);

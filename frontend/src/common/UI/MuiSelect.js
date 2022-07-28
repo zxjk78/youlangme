@@ -8,7 +8,7 @@ const MuiSelect = (props) => {
         <Select
           labelId={props.labelId}
           id={props.id}
-          defaultValue={''}
+          defaultValue={props.value} // 이부분 defaultValue를 넣어봄 되면 땡큐고 아니면
           value={props.value}
           label={props.id}
           inputProps={{
