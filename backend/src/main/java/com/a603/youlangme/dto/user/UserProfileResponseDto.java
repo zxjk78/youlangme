@@ -26,7 +26,7 @@ public class UserProfileResponseDto {
 
     public Language yourlanguage;
 
-    public List<String> favorites = new ArrayList<>();
+    public List<Long> favorites = new ArrayList<>();
 
     public Gender gender;
 

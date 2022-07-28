@@ -1,12 +1,14 @@
 package com.a603.youlangme.config.logging;
 
 
+import com.a603.youlangme.entity.Feed;
 import com.a603.youlangme.entity.Follow;
 import com.a603.youlangme.entity.Log;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.LogType;
 import com.a603.youlangme.enums.Notification;
 import com.a603.youlangme.repository.BoardRepository;
+import com.a603.youlangme.repository.FeedRepository;
 import com.a603.youlangme.repository.LogRepository;
 import com.a603.youlangme.repository.UserRepository;
 import com.google.common.base.Joiner;
@@ -38,6 +40,7 @@ public class LoggingAspect {
 
     private final LogRepository logRepository;
     private final UserRepository userRepository;
+    private final FeedRepository feedRepository;
     private final BoardRepository boardRepository;
 
     @Around("@annotation(com.a603.youlangme.config.logging.Logging)")
@@ -58,24 +61,20 @@ public class LoggingAspect {
         Long targetId = (Long) result;
 
         long endAt = System.currentTimeMillis();
-
         if (action.equalsIgnoreCase("savePost")) {
+            Log log = logRepository.save(new Log(loginUser, LogType.WRITE_POST, (Long) result));
             User user = userRepository.findById(loginUser.getId()).orElse(null);
             for (Follow follow : user.getFollowers()) {
-                logRepository.save(new Log(follow.getFollower(), LogType.WRITE_POST, loginUser, Notification.ON, (Long)result));
+                //logRepository.save(new Log(follow.getFollower(), LogType.WRITE_POST, loginUser, Notification.ON, (Long)result));
+                feedRepository.save(new Feed(follow.getFollower(), log, Notification.ON));
             }
 
         } else if (action.equalsIgnoreCase("saveFollow")) {
+            Log log = logRepository.save(new Log(loginUser, LogType.FOLLOWED, (Long) result));
             User followee = userRepository.findById((Long)result).orElse(null);
-            logRepository.save(new Log(followee, LogType.FOLLOWED, loginUser, Notification.ON, null));
+            //logRepository.save(new Log(followee, LogType.FOLLOWED, loginUser, Notification.ON, null));
+            feedRepository.save(new Feed(followee, log, Notification.ON));
         }
-
-//        logs = logRepository.findAllByUser(loginUser);
-//        for (log : logs) {
-//            log.update(Notification.OFF);
-//        }
-
-        //logRepository.save(new Log(userId, action, targetId));
 
         return result;
     }

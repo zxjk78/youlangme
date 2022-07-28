@@ -1,13 +1,14 @@
-package com.a603.youlangme.dto.log;
+package com.a603.youlangme.dto.feed;
 
 
 import com.a603.youlangme.enums.LogType;
+import com.a603.youlangme.enums.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class LogResponseDto {
+public class FeedResponseDto {
 
     String userName;
 
@@ -16,5 +17,7 @@ public class LogResponseDto {
     LogType logType;
 
     Long detail;
+
+    Notification notification;
 
 }

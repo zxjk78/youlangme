@@ -145,5 +145,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Log> logs = new ArrayList<>();
+    private List<Feed> feedList = new ArrayList<>();
+
+
 }
