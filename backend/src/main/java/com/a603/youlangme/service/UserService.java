@@ -122,7 +122,7 @@ public class UserService {
         userProfileResponseDto.setAge(user.getAge());
 
         for (UserFavorite userFavorite : user.getUserFavorites()) {
-            userProfileResponseDto.favorites.add(userFavorite.getFavorite().getName());
+            userProfileResponseDto.favorites.add(userFavorite.getFavorite().getId());
         }
         return userProfileResponseDto;
     }
