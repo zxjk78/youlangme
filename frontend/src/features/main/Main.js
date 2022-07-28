@@ -19,7 +19,7 @@ const Main = () => {
         document.location.href = '/';
       });
   };
-  console.log(currentUser.name);
+  // console.log(currentUser.name);
   if (currentUser.name === null) {
     history.push('/modify');
   }

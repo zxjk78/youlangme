@@ -4,7 +4,6 @@ import { Switch, BrowserRouter } from 'react-router-dom';
 import Login from './features/auth/login/Login';
 // import { useSelector } from "react-redux";
 import SignUp from './features/auth/signup/SignUp';
-import ModifyUserInfo from './features/auth/modify/ModifyUserInfo';
 import Main from './features/main/Main';
 import MyPage from './features/profile/MyPage';
 import PrivateRoute from './common/routes/PrivateRoute';
@@ -16,6 +15,7 @@ import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
 import BoardMainItem from './features/main/feed/components/BoardMainItem';
 import StartMatching from './features/matching/StartMatching';
+import ModifyPage from './features/auth/modify/ModifyPage';
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -34,10 +34,7 @@ function App() {
             component={SignUp}
           ></PublicRoute>
           <PublicRoute path="/social" component={Social}></PublicRoute>
-          <PrivateRoute
-            path="/modify"
-            component={ModifyUserInfo}
-          ></PrivateRoute>
+          <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>
           <PrivateRoute path="/start" exact component={StartMatching} />
           <PrivateRoute path="/profile/:userId" exact component={MyPage}>
             {/* <PrivateRoute path="activity" component={MyActivity}></PrivateRoute> */}

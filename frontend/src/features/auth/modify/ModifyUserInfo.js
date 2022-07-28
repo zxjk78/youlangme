@@ -1,91 +1,137 @@
 // component
-import Button from "../../../common/UI/Button";
+import Button from '../../../common/UI/Button';
 
 //material UI
-import { TextField, Chip } from "@mui/material";
-import MuiSelect from "../../../common/UI/MuiSelect";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import moment from "moment";
+import { TextField, Chip } from '@mui/material';
+import MuiSelect from '../../../common/UI/MuiSelect';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import moment from 'moment';
 
 // 리덕스 안거치는 단순 서버 통신 API
-import { fetchHobbies } from "./modifyAPI";
+import { fetchHobbies, nameDupCheck, dispatchUserBasicInfo } from './modifyAPI';
 
 // state
-import { useState, useRef, useEffect } from "react";
-// redux
-import { useSelector, useDispatch } from "react-redux";
-import { modifyActions, dispatchUserBasicInfo } from "./modifySlice";
-import { nameDupCheck } from "./modifySlice";
+import { useState, useRef, useEffect } from 'react';
 // router
-import { useHistory } from "react-router-dom";
-import { modifyUser } from "../authSlice";
+import { useHistory } from 'react-router-dom';
+import { modifyUser } from '../authSlice';
 // css
-import classes from "./ModifyUserInfo.module.scss";
+import classes from './ModifyUserInfo.module.scss';
 
 //하드코딩한 데이터
-import * as selectData from "./selectData";
+import * as selectData from './data';
 const { nationOptions, languageOptions, genderOptions } = selectData;
 
-const ModifyUserInfo = () => {
-  const [chipHobbies, setChipHobbies] = useState([]);
+const ModifyUserInfo = (props) => {
+  // profile 안에서 모달로 부르는 방식이면, props로 받는 것도 가능함, ?. 연산자 + || 연산자 이용 = 프로퍼티가 존재 안하면
+  // props 랑 연산자 이용해서 재사용 시도해보기?
+
+  // ?. 는 property 읽을 때 없는값이면 cannot read undefined 에러 없이
+  // undefined 출력하는 연산자
+  const existUserInfo = props.userInfo;
+  console.log(existUserInfo);
+  /*
+ props.userInfo = {
+    "age": 0,
+    "favorites": [
+      "string"
+    ],
+    "gender": "FEMALE",
+    "mylanguage": "CHINESE",
+    "name": "string",
+    "nationality": "CHINA",
+    "yourlanguage": "CHINESE"
+  },
+
+*/
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchedFavorite, setFetchedFavorite] = useState([]);
+
+  const [name, setName] = useState(existUserInfo?.name || '');
+  const [gender, setGender] = useState(existUserInfo?.gender || '');
+  const [myLang, setMyLang] = useState(existUserInfo?.mylanguage || '');
+  const [yourLang, setYourLang] = useState(existUserInfo?.yourlanguage || '');
+  const [isNameUnique, setIsNameUnique] = useState(false);
+  const [userFavoriteList, setUserFavoriteList] = useState(
+    existUserInfo?.favorites || []
+  );
+  const [nationality, setNationality] = useState(
+    existUserInfo?.nationality || ''
+  );
+  const nameRef = useRef();
+  const [birthday, setBirthday] = useState({
+    birthYear: '2000',
+    birthMonth: '01',
+    birthDay: '01',
+  });
+
+  let formIsValid =
+    userFavoriteList.length > 0 &&
+    isNameUnique &&
+    gender &&
+    myLang &&
+    yourLang &&
+    nationality;
 
   useEffect(() => {
-    fetchHobbies(setChipHobbies);
+    (async () => {
+      setIsLoading(true);
+      const hobbies = await fetchHobbies();
+      // console.log(hobbies);
+      setFetchedFavorite(hobbies);
+
+      setIsLoading(false);
+    })();
   }, []);
 
   const history = useHistory();
-  const nickNameRef = useRef();
 
-  // redux
-  const userInfo = useSelector((state) => state.modify);
-  const dispatch = useDispatch();
-  console.log("리덕스 테스트:", userInfo);
-
-  // eventHandler
-  const nickNameInputChangeHandler = () => {
-    dispatch(modifyActions.setIsNameUnique(false));
+  // eventHandlers
+  const nameInputChangeHandler = () => {
+    setIsNameUnique(() => false);
   };
 
-  const nickNameDupCheckHandler = async () => {
-    const nickName = nickNameRef.current.value;
-
-    if (nickName.trim() === "") {
-      alert("아이디를 입력해주세요");
-    } else {
-      try {
-        const response = await dispatch(nameDupCheck(nickName));
-        // const isDup = response.payload.data.data
-        const isDup = response.payload.data;
-        console.log(isDup);
-        if (!isDup) {
-          dispatch(modifyActions.setName(nickName));
-          alert("사용 가능한 아이디입니다.");
-        } else {
-          dispatch(modifyActions.setName(""));
-          alert("이미 존재하는 아이디입니다.");
-        }
-      } catch (error) {
-        console.log(error);
+  const nameDupCheckHandler = async () => {
+    const name = nameRef.current.value;
+    if (name.trim() === '') {
+      alert('아이디를 입력해주세요');
+      return;
+    }
+    try {
+      const isDup = await nameDupCheck(name);
+      // console.log('중복검사', isDup);
+      if (!isDup) {
+        alert('사용 가능한 아이디입니다.');
+        setName((prevState) => name);
+        setIsNameUnique(() => true);
+      } else {
+        alert('이미 존재하는 아이디입니다.');
+        setIsNameUnique(() => false);
+        return;
       }
+    } catch (error) {
+      console.log(error);
     }
   };
-  const changeGenderHandler = (event) => {
+
+  const genderHandler = (event) => {
     const gender = event.target.value;
-    dispatch(modifyActions.setGender(gender));
+    setGender(gender);
   };
-  const changeNationHandler = (event) => {
+  const nationalityHandler = (event) => {
     const nationality = event.target.value;
-    dispatch(modifyActions.setNationality(nationality));
+    setNationality(nationality);
   };
-  const changeTeachHandler = (event) => {
+  const myLangHandler = (event) => {
     const myLanguage = event.target.value;
-    dispatch(modifyActions.setMyLang(myLanguage));
+    setMyLang(myLanguage);
   };
-  const changeLearnHandler = (event) => {
+  const yourLangHandler = (event) => {
     const yourLanguage = event.target.value;
-    dispatch(modifyActions.setYourLang(yourLanguage));
+    setYourLang(yourLanguage);
   };
 
   // material UI 날짜 관련 함수
@@ -96,53 +142,51 @@ const ModifyUserInfo = () => {
       birthMonth: m.months + 1,
       birthDay: m.date,
     };
-    dispatch(modifyActions.setBirthday(tmp));
+    setBirthday((prevState) => tmp);
   };
   const addHobbyHandler = (event) => {
     const hobbyId = Number(event.currentTarget.dataset.value);
-    if (userInfo.favoriteList.length >= 3) return;
-
-    dispatch(modifyActions.addFavorite(hobbyId));
-    for (const obj of chipHobbies) {
+    if (userFavoriteList.length >= 3) return;
+    setUserFavoriteList((prevState) => [...prevState, hobbyId]);
+    for (const obj of fetchedFavorite) {
       if (obj.id === hobbyId) {
-        obj.isSelected = !obj.isSelected;
+        obj.isSelected = true;
       }
     }
   };
   const removeHobbyHandler = (event) => {
     const hobbyId = Number(event.currentTarget.dataset.value);
-
-    dispatch(modifyActions.removeFavorite(hobbyId));
-    for (const obj of chipHobbies) {
+    if (userFavoriteList.length === 0) return;
+    setUserFavoriteList((prevState) =>
+      prevState.filter((item) => item !== hobbyId)
+    );
+    for (const obj of fetchedFavorite) {
       if (obj.id === hobbyId) {
-        obj.isSelected = !obj.isSelected;
+        obj.isSelected = false;
       }
     }
   };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-
+    const tmpUserInfo = {
+      name,
+      nationality,
+      gender,
+      birthday,
+      myLanguage: myLang,
+      yourLanguage: yourLang,
+      favoriteList: userFavoriteList,
+    };
     try {
-      dispatch(modifyUser(ModifyUserInfo));
-      dispatch(dispatchUserBasicInfo(userInfo))
-        .unwrap()
-        .then(() => {
-          console.log("테스트");
-          document.location.href = "/main";
-        });
+      const response = await dispatchUserBasicInfo(tmpUserInfo);
+      if (response.success) {
+        document.location.href = '/main';
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
-  let formIsValid = true;
-  for (const key in userInfo) {
-    if (!userInfo[key] || userInfo.favoriteList.length === 0) {
-      formIsValid = false;
-      break;
-    }
-  }
 
   return (
     <>
@@ -153,39 +197,44 @@ const ModifyUserInfo = () => {
             <div className={`${classes.nicknameContainer}`}>
               <input
                 type="text"
-                id="nickname"
-                ref={nickNameRef}
-                onChange={nickNameInputChangeHandler}
+                id="name"
+                ref={nameRef}
+                value={name}
+                onChange={nameInputChangeHandler}
               />
 
               <Button
                 type="button"
                 size="small"
                 color="nicknameDupCheck"
-                onClick={nickNameDupCheckHandler}
-                onChange={nickNameInputChangeHandler}
+                onClick={nameDupCheckHandler}
+                onChange={nameInputChangeHandler}
               >
-                {userInfo.isNameUnique ? "사용 가능" : "중복 확인"}
+                {isNameUnique ? '사용 가능' : '중복 확인'}
               </Button>
             </div>
-            <h5>생년월일</h5>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-                // label="생년월일"
-                inputFormat="yyyy-MM-dd"
-                value={new Date(Object.values(userInfo.birthday))}
-                onChange={birthdayChangeHandler}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
+            {!existUserInfo && (
+              <>
+                <h5>생년월일</h5>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    // label="생년월일"
+                    inputFormat="yyyy-MM-dd"
+                    value={new Date(Object.values(birthday))}
+                    onChange={birthdayChangeHandler}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </>
+            )}
             <div className={`${classes.twoInputsContainer}`}>
               <div>
                 <MuiSelect
                   labelId="nation-label"
                   id="nation"
-                  value={userInfo.nation}
+                  value={nationality}
                   selectName="국적"
-                  onChange={changeNationHandler}
+                  onChange={nationalityHandler}
                   optionList={nationOptions}
                 />
               </div>
@@ -193,9 +242,9 @@ const ModifyUserInfo = () => {
                 <MuiSelect
                   labelId="gender-label"
                   id="gender"
-                  value={userInfo.gender}
+                  value={gender}
                   selectName="성별"
-                  onChange={changeGenderHandler}
+                  onChange={genderHandler}
                   optionList={genderOptions}
                 />
               </div>
@@ -207,9 +256,9 @@ const ModifyUserInfo = () => {
                   <MuiSelect
                     labelId="myLanguage-label"
                     id="myLanguage"
-                    value={userInfo.myLanguage}
+                    value={myLang}
                     selectName="내 언어"
-                    onChange={changeTeachHandler}
+                    onChange={myLangHandler}
                     optionList={languageOptions}
                   />
                 </div>
@@ -217,9 +266,9 @@ const ModifyUserInfo = () => {
                   <MuiSelect
                     labelId="yourLanguage-label"
                     id="yourLanguage"
-                    value={userInfo.yourLanguage}
+                    value={yourLang}
                     selectName="학습 언어"
-                    onChange={changeLearnHandler}
+                    onChange={yourLangHandler}
                     optionList={languageOptions}
                   />
                 </div>
@@ -230,28 +279,38 @@ const ModifyUserInfo = () => {
                 관심 있는 분야를 선택해 주세요 <span>(최대 3개)</span>
               </p>
               {/* 이부분에 chips 로 여러 개를 만들어서 사용함 */}
-              <div className={classes["chipsContaier"]}>
-                {chipHobbies.map((obj) => {
-                  return (
-                    <Chip
-                      key={obj.id}
-                      label={obj.name}
-                      onClick={
-                        !obj.isSelected ? addHobbyHandler : removeHobbyHandler
-                      }
-                      data-value={obj.id}
-                      color={obj.isSelected ? "warning" : "default"}
-                    />
-                  );
-                })}
+              <div className={classes['chipsContaier']}>
+                {isLoading ? (
+                  <div>로딩중</div>
+                ) : (
+                  fetchedFavorite.map((obj) => {
+                    return (
+                      <Chip
+                        key={obj.id}
+                        label={selectData.favorites[obj.id]}
+                        onClick={
+                          userFavoriteList.includes(obj.name) || !obj.isSelected
+                            ? addHobbyHandler
+                            : removeHobbyHandler
+                        }
+                        data-value={obj.id}
+                        color={
+                          userFavoriteList.includes(obj.name) || obj.isSelected
+                            ? 'warning'
+                            : 'default'
+                        }
+                      />
+                    );
+                  })
+                )}
               </div>
             </div>
             <div className={classes.submitBtn}>
               <Button
                 size={`large`}
-                color={!formIsValid ? "grey" : "purple"}
+                color={!formIsValid ? 'grey' : 'purple'}
                 disabled={!formIsValid}
-                rounded={"rounded"}
+                rounded={'rounded'}
               >
                 정보 등록
               </Button>

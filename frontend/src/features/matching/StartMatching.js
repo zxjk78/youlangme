@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux/es/exports";
-import { useState, useEffect } from "react";
-import MuiSelect from "../../common/UI/MuiSelect";
-import * as selectData from "../../features/auth/modify/selectData";
-import classes from "./StartMatching.module.scss";
-import { fetchHobbies } from "../../features/auth/modify/modifyAPI";
-import { Chip } from "@mui/material";
+import { useSelector } from 'react-redux/es/exports';
+import { useState, useEffect } from 'react';
+import MuiSelect from '../../common/UI/MuiSelect';
+import * as selectData from '../auth/modify/data';
+import classes from './StartMatching.module.scss';
+import { fetchHobbies } from '../../features/auth/modify/modifyAPI';
+import { Chip } from '@mui/material';
 const StartMatching = () => {
   const { languageOptions } = selectData;
   const [chipHobbies, setChipHobbies] = useState([]);
@@ -16,7 +16,7 @@ const StartMatching = () => {
   const [myLanguage, setMyLanguage] = useState(currentUser.myLanguage);
   const [yourLanguage, setYourLanguage] = useState(currentUser.yourLanguage);
   const [hobbyId, setHobbyId] = useState(0);
-  const [hobbyName, setHobbyName] = useState("");
+  const [hobbyName, setHobbyName] = useState('');
 
   const changeTeachHandler = (event) => {
     setMyLanguage(event.target.value);
@@ -39,7 +39,7 @@ const StartMatching = () => {
     for (const obj of chipHobbies) {
       if (obj.id === hobbyId) {
         obj.isSelected = !obj.isSelected;
-        setHobbyName("");
+        setHobbyName('');
       }
     }
   };
@@ -72,7 +72,7 @@ const StartMatching = () => {
             </div>
             <div className={classes.interestContainer}>
               <h4>상대방과 대화하고 싶은 주제를 골라주세요</h4>
-              <div className={classes["chipsContaier"]}>
+              <div className={classes['chipsContaier']}>
                 {chipHobbies.map((obj) => {
                   return (
                     <Chip
@@ -82,7 +82,7 @@ const StartMatching = () => {
                         !obj.isSelected ? addHobbyHandler : removeHobbyHandler
                       }
                       data-value={obj.id}
-                      color={obj.isSelected ? "warning" : "default"}
+                      color={obj.isSelected ? 'warning' : 'default'}
                     />
                   );
                 })}
