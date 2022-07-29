@@ -12,7 +12,7 @@ const API_URL = 'http://127.0.0.1:8080/';
 // 리덕스랑 관련없는 서버 통신 API들 모음
 
 // 프로필 기본정보(username, languages, favorites) API
-export const fetchProfile =  async (setProfileData, userId) =>  {
+export const fetchProfile =  async (userId) =>  {
     
     console.log('fetch 프로필');
 
@@ -21,12 +21,9 @@ export const fetchProfile =  async (setProfileData, userId) =>  {
         API_URL + `user/profile/${userId}`,
         // 엑세스 토큰이 필요하다.
         getConfig
-      );
-      // console.log(response.data.data)
-      setProfileData(
-        response.data.data
-      );
-      // console.log(response.data.data)
+      );   
+      console.log(response.data.data)
+      return response.data.data
 
     } catch (err) {
       console.log('프로필 에러')
@@ -35,18 +32,16 @@ export const fetchProfile =  async (setProfileData, userId) =>  {
   };
 
 // // 프로필 이미지 불러오는 API
-export const fetchProfileImg =  async (setProfileImage, userId) =>  {
+export const fetchProfileImg =  async (userId) =>  {
   console.log('fetch 이미지');
 
   try {
     const response = await axios.get(
       API_URL + `image/profile/${userId}.jpg`,
     );
-    console.log( '나는 이미지', response.config.url)
-    setProfileImage(
-      // API_URL + `image/profile/${userId}.jpg`
-      response.config.url
-    );
+    // console.log( '나는 이미지', response.config.url)
+
+    return response.config.url
 
   } catch (err) {
     console.log('에러')
@@ -55,7 +50,7 @@ export const fetchProfileImg =  async (setProfileImage, userId) =>  {
 };
 
 // description 불러오는 API
-export const fetchDescription = async (setDesc, userId) => {
+export const fetchDescription = async (userId) => {
   console.log('fetch description');
 
   try {
@@ -65,7 +60,7 @@ export const fetchDescription = async (setDesc, userId) => {
       getConfig
     );
     // console.log(response.data.data)
-    setDesc(response.data.data);
+    return response.data.data;
   } catch (err) {
     console.log('에러');
     return err.response;
@@ -75,7 +70,7 @@ export const fetchDescription = async (setDesc, userId) => {
 // Profile Image put 요청 API
 export const uploadProfileImg = async (uploadedProfileImg, setUploadedProfileImg) => {
   console.log('프로필 사진 업로드 시작');
-  console.log(uploadedProfileImg);
+  // console.log(uploadedProfileImg);
 
   try {
     if (uploadedProfileImg) {
@@ -105,8 +100,8 @@ export const uploadProfileImg = async (uploadedProfileImg, setUploadedProfileImg
 };
 
 export const submitDescription = async (uploadedDescription) => {
-  console.log('업로드 시작');
-  console.log(uploadedDescription);
+  // console.log('업로드 시작');
+  console.log('업로드 시작 api', uploadedDescription);
 
   try {
       await axios.put(

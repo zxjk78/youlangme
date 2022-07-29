@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 // import { currentUser } from '../auth/authSlice';
 
@@ -22,14 +22,16 @@ const ProfileDescEdit = (props) => {
   // console.log(' 프로필 리덕스 테스트:', currentUser);
   const API_URL = 'http://127.0.0.1:8080/';
   
-  let descRef;
+  const descRef = useRef();
 
   const description = props.desc;
+  console.log( '프롭스', props.desc)
 
 
   const [open, setOpen] = useState(false);
   const descUploadHandler = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [isDescTouched, setIsDescTouched] = useState(false);
   const [ profileDesc, setProfileDesc ] = useState(description || '');
   
   // const [profileImg, setProfileImg] = useState({
@@ -38,23 +40,24 @@ const ProfileDescEdit = (props) => {
   // });
   
   const descInputChangeHandler = (event) => {
-    console.log( '자기소개 제출:', event.target.value)
+    // console.log( '자기소개 제출:', event.target.value)
+    setIsDescTouched(true)
     setProfileDesc(event.target.value);
   }
 
   const onDescSubmitHandler = () => {
-    submitDescription(profileDesc)
-    console.log( '자기소개 제출:', profileDesc)
+    if (isDescTouched) {
+      submitDescription(profileDesc)
+    } else {
+      submitDescription(description)
+    }
+    // console.log( '자기소개 제출2:', profileDesc)
     setOpen(false)
     props.getNewProfileDesc(true)
   }
 
 
-    
 
-  // useEffect(() => {
-  // }, []);
-  
   
 
   const style = {
@@ -69,6 +72,7 @@ const ProfileDescEdit = (props) => {
     p: 4,
   };
 
+  
 
   return (
     <>
@@ -88,15 +92,18 @@ const ProfileDescEdit = (props) => {
             id="description"
             placeholder="자기소개를 작성해주세요!"
             multiline
-            // rows={4}
-            defaultValue= {description} 
+            rows={4}
+            defaultValue={description}
             ref={descRef}
             variant="filled"
             onChange={descInputChangeHandler}
           />
-            <Button color="success" variant="contained" onClick={onDescSubmitHandler} >
-              업로드
-            </Button>
+          <Button onClick={onDescSubmitHandler} color="primary" variant="contained" >
+            업로드
+          </Button>
+          <Button onClick={handleClose} color="success" variant="contained" >
+            취소
+          </Button>
         </Box>
       </Modal>
     </>

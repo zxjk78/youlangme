@@ -7,6 +7,9 @@ import Follow from './Follow/Follow';
 import Modal from '../../common/UI/Modal/Modal';
 import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
 
+// data import
+import * as data from '../auth/modify/data';
+
 // 리덕스 안거치는 단순 서버 통신 API
 import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';
 
@@ -16,8 +19,9 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { modalActions } from '../../common/UI/Modal/modalSlice';
+
 // router
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 // css
 import classes from './MyPage.module.scss';
@@ -32,7 +36,8 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
@@ -51,6 +56,8 @@ import KoreaFlag from './images/KoreaFlag.png';
 const MyPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const [profileInfo, setProfileInfo] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const [profileDescription, setProfileDescription] = useState('');
@@ -58,6 +65,7 @@ const MyPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const isModalVisible = useSelector((state) => state.modal.isVisible);
   // console.log(params.userId);
+
 
   // redux
   const { currentUser } = useSelector((state) => state.auth);
@@ -83,19 +91,33 @@ const MyPage = () => {
       setIsUploaded(true)
     }
   }
-  
-  
 
   useEffect(() => {
-    fetchProfile(setProfileInfo, params.userId);
-    fetchProfileImg(setProfileImg, params.userId);
-    fetchDescription(setProfileDescription, params.userId);
-    setIsLoading(false);
-    setIsUploaded(false)
+    (
+      async () => {
+        const profileDetail = await fetchProfile(params.userId);
+        if (!profileDetail) {
+          history.replace({
+            pathname: '/404',
+            message: '존재하지 않는 게시물입니다.',
+          });
+        }
+        const profileImage = await fetchProfileImg(params.userId);
+        const profileDescript = await fetchDescription(params.userId);
+
+        setProfileInfo(profileDetail);
+        setProfileImg(profileImage)
+        setProfileDescription(profileDescript)
+        setIsLoading(false);
+        setIsUploaded(false)
+        console.log(params.userId)
+        console.log( '바뀌지마!!!!!!', profileDescript, profileDescription)
+
+      })();
     return () => {
       setProfileImg(null)
     }
-  }, [params.userId, isUploaded]);
+  }, [params.userId, isUploaded, profileDescription]);
 
 
   const colors = [
@@ -115,8 +137,8 @@ const MyPage = () => {
   // // 의존성에 fetchProfile 추가하면 fetchProfile에 useCallback 함수로.
 
   return (
-
-      <div>
+    <>
+      {isLoading ? <CircularProgress /> : <div>
         {profileInfo && isModalVisible && (
           <Modal>
             <ModifyUserInfo userInfo={profileInfo} />
@@ -137,7 +159,7 @@ const MyPage = () => {
               My Page
             </Typography>
             <CardMedia className={classes.avatar}>
-              { isLoading ? <CircularProgress /> : <Badge
+              <Badge
                 badgeContent={
                   <img className={classes.flag} alt="flag" src={KoreaFlag} />
                 }
@@ -146,7 +168,7 @@ const MyPage = () => {
               >
                 <Avatar sx={{ width: 200, height: 200 }} src={profileImg} />
                 {isCurrentUser && <ProfileImageEdit getNewProfileImg={updateProfileImg}/>}
-              </Badge>}
+              </Badge>
             </CardMedia>
 
             <div className={classes.profile_content}>
@@ -159,12 +181,14 @@ const MyPage = () => {
                     component="div"
                   >
                     {profileInfo.name}
-                    <button onClick={modifyModalHandler}>유저정보 수정</button>
+                    <Button onClick={modifyModalHandler}>회원정보 수정</Button>
                   </Typography>
                   <Follow profileUserId={params.userId} />
 
-                  {isCurrentUser && <ProfileDescEdit desc={profileDescription} getNewProfileDesc={updateProfileDesc}/>}
                   <Card className={classes.description_card}>
+                    {isCurrentUser && <div className={classes.modify_discript}>
+                      <ProfileDescEdit desc={profileDescription} getNewProfileDesc={updateProfileDesc}/>
+                    </div>}
                     <Typography
                       variant="body2"
                       color="text.secondary"
@@ -195,8 +219,8 @@ const MyPage = () => {
                       {profileInfo.favorites.map((fav) => {
                         return (
                           <Chip
-                            key={profileInfo.favorites.indexOf(fav)}
-                            label={fav} // 이부분 취미를 변경해달라고 요청
+                            key={fav}
+                            label={data.favorites[fav]}
                             color={
                               colors[Math.floor(Math.random() * colors.length)]
                             }
@@ -212,7 +236,9 @@ const MyPage = () => {
 
           </div>
         </Card>
-      </div>
+      </div>}
+    </>
+
   );
 };
 
