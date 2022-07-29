@@ -1,3 +1,5 @@
+// 안쓰는 문서됨
+
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -55,7 +57,6 @@ export const dispatchUserBasicInfo = createAsyncThunk(
       const response = await axios.post(
         API_URL + 'user/basic-info',
         JSON.stringify(userBasicInfo),
-        // post는 직렬화까지 거치고 객체 토큰이 필요하다.
         postConfig
       );
       return response.data;
@@ -65,38 +66,38 @@ export const dispatchUserBasicInfo = createAsyncThunk(
   }
 );
 
+// form 데이터를 굳이 리덕스에서 다룰 필요는 없음. 시간 남으면 리팩토링 ㄱㄱ
+
 const reducers = {
-  setIsNameUnique(state, action) {
-    state.isNameUnique = action.payload;
-  },
-
-  setName(state, action) {
-    state.name = action.payload;
-  },
-  setNationality(state, action) {
-    state.nationality = action.payload;
-  },
-  setGender(state, action) {
-    state.gender = action.payload;
-  },
-  setBirthday(state, action) {
-    state.birthday = action.payload;
-  },
-  setMyLang(state, action) {
-    state.myLanguage = action.payload;
-  },
-  setYourLang(state, action) {
-    state.yourLanguage = action.payload;
-  },
-
-  addFavorite(state, action) {
-    state.favoriteList.push(action.payload);
-  },
-  removeFavorite(state, action) {
-    state.favoriteList = state.favoriteList.filter(
-      (item) => item !== action.payload
-    );
-  },
+  // setIsNameUnique(state, action) {
+  //   state.isNameUnique = action.payload;
+  // },
+  // setName(state, action) {
+  //   state.name = action.payload;
+  // },
+  // setNationality(state, action) {
+  //   state.nationality = action.payload;
+  // },
+  // setGender(state, action) {
+  //   state.gender = action.payload;
+  // },
+  // setBirthday(state, action) {
+  //   state.birthday = action.payload;
+  // },
+  // setMyLang(state, action) {
+  //   state.myLanguage = action.payload;
+  // },
+  // setYourLang(state, action) {
+  //   state.yourLanguage = action.payload;
+  // },
+  // addFavorite(state, action) {
+  //   state.favoriteList.push(action.payload);
+  // },
+  // removeFavorite(state, action) {
+  //   state.favoriteList = state.favoriteList.filter(
+  //     (item) => item !== action.payload
+  //   );
+  // },
 };
 
 const modifySlice = createSlice({
@@ -108,6 +109,27 @@ const modifySlice = createSlice({
     [nameDupCheck.fulfilled]: (state, action) => {
       const isDup = action.payload.data;
       state.isNameUnique = !isDup;
+    },
+
+    [dispatchUserBasicInfo.fulfilled]: (state, action) => {
+      state.isNameUnique = false;
+      state.name = '';
+      state.nationality = '';
+      state.gender = '';
+      state.birthday = { birthYear: '2000', birthMonth: '01', birthDay: '01' };
+      state.myLanguage = '';
+      state.yourLanguage = '';
+      state.favoriteList = [];
+    },
+    [dispatchUserBasicInfo.rejected]: (state, action) => {
+      state.isNameUnique = false;
+      state.name = '';
+      state.nationality = '';
+      state.gender = '';
+      state.birthday = { birthYear: '2000', birthMonth: '01', birthDay: '01' };
+      state.myLanguage = '';
+      state.yourLanguage = '';
+      state.favoriteList = [];
     },
   },
 });

@@ -11,13 +11,13 @@ import { green } from '@mui/material/colors';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
-import { UploadProfileImg } from './ProfileAPI';
+import { uploadProfileImg } from './ProfileAPI';
 
 // import defaultuser from './images/defaultuser.png'
 
 
 
-const ProfileImageEdit = () => {
+const ProfileImageEdit = (props) => {
   // redux
   const { currentUser } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const ProfileImageEdit = () => {
     previewImageURL: "",
   });
 
-  const [isUploadClicked, setIsUploadClicked] = useState(false)
+
 
 
   let inputRef;
@@ -77,7 +77,8 @@ const ProfileImageEdit = () => {
   
   const sendImageToServer = () => {
     
-    UploadProfileImg(profileImg.profileImageFile, setProfileImg);
+    uploadProfileImg(profileImg.profileImageFile, setProfileImg);
+    props.getNewProfileImg(true)
     setOpen(false);
   }
 

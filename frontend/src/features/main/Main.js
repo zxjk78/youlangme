@@ -1,19 +1,27 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import Header from "../../common/UI/Header/Header";
-import { logout } from "../auth/authSlice";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import Header from '../../common/UI/Header/Header';
+import Feed from './feed/components/Feed';
+
+import { logout } from '../auth/authSlice';
+
+import UserInfo from '../profile/UserInfo/UserInfo';
+
 const Main = () => {
   const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
   const logoutHandler = () => {
-    dispatch(logout());
-    document.location.href = "/";
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        document.location.href = '/';
+      });
   };
-  console.log(currentUser.name);
+  // console.log(currentUser.name);
   if (currentUser.name === null) {
-    history.push("/modify");
+    history.push('/modify');
   }
   // const { user } = useSelector((state) => state.auth);
   // console.log(user);
@@ -26,6 +34,10 @@ const Main = () => {
       </div>
       <div>
         <Link to="/board/create">게시판 생성작업</Link>
+      </div>
+      <div>
+        피드 - 아직 boardPk 못받음
+        {/* <Feed /> */}
       </div>
 
       <div>

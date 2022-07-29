@@ -1,53 +1,123 @@
-import { useState, useEffect } from 'react';
-
-import axios from 'axios';
-
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 // API
-// import { fetchBoard } from '../../boardAPI';
+import {
+  fetchBoardInfo,
+  fetchCommentList,
+  fetchLikeUsers,
+  addComment,
+  like,
+  dislike,
+  deleteBoard,
+} from '../../boardAPI';
 import Modal from '../../../../common/UI/Modal/Modal';
+//components
+import CommentListItem from './CommentListItem';
+import LikeContainer from './LikeContainer';
 // mui
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CircularProgress from '@mui/material/CircularProgress';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import classes from './BoardDetailModal.module.scss';
 const BoardDetail = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
+  const [commentList, setCommentList] = useState([]);
+  const [likeUsers, setLikeUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLiked, setIsliked] = useState(false);
   const boardId = useParams().boardId;
-
   const API_URL = 'http://127.0.0.1:8080/';
-
-  const fetchBoard = async (boardId) => {
-    // console.log('boardId로 게시글 상세정보 받기');
-    const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
-    const header = {
-      'X-Auth-Token': accessToken,
-    };
-    try {
-      const response = await axios.get(API_URL + `board/${boardId}`, {
-        headers: header,
-      });
-      const data = response.data.data;
-      setBoardDetail(data);
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-  };
-
+  const commentRef = useRef();
+  const history = useHistory();
   useEffect(() => {
-    fetchBoard(boardId);
+    (async () => {
+      const boardDetail = await fetchBoardInfo(boardId);
+      if (!boardDetail) {
+        history.replace({
+          pathname: '/404',
+          message: '존재하지 않는 게시물입니다.',
+        });
+      }
+
+      const commentList = await fetchCommentList(boardId);
+      const likeUsers = await fetchLikeUsers(boardId);
+
+      // const likeUsers = boardInfo.likeUsers;
+      const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
+      for (const iterator of likeUsers) {
+        if (iterator.id === currentUserId) {
+          setIsliked(true);
+        }
+      }
+      // console.log(boardInfo);
+      setBoardDetail(boardDetail);
+      setCommentList(commentList);
+      setLikeUsers(likeUsers);
+
+      setIsLoading(false);
+    })();
   }, [boardId]);
 
-  // console.log(boardDetail);
+  const addCommentHandler = async (event) => {
+    event.preventDefault();
+    const newComment = commentRef.current.value;
+    if (!newComment.trim().length) {
+      return;
+    }
+    const response = await addComment(boardId, newComment);
+    if (response) {
+      setCommentList((prevState) => {
+        return [...prevState]; // 사용 후 재 fetch
+      });
+    }
+  };
 
-  const addCommentHandler = (event) => {
-    console.log('12123');
+  const likeHandler = async () => {
+    const result = await like(boardId);
+    if (result.success) {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const addedUser = { id: currentUser.id, name: currentUser.name };
+      setIsliked(true);
+      setLikeUsers((prevState) => [...prevState, addedUser]);
+    }
+  };
+  const dislikeHandler = async () => {
+    const result = await dislike(boardId);
+    if (result.success) {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+      setIsliked(false);
+      setLikeUsers((prevState) =>
+        prevState.filter((user) => user.id !== currentUser.id)
+      );
+    }
+  };
+  const updateBoardHandler = () => {
+    const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
+    if (currentUserId !== boardDetail.userId) {
+      alert('부적절한 접근입니다.');
+      return;
+    }
+    history.push(`/board/update/${boardId}`);
+  };
+  const deleteBoardHandler = async () => {
+    const confirm = window.confirm('정말 삭제하시겠습니까?');
+    if (!confirm) {
+      return;
+    }
+    // delete API 요청
+    const data = await deleteBoard(boardId);
+    if (data.success === true) {
+      history.push('/main');
+    }
   };
 
   return (
     <>
-      {!isLoading ? (
+      {isLoading ? (
+        <div>
+          <CircularProgress />
+        </div>
+      ) : (
         <Modal>
           <div className={classes.wrapper}>
             <div className={classes.header}>
@@ -62,6 +132,7 @@ const BoardDetail = (props) => {
             </div>
             <div className={classes.main}>
               <div className={classes.photoContainer}>
+                {console.log(boardDetail.imgList)}
                 {boardDetail.imgList.map((image) => (
                   <img
                     key={image}
@@ -75,12 +146,16 @@ const BoardDetail = (props) => {
               </div>
               <div className={classes.likeCommentCnt}>
                 <div>
-                  <FavoriteBorderIcon />
-                  좋아요 수: board/likes
+                  <LikeContainer
+                    isLiked={isLiked}
+                    like={likeHandler}
+                    dislike={dislikeHandler}
+                    likeUsers={likeUsers}
+                  />
                 </div>
                 <div>
                   <ChatBubbleOutlineIcon />
-                  댓글 수: reply/replyList/boardId의 응답.length
+                  {commentList.length}
                 </div>
               </div>
               <br />
@@ -92,16 +167,34 @@ const BoardDetail = (props) => {
               </div>
               <div className={classes.commentInput}>
                 <form onSubmit={addCommentHandler}>
-                  <input type="text" placeholder="댓글을 작성해주세요" />
+                  <input
+                    type="text"
+                    placeholder="댓글을 작성해주세요"
+                    ref={commentRef}
+                  />
                   <button>게시</button>
                 </form>
               </div>
-              <div className={classes.commentContainer}></div>
+              <div className={classes.commentContainer}>
+                {commentList.map((comment) => (
+                  <CommentListItem key={comment.id} commentInfo={comment} />
+                ))}
+              </div>
             </div>
+
+            {boardDetail.userId ===
+              JSON.parse(localStorage.getItem('currentUser')).id && (
+              <div className={classes.authOptionContainer}>
+                <button type="button" onClick={updateBoardHandler}>
+                  수정{' '}
+                </button>
+                <button type="button" onClick={deleteBoardHandler}>
+                  삭제
+                </button>
+              </div>
+            )}
           </div>
         </Modal>
-      ) : (
-        <div>123</div>
       )}
     </>
   );
