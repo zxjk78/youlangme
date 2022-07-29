@@ -67,11 +67,12 @@ const ModifyUserInfo = (props) => {
     props.userInfo?.nationality || ''
   );
   const nameRef = useRef();
-  const [birthDay, setbirthDay] = useState('2002-01-01');
+  const [birthDay, setbirthDay] = useState(props.userInfo?.birthDay || '');
 
   const formIsValid =
     userFavoriteList.length > 0 &&
     isNameUnique &&
+    birthDay &&
     gender &&
     myLang &&
     yourLang &&
@@ -136,8 +137,7 @@ const ModifyUserInfo = (props) => {
   // material UI 날짜 관련 함수
   const birthDayChangeHandler = (changedDate) => {
     const m = moment(changedDate).format('YYYY-MM-DD');
-    console.log(m);
-    console.log(typeof m);
+
     setbirthDay((prevState) => m);
   };
   const addHobbyHandler = (event) => {
@@ -241,16 +241,18 @@ const ModifyUserInfo = (props) => {
                   optionList={nationOptions}
                 />
               </div>
-              <div>
-                <MuiSelect
-                  labelId="gender-label"
-                  id="gender"
-                  value={gender}
-                  selectName="성별"
-                  onChange={genderHandler}
-                  optionList={genderOptions}
-                />
-              </div>
+              {!props.userInfo && (
+                <div>
+                  <MuiSelect
+                    labelId="gender-label"
+                    id="gender"
+                    value={gender}
+                    selectName="성별"
+                    onChange={genderHandler}
+                    optionList={genderOptions}
+                  />
+                </div>
+              )}
             </div>
 
             <div className={classes.languageSelectionContainer}>
