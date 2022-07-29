@@ -24,6 +24,7 @@ import classes from './ModifyUserInfo.module.scss';
 import * as selectData from './data';
 import { useDispatch } from 'react-redux';
 import { getUser } from '../authSlice';
+import { modalActions } from '../../../common/UI/Modal/modalSlice';
 
 const { nationOptions, languageOptions, genderOptions } = selectData;
 
@@ -183,7 +184,11 @@ const ModifyUserInfo = (props) => {
       const response = await dispatchUserBasicInfo(tmpUserInfo, isUpdate);
       if (response.success) {
         dispatch(getUser()).then(() => {
-          history.replace('/main');
+          if (!props.userInfo) {
+            history.replace('/main');
+          }
+          dispatch(modalActions.offModal());
+          document.location.reload();
         });
       }
     } catch (error) {

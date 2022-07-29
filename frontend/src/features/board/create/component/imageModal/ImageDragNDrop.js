@@ -56,12 +56,13 @@ const focusedStyle = {
 };
 
 const ImageDragNDrop = (props) => {
-  const maxLimit = MAX_IMAGE_LIMIT;
+  const maxLimit = 5;
   const [files, setFiles] = useState([]);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const loadedImgCnt = useSelector(
     (state) => state.createBoard.loadedImgFileCnt
   );
+  // console.log(loadedImgCnt);
   const dispatch = useDispatch();
 
   const { getRootProps, getInputProps, isFocused } = useDropzone({

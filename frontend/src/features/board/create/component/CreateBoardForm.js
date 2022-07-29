@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../../../../common/UI/Modal/modalSlice';
 import { createBoardActions } from '../createBoardSlice';
 // API
-import { createBoard, fetchBoard, updateBoard } from '../../boardAPI';
+import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
 
 // component
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
@@ -51,9 +51,10 @@ const CreateBoardForm = () => {
     if (boardId) {
       (async () => {
         setIsLoading(true);
-        const tmpInfo = await fetchBoard(boardId);
-        setBoardInfo(() => tmpInfo.boardDetail);
-        const imageSrcs = tmpInfo.boardDetail.imgList;
+        const tmpInfo = await fetchBoardInfo(boardId);
+        setBoardInfo(() => tmpInfo);
+        const imageSrcs = tmpInfo.imgList;
+        dispatch(createBoardActions.setFileCnt(imageSrcs.length));
         const convertedList = await Promise.all(
           imageSrcs.map((item) => {
             const url = `${API_URL}image/board/${item}`;
@@ -101,6 +102,7 @@ const CreateBoardForm = () => {
     }
 
     if (data.success) {
+      dispatch(createBoardActions.clearFile());
       history.push('/main');
     } else {
       alert('오류가 발생했습니다.');

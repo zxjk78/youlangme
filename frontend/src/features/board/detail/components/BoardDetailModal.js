@@ -2,7 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 // API
 import {
-  fetchBoard,
+  fetchBoardInfo,
+  fetchCommentList,
+  fetchLikeUsers,
   addComment,
   like,
   dislike,
@@ -28,8 +30,18 @@ const BoardDetail = (props) => {
   const history = useHistory();
   useEffect(() => {
     (async () => {
-      const boardInfo = await fetchBoard(boardId);
-      const likeUsers = boardInfo.likeUsers;
+      const boardDetail = await fetchBoardInfo(boardId);
+      if (!boardDetail) {
+        history.replace({
+          pathname: '/404',
+          message: '존재하지 않는 게시물입니다.',
+        });
+      }
+
+      const commentList = await fetchCommentList(boardId);
+      const likeUsers = await fetchLikeUsers(boardId);
+
+      // const likeUsers = boardInfo.likeUsers;
       const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
       for (const iterator of likeUsers) {
         if (iterator.id === currentUserId) {
@@ -37,9 +49,9 @@ const BoardDetail = (props) => {
         }
       }
       // console.log(boardInfo);
-      setBoardDetail(boardInfo.boardDetail);
-      setCommentList(boardInfo.commentList);
-      setLikeUsers(boardInfo.likeUsers);
+      setBoardDetail(boardDetail);
+      setCommentList(commentList);
+      setLikeUsers(likeUsers);
 
       setIsLoading(false);
     })();
@@ -120,6 +132,7 @@ const BoardDetail = (props) => {
             </div>
             <div className={classes.main}>
               <div className={classes.photoContainer}>
+                {console.log(boardDetail.imgList)}
                 {boardDetail.imgList.map((image) => (
                   <img
                     key={image}

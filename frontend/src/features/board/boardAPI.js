@@ -25,7 +25,7 @@ export const createBoard = async (content, images) => {
   }
 };
 
-export const fetchBoard = async (boardId) => {
+export const fetchBoardInfo = async (boardId) => {
   // console.log('boardId로 게시글 상세정보 받기');
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   const header = {
@@ -35,21 +35,41 @@ export const fetchBoard = async (boardId) => {
     const response = await axios.get(API_URL + `board/${boardId}`, {
       headers: header,
     });
-    const response2 = await axios.get(API_URL + `reply/replyList/${boardId}`, {
+
+    // console.log(response);
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchCommentList = async (boardId) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const header = {
+    'X-Auth-Token': accessToken,
+  };
+  try {
+    const response = await axios.get(API_URL + `reply/replyList/${boardId}`, {
       headers: header,
     });
 
-    const response3 = await axios.get(API_URL + `board/likeUsers/${boardId}`, {
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchLikeUsers = async (boardId) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const header = {
+    'X-Auth-Token': accessToken,
+  };
+  try {
+    const response = await axios.get(API_URL + `board/likeUsers/${boardId}`, {
       headers: header,
     });
 
-    const boardInfo = {
-      boardDetail: response.data.data,
-      commentList: response2.data.data,
-      likeUsers: response3.data.data,
-    };
-
-    return boardInfo;
+    return response.data.data;
   } catch (error) {
     console.log(error);
   }

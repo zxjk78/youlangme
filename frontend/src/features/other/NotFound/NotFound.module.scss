@@ -1,0 +1,26 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notFound {
+  font-size: 3.5rem;
+  font-weight: bold;
+  display: flex;
+  margin-bottom: 10px;
+  & div:first-child {
+    font-size: 10rem;
+  }
+  & div:last-child {
+    margin-top: 40px;
+    margin-left: 20px;
+  }
+}
+.message {
+  width: 100%;
+  font-size: 1.8rem;
+  font-weight: bold;
+}

@@ -36,7 +36,8 @@ const Main = () => {
         <Link to="/board/create">게시판 생성작업</Link>
       </div>
       <div>
-        <Link to="/board/detail/1">게시글 상세기능</Link>
+        피드 - 아직 boardPk 못받음
+        {/* <Feed /> */}
       </div>
 
       <div>
@@ -46,8 +47,6 @@ const Main = () => {
         <Link to="/modify">수정</Link>
       </div>
       <button onClick={logoutHandler}>로그아웃</button>
-
-      {/* <Feed /> */}
     </div>
   );
 };
