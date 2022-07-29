@@ -292,7 +292,10 @@ const ModifyUserInfo = (props) => {
             </div>
             <div className={classes.interestContainer}>
               <p>
-                관심 있는 분야를 선택해 주세요 <span>(최대 3개)</span>
+                관심 있는 분야를 3개까지 선택해 주세요{' '}
+                <span className={classes.interestCnt}>
+                  ({userFavoriteList.length} / 3)
+                </span>
               </p>
               {/* 이부분에 chips 로 여러 개를 만들어서 사용함 */}
               <div className={classes.chipsContaier}>
