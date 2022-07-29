@@ -1,18 +1,35 @@
+-- ### 고정 데이터 셋 ###
 -- Favorite
-INSERT INTO Favorite(`id`,`name`) VALUES(1,'Movie');
-INSERT INTO Favorite(`id`,`name`) VALUES(2,'Sports');
-INSERT INTO Favorite(`id`,`name`) VALUES(3,'Music');
-INSERT INTO Favorite(`id`,`name`) VALUES(4,'Investment');
-INSERT INTO Favorite(`id`,`name`) VALUES(5,'Travel');
-INSERT INTO Favorite(`id`,`name`) VALUES(6,'Coding');
-INSERT INTO Favorite(`id`,`name`) VALUES(7,'Game');
-INSERT INTO Favorite(`id`,`name`) VALUES(8,'Food');
-INSERT INTO Favorite(`id`,`name`) VALUES(9,'Cooking');
-INSERT INTO Favorite(`id`,`name`) VALUES(10,'Cafe');
-INSERT INTO Favorite(`id`,`name`) VALUES(11,'Reading');
-INSERT INTO Favorite(`id`,`name`) VALUES(12,'Pet');
-INSERT INTO Favorite(`id`,`name`) VALUES(13,'Party');
-INSERT INTO Favorite(`id`,`name`) VALUES(14,'Collecting');
+INSERT INTO favorite(`id`,`name`) VALUES(1,'Movie');
+INSERT INTO favorite(`id`,`name`) VALUES(2,'Sports');
+INSERT INTO favorite(`id`,`name`) VALUES(3,'Music');
+INSERT INTO favorite(`id`,`name`) VALUES(4,'Investment');
+INSERT INTO favorite(`id`,`name`) VALUES(5,'Travel');
+INSERT INTO favorite(`id`,`name`) VALUES(6,'Coding');
+INSERT INTO favorite(`id`,`name`) VALUES(7,'Game');
+INSERT INTO favorite(`id`,`name`) VALUES(8,'Food');
+INSERT INTO favorite(`id`,`name`) VALUES(9,'Cooking');
+INSERT INTO favorite(`id`,`name`) VALUES(10,'Cafe');
+INSERT INTO favorite(`id`,`name`) VALUES(11,'Reading');
+INSERT INTO favorite(`id`,`name`) VALUES(12,'Pet');
+INSERT INTO favorite(`id`,`name`) VALUES(13,'Party');
+INSERT INTO favorite(`id`,`name`) VALUES(14,'Collecting');
+
+-- 활동별 경험치 데이터 테이블
+INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (1,20,'WRITE_POST');
+INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (2,5,'WRITE_REPLY');
+INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (3,40,'MEETING');
+INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (4,20,'ATTENDANCE');
+
+-- 경험치별 레벨 데이터 테이블
+INSERT INTO level (`id`, `level`, `min_exp`, `max_exp`) VALUES (1,1,0,49);
+INSERT INTO level (`id`, `level`, `min_exp`, `max_exp`) VALUES (2,2,50,99);
+INSERT INTO level (`id`, `level`, `min_exp`, `max_exp`) VALUES (3,3,100,199);
+INSERT INTO level (`id`, `level`, `min_exp`, `max_exp`) VALUES (4,4,200,499);
+INSERT INTO level (`id`, `level`, `min_exp`, `max_exp`) VALUES (5,5,500,999);
+INSERT INTO level (`id`, `level`, `min_exp`, `max_exp`) VALUES (6,6,1000,1999);
+
+--- ### 고정 데이터 셋 end ###
 
 
 -- User

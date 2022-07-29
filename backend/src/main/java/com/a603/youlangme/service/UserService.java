@@ -7,9 +7,7 @@ import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.UserProfileResponseDto;
 import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
 import com.a603.youlangme.entity.*;
-import com.a603.youlangme.enums.BadgeSelect;
-import com.a603.youlangme.enums.Language;
-import com.a603.youlangme.enums.Nationality;
+import com.a603.youlangme.entity.Favorite;
 import com.a603.youlangme.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -129,7 +127,12 @@ public class UserService {
         User user = userRepository.findById(userId).orElse(null);
         List<BadgeResponseDto> badgeResponseDtoList = new ArrayList<>();
         for (UserBadge userBadge : user.getUserBadges()) {
-            BadgeResponseDto badgeResponseDto = userBadge.getBadge().getBadgeDto();
+            Badge badge = userBadge.getBadge();
+            BadgeResponseDto badgeResponseDto = BadgeResponseDto.builder()
+                    .id(badge.getId())
+                    .name(badge.getName())
+                    .description(badge.getDescription())
+                    .build();
             badgeResponseDto.setBadgeSelect(userBadge.getBadgeSelect());
             badgeResponseDtoList.add(badgeResponseDto);
         }

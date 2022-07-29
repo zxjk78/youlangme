@@ -15,7 +15,7 @@ public abstract class BaseEntity {
 
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
 
     @CreatedDate // 생성된 시간 저장
     private LocalDateTime createdDate;
