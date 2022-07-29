@@ -20,7 +20,6 @@ export const fetchFollowCnt =  async (setFollowCount, userId) =>  {
       // 엑세스 토큰이 필요하다.
       getConfig
     );
-    console.log(response.data.data)
     setFollowCount(
       response.data.data
     );
@@ -42,7 +41,6 @@ export const fetchFollowers =  async (setFlwers, userId) =>  {
       // 엑세스 토큰이 필요하다.
       getConfig
       );
-      console.log(response.data.data)
       setFlwers(response.data.data);
 
       // if (response.data.data.find(flwer=>flwer.followerId == currentUserId)){ 
@@ -92,10 +90,10 @@ export const fetchFollowOrNot = async (setIsFlw, userId, currentUserId) =>  {
     );
     console.log(response.data.data)
     if (response.data.data.find(flwer=>flwer.followerId === currentUserId)){ 
-        console.log('팔로우 하고 있음. ');
+        // console.log('팔로우 하고 있음. ');
         setIsFlw(true) } else {
           setIsFlw(false)
-          console.log('팔로우 하고 있지 않음음. ');
+          // console.log('팔로우 하고 있지 않음. ');
         }
     
   } catch (err) {
