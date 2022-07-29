@@ -2,6 +2,7 @@ import * as React from 'react';
 
 // component
 import ProfileImageEdit from './ProfileImageEdit';
+import ProfileDescEdit from './ProfileDescEdit';
 import Follow from './Follow/Follow';
 import Modal from '../../common/UI/Modal/Modal';
 import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
@@ -10,7 +11,7 @@ import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
 import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';
 
 // state
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -53,6 +54,7 @@ const MyPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const [profileDescription, setProfileDescription] = useState('');
+  const [isUploaded, setIsUploaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
   const isModalVisible = useSelector((state) => state.modal.isVisible);
   // console.log(params.userId);
@@ -69,15 +71,32 @@ const MyPage = () => {
     dispatch(modalActions.onModal());
   };
 
+  const updateProfileImg = (isUpdated) => {
+      console.log(isUpdated, '이미지 업데이트여부')
+      if (isUpdated) {
+        setIsUploaded(true)
+      }
+    }
+  const updateProfileDesc = (isUpdated) => {
+    console.log(isUpdated, '자기소개 업데이트여부')
+    if (isUpdated) {
+      setIsUploaded(true)
+    }
+  }
+  
+  
+
   useEffect(() => {
     fetchProfile(setProfileInfo, params.userId);
     fetchProfileImg(setProfileImg, params.userId);
     fetchDescription(setProfileDescription, params.userId);
     setIsLoading(false);
+    setIsUploaded(false)
     return () => {
       setProfileImg(null)
     }
-  }, [params.userId]);
+  }, [params.userId, isUploaded]);
+
 
   const colors = [
     'primary',
@@ -98,8 +117,6 @@ const MyPage = () => {
   return (
 
       <div>
-
-        
         {profileInfo && isModalVisible && (
           <Modal>
             <ModifyUserInfo userInfo={profileInfo} />
@@ -128,7 +145,7 @@ const MyPage = () => {
                 overlap="circular"
               >
                 <Avatar sx={{ width: 200, height: 200 }} src={profileImg} />
-                {isCurrentUser && <ProfileImageEdit />}
+                {isCurrentUser && <ProfileImageEdit getNewProfileImg={updateProfileImg}/>}
               </Badge>}
             </CardMedia>
 
@@ -146,6 +163,7 @@ const MyPage = () => {
                   </Typography>
                   <Follow profileUserId={params.userId} />
 
+                  {isCurrentUser && <ProfileDescEdit desc={profileDescription} getNewProfileDesc={updateProfileDesc}/>}
                   <Card className={classes.description_card}>
                     <Typography
                       variant="body2"
