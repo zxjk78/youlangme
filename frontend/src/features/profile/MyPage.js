@@ -9,6 +9,7 @@ import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
 
 // data import
 import * as data from '../auth/modify/data';
+import { iso_code } from './UserInfo/flagData'
 
 // 리덕스 안거치는 단순 서버 통신 API
 import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';
@@ -51,7 +52,7 @@ import {
 import { CompareArrows, GTranslate } from '@mui/icons-material';
 
 // image
-import KoreaFlag from './images/KoreaFlag.png';
+// import KoreaFlag from './images/KoreaFlag.png';
 
 const MyPage = () => {
   const params = useParams();
@@ -64,6 +65,7 @@ const MyPage = () => {
   const [isUploaded, setIsUploaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
   const isModalVisible = useSelector((state) => state.modal.isVisible);
+  const nationalityCode = profileInfo ? iso_code[profileInfo.nationality] : null
   // console.log(params.userId);
 
 
@@ -91,6 +93,7 @@ const MyPage = () => {
       setIsUploaded(true)
     }
   }
+
 
   useEffect(() => {
     (
@@ -145,7 +148,6 @@ const MyPage = () => {
           </Modal>
         )}
         {profileInfo && <div> 국적: {profileInfo.nationality}</div>}
-        {/* currentUser의 프로필페이지에서만 profileImageEdit 가능하게 */}
         <Card className={classes.card}>
           <div className={classes.left_profile}>
             <Typography
@@ -161,7 +163,7 @@ const MyPage = () => {
             <CardMedia className={classes.avatar}>
               <Badge
                 badgeContent={
-                  <img className={classes.flag} alt="flag" src={KoreaFlag} />
+                  <img className={classes.flag} alt="flag" src={`http://www.geonames.org/flags/x/${nationalityCode}.gif`} />
                 }
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 overlap="circular"
