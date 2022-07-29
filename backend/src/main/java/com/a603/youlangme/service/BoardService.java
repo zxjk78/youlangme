@@ -2,6 +2,7 @@ package com.a603.youlangme.service;
 
 import com.a603.youlangme.advice.exception.BoardNotFoundException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.config.logging.ExpLogging;
 import com.a603.youlangme.config.logging.Logging;
 import com.a603.youlangme.dto.board.BoardPagingDto;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
@@ -83,6 +84,7 @@ public class BoardService {
     }
 
     @Logging
+    @ExpLogging
     @Transactional
     public Long savePost(BoardDto boardDto, Long id) throws IOException {
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new); //한번에 예외처리 방식

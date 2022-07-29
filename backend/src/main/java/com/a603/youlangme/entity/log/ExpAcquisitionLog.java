@@ -3,10 +3,16 @@ package com.a603.youlangme.entity.log;
 import com.a603.youlangme.entity.BaseEntity;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.meta.ExpActivity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ExpAcquisitionLog extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
