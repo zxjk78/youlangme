@@ -36,6 +36,7 @@ export const nameDupCheck = async (name) => {
 
 export const dispatchUserBasicInfo = async (userInfo, isUpdate) => {
   const user = JSON.parse(localStorage.getItem('user'));
+  console.log(userInfo);
   const accessToken = user ? user.accessToken : null;
   const postConfig = {
     headers: {
@@ -45,22 +46,28 @@ export const dispatchUserBasicInfo = async (userInfo, isUpdate) => {
   };
 
   try {
-    let response;
-    if (!isUpdate) {
-      response = await axios.post(
-        API_URL + 'user/basic-info',
-        JSON.stringify(userInfo),
-        postConfig
-      );
-    } else {
-      response = await axios.put(
-        API_URL + 'user/basic-info',
-        JSON.stringify(userInfo),
-        postConfig
-      );
-    }
+    const response = await axios.put(
+      API_URL + 'user/basic-info',
+      JSON.stringify(userInfo),
+      postConfig
+    );
 
-    console.log(response.data);
+    // let response;
+    // if (!isUpdate) {
+    //   response = await axios.post(
+    //     API_URL + 'user/basic-info',
+    //     JSON.stringify(userInfo),
+    //     postConfig
+    //   );
+    // } else {
+    //   response = await axios.put(
+    //     API_URL + 'user/basic-info',
+    //     JSON.stringify(userInfo),
+    //     postConfig
+    //   );
+    // }
+
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

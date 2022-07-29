@@ -67,11 +67,7 @@ const ModifyUserInfo = (props) => {
     props.userInfo?.nationality || ''
   );
   const nameRef = useRef();
-  const [birthday, setBirthday] = useState({
-    birthYear: '2000',
-    birthMonth: '01',
-    birthDay: '01',
-  });
+  const [birthDay, setbirthDay] = useState('2002-01-01');
 
   const formIsValid =
     userFavoriteList.length > 0 &&
@@ -138,14 +134,11 @@ const ModifyUserInfo = (props) => {
   };
 
   // material UI 날짜 관련 함수
-  const birthdayChangeHandler = (changedDate) => {
-    const m = moment(changedDate).toObject();
-    const tmp = {
-      birthYear: m.years,
-      birthMonth: m.months + 1,
-      birthDay: m.date,
-    };
-    setBirthday((prevState) => tmp);
+  const birthDayChangeHandler = (changedDate) => {
+    const m = moment(changedDate).format('YYYY-MM-DD');
+    console.log(m);
+    console.log(typeof m);
+    setbirthDay((prevState) => m);
   };
   const addHobbyHandler = (event) => {
     const hobbyId = Number(event.currentTarget.dataset.value);
@@ -179,7 +172,7 @@ const ModifyUserInfo = (props) => {
       name,
       nationality,
       gender,
-      birthday,
+      birthDay,
       myLanguage: myLang,
       yourLanguage: yourLang,
       favoriteList: userFavoriteList,
@@ -230,8 +223,8 @@ const ModifyUserInfo = (props) => {
                   <DesktopDatePicker
                     // label="생년월일"
                     inputFormat="yyyy-MM-dd"
-                    value={new Date(Object.values(birthday))}
-                    onChange={birthdayChangeHandler}
+                    value={birthDay}
+                    onChange={birthDayChangeHandler}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
