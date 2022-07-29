@@ -7,6 +7,7 @@ import classes from "./ProfileEdit.module.scss";
 
 // mui material
 import { Avatar, Button, Modal, Box, Icon, Typography, IconButton, TextField, Stack } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
 import { grey } from '@mui/material/colors';
 
 
@@ -75,8 +76,7 @@ const ProfileDescEdit = (props) => {
     <>
       {/* IconButton fontawesome으로 만들기 */}
       {/* <IconButton className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</IconButton> */}
-      <Icon className={classes.cursor} sx={{ color: grey[400] }} onClick={descUploadHandler}>add_circle</Icon>
-
+      <EditIcon className={classes.cursor} sx={{ color: grey[400] }} onClick={descUploadHandler}/>
       <Modal
         open={open}
         onClose={handleClose}

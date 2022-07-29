@@ -99,7 +99,8 @@ const ProfileImageEdit = (props) => {
     <>
       {/* IconButton fontawesome으로 만들기 */}
       {/* <IconButton className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</IconButton> */}
-      <Icon className={classes.cursor} sx={{ color: grey[400] }}  onClick={profileUploadHandler}>add_circle</Icon>
+      <Icon className={classes.cursor} sx={{ color: grey[400] }}  fontSize='large'
+        onClick={profileUploadHandler}>add_circle</Icon>
 
       <Modal
         open={open}

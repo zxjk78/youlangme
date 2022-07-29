@@ -182,21 +182,23 @@ const MyPage = () => {
                     component="div"
                   >
                     {profileInfo.name}
-                    <Button onClick={modifyModalHandler}>회원정보 수정</Button>
+                    <Button onClick={modifyModalHandler} size='small'>프로필 수정</Button>
                   </Typography>
                   <Follow profileUserId={params.userId} />
 
                   <Card className={classes.description_card}>
+                    <div>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontWeight: 'light' }}
+                      >
+                        {profileDescription}
+                      </Typography>
+                    </div>
                     {isCurrentUser && <div className={classes.modify_discript}>
                       <ProfileDescEdit desc={profileDescription} getNewProfileDesc={updateProfileDesc}/>
                     </div>}
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ fontWeight: 'light' }}
-                    >
-                      {profileDescription}
-                    </Typography>
                   </Card>
                   <Card className={classes.rest_info}>
                     <div className={classes.languages}>
@@ -215,7 +217,7 @@ const MyPage = () => {
                         <span className={classes.greys}> you</span>
                       </div>
                     </div>
-                    <br />
+                    {/* <br /> */}
                     <div className={classes.favorite_chips}>
                       {profileInfo.favorites.map((fav) => {
                         return (
