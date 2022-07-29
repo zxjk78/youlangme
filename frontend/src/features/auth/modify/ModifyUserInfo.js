@@ -7,26 +7,28 @@ import MuiSelect from '../../../common/UI/MuiSelect';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import moment from 'moment';
 
-// 리덕스 안거치는 단순 서버 통신 API
+import moment from 'moment';
+// redux
+import { useDispatch } from 'react-redux';
+import { getUser } from '../authSlice';
+import { modalActions } from '../../../common/UI/Modal/modalSlice';
+// 단순 서버 통신 API
 import { fetchHobbies, nameDupCheck, dispatchUserBasicInfo } from './modifyAPI';
 
 // state
 import { useState, useRef, useEffect } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
-import { modifyUser } from '../authSlice';
+
+// 기타 라이브러리
+import _ from 'lodash';
+
 // css
 import classes from './ModifyUserInfo.module.scss';
 
 //하드코딩한 데이터
-import * as selectData from './data';
-import { useDispatch } from 'react-redux';
-import { getUser } from '../authSlice';
-import { modalActions } from '../../../common/UI/Modal/modalSlice';
-
-const { nationOptions, languageOptions, genderOptions } = selectData;
+import * as staticData from './data';
 
 const ModifyUserInfo = (props) => {
   // profile 안에서 모달로 부르는 방식이면, props로 받는 것도 가능함, ?. 연산자 + || 연산자 이용 = 프로퍼티가 존재 안하면
@@ -68,7 +70,9 @@ const ModifyUserInfo = (props) => {
     props.userInfo?.nationality || ''
   );
   const nameRef = useRef();
-  const [birthDay, setbirthDay] = useState(props.userInfo?.birthDay || '');
+  const [birthDay, setbirthDay] = useState(
+    props.userInfo?.birthDay || '2000-01-01'
+  );
 
   const formIsValid =
     userFavoriteList.length > 0 &&
@@ -208,25 +212,27 @@ const ModifyUserInfo = (props) => {
                 id="name"
                 ref={nameRef}
                 defaultValue={props.userInfo?.name || name}
+                placeholder="닉네임을 입력해 주세요"
                 onChange={nameInputChangeHandler}
               />
 
-              <Button
+              <button
+                className={`${classes.nicknameCheckBtn}  ${
+                  isNameUnique && classes.validateName
+                }`}
                 type="button"
-                size="small"
-                color="nicknameDupCheck"
                 onClick={nameDupCheckHandler}
                 onChange={nameInputChangeHandler}
               >
                 {isNameUnique ? '사용 가능' : '중복 확인'}
-              </Button>
+              </button>
             </div>
             {!props.userInfo && (
               <>
                 <h5>생년월일</h5>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
-                    // label="생년월일"
+                    views={['year', 'month', 'day']}
                     inputFormat="yyyy-MM-dd"
                     value={birthDay}
                     onChange={birthDayChangeHandler}
@@ -235,7 +241,7 @@ const ModifyUserInfo = (props) => {
                 </LocalizationProvider>
               </>
             )}
-            <div className={`${classes.twoInputsContainer}`}>
+            <div className={`${classes.nationGenderContainer}`}>
               <div>
                 <MuiSelect
                   labelId="nation-label"
@@ -243,7 +249,7 @@ const ModifyUserInfo = (props) => {
                   value={nationality}
                   selectName="국적"
                   onChange={nationalityHandler}
-                  optionList={nationOptions}
+                  optionList={staticData.nationOptions}
                 />
               </div>
               {!props.userInfo && (
@@ -254,7 +260,7 @@ const ModifyUserInfo = (props) => {
                     value={gender}
                     selectName="성별"
                     onChange={genderHandler}
-                    optionList={genderOptions}
+                    optionList={staticData.genderOptions}
                   />
                 </div>
               )}
@@ -269,7 +275,7 @@ const ModifyUserInfo = (props) => {
                     value={myLang}
                     selectName="내 언어"
                     onChange={myLangHandler}
-                    optionList={languageOptions}
+                    optionList={staticData.languageOptions}
                   />
                 </div>
                 <div>
@@ -279,17 +285,20 @@ const ModifyUserInfo = (props) => {
                     value={yourLang}
                     selectName="학습 언어"
                     onChange={yourLangHandler}
-                    optionList={languageOptions}
+                    optionList={staticData.languageOptions}
                   />
                 </div>
               </div>
             </div>
             <div className={classes.interestContainer}>
               <p>
-                관심 있는 분야를 선택해 주세요 <span>(최대 3개)</span>
+                관심 있는 분야를 3개까지 선택해 주세요{' '}
+                <span className={classes.interestCnt}>
+                  ({userFavoriteList.length} / 3)
+                </span>
               </p>
               {/* 이부분에 chips 로 여러 개를 만들어서 사용함 */}
-              <div className={classes['chipsContaier']}>
+              <div className={classes.chipsContaier}>
                 {isLoading ? (
                   <div>로딩중</div>
                 ) : (
@@ -297,7 +306,7 @@ const ModifyUserInfo = (props) => {
                     return (
                       <Chip
                         key={obj.id}
-                        label={selectData.favorites[obj.id]}
+                        label={staticData.favorites[obj.id]}
                         onClick={
                           userFavoriteList.includes(Number(obj.id))
                             ? removeHobbyHandler
@@ -306,8 +315,13 @@ const ModifyUserInfo = (props) => {
                         data-value={obj.id}
                         color={
                           userFavoriteList.includes(obj.id) || obj.isSelected
-                            ? 'warning'
+                            ? _.sample(staticData.chipColor)
                             : 'default'
+                        }
+                        variant={
+                          userFavoriteList.includes(obj.id) || obj.isSelected
+                            ? ''
+                            : 'outlined'
                         }
                       />
                     );

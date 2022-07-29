@@ -37,3 +37,12 @@ export const favorites = {
   13: '파티',
   14: '콜렉팅',
 };
+
+export const chipColor = [
+  'primary',
+  'secondary',
+  'error',
+  'info',
+  'success',
+  'warning',
+];

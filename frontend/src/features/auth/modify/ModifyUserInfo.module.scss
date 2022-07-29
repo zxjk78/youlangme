@@ -1,19 +1,31 @@
 .container {
   justify-content: center;
+  border: solid 3px #b865c6;
+  border-radius: 15px;
 }
 
 .formContainer {
   display: flex;
   align-items: center;
   width: 450px;
-  height: 700px;
-  padding: 15px;
-  border: solid 1px #fff;
-  border-radius: 15px;
+  // height: 700px;
+  padding: 30px 15px;
+  // padding-top: 30px;
+  // padding-bottom: 30px;
   color: #000;
+  font-size: 1rem;
+  border-radius: 15px;
 
-  background-color: #f6c0ff;
-  // background-color: #B865C6;
+  background-color: #fff;
+
+  // background: rgb(238, 66, 220);
+  // background: linear-gradient(
+  //   166deg,
+  //   rgba(238, 66, 220, 1) 0%,
+  //   rgba(244, 255, 243, 1) 89%,
+  //   rgba(244, 255, 243, 1) 100%,
+  //   rgba(232, 156, 224, 1) 100%
+  // );
   text-align: left;
 
   form {
@@ -38,7 +50,7 @@
     .nicknameContainer {
       display: flex;
       justify-content: space-between;
-      border-bottom: solid 1px black;
+      // border-bottom: solid 1px black;
 
       input {
         width: 75%;
@@ -47,40 +59,44 @@
         background-color: transparent;
         align-self: flex-end;
       }
-
+      input:focus {
+        outline: none;
+        border-bottom: solid 2px #b865c6;
+      }
       Button {
         width: 25%;
         height: 40px;
       }
     }
 
+    .nationGenderContainer {
+      width: 80%;
+      display: flex;
+      justify-content: space-between;
+    }
     .languageSelectionContainer {
       & > div {
         width: 80%;
-        margin: 0px auto;
+        // margin: 0px auto;
         display: flex;
         justify-content: space-between;
       }
     }
-    .twoInputsContainer {
-      width: 80%;
-      margin: 0px auto;
-      display: flex;
-      justify-content: space-between;
-    }
     .interestContainer {
-      span {
+      .interestCnt {
         font-weight: bold;
+        color: #3b3b3b;
       }
       p {
         margin: 0;
+        font-size: 0.8rem;
       }
       .chipsContaier {
-        width: 400px;
-        margin: 0px auto;
-        padding: 15px;
+        width: 350px;
+
         * {
           margin: 8px;
+          margin-left: 5px;
         }
       }
     }
@@ -90,4 +106,16 @@
 .submitBtn {
   display: flex;
   justify-content: center;
+}
+
+.nicknameCheckBtn {
+  background-color: #d3d3d3;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.validateName {
+  color: #fff;
+  background-color: #b865c6;
 }
