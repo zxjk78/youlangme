@@ -47,20 +47,18 @@
         margin-left: 20px;
       }
 
-      
-
-
-
-      
       .description_card {
         width: 90%;
         margin-top: 20px;
-        padding: 20px 10px 20px 20px;
+        padding: 10px 10px 20px 20px;
         min-height: 120px;
         max-height: 160px;
         background: rgba(255, 255, 255, 0.2);
         border: 1px solid #CAD6E2;
         border-radius: 20px;
+        .modify_discript {
+          text-align: end;
+        }
       }
 
       .rest_info {
@@ -92,10 +90,11 @@
         .favorite_chips {
           width: 95%;
           display: flex;
-          justify-content: space-around;
+          // justify-content: space-around;
 
           .chip {
             padding: 0px 4px;
+            margin-left: 10px;
             font-size: 14px;
           }
         }
