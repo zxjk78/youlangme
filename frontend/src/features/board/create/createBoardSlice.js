@@ -9,6 +9,9 @@ const reducer = {
   clearFile(state) {
     state.loadedImgFileCnt = 0;
   },
+  setFileCnt(state, action) {
+    state.loadedImgFileCnt = action.payload;
+  },
   addFileCnt(state, action) {
     if (action.payload === undefined) {
       state.loadedImgFileCnt += 1;
