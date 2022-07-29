@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../../features/auth/authSlice";
@@ -7,9 +7,15 @@ import youlangme from "../../../assets/youlangme.jpg";
 const Header = () => {
   const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const logoutHandler = () => {
-    dispatch(logout());
-    document.location.href = "/";
+  const [isLoading, setIsLoading] = useState(false)
+  const logoutHandler = (event) => {
+    event.preventDefault()
+    dispatch(logout())
+    .unwrap()
+      .then(() => {
+        document.location.href = "/";
+      })
+    
   };
   return (
     <nav className={classes.navbar}>

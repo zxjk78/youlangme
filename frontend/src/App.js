@@ -16,6 +16,7 @@ import Social from './features/auth/social/Social';
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
 import BoardMainItem from './features/main/feed/components/BoardMainItem';
+import StartMatch from './features/match/StartMatch';
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -55,6 +56,7 @@ function App() {
             path="/board/detail/:boardId"
             component={BoardDetailModal}
           ></PrivateRoute>
+          <PrivateRoute exact path="/match" component={StartMatch} />
         </Switch>
       </BrowserRouter>
     </div>
