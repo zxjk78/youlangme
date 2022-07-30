@@ -36,8 +36,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 100)
     String password;
 
-    @Column(nullable = false)
-    private int age;
 
     @Enumerated(EnumType.STRING)
     private Nationality nationality;
@@ -46,10 +44,7 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(nullable = false)
     private LocalDate birthDay;
-
-    private Long exp = 0L;
 
     @Enumerated(EnumType.STRING)
     private Language mylanguage;
@@ -154,5 +149,7 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Feed> feedList = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserExp expInfo;
 
 }

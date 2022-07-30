@@ -18,17 +18,12 @@ public class UserLoginUserResponseDto {
 
     private String name;
 
-//    private String email;
-
-    private int age;
 
     private Nationality nationality;
 
     private Gender gender;
 
     private LocalDate birthDay;
-
-    private Long exp = 0L;
 
     private Language mylanguage;
 
@@ -40,10 +35,8 @@ public class UserLoginUserResponseDto {
         this.id = user.getId();
         this.regTime = user.getCreatedDate();
         this.name = user.getName();
-        this.age = user.getAge();
         this.nationality=user.getNationality();
         this.gender=user.getGender();
-        this.exp = user.getExp();
         this.mylanguage=user.getMylanguage();
         this.yourlanguage=user.getYourlanguage();
         this.image = user.getImage();

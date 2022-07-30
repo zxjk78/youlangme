@@ -1,6 +1,5 @@
 package com.a603.youlangme.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

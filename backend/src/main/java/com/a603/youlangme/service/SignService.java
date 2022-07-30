@@ -9,7 +9,10 @@ import com.a603.youlangme.dto.user.UserLoginRequestDto;
 import com.a603.youlangme.dto.user.UserSignupRequestDto;
 import com.a603.youlangme.entity.RefreshToken;
 import com.a603.youlangme.entity.User;
+import com.a603.youlangme.entity.UserExp;
+import com.a603.youlangme.repository.LevelRepository;
 import com.a603.youlangme.repository.RefreshTokenRepository;
+import com.a603.youlangme.repository.UserExpRepository;
 import com.a603.youlangme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,9 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class SignService {
     private final UserRepository userRepository;
+    private final UserExpRepository userExpRepository;
+    private final LevelRepository levelRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -66,7 +72,12 @@ public class SignService {
     public void signup(UserSignupRequestDto userSignupRequestDto) {
         if (userRepository.findByEmail(userSignupRequestDto.getEmail()).isPresent())
             throw new EmailSignupFailedException();
-        userRepository.save(userSignupRequestDto.toEntity(passwordEncoder));
+        User newUser = userRepository.save(userSignupRequestDto.toEntity(passwordEncoder));
+        userExpRepository.save(UserExp.builder()
+                .user(newUser)
+                .exp(0)
+                .level(levelRepository.getReferenceById(1L))
+                .build());
     }
 
     @Transactional
