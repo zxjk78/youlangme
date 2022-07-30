@@ -22,7 +22,7 @@ import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
 // data import
 import * as data from '../auth/modify/data';
 import { iso_code } from './UserInfo/flagData'
-
+import { colorss } from './ChipsColorPalette'
 
 // css
 import classes from './MyPage.module.scss';
@@ -40,19 +40,20 @@ import {
   CircularProgress,
   Button
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import {
-  green,
-  blue,
-  yellow,
-  purple,
-  deepOrange,
-  red,
-} from '@mui/material/colors';
-import { CompareArrows, GTranslate } from '@mui/icons-material';
+import {  createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { grey, purple } from '@mui/material/colors';
+import { CompareArrows, GTranslate, Build} from '@mui/icons-material';
+
 
 // image
 // import KoreaFlag from './images/KoreaFlag.png';
+
+
+const myTheme = createTheme({
+    palette: {
+      colorss
+    },
+  });
 
 const MyPage = () => {
   const params = useParams();
@@ -122,16 +123,11 @@ const MyPage = () => {
     }
   }, [params.userId, isUploaded, profileDescription]);
 
+  const colors = [ 'red', 'pink', 'purple', 'deepPurple', 'indigo', 'blue', 'lightBlue', 
+  'teal', 'green', 'lime', 'yellow', 'amber', 'orange', 'deepOrange']
 
-  const colors = [
-    'primary',
-    'secondary',
-    'success',
-    'info',
-    'error',
-    'warning',
-  ];
-  // const colors = [ green[400], blue[200], yellow[300], yellow[800], purple[300], purple[600], deepOrange[600], red[300]  ]
+  console.log(colorss)
+
   // const chosenColor = colors[Math.floor(Math.random()*colors.length)]
 
   // flag 이모티곤 나중에 설정 하기
@@ -140,7 +136,7 @@ const MyPage = () => {
   // // 의존성에 fetchProfile 추가하면 fetchProfile에 useCallback 함수로.
 
   return (
-    <>
+    <ThemeProvider theme={myTheme}>
       {isLoading ? <CircularProgress /> : <div>
         {profileInfo && isModalVisible && (
           <Modal>
@@ -182,7 +178,10 @@ const MyPage = () => {
                     component="div"
                   >
                     {profileInfo.name}
-                    <Button onClick={modifyModalHandler} size='small'>프로필 수정</Button>
+                    { isCurrentUser && <Button onClick={modifyModalHandler} size='small'>
+                    <Build
+                        sx={{ fontSize: 30, color: grey[500] }}
+                      /></Button>}
                   </Typography>
                   <Follow profileUserId={params.userId} />
 
@@ -203,7 +202,7 @@ const MyPage = () => {
                   <Card className={classes.rest_info}>
                     <div className={classes.languages}>
                       <GTranslate
-                        sx={{ fontSize: 18, mr: 2, color: '#B8C5D0' }}
+                        sx={{ fontSize: 18, mr: 2, color: grey[500] }}
                       />
                       <div>
                         <span className={classes.language}>
@@ -224,9 +223,8 @@ const MyPage = () => {
                           <Chip
                             key={fav}
                             label={data.favorites[fav]}
-                            color={
-                              colors[Math.floor(Math.random() * colors.length)]
-                            }
+                            color= 'red'
+                            // { colors[Math.floor(Math.random() * colors.length)]}
                             className={classes.chip}
                           />
                         );
@@ -240,7 +238,7 @@ const MyPage = () => {
           </div>
         </Card>
       </div>}
-    </>
+    </ThemeProvider>
 
   );
 };
