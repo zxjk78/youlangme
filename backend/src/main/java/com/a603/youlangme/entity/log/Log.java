@@ -1,5 +1,7 @@
-package com.a603.youlangme.entity;
+package com.a603.youlangme.entity.log;
 
+import com.a603.youlangme.entity.BaseEntity;
+import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.LogType;
 import com.a603.youlangme.enums.Notification;
 import lombok.*;
@@ -14,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Log extends BaseEntity{
+public class Log extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "actor_id")

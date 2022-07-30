@@ -1,6 +1,5 @@
 package com.a603.youlangme.dto.user;
 
-import com.a603.youlangme.entity.Favorite;
 import com.a603.youlangme.enums.Gender;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.Nationality;

@@ -1,17 +1,12 @@
 package com.a603.youlangme.dto.user;
 
-import com.a603.youlangme.dto.badge.BadgeResponseDto;
-import com.a603.youlangme.entity.Favorite;
 import com.a603.youlangme.enums.Gender;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.Nationality;
 import lombok.*;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -35,6 +30,5 @@ public class UserProfileResponseDto {
 
     public Nationality nationality;
 
-    public int age;
 
 }

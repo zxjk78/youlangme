@@ -1,13 +1,14 @@
 package com.a603.youlangme.dto.badge;
 
+import com.a603.youlangme.entity.Badge;
 import com.a603.youlangme.enums.BadgeSelect;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class BadgeResponseDto {
     Long id;
 
@@ -22,4 +23,5 @@ public class BadgeResponseDto {
         this.name = name;
         this.description = description;
     }
+
 }
