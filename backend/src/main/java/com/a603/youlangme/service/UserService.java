@@ -114,7 +114,6 @@ public class UserService {
         userProfileResponseDto.setMylanguage(user.getMylanguage());
         userProfileResponseDto.setGender(user.getGender());
         userProfileResponseDto.setNationality(user.getNationality());
-        userProfileResponseDto.setAge(user.getAge());
         userProfileResponseDto.setBirthDay(user.getBirthDay());
 
         for (UserFavorite userFavorite : user.getUserFavorites()) {

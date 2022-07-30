@@ -30,6 +30,5 @@ public class UserProfileResponseDto {
 
     public Nationality nationality;
 
-    public int age;
 
 }

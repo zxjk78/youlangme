@@ -33,11 +33,11 @@ INSERT INTO level (`id`, `level`, `min_exp`, `max_exp`) VALUES (6,6,1000,1999);
 
 
 -- User
-INSERT INTO user VALUES(1001,'2022-07-20 09:30:22.232051','2022-07-21 16:30:22.232051',25,'1999-07-02','hello!','userbot1@gmail.com',0,'MALE',null,'KOREAN','userbot1','KOREA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
-INSERT INTO user VALUES(1002,'2022-07-18 16:31:22.232051','2022-07-21 16:30:22.232051',27,'1994-04-30','hello?','userbot2@gmail.com',0,'FEMALE',null,'KOREAN','userbot2','KOREA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','JAPANESE');
-INSERT INTO user VALUES(1003,'2022-07-21 16:32:22.232051','2022-07-21 16:30:22.232051',28,'1995-03-21','hello...','userbot3@gmail.com',0,'FEMALE',null,'CHINESE','userbot3','CHINA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
-INSERT INTO user VALUES(1004,'2022-07-21 12:33:22.232051','2022-07-21 16:30:22.232051',29,'2001-02-13','hello!!','userbot4@gmail.com',0,'MALE',null,'ENGLISH','userbot4','USA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','KOREAN');
-INSERT INTO user VALUES(1005,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051',20,'1997-11-02','hello!!!','userbot5@gmail.com',0,'FEMALE',null,'JAPANESE','userbot5','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(1001,'2022-07-20 09:30:22.232051','2022-07-21 16:30:22.232051','1999-07-02','hello!','userbot1@gmail.com','MALE',null,'KOREAN','userbot1','KOREA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(1002,'2022-07-18 16:31:22.232051','2022-07-21 16:30:22.232051','1994-04-30','hello?','userbot2@gmail.com','FEMALE',null,'KOREAN','userbot2','KOREA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','JAPANESE');
+INSERT INTO user VALUES(1003,'2022-07-21 16:32:22.232051','2022-07-21 16:30:22.232051','1995-03-21','hello...','userbot3@gmail.com','FEMALE',null,'CHINESE','userbot3','CHINA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(1004,'2022-07-21 12:33:22.232051','2022-07-21 16:30:22.232051','2001-02-13','hello!!','userbot4@gmail.com','MALE',null,'ENGLISH','userbot4','USA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','KOREAN');
+INSERT INTO user VALUES(1005,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','userbot5@gmail.com','FEMALE',null,'JAPANESE','userbot5','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
 
 
 -- User Roles
@@ -46,6 +46,13 @@ INSERT INTO user_roles(`user_id`,`roles`) VALUES (1002,'ROLE_USER');
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (1003,'ROLE_USER');
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (1004,'ROLE_USER');
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (1005,'ROLE_USER');
+
+-- User Exp
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (101,120,3,1001);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (102,20,1,1002);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (103,0,1,1003);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (104,85,2,1004);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (105,40,1,1005);
 
 
 -- User_Favorite

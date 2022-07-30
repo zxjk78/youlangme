@@ -5,10 +5,12 @@ import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.*;
 import com.a603.youlangme.entity.User;
+import com.a603.youlangme.repository.UserExpRepository;
 import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.ManyResult;
 import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.ResponseService;
+import com.a603.youlangme.service.UserExpService;
 import com.a603.youlangme.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +31,13 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final UserExpService userExpService;
     private final ResponseService responseService;
 
 
     // 유저 정보 조회 (유저 테이블)
     @GetMapping("/{id}")
     public OneResult<UserEntireInfoResponseDto> getEntireInfo(@PathVariable("id") Long id) {
-
 
         User user = userService.findUserById(id);
         if(user==null) throw new UserNotFoundException();
@@ -146,6 +148,12 @@ public class UserController {
 
 
     // Profile End
+    @GetMapping("/exp-level/{id}")
+    public OneResult<UserExpLevelResponseDto> getExpAndLevelInfo(@PathVariable("id") Long id) {
+        UserExpLevelResponseDto res = userExpService.getExpAndLevel(id);
+
+        return responseService.getOneResult(res);
+    }
 
 
 }
