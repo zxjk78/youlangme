@@ -46,7 +46,7 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate birthDay;
 
     private Long exp = 0L;
