@@ -127,7 +127,7 @@ const CreateBoardForm = () => {
             </div>
             <div className={classes.formContainer}>
               <div className={classes.userInfoContainer}>
-                <UserInfo />
+                <UserInfo user={currentUser} />
               </div>
               <form onSubmit={boardUploadHandler}>
                 <textarea

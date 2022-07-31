@@ -30,6 +30,7 @@ const BoardDetail = (props) => {
   const API_URL = 'http://127.0.0.1:8080/';
   const commentRef = useRef();
   const history = useHistory();
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
     (async () => {
       const boardDetail = await fetchBoardInfo(boardId);
@@ -125,7 +126,7 @@ const BoardDetail = (props) => {
         <Modal>
           <div className={classes.wrapper}>
             <div className={classes.boardHeader}>
-              <UserInfo />
+              <UserInfo user={currentUser} />
 
               <div className={classes.createdAt}>
                 {createdDateCal(boardDetail.modifiedTime)}

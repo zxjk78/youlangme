@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import UserInfo from '../../../profile/UserInfo/UserInfo';
+
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useState } from 'react';
@@ -31,17 +33,11 @@ const LikeContainer = (props) => {
         <div onClick={showLikeUserModal}>{props.likeUsers.length}</div>
         {likeUserVisible && (
           <div className={classes.likeUserList}>
-            <div>좋아요</div>
+            <h3>좋아요</h3>
             {props.likeUsers.map((user) => {
               return (
-                <Link to={`/profile/${user.id}`}>
-                  <div key={user.id}>
-                    <img
-                      src={`${API_URL}image/profile/${user.id}.jpg`}
-                      alt=""
-                    />
-                    {user.name}
-                  </div>
+                <Link to={`/profile/${user.id}`} key={user.id}>
+                  <UserInfo user={user} />
                 </Link>
               );
             })}
