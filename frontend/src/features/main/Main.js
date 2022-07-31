@@ -1,12 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import Header from '../../common/UI/Header/Header';
-import Feed from './feed/components/Feed';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Header from "../../common/UI/Header/Header";
+import Feed from "./feed/components/Feed";
 
-import { logout } from '../auth/authSlice';
+import { logout } from "../auth/authSlice";
 
-import UserInfo from '../profile/UserInfo/UserInfo';
+import UserInfo from "../profile/UserInfo/UserInfo";
 
 const Main = () => {
   const { currentUser } = useSelector((state) => state.auth);
@@ -16,12 +16,12 @@ const Main = () => {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        document.location.href = '/';
+        document.location.href = "/";
       });
   };
   // console.log(currentUser.name);
   if (currentUser.name === null) {
-    history.push('/modify');
+    history.push("/modify");
   }
   // const { user } = useSelector((state) => state.auth);
   // console.log(user);
@@ -45,6 +45,9 @@ const Main = () => {
       </div>
       <div>
         <Link to="/modify">수정</Link>
+      </div>
+      <div>
+        <Link to="/match">매칭</Link>
       </div>
       <button onClick={logoutHandler}>로그아웃</button>
     </div>
