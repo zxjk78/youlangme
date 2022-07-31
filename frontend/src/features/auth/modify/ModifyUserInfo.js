@@ -63,6 +63,8 @@ const ModifyUserInfo = (props) => {
   const [myLang, setMyLang] = useState(props.userInfo?.mylanguage || '');
   const [yourLang, setYourLang] = useState(props.userInfo?.yourlanguage || '');
   const [isNameUnique, setIsNameUnique] = useState(false);
+  const [needDupCheck, setNeedDupCheck] = useState(false);
+
   const [userFavoriteList, setUserFavoriteList] = useState(
     props.userInfo?.favorites || []
   );
@@ -96,6 +98,13 @@ const ModifyUserInfo = (props) => {
 
   // eventHandlers
   const nameInputChangeHandler = () => {
+    const name = nameRef.current.value;
+    if (name.trim().length > 0) {
+      setNeedDupCheck(() => true);
+    } else {
+      setNeedDupCheck(() => false);
+    }
+
     setIsNameUnique(() => false);
   };
 
@@ -215,11 +224,10 @@ const ModifyUserInfo = (props) => {
                 placeholder="닉네임을 입력해 주세요"
                 onChange={nameInputChangeHandler}
               />
-
               <button
-                className={`${classes.nicknameCheckBtn}  ${
-                  isNameUnique && classes.validateName
-                }`}
+                className={`${classes.nicknameCheckBtn} ${
+                  needDupCheck && classes.needDupCheck
+                } ${isNameUnique && classes.uniqueName}`}
                 type="button"
                 onClick={nameDupCheckHandler}
                 onChange={nameInputChangeHandler}
@@ -228,7 +236,7 @@ const ModifyUserInfo = (props) => {
               </button>
             </div>
             {!props.userInfo && (
-              <>
+              <div className={classes.birthdayContainer}>
                 <h5>생년월일</h5>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DesktopDatePicker
@@ -239,7 +247,7 @@ const ModifyUserInfo = (props) => {
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
-              </>
+              </div>
             )}
             <div className={`${classes.nationGenderContainer}`}>
               <div>
@@ -292,7 +300,7 @@ const ModifyUserInfo = (props) => {
             </div>
             <div className={classes.interestContainer}>
               <p>
-                관심 있는 분야를 3개까지 선택해 주세요{' '}
+                상대방과 대화하고 싶은 주제를 <br /> 3개까지 선택해 주세요{' '}
                 <span className={classes.interestCnt}>
                   ({userFavoriteList.length} / 3)
                 </span>

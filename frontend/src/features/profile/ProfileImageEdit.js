@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { currentUser } from '../auth/authSlice';
 
 // css
-import classes from "./ProfileImageEdit.module.scss";
+import classes from "./ProfileEdit.module.scss";
 
 // mui material
-import { Avatar, Button, Modal, Box, Icon, Typography, IconButton } from "@mui/material";
-import { green } from '@mui/material/colors';
+import { Avatar, Button, Modal, Box, Icon, Typography, IconButton, Stack, Badge } from "@mui/material";
+import { grey } from '@mui/material/colors';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
@@ -85,22 +85,22 @@ const ProfileImageEdit = (props) => {
 
   const style = {
     position: 'absolute',
-    top: '50%',
-    left: '50%',
+    top: '50%', left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '1px solid #000',
+    width: 330,
+    backgroundColor: 'background.paper',
+    border: '3px solid #9BA7AF',
+    borderRadius: 5,
     boxShadow: 24,
-    p: 4,
+    px: 4, py: 2,
   };
-
 
   return (
     <>
       {/* IconButton fontawesome으로 만들기 */}
       {/* <IconButton className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</IconButton> */}
-      <Icon className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</Icon>
+      <Icon className={classes.cursor} sx={{ color: grey[400] }}  fontSize='large'
+        onClick={profileUploadHandler}>add_circle</Icon>
 
       <Modal
         open={open}
@@ -117,26 +117,22 @@ const ProfileImageEdit = (props) => {
                 ref={refParam => inputRef = refParam}
                 style={{display: "none"}}
           />
-          <Button type="primary" onClick={() => 
-            inputRef.click()}>
-            사진 선택 
-          </Button>
 
-          <div className={classes.uploadButton}>
-            <Avatar src={profileImg.previewImageURL} sx={{ width: 200, height: 200 }} />
-            <Button color="error" variant="contained" onClick={deleteImage}>
-              취소 
+          <div className={classes.upload_profile_image}>
+            <h3>프로필 사진 수정</h3>
+            <Button type="primary" variant="outlined" className={classes.choose_file_btn}
+              onClick={() => inputRef.click()}>파일 선택 
             </Button>
-            <Button color="success" variant="contained" onClick={sendImageToServer}>
-              제출
-            </Button>
+            <Avatar src={profileImg.previewImageURL} sx={{ width: 230, height: 230, mx: 'auto', my:3}} />
+            <Stack direction='row-reverse' spacing={1} className={classes.upload_buttons}>
+              <Button color="primary" variant="contained" onClick={sendImageToServer}>
+                제출
+              </Button>
+              <Button color="error" variant="contained" onClick={deleteImage}>
+                취소 
+              </Button>
+            </Stack>
           </div>
-          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography> */}
         </Box>
       </Modal>
 

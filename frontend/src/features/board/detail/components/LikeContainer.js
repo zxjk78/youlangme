@@ -1,26 +1,11 @@
 import { Link } from 'react-router-dom';
+import UserInfo from '../../../profile/UserInfo/UserInfo';
+
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useState } from 'react';
-
+import classes from './LikeContainer.module.scss';
 const API_URL = 'http://127.0.0.1:8080/';
-
-const container = {
-  position: 'relative',
-
-  display: 'flex',
-  flexDirection: 'row',
-  cursor: 'pointer',
-};
-
-const likeUserList = {
-  width: '100px',
-  padding: '8px',
-  left: '100px',
-  position: 'absolute',
-  backgroundColor: '#fff',
-  borderRadius: '15px',
-};
 
 const LikeContainer = (props) => {
   const [likeUserVisible, setLikeUserVisible] = useState(false);
@@ -37,7 +22,7 @@ const LikeContainer = (props) => {
   };
   return (
     <>
-      <div style={container}>
+      <div className={classes.container}>
         <div>
           {props.isLiked ? (
             <FavoriteIcon onClick={dislikeHandler} />
@@ -47,17 +32,12 @@ const LikeContainer = (props) => {
         </div>
         <div onClick={showLikeUserModal}>{props.likeUsers.length}</div>
         {likeUserVisible && (
-          <div style={likeUserList}>
+          <div className={classes.likeUserList}>
+            <h3>좋아요</h3>
             {props.likeUsers.map((user) => {
               return (
-                <Link to={`/profile/${user.id}`}>
-                  <div key={user.id}>
-                    <img
-                      src={`${API_URL}image/profile/${user.id}.jpg`}
-                      alt=""
-                    />
-                    {user.name}
-                  </div>
+                <Link to={`/profile/${user.id}`} key={user.id}>
+                  <UserInfo user={user} />
                 </Link>
               );
             })}

@@ -115,7 +115,7 @@ export const submitDescription = async (uploadedDescription) => {
           }
         }
       );
-      alert('자기소개가 등록되었습니다!');
+      // alert('자기소개가 등록되었습니다!');
     
   } catch (err) {
     console.log('에러');

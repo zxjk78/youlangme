@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { createdDateCal } from '../../func/commonFunctions';
 // API
 import {
   fetchBoardInfo,
@@ -14,6 +15,7 @@ import Modal from '../../../../common/UI/Modal/Modal';
 //components
 import CommentListItem from './CommentListItem';
 import LikeContainer from './LikeContainer';
+import UserInfo from '../../../profile/UserInfo/UserInfo';
 // mui
 import CircularProgress from '@mui/material/CircularProgress';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
@@ -28,6 +30,7 @@ const BoardDetail = (props) => {
   const API_URL = 'http://127.0.0.1:8080/';
   const commentRef = useRef();
   const history = useHistory();
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
     (async () => {
       const boardDetail = await fetchBoardInfo(boardId);
@@ -65,8 +68,10 @@ const BoardDetail = (props) => {
     }
     const response = await addComment(boardId, newComment);
     if (response) {
-      setCommentList((prevState) => {
-        return [...prevState]; // 사용 후 재 fetch
+      // 댓글작성 후 comment 재 fetch
+      const newCommentList = await fetchCommentList(boardId);
+      setCommentList(() => {
+        return [...newCommentList];
       });
     }
   };
@@ -120,19 +125,15 @@ const BoardDetail = (props) => {
       ) : (
         <Modal>
           <div className={classes.wrapper}>
-            <div className={classes.header}>
-              <img
-                src={`${API_URL}image/profile/${boardDetail.userId}.jpg`}
-                alt="유저 프로파일 이미지"
-              />
-              <div className={classes.username}>{boardDetail.userName}</div>
+            <div className={classes.boardHeader}>
+              <UserInfo user={currentUser} />
+
               <div className={classes.createdAt}>
-                {boardDetail.modifiedTime}
+                {createdDateCal(boardDetail.modifiedTime)}
               </div>
             </div>
             <div className={classes.main}>
               <div className={classes.photoContainer}>
-                {console.log(boardDetail.imgList)}
                 {boardDetail.imgList.map((image) => (
                   <img
                     key={image}
@@ -142,7 +143,7 @@ const BoardDetail = (props) => {
                 ))}
               </div>
               <div className={classes.contentContainer}>
-                {boardDetail.contents}
+                <p>{boardDetail.contents}</p>
               </div>
               <div className={classes.likeCommentCnt}>
                 <div>
@@ -153,17 +154,17 @@ const BoardDetail = (props) => {
                     likeUsers={likeUsers}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <ChatBubbleOutlineIcon />
                   {commentList.length}
-                </div>
+                </div> */}
               </div>
               <br />
             </div>
             <div className={classes.comment}>
               <div className={classes.header}>
                 <ChatBubbleOutlineIcon />
-                <div>댓글</div>
+                <div>댓글 {commentList.length}개 </div>
               </div>
               <div className={classes.commentInput}>
                 <form onSubmit={addCommentHandler}>

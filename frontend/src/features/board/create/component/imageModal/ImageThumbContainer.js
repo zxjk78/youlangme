@@ -1,43 +1,15 @@
-const thumbsContainer = {
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  marginTop: 16,
-};
-
-const thumb = {
-  display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
-  marginBottom: 8,
-  marginRight: 8,
-  width: 90,
-  height: 90,
-  padding: 4,
-  boxSizing: 'border-box',
-};
-
-const thumbInner = {
-  display: 'flex',
-  minWidth: 0,
-  overflow: 'hidden',
-};
-
-const img = {
-  display: 'block',
-  width: 'auto',
-  height: '100%',
-};
+import classes from './ImageThumbContainer.module.scss';
 
 const ImageThumbContainer = (props) => {
   const uploadReadyImages = props.uploadReadyFiles;
 
   const thumbs = uploadReadyImages.map((file) => (
-    <div style={thumb} key={file.preview}>
-      <div style={thumbInner}>
+    // <div className={thumb} key={file.preview}>
+    <div className={classes.thumb} key={file.preview}>
+      <div className={classes.thumbInner}>
         <img
           src={file.preview}
-          style={img}
+          className={classes.img}
           // Revoke data uri after image is loaded
           onLoad={() => {
             props.isImageUploaded();
@@ -53,7 +25,7 @@ const ImageThumbContainer = (props) => {
 
   return (
     <>
-      <aside style={thumbsContainer}>{thumbs}</aside>
+      <aside className={classes.thumbsContainer}>{thumbs}</aside>
     </>
   );
 };

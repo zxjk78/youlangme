@@ -14,7 +14,7 @@ import { fetchFollowCnt, fetchFollowers, fetchFollowees, sendFollow, sendUnfollo
 import classes from './Follow.module.scss';
 
 // Mui
-import { Avatar, Button, CircularProgress, Dialog, DialogTitle, List, ListItem, ListItemAvatar, ListItemText, Modal  } from '@mui/material';
+import { Avatar, Button, CircularProgress, Dialog, DialogContent, DialogTitle, List, ListItem, ListItemAvatar, ListItemText, Modal  } from '@mui/material';
 import { Group } from '@mui/icons-material';
 
 
@@ -82,7 +82,7 @@ const Follow = (props) => {
       <>
           { isLoading ?  <CircularProgress />: 
             <div>
-              {!isCurrentUser && <div>
+              {!isCurrentUser && <div className={classes.followBtn}>
                 {
                   isFollowed
                   ? <Button onClick={unfollowHandler} variant="contained" 
@@ -103,38 +103,45 @@ const Follow = (props) => {
                   <span className={classes.cnt}>{followCnt.followeeCnt} </span>
                 </div>
 
-                <Dialog open={showFollowers} onClose={handleCloseFollowers}>
-                  <DialogTitle>팔로워</DialogTitle>
-                  <List sx={{ pt: 0 }}>
-                    {followers.map(follower=>(
-                      <ListItem button key={follower.id} onClick={() => {
-                        setShowFollowers(false)
-                        history.push(`/profile/${follower.followerId}`)}} >
-                        <ListItemAvatar>
-                          <Avatar sx={{ width: 50, height: 50 }} src={API_URL + `image/profile/${follower.followerId}.jpg`} />    
-                          {/* <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}  src={profileImg}/> */}
-                        </ListItemAvatar>
-                        <ListItemText primary={follower.name} />
-                      </ListItem>
-                    ))}
-                  </List>
+                <Dialog open={showFollowers} onClose={handleCloseFollowers} 
+                  >
+                  <DialogTitle sx={{ fontSize: 22, fontWeight: 500, bgcolor:'#F9F3EE', color:'#B8C5D0' }}>팔로워</DialogTitle>
+                  <DialogContent sx={{ width: 240, height: 300, mt:1 }} >
+                    <List sx={{ pt: 0 }}>
+                      {followers.map(follower=>(
+                        <ListItem button key={follower.id} onClick={() => {
+                          setShowFollowers(false)
+                          history.push(`/profile/${follower.followerId}`)}} >
+                          <ListItemAvatar>
+                            <Avatar sx={{ width: 50, height: 50,  mr: 2 }} src={API_URL + `image/profile/${follower.followerId}.jpg`} />    
+                            {/* <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}  src={profileImg}/> */}
+                          </ListItemAvatar>
+                          <ListItemText primary={follower.name} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </DialogContent>
                 </Dialog> 
 
-                <Dialog open={showFollowings} onClose={handleCloseFollowings}>
-                  <DialogTitle>팔로잉</DialogTitle>
+                <Dialog open={showFollowings} onClose={handleCloseFollowings}
+                  >
+                  <DialogTitle sx={{ fontSize: 22, fontWeight: 500, bgcolor:'#F9F3EE', color:'#B8C5D0' }}>팔로잉</DialogTitle>
+                  <DialogContent sx={{ width: 240, height: 300,  mt:1 }} >
                     <List sx={{ pt: 0 }}>
                       {followees.map(followee=>(
                         <ListItem button key={followee.id} onClick={() => {
                           setShowFollowings(false)
                           history.push(`/profile/${followee.followeeId}`)}} >
                           <ListItemAvatar>
-                            <Avatar sx={{ width: 50, height: 50 }} src={API_URL + `image/profile/${followee.followeeId}.jpg`} />    
+                            <Avatar sx={{ width: 50, height: 50, mr: 2 }} src={API_URL + `image/profile/${followee.followeeId}.jpg`} />    
                             {/* <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}  src={profileImg}/> */}
                           </ListItemAvatar>
                           <ListItemText primary={followee.name} />
                         </ListItem>
                       ))}
                     </List>
+                  </DialogContent>
+
                 </Dialog>
               </div>
             </div>}

@@ -1,4 +1,16 @@
 import * as React from 'react';
+// state
+import { useState, useRef, useEffect, useCallback } from 'react';
+
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { modalActions } from '../../common/UI/Modal/modalSlice';
+
+// router
+import { useHistory, useParams } from 'react-router-dom';
+
+// 리덕스 안거치는 단순 서버 통신 API
+import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';
 
 // component
 import ProfileImageEdit from './ProfileImageEdit';
@@ -11,18 +23,6 @@ import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
 import * as data from '../auth/modify/data';
 import { iso_code } from './UserInfo/flagData'
 
-// 리덕스 안거치는 단순 서버 통신 API
-import { fetchProfile, fetchDescription, fetchProfileImg } from './ProfileAPI';
-
-// state
-import { useState, useRef, useEffect, useCallback } from 'react';
-
-// redux
-import { useSelector, useDispatch } from 'react-redux';
-import { modalActions } from '../../common/UI/Modal/modalSlice';
-
-// router
-import { useHistory, useParams } from 'react-router-dom';
 
 // css
 import classes from './MyPage.module.scss';
@@ -58,6 +58,11 @@ const MyPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+  
+    // redux
+    const { currentUser } = useSelector((state) => state.auth);
+    // const dispatch = useDispatch();
+    // console.log('리덕스 테스트:', currentUser );
 
   const [profileInfo, setProfileInfo] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
@@ -65,17 +70,12 @@ const MyPage = () => {
   const [isUploaded, setIsUploaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
   const isModalVisible = useSelector((state) => state.modal.isVisible);
-  const nationalityCode = profileInfo ? iso_code[profileInfo.nationality] : null
   // console.log(params.userId);
-
-
-  // redux
-  const { currentUser } = useSelector((state) => state.auth);
-  // const dispatch = useDispatch();
-  // console.log('리덕스 테스트:', currentUser );
-
+  
+  const nationalityCode = profileInfo ? iso_code[profileInfo.nationality] : null
   const isCurrentUser = currentUser.id === Number(params.userId);
   // console.log(isCurrentUser);
+
 
   const modifyModalHandler = () => {
     dispatch(modalActions.onModal());
@@ -147,7 +147,6 @@ const MyPage = () => {
             <ModifyUserInfo userInfo={profileInfo} />
           </Modal>
         )}
-        {profileInfo && <div> 국적: {profileInfo.nationality}</div>}
         <Card className={classes.card}>
           <div className={classes.left_profile}>
             <Typography
@@ -183,21 +182,23 @@ const MyPage = () => {
                     component="div"
                   >
                     {profileInfo.name}
-                    <Button onClick={modifyModalHandler}>회원정보 수정</Button>
+                    <Button onClick={modifyModalHandler} size='small'>프로필 수정</Button>
                   </Typography>
                   <Follow profileUserId={params.userId} />
 
                   <Card className={classes.description_card}>
+                    <div>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontWeight: 'light' }}
+                      >
+                        {profileDescription}
+                      </Typography>
+                    </div>
                     {isCurrentUser && <div className={classes.modify_discript}>
                       <ProfileDescEdit desc={profileDescription} getNewProfileDesc={updateProfileDesc}/>
                     </div>}
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ fontWeight: 'light' }}
-                    >
-                      {profileDescription}
-                    </Typography>
                   </Card>
                   <Card className={classes.rest_info}>
                     <div className={classes.languages}>
@@ -216,7 +217,7 @@ const MyPage = () => {
                         <span className={classes.greys}> you</span>
                       </div>
                     </div>
-                    <br />
+                    {/* <br /> */}
                     <div className={classes.favorite_chips}>
                       {profileInfo.favorites.map((fav) => {
                         return (

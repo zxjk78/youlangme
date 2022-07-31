@@ -3,11 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 // import { currentUser } from '../auth/authSlice';
 
 // css
-import classes from "./ProfileImageEdit.module.scss";
+import classes from "./ProfileEdit.module.scss";
 
 // mui material
-import { Avatar, Button, Modal, Box, Icon, Typography, IconButton, TextField } from "@mui/material";
-import { green } from '@mui/material/colors';
+import { Avatar, Button, Modal, Box, Icon, Typography, IconButton, TextField, Stack } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import { grey } from '@mui/material/colors';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
@@ -20,13 +21,9 @@ const ProfileDescEdit = (props) => {
   const { currentUser } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
   // console.log(' 프로필 리덕스 테스트:', currentUser);
-  const API_URL = 'http://127.0.0.1:8080/';
-  
-  const descRef = useRef();
+
 
   const description = props.desc;
-  console.log( '프롭스', props.desc)
-
 
   const [open, setOpen] = useState(false);
   const descUploadHandler = () => setOpen(true);
@@ -62,14 +59,15 @@ const ProfileDescEdit = (props) => {
 
   const style = {
     position: 'absolute',
-    top: '50%',
-    left: '50%',
+    top: '50%', left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '1px solid #000',
+    width: 360,
+    fontWeight: 'bold',
+    backgroundColor: 'background.paper',
+    border: '3px solid #9BA7AF',
+    borderRadius: 5,
     boxShadow: 24,
-    p: 4,
+    px: 4, py: 2,
   };
 
   
@@ -78,8 +76,7 @@ const ProfileDescEdit = (props) => {
     <>
       {/* IconButton fontawesome으로 만들기 */}
       {/* <IconButton className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</IconButton> */}
-      <Icon className={classes.add_profile_img} sx={{ color: green[500] }} onClick={descUploadHandler}>add_circle</Icon>
-
+      <EditIcon className={classes.cursor} sx={{ color: grey[400] }} onClick={descUploadHandler}/>
       <Modal
         open={open}
         onClose={handleClose}
@@ -87,23 +84,26 @@ const ProfileDescEdit = (props) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <h3>자기소개 작성</h3>
+          <h3>자기소개 수정</h3>
+          <br />
           <TextField
             id="description"
             placeholder="자기소개를 작성해주세요!"
-            multiline
-            rows={4}
+            multiline fullWidth
+            minRows={10} margin='dense'
             defaultValue={description}
-            ref={descRef}
             variant="filled"
+            color="secondary"
             onChange={descInputChangeHandler}
           />
-          <Button onClick={onDescSubmitHandler} color="primary" variant="contained" >
-            업로드
-          </Button>
-          <Button onClick={handleClose} color="success" variant="contained" >
-            취소
-          </Button>
+          <Stack direction='row-reverse' spacing={1} className={classes.upload_buttons}>
+            <Button onClick={onDescSubmitHandler} color="warning" variant="contained" >
+              업로드
+            </Button>
+            <Button onClick={handleClose} color="success" variant="contained" >
+              취소
+            </Button>
+          </Stack>
         </Box>
       </Modal>
     </>
