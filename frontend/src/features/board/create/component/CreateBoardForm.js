@@ -11,6 +11,7 @@ import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
 import UserInfo from '../../../profile/UserInfo/UserInfo';
 // mUI
+import { common } from '@mui/material/colors';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -125,8 +126,9 @@ const CreateBoardForm = () => {
               {!boardInfo ? '새 게시물' : '게시물 수정'}
             </div>
             <div className={classes.formContainer}>
-              <UserInfo />
-              <hr />
+              <div className={classes.userInfoContainer}>
+                <UserInfo />
+              </div>
               <form onSubmit={boardUploadHandler}>
                 <textarea
                   name=""
@@ -148,6 +150,7 @@ const CreateBoardForm = () => {
                         return (
                           <div key={file.preview} className={classes.fileImage}>
                             <HighlightOffIcon
+                              sx={{ color: common[500] }}
                               className={classes.removeImgButton}
                               data-index={index}
                               onClick={imageRemoveHandler}
@@ -156,15 +159,17 @@ const CreateBoardForm = () => {
                           </div>
                         );
                       })}
-                    <div
-                      className={classes.addPhotoButton}
-                      onClick={addPhotoHander}
-                    >
-                      <AddAPhotoIcon />
+                    {images.length < MAX_IMAGE_LIMIT && (
                       <div
-                        className={classes.extraImage}
-                      >{`${images.length} / ${imageLimit}`}</div>
-                    </div>
+                        className={classes.addPhotoButton}
+                        onClick={addPhotoHander}
+                      >
+                        <AddAPhotoIcon color="action" />
+                        <div
+                          className={classes.extraImage}
+                        >{`${images.length} / ${imageLimit}`}</div>
+                      </div>
+                    )}
                   </div>
                   <div className={classes.buttonContainer}>
                     <button type="button" onClick={cancelHandler}>

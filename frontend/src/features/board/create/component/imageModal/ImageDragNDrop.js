@@ -9,33 +9,11 @@ import ImageThumbContainer from './ImageThumbContainer';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 // static data
 import { MAX_IMAGE_LIMIT } from '../../data';
-
-const msgStyle = {
-  height: '100%',
-  fontSize: '1rem',
-};
-const msgStyle2 = {
-  height: '50%',
-  fontSize: '0.5rem',
-};
-
-const boxWrapperStyle = {
-  width: '90%',
-  height: '70%',
-  backgroundColor: '#f9f3ee',
-  margin: '0px auto',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
-const uploadBoxStyle = {
-  width: '90%',
-  height: '90%',
-  border: 'dashed 2px #4b4b4b',
-};
+//css
+import classes from './ImageDragNDrop.module.scss';
 
 const baseStyle = {
-  height: '200px',
+  height: '168px',
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
@@ -51,12 +29,8 @@ const baseStyle = {
   transition: 'border .24s ease-in-out',
 };
 
-const focusedStyle = {
-  borderColor: '#2196f3',
-};
-
 const ImageDragNDrop = (props) => {
-  const maxLimit = 5;
+  const maxLimit = MAX_IMAGE_LIMIT;
   const [files, setFiles] = useState([]);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const loadedImgCnt = useSelector(
@@ -71,8 +45,8 @@ const ImageDragNDrop = (props) => {
     },
     onDrop: (acceptedFiles) => {
       if (loadedImgCnt + acceptedFiles.length > maxLimit) {
-        // alert('몇개이상 안됨')
-        console.log('이미지 최대 갯수 초과');
+        alert('이미지 최대 갯수를 초과하였습니다.');
+        // console.log(maxLimit, '이미지 최대 갯수 초과');
         return;
       }
 
@@ -94,7 +68,7 @@ const ImageDragNDrop = (props) => {
   const style = useMemo(
     () => ({
       ...baseStyle,
-      ...(isFocused ? focusedStyle : {}),
+      ...(isFocused ? classes.focusedStyle : {}),
     }),
     [isFocused]
   );
@@ -114,18 +88,20 @@ const ImageDragNDrop = (props) => {
   };
 
   return (
-    <section className="container">
-      <div style={boxWrapperStyle}>
-        <div style={uploadBoxStyle}>
+    <section className={classes.wrapper}>
+      <div className={classes.boxWrapperStyle}>
+        <div className={classes.uploadBoxStyle}>
           <div {...getRootProps({ className: 'dropzone', style })}>
             <input {...getInputProps()} />
-            <div style={isImageLoaded ? msgStyle2 : msgStyle}>
-              <CloudUploadOutlinedIcon />
-              <p>
-                이미지를 선택하거나 이곳에 올려 주세요. <br />
-                이미지는 최대 {maxLimit}장까지 업로드 가능합니다.
-              </p>
-            </div>
+            {!isImageLoaded && (
+              <div className={classes.msgStyle}>
+                <CloudUploadOutlinedIcon />
+                <p>
+                  이미지를 선택하거나 이곳에 올려 주세요. <br />
+                  이미지는 최대 {maxLimit}장까지 업로드 가능합니다.
+                </p>
+              </div>
+            )}
             <ImageThumbContainer
               uploadReadyFiles={files}
               isImageUploaded={isImageUploaded}
@@ -133,10 +109,16 @@ const ImageDragNDrop = (props) => {
           </div>
         </div>
       </div>
-
-      <button type="button" onClick={onButtonClickHander}>
-        업로드
-      </button>
+      <div className={`${classes.uploadButton}`}>
+        <button
+          type="button"
+          className={isImageLoaded && classes.isImageLoaded}
+          onClick={onButtonClickHander}
+          disabled={!isImageLoaded}
+        >
+          업로드
+        </button>
+      </div>
     </section>
   );
 };

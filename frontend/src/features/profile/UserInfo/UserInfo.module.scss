@@ -1,14 +1,14 @@
 .wrapper {
   display: flex;
   align-items: center;
+  width: 100%;
+  background-color: none;
   .container {
     margin-left: 5%;
     display: flex;
     justify-content: flex-start;
   }
 
-  width: 100%;
-  background-color: none;
   .imageContainer {
     position: relative;
     .userProfileImg {
@@ -28,5 +28,6 @@
   .name {
     font-size: 1.2rem;
     font-weight: bold;
+    line-height: 40px;
   }
 }

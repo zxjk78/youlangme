@@ -7,7 +7,7 @@
 .formContainer {
   display: flex;
   align-items: center;
-  width: 450px;
+  width: 400px;
   // height: 700px;
   padding: 30px 15px;
   // padding-top: 30px;
@@ -29,7 +29,7 @@
   text-align: left;
 
   form {
-    width: 90%;
+    width: 80%;
     margin: 0px auto;
     display: flex;
     flex-direction: column;
@@ -49,7 +49,7 @@
 
     .nicknameContainer {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       // border-bottom: solid 1px black;
 
       input {
@@ -64,22 +64,22 @@
         border-bottom: solid 2px #b865c6;
       }
       Button {
-        width: 25%;
+        width: 35%;
         height: 40px;
       }
     }
 
     .nationGenderContainer {
-      width: 80%;
+      width: 100%;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
     }
     .languageSelectionContainer {
       & > div {
-        width: 80%;
+        width: 100%;
         // margin: 0px auto;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
       }
     }
     .interestContainer {
@@ -89,11 +89,12 @@
       }
       p {
         margin: 0;
-        font-size: 0.8rem;
+        padding: 2px;
+        font-size: 0.9rem;
       }
       .chipsContaier {
         width: 350px;
-
+        margin-left: -15px;
         * {
           margin: 8px;
           margin-left: 5px;
@@ -101,6 +102,10 @@
       }
     }
   }
+}
+
+.birthdayContainer {
+  width: 90%;
 }
 
 .submitBtn {
@@ -115,7 +120,13 @@
   font-weight: bold;
 }
 
-.validateName {
+.needDupCheck {
+  color: #fff;
+  background-color: #f4b8ff;
+  transition-duration: 0.5s;
+}
+.uniqueName {
   color: #fff;
   background-color: #b865c6;
+  transition-duration: 0.2s;
 }
