@@ -38,10 +38,12 @@ import {
   CardContent,
   Typography,
   CircularProgress,
-  Button
+  Button,
+  IconButton
 } from '@mui/material';
 import {  createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import { grey, purple } from '@mui/material/colors';
+import { amber, blue, deepOrange, deepPurple, green, indigo, lightBlue, lime, orange, pink, 
+  grey, purple, red, teal, yellow } from '@mui/material/colors';
 import { CompareArrows, GTranslate, Build} from '@mui/icons-material';
 
 
@@ -49,16 +51,60 @@ import { CompareArrows, GTranslate, Build} from '@mui/icons-material';
 // import KoreaFlag from './images/KoreaFlag.png';
 
 
-const myTheme = createTheme({
-    palette: {
-      colorss
-    },
-  });
 
 const MyPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const myTheme = createTheme({
+      palette: 
+      {
+        primary: {
+          main: red[300],
+        },
+        secondary: {
+          main: pink[600],
+        },
+        error: {
+          main: purple[500]
+        },
+        info: {
+          main: yellow[500]
+        },
+        success: {
+          main: orange[500]
+        },
+        warning: {
+          main: teal[500]
+        },
+        // lblue: {
+        //   main: lightBlue[800]
+        // },
+        // ateal: {
+        //   main: teal[500]
+        // },
+        // agreen: {
+        //   main: green[600]
+        // },  
+        // alime: {
+        //   main: lime[500]
+        // },
+        // ayellow: {
+        //   main: yellow[500]
+        // },
+        // asamber: {
+        //   main: amber[600]
+        // },
+        // aorange: {
+        //   main: orange[500]
+        // },
+        // adeepOrange: {
+        //   main: deepOrange[400]
+        // },
+      }
+      ,
+    });
   
     // redux
     const { currentUser } = useSelector((state) => state.auth);
@@ -114,24 +160,19 @@ const MyPage = () => {
         setProfileDescription(profileDescript)
         setIsLoading(false);
         setIsUploaded(false)
-        console.log(params.userId)
-        console.log( '바뀌지마!!!!!!', profileDescript, profileDescription)
-
       })();
     return () => {
       setProfileImg(null)
     }
   }, [params.userId, isUploaded, profileDescription]);
 
-  const colors = [ 'red', 'pink', 'purple', 'deepPurple', 'indigo', 'blue', 'lightBlue', 
-  'teal', 'green', 'lime', 'yellow', 'amber', 'orange', 'deepOrange']
+  // const colors = [ 'red', 'pink', 'purple', 'deepPurple', 'indigo', 'blue', 'lightBlue', 
+  // 'teal', 'green', 'lime', 'yellow', 'amber', 'orange', 'deepOrange']
+  const colors = [ 'primary', 'secondary', 'warning', 'success', 'info', 'error']
 
-  console.log(colorss)
 
   // const chosenColor = colors[Math.floor(Math.random()*colors.length)]
 
-  // flag 이모티곤 나중에 설정 하기
-  // const flag = profileInfo.nationality === 'KOREA' ? KoreaFlag :  KoreaFlag;
 
   // // 의존성에 fetchProfile 추가하면 fetchProfile에 useCallback 함수로.
 
@@ -178,10 +219,10 @@ const MyPage = () => {
                     component="div"
                   >
                     {profileInfo.name}
-                    { isCurrentUser && <Button onClick={modifyModalHandler} size='small'>
+                    { isCurrentUser && <IconButton onClick={modifyModalHandler} size='small'>
                     <Build
                         sx={{ fontSize: 30, color: grey[500] }}
-                      /></Button>}
+                      /></IconButton>}
                   </Typography>
                   <Follow profileUserId={params.userId} />
 
@@ -223,8 +264,8 @@ const MyPage = () => {
                           <Chip
                             key={fav}
                             label={data.favorites[fav]}
-                            color= 'red'
-                            // { colors[Math.floor(Math.random() * colors.length)]}
+                            color= 
+                            { colors[Math.floor(Math.random() * colors.length)]}
                             className={classes.chip}
                           />
                         );
