@@ -4,68 +4,83 @@
   padding: 10px;
   background-color: #fff;
   border-radius: 15px;
+}
 
+.main {
+  background-color: #f4f6f7;
+  padding: 15px;
+  border: solid 1px #d3d3d3;
+  border-radius: 15px;
+}
+
+.boardHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 0px 20px;
+  & > div:first-child {
+    width: 60%;
+  }
+  .createdAt {
+    color: #aeaeae;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.contentContainer {
+  padding: 15px;
+  // background-color: #b865c6;
+  word-break: break-all;
+  p {
+    line-height: 1.5em;
+  }
+}
+
+.photoContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+  }
+}
+.likeCommentCnt {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+  & > div:last-child {
+    margin-right: 30px;
+  }
+}
+
+.comment {
   .header {
     display: flex;
-    justify-content: flex-start;
-    gap: 0px 20px;
-    img {
-      width: 30px;
-      height: 30px;
-      border-radius: 70%;
-      overflow: hidden;
-    }
-    .username {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-    .createdAt {
-      color: #aeaeae;
-    }
+    gap: 0px 10px;
   }
-  .main {
-    background-color: #f4f6f7;
-    .photoContainer {
-      display: flex;
-      justify-content: flex-start;
-      img {
-        width: 100px;
-        height: 100px;
-        border-radius: 10px;
-      }
-    }
-    .likeCommentCnt {
-      width: 100;
-      display: flex;
-      justify-content: space-evenly;
-      margin-left: auto;
-    }
+  .commentContainer {
+    border: solid 1px #b865c6;
+    border-radius: 5px;
+    padding: 12px;
   }
-  .comment {
-    .header {
-      display: flex;
-      gap: 0px 10px;
-    }
-    form {
-      input {
-        border: solid 1px #dedede;
-        border-radius: 25px;
-        background-color: #f4f6f7;
-      }
-      button {
-        border: none;
-        border-radius: 10px;
-        padding: 5px;
-        color: #fff;
-        font-weight: bold;
 
-        background-color: #b865c6;
-      }
+  form {
+    input {
+      border: solid 1px #dedede;
+      border-radius: 25px;
+      background-color: #f4f6f7;
     }
-    .commentContainer {
-      border: solid 1px #b865c6;
-      border-radius: 5px;
-      padding: 12px;
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 5px;
+      color: #fff;
+      font-weight: bold;
+
+      background-color: #b865c6;
     }
   }
 }
