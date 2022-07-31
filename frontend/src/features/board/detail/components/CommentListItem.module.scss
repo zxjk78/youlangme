@@ -1,4 +1,6 @@
 .wrapper {
+  width: 100%;
+
   & + & {
     border-top: solid 1px #000;
     padding-top: 15px;
@@ -7,6 +9,7 @@
 }
 .header {
   display: flex;
+
   justify-content: space-between;
 }
 .userContainer {
@@ -23,4 +26,10 @@
   & > div {
     display: flex;
   }
+}
+
+.commentContainer {
+  width: 90%;
+  margin: 0px auto;
+  word-break: break-all;
 }
