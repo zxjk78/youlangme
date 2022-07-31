@@ -235,20 +235,21 @@ const ModifyUserInfo = (props) => {
                 {isNameUnique ? '사용 가능' : '중복 확인'}
               </button>
             </div>
-            {!props.userInfo && (
-              <div className={classes.birthdayContainer}>
-                <h5>생년월일</h5>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DesktopDatePicker
-                    views={['year', 'month', 'day']}
-                    inputFormat="yyyy-MM-dd"
-                    value={birthDay}
-                    onChange={birthDayChangeHandler}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </div>
-            )}
+
+            <div className={classes.birthdayContainer}>
+              <h5>생년월일</h5>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DesktopDatePicker
+                  views={['year', 'month', 'day']}
+                  inputFormat="yyyy-MM-dd"
+                  value={birthDay}
+                  onChange={birthDayChangeHandler}
+                  renderInput={(params) => <TextField {...params} />}
+                  disabled={props.userInfo ? true : false}
+                />
+              </LocalizationProvider>
+            </div>
+
             <div className={`${classes.nationGenderContainer}`}>
               <div>
                 <MuiSelect
@@ -260,18 +261,17 @@ const ModifyUserInfo = (props) => {
                   optionList={staticData.nationOptions}
                 />
               </div>
-              {!props.userInfo && (
-                <div>
-                  <MuiSelect
-                    labelId="gender-label"
-                    id="gender"
-                    value={gender}
-                    selectName="성별"
-                    onChange={genderHandler}
-                    optionList={staticData.genderOptions}
-                  />
-                </div>
-              )}
+              <div>
+                <MuiSelect
+                  labelId="gender-label"
+                  id="gender"
+                  value={gender}
+                  selectName="성별"
+                  onChange={genderHandler}
+                  optionList={staticData.genderOptions}
+                  disabled={props.userInfo ? true : false}
+                />
+              </div>
             </div>
 
             <div className={classes.languageSelectionContainer}>
