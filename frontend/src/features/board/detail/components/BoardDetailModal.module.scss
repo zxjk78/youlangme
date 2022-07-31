@@ -14,6 +14,7 @@
 }
 
 .boardHeader {
+  margin: 10px 0px;
   display: flex;
   justify-content: space-between;
   gap: 0px 20px;
@@ -21,6 +22,7 @@
     width: 60%;
   }
   .createdAt {
+    margin-right: 10px;
     color: #aeaeae;
     display: flex;
     align-items: center;
@@ -55,32 +57,66 @@
     margin-right: 30px;
   }
 }
+.authOptionContainer {
+  margin: 10px 5px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  button {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 8px;
+    color: #f4f6f7;
+    font-weight: 800;
+  }
+  & > button:nth-of-type(1) {
+    background-color: rgb(39, 145, 221);
+  }
+  & > button:nth-of-type(2) {
+    background-color: rgb(228, 21, 46);
+  }
+}
 
 .comment {
   .header {
     display: flex;
+    margin-bottom: 20px;
     gap: 0px 10px;
   }
-  .commentContainer {
-    border: solid 1px #b865c6;
-    border-radius: 5px;
-    padding: 12px;
-  }
 
-  form {
+  .commentInput {
+    margin: 10px auto;
+    padding: 8px;
+    border: solid 1px #d3d3d3;
+    border-radius: 5px;
+    form {
+      display: flex;
+      align-items: center;
+    }
     input {
+      width: 100%;
+      height: 30px;
+      padding: 10px;
       border: solid 1px #dedede;
       border-radius: 25px;
       background-color: #f4f6f7;
     }
+    input:focus {
+      outline: none;
+    }
     button {
       border: none;
-      border-radius: 10px;
-      padding: 5px;
-      color: #fff;
-      font-weight: bold;
-
-      background-color: #b865c6;
+      margin-top: 2px;
+      background-color: #fff;
+      color: #b865c6;
+      cursor: pointer;
     }
+  }
+  .commentContainer {
+    height: 300px;
+    border: solid 1px #b865c6;
+    border-radius: 5px;
+    padding: 20px;
+    overflow: scroll;
   }
 }

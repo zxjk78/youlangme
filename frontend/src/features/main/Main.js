@@ -30,7 +30,7 @@ const Main = () => {
       {currentUser.name && <Header></Header>}
       <h2>이곳은 임시 홈페이지</h2>
       <div>
-        <Link to="/board">게시판 작업</Link>
+        <Link to="/board/detail">게시판 작업, 뒤에 /게시글번호</Link>
       </div>
       <div>
         <Link to="/board/create">게시판 생성작업</Link>
