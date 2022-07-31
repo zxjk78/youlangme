@@ -1,7 +1,8 @@
 .wrapper {
-  width: 90vw;
-  height: 100vh;
+  width: 70%;
+  height: auto;
   margin: 0px auto;
+  padding: 30px 0px;
   background-color: #f9f3ee;
   display: flex;
   justify-content: center;
@@ -9,7 +10,7 @@
   border: solid 1px #94a2ab;
   border-radius: 15px;
   .container {
-    width: 80%;
+    width: 70%;
     height: 90%;
   }
   .formContainer {
@@ -19,40 +20,24 @@
   }
   .title {
     color: #94a2ab;
+    margin-bottom: 15px;
+
     font-size: 25px;
     font-weight: bold;
   }
-  .userInfo {
-    width: 100px;
-    margin-left: 20px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
-    & > div {
-      position: relative;
-      .flag {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        left: 0px;
-        bottom: 0px;
-      }
-      .profile {
-        border-radius: 70%;
-        overflow: hidden;
-        width: 50px;
-        height: 50px;
-      }
-    }
+  .userInfoContainer {
+    border-bottom: solid 1px #d3d3d3;
+    margin: 15px 0px;
   }
   //form
 
   form {
     textarea {
       display: block;
+      width: 80%;
       margin: 0px auto;
       padding: 15px;
-      border: solid 1px black;
+      border: solid 1px #d3d3d3;
       border-radius: 15px;
       background-color: #f9f3ee;
       box-shadow: 5px 5px 5px #d3d3d3;
@@ -63,15 +48,21 @@
     }
     .imageAndButtonContainer {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      width: 80%;
+      margin: 10px auto;
+      flex-direction: column;
+      gap: 10px;
+      // justify-content: space-between;
+      // align-items: center;
       .imageContainer {
         display: flex;
         justify-content: flex-start;
+        gap: 10px;
         img,
         .addPhotoButton {
           width: 100px;
           height: 100px;
+          border-radius: 10px;
         }
         .addPhotoButton {
           display: flex;
@@ -87,12 +78,15 @@
           .removeImgButton {
             padding: 2px;
             position: absolute;
+            cursor: pointer;
             right: 0;
           }
         }
       }
 
       .buttonContainer {
+        display: flex;
+        justify-content: flex-end;
         button {
           width: 100px;
           margin: 0px 10px;

@@ -26,7 +26,9 @@ const BoardImageUploadModal = (props) => {
               <AddPhotoAlternateIcon />
               <div>이미지 업로드</div>
             </div>
-            <CloseIcon onClick={closeModalHandler} />
+            <div>
+              <CloseIcon onClick={closeModalHandler} />
+            </div>
           </div>
           <ImageDragNDrop loadImageFromModal={loadImageFromModal} />
         </div>
