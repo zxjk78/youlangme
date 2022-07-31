@@ -1,12 +1,12 @@
 package com.a603.youlangme.service;
 
+import com.a603.youlangme.config.logging.Logging;
 import com.a603.youlangme.entity.Follow;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +16,9 @@ public class FollowService {
 
     private final FollowRepository followRepository;
 
-
-    public void regist(Follow newFollow) {
-        followRepository.save(newFollow);
+    @Logging
+    public Long saveFollow(Follow newFollow) {
+        return followRepository.save(newFollow).getFollowee().getId();
     }
 
     public Optional<Follow> searchFollowById(Long id) {
@@ -47,5 +47,9 @@ public class FollowService {
 
     public boolean isAlreadyFollowed(User loginUser, User userToFollow) {
         return followRepository.findByFollowerAndFollowee(loginUser,userToFollow) != null;
+    }
+
+    public Follow searchFollowByFollowerAndFollowee(User follower, User followee) {
+        return followRepository.findByFollowerAndFollowee(follower, followee);
     }
 }

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Reply extends BaseEntity {
 
-    @Lob
+    @Column(length=2000)
     private String contents;
 
     @JoinColumn(name="board_id")

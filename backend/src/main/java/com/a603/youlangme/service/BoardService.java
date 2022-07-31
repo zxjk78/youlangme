@@ -2,6 +2,8 @@ package com.a603.youlangme.service;
 
 import com.a603.youlangme.advice.exception.BoardNotFoundException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.config.logging.ExpLogging;
+import com.a603.youlangme.config.logging.Logging;
 import com.a603.youlangme.dto.board.BoardPagingDto;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
@@ -81,22 +83,25 @@ public class BoardService {
         }
     }
 
+    @Logging
+    @ExpLogging
     @Transactional
-    public void savePost(BoardDto boardDto, Long id) throws IOException {
+    public Long savePost(BoardDto boardDto, Long id) throws IOException {
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new); //한번에 예외처리 방식
         Board board = Board.builder()
                 .contents(boardDto.getContents())
                 .author(user)
                 .build();
 
-        boardRepository.save(board);
-
+        Board res = boardRepository.save(board);
 
         // 이미지 list 저장
         String path = System.getProperty("user.dir"); // 현재 디렉토리 가져오기
 
         List<MultipartFile> pics = boardDto.getPics();
         savePics(board, pics);
+
+        return res.getId();
     }
 
     @Transactional
@@ -200,7 +205,7 @@ public class BoardService {
 //                        .name(user.getName()).
 //                        createdTime(board.getCreatedDate())
 //                        .build()).collect(Collectors.toList());
-        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click)));
+        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click+1)));
         Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
             @Override
             public BoardPagingDto apply(Board board) {

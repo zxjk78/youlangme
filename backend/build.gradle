@@ -39,6 +39,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'commons-io:commons-io:2.11.0'
 
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation group: 'org.apache.commons', name: 'commons-email', version: '1.5'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 

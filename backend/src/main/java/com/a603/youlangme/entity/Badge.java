@@ -23,7 +23,5 @@ public class Badge extends BaseEntity{
     @OneToMany(mappedBy = "badge", cascade = CascadeType.ALL)
     List<UserBadge> userBadges = new ArrayList<>();
 
-    public BadgeResponseDto getBadgeDto() {
-        return new BadgeResponseDto(id, name, description);
-    }
+
 }

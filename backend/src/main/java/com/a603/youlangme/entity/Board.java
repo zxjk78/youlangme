@@ -13,7 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Board extends BaseEntity {
 
-    @Lob
+    @Column(length=2000)
+    //@Lob
     private String contents;
 
     @JoinColumn(name="author_id")

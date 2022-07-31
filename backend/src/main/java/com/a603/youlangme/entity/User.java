@@ -1,5 +1,6 @@
 package com.a603.youlangme.entity;
 
+import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
 import com.a603.youlangme.enums.Gender;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.Nationality;
@@ -10,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -34,8 +36,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 100)
     String password;
 
-    @Column(nullable = false)
-    private int age;
 
     @Enumerated(EnumType.STRING)
     private Nationality nationality;
@@ -44,7 +44,7 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private Long exp = 0L;
+    private LocalDate birthDay;
 
     @Enumerated(EnumType.STRING)
     private Language mylanguage;
@@ -137,10 +137,19 @@ public class User extends BaseEntity implements UserDetails {
     private  List<UserFavorite> userFavorites;
 
 
-    public void updateBasicInfo(String name, Language myLanguage, Language yourLanguage, Nationality nationality) {
-        this.name = name;
-        this.mylanguage = myLanguage;
-        this.yourlanguage = yourLanguage;
-        this.nationality = nationality;
+    public void updateBasicInfo(UserSetBasicInfoRequestDto basicInfo) {
+        this.name = basicInfo.getName();
+        this.mylanguage = basicInfo.getMyLanguage();
+        this.yourlanguage = basicInfo.getYourLanguage();
+        this.nationality = basicInfo.getNationality();
+        this.gender = basicInfo.getGender();
+        this.birthDay = basicInfo.getBirthDay();
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Feed> feedList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserExp expInfo;
+
 }

@@ -19,6 +19,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+
 @Api(tags = "1. SignUp / LogIn")
 @RequiredArgsConstructor
 @RestController
@@ -57,6 +59,12 @@ public class SignController {
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
         signService.logout(loginUser.getId());
+        return responseService.getSuccessResult();
+    }
+
+    @PostMapping("/findPwd/{email}")
+    public CommonResult findPwd(@PathVariable(value ="email") String email) throws MessagingException {
+        signService.findEmail(email);
         return responseService.getSuccessResult();
     }
 }

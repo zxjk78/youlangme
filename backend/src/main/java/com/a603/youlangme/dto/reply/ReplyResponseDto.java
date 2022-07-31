@@ -2,6 +2,7 @@ package com.a603.youlangme.dto.reply;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Lob;
 import java.time.LocalDateTime;
 
@@ -15,7 +16,6 @@ public class ReplyResponseDto {
 
     private Long id;
 
-    @Lob
     private String contents;
 
     private LocalDateTime createDate;
