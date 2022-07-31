@@ -4,7 +4,7 @@ import classes from './UserInfo.module.scss';
 import { iso_code } from './flagData';
 const API_URL = 'http://127.0.0.1:8080/';
 
-const UserInfo = () => {
+const UserInfo = (props) => {
   // redux-persist에서 가져온 유저정보
   const currentUser = useSelector((state) => state.auth.currentUser);
   return (
