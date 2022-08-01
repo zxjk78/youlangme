@@ -192,14 +192,19 @@ public class BoardService {
     }
 
 
-    public List<BoardReadResponseDto> readAuthorBoardList(Long authorId) {
-        List<Board> authorBoardList = boardRepository.findAllByAuthorId(authorId);
-        List <BoardReadResponseDto> boardReadResponseDtoList = new ArrayList<>();
-        for (Board board: authorBoardList) {
-            boardReadResponseDtoList.add(BoardReadResponseDto.of(board, board.getImgList()));
-        }
-
-        return boardReadResponseDtoList;
+    public List<BoardPagingDto> readAuthorBoardList(Long authorId) {
+        List<BoardPagingDto> authorBoardList = boardRepository.findAllByAuthorIdOrderByIdDesc(authorId).stream()
+                .map(board-> BoardPagingDto.builder()
+                        .boardId(board.getId())
+                        .contents(board.getContents())
+                        .userName(board.getAuthor().getUsername())
+                        .userId(board.getAuthor().getId())
+                        .replyCnt(board.getReplyList().size())
+                        .likeCnt(board.getUserBoardLikes().size())
+                        .createdTime(board.getCreatedDate())
+                        .imgList(board.getImgList().stream().map(boardImg -> boardImg.getPath()).collect(Collectors.toList()))
+                        .build()).collect(Collectors.toList());
+        return authorBoardList;
     }
 
 
@@ -214,26 +219,27 @@ public class BoardService {
                         .replyCnt(board.getReplyList().size())
                         .likeCnt(board.getUserBoardLikes().size())
                         .createdTime(board.getCreatedDate())
+                        .imgList(board.getImgList().stream().map(boardImg -> boardImg.getPath()).collect(Collectors.toList()))
                         .build()).collect(Collectors.toList());
         return boardList;
     }
 
-    public Page<BoardPagingDto>boardPaging(User user,Pageable pageable,Long click) {
-//        Page<BoardPagingDto> boards = boardRepository.BoardList(PageRequest.of(0, 5)).stream()
-//                .map(board -> BoardPagingDto.builder()
-//                        .contents(board.getContents())
-//                        .name(user.getName()).
-//                        createdTime(board.getCreatedDate())
-//                        .build()).collect(Collectors.toList());
-        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click+1)));
-        Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
-            @Override
-            public BoardPagingDto apply(Board board) {
-                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getId(), board.getContents(), user.getId(), user.getName(), board.getUserBoardLikes().size(), board.getReplyList().size(),  board.getCreatedDate());
-                return boardPagingDto;
-            }
-        });
-
-        return boards;
-    }
+//    public Page<BoardPagingDto>boardPaging(User user,Pageable pageable,Long click) {
+////        Page<BoardPagingDto> boards = boardRepository.BoardList(PageRequest.of(0, 5)).stream()
+////                .map(board -> BoardPagingDto.builder()
+////                        .contents(board.getContents())
+////                        .name(user.getName()).
+////                        createdTime(board.getCreatedDate())
+////                        .build()).collect(Collectors.toList());
+//        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click+1)));
+//        Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
+//            @Override
+//            public BoardPagingDto apply(Board board) {
+//                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getId(), board.getContents(), user.getId(), user.getName(), board.getUserBoardLikes().size(), board.getReplyList().size(),  board.getCreatedDate(),board.getImgList());
+//                return boardPagingDto;
+//            }
+//        });
+//
+//        return boards;
+//    }
 }

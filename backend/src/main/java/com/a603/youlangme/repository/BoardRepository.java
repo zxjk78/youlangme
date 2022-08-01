@@ -22,5 +22,5 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
     @Query(value = "select b from Board b join b.author u ")
     Page<Board>BoardList(PageRequest pageRequest);
 
-    List<Board> findAllByAuthorId(Long authorId);
+    List<Board> findAllByAuthorIdOrderByIdDesc(Long authorId);
 }

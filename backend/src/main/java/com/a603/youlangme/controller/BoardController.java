@@ -118,7 +118,7 @@ public class BoardController {
     }
 
     @GetMapping("/author/{id}")
-    public ManyResult<BoardReadResponseDto> authorBoard(@PathVariable(value = "id") Long authorId) {
+    public ManyResult<BoardPagingDto> authorBoard(@PathVariable(value = "id") Long authorId) {
         return responseService.getManyResult(boardService.readAuthorBoardList(authorId));
     }
 
@@ -131,13 +131,13 @@ public class BoardController {
         return responseService.getManyResult(boardPagingDtoList);
     }
 
-    @GetMapping("/paging")
-    public PageResult<BoardPagingDto> BoardPaging(@PageableDefault(size=5,sort = "createdTime",direction = Sort.Direction.DESC) Pageable pageable,Long click){
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User user=((User)authentication.getPrincipal());
-        Page<BoardPagingDto> boardPagingList=boardService.boardPaging(user,pageable,click);
-        return responseService.getPageResult(boardPagingList);
-    }
+//    @GetMapping("/paging")
+//    public PageResult<BoardPagingDto> BoardPaging(@PageableDefault(size=5,sort = "createdTime",direction = Sort.Direction.DESC) Pageable pageable,Long click){
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        Authentication authentication = context.getAuthentication();
+//        User user=((User)authentication.getPrincipal());
+//        Page<BoardPagingDto> boardPagingList=boardService.boardPaging(user,pageable,click);
+//        return responseService.getPageResult(boardPagingList);
+//    }
 
 }

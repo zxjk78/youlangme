@@ -1,11 +1,13 @@
 package com.a603.youlangme.dto.board;
 
+import com.a603.youlangme.entity.BoardImg;
 import com.a603.youlangme.entity.User;
 import lombok.*;
 
 import javax.persistence.Lob;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +23,7 @@ public class BoardPagingDto {
     private int likeCnt;
     private int replyCnt;
     private LocalDateTime createdTime;
+    private List<String> imgList = new ArrayList<>();
 
 
     //List<BoadrImg>boadrImgList=new ArrayList<>();
