@@ -9,6 +9,8 @@ import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
 import com.a603.youlangme.entity.User;
+
+
 import com.a603.youlangme.dto.board.BoardDto;
 import com.a603.youlangme.repository.BoardImgRepository;
 import com.a603.youlangme.entity.UserBoardLike;
@@ -189,10 +191,15 @@ public class BoardService {
     }
 
     public List<BoardPagingDto>BoardInit(User user){
+        // boardId, userId 추가, userName 으로 수정
         List<BoardPagingDto>boardList=boardRepository.Boardfind(user.getId()).stream()
                 .map(board -> BoardPagingDto.builder()
+                        .boardId(board.getId())
                         .contents(board.getContents())
-                        .name(user.getName())
+                        .userName(user.getName())
+                        .userId(user.getId())
+                        .replyCnt(board.getReplyList().size())
+                        .likeCnt(board.getUserBoardLikes().size())
                         .createdTime(board.getCreatedDate())
                         .build()).collect(Collectors.toList());
         return boardList;
@@ -209,7 +216,7 @@ public class BoardService {
         Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
             @Override
             public BoardPagingDto apply(Board board) {
-                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getContents(), user.getName(), board.getCreatedDate());
+                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getId(), board.getContents(), user.getId(), user.getName(), board.getUserBoardLikes().size(), board.getReplyList().size(),  board.getCreatedDate());
                 return boardPagingDto;
             }
         });
