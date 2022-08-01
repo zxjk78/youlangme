@@ -1,5 +1,5 @@
 import Modal from '../../../../../common/UI/Modal/Modal';
-import UserInfo from '../../../../profile/UserInfo/UserInfo';
+import UserInfo from '../../../../profile/LeftProfile/UserInfo/UserInfo';
 import CloseIcon from '@mui/icons-material/Close';
 
 import classes from './LikeUserModal.module.scss';

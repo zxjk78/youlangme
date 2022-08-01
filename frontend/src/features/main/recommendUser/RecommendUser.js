@@ -1,4 +1,4 @@
-import UserInfo from '../../profile/UserInfo/UserInfo';
+import UserInfo from '../../profile/LeftProfile/UserInfo/UserInfo';
 import classes from './RecommendUser.module.scss';
 
 const RecommendUser = (props) => {
