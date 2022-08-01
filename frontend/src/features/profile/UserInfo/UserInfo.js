@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import classes from './UserInfo.module.scss';
 
 import { iso_code } from './flagData';
@@ -10,25 +10,30 @@ const UserInfo = (props) => {
   return (
     <>
       <div className={classes.wrapper}>
-        <div className={classes.container}>
-          <div className={classes.imageContainer}>
-            <img
-              src={`${API_URL}image/profile/${user.id}.jpg`}
-              className={classes.userProfileImg}
-              alt=""
-            />
-            {user?.nationality && (
+        <Link
+          to={`/profile/${user.id}`}
+          style={{ textDecoration: 'none', textDecorationColor: 'black' }}
+        >
+          <div className={classes.container}>
+            <div className={classes.imageContainer}>
               <img
-                src={`http://www.geonames.org/flags/x/${
-                  iso_code[user.nationality]
-                }.gif`}
-                className={classes.userNationFlag}
-                alt="국기이미지"
+                src={`${API_URL}image/profile/${user.id}.jpg`}
+                className={classes.userProfileImg}
+                alt=""
               />
-            )}
+              {user?.nationality && (
+                <img
+                  src={`http://www.geonames.org/flags/x/${
+                    iso_code[user.nationality]
+                  }.gif`}
+                  className={classes.userNationFlag}
+                  alt="국기이미지"
+                />
+              )}
+            </div>
+            <div className={classes.name}>{user.name}</div>
           </div>
-          <div className={classes.name}>{user.name}</div>
-        </div>
+        </Link>
       </div>
     </>
   );

@@ -16,6 +16,7 @@ const MuiSelect = (props) => {
             id: 'uncontrolled-native',
           }}
           onChange={props.onChange}
+          disabled={props.disabled}
         >
           {props.optionList.map((item) => (
             <MenuItem key={item.id} value={item.id}>
