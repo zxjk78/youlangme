@@ -19,6 +19,8 @@ public class BoardPagingDto {
     private String contents;
     private Long userId;
     private String userName;
+    private int likeCnt;
+    private int commentCnt;
     private LocalDateTime createdTime;
 
 

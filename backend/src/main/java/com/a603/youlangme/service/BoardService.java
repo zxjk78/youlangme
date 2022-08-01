@@ -198,6 +198,8 @@ public class BoardService {
                         .contents(board.getContents())
                         .userName(user.getName())
                         .userId(user.getId())
+                        .commentCnt(board.getReplyList().size())
+                        .likeCnt(board.getUserBoardLikes().size())
                         .createdTime(board.getCreatedDate())
                         .build()).collect(Collectors.toList());
         return boardList;
@@ -214,7 +216,7 @@ public class BoardService {
         Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
             @Override
             public BoardPagingDto apply(Board board) {
-                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getId(), board.getContents(), user.getId(), user.getName(), board.getCreatedDate());
+                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getId(), board.getContents(), user.getId(), user.getName(), board.getUserBoardLikes().size(), board.getReplyList().size(),  board.getCreatedDate());
                 return boardPagingDto;
             }
         });
