@@ -5,6 +5,7 @@ import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.config.logging.ExpLogging;
 import com.a603.youlangme.config.logging.Logging;
 import com.a603.youlangme.dto.board.BoardPagingDto;
+import com.a603.youlangme.dto.board.BoardReadResponseDto;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
@@ -189,6 +190,18 @@ public class BoardService {
         }
         return likeUserResponseDtoList;
     }
+
+
+    public List<BoardReadResponseDto> readAuthorBoardList(Long authorId) {
+        List<Board> authorBoardList = boardRepository.findAllByAuthorId(authorId);
+        List <BoardReadResponseDto> boardReadResponseDtoList = new ArrayList<>();
+        for (Board board: authorBoardList) {
+            boardReadResponseDtoList.add(BoardReadResponseDto.of(board, board.getImgList()));
+        }
+
+        return boardReadResponseDtoList;
+    }
+
 
     public List<BoardPagingDto>BoardInit(User user){
         // boardId, userId 추가, userName 으로 수정
