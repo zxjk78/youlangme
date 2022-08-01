@@ -34,6 +34,12 @@
       text-align: center;
       margin-top: 10%;
 
+      .profile_img_add_icon {
+        text-align: end;
+        margin-right: 15%;
+
+      }
+
       .flag {
         width: 85px;
         height: 55px
@@ -51,11 +57,11 @@
       .description_card {
         display: flex;
         justify-content: space-between;
-        width: 90%;
+        width: 100%;
         padding: 10px 10px 20px 20px;
         margin-top: 20px;
-        min-height: 110px;
-        max-height: 110px;
+        min-height: 130px;
+        max-height: 130px;
         background: rgba(255, 255, 255, 0.2);
         border: 1px solid #CAD6E2;
         border-radius: 20px;
@@ -67,7 +73,7 @@
       }
 
       .rest_info {
-        width: 90%;
+        width: 100%;
         margin-top: 20px;
         // margin-bottom: 20px;
         padding: 15px 10px 12px 20px;

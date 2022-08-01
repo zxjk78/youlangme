@@ -2,11 +2,16 @@
 import Button from '../../../common/UI/Button';
 
 //material UI
-import { TextField, Chip } from '@mui/material';
+import { TextField, Chip, IconButton } from '@mui/material';
 import MuiSelect from '../../../common/UI/MuiSelect';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
+//
+import CancelIcon from '@mui/icons-material/Cancel';
+import { grey} from '@mui/material/colors';
+//
 
 import moment from 'moment';
 // redux
@@ -212,6 +217,8 @@ const ModifyUserInfo = (props) => {
   return (
     <>
       <div className={classes.container}>
+        {/* {props.userInfo && <div><IconButton  size='small' onClick={}>
+        <CancelIcon sx={{ color: grey[400], fontSize: 30 }} /></IconButton></div>} */}
         <div className={`${classes.formContainer}`}>
           <form onSubmit={onSubmitHandler}>
             <h5>닉네임</h5>
