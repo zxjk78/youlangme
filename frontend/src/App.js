@@ -12,13 +12,12 @@ import Social from './features/auth/social/Social';
 // import { useSelector } from "react-redux";
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
-import BoardMainItem from './features/main/feed/components/BoardMainItem';
+import BoardMainItem from './features/main/feed/components/FeedBoardItem';
 import StartMatching from './features/matching/StartMatching';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
 import NotFound from './features/other/NotFound/NotFound';
-import Ranking from './features/main/ranking/Ranking';
-
+import Maintmp from './features/main/Maintmp';
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -67,7 +66,7 @@ function App() {
             component={BoardDetailModal}
           ></PrivateRoute>
           {/* test용 public route */}
-          <PrivateRoute path="/test" component={Ranking}></PrivateRoute>
+          <PrivateRoute path="/test" component={Maintmp}></PrivateRoute>
           {/* 404 route */}
           <PrivateRoute path="*" component={NotFound}></PrivateRoute>
         </Switch>

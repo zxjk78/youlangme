@@ -4,9 +4,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 // css
-import classes from './BoardMainItem.module.scss';
+import classes from './FeedBoardItem.module.scss';
 const API_URL = 'http://127.0.0.1:8080/';
-const BoardMainItem = (props) => {
+const FeedBoardItem = (props) => {
   const boardInfo = props.boardInfo;
   const createdTime = new Date(boardInfo.createdTime);
   const contents = boardInfo.contents;
@@ -48,4 +48,4 @@ const BoardMainItem = (props) => {
   );
 };
 
-export default BoardMainItem;
+export default FeedBoardItem;
