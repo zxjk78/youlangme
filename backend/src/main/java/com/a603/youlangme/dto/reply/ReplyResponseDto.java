@@ -1,6 +1,5 @@
 package com.a603.youlangme.dto.reply;
 
-import com.a603.youlangme.entity.User;
 import lombok.*;
 
 import javax.persistence.Column;

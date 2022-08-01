@@ -14,13 +14,12 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Builder
 public class BoardPagingDto {
-    // boardId, userId 추가, userName으로 수정
     private Long boardId;
     private String contents;
     private Long userId;
     private String userName;
     private int likeCnt;
-    private int commentCnt;
+    private int replyCnt;
     private LocalDateTime createdTime;
 
 

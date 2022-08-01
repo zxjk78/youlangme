@@ -198,7 +198,7 @@ public class BoardService {
                         .contents(board.getContents())
                         .userName(user.getName())
                         .userId(user.getId())
-                        .commentCnt(board.getReplyList().size())
+                        .replyCnt(board.getReplyList().size())
                         .likeCnt(board.getUserBoardLikes().size())
                         .createdTime(board.getCreatedDate())
                         .build()).collect(Collectors.toList());

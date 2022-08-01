@@ -33,7 +33,7 @@ import java.util.Collections;
 @Configuration
 //@EnableWebSecurity(debug = true)
 //@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class                            SecurityConfiguration {
+public class SecurityConfiguration {
     private final JwtProvider jwtProvider;
 
     private final WebOAuth2SuccessHandler oAuthSuccessHandler;
