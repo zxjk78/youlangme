@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import UserInfo from '../../../profile/UserInfo/UserInfo';
+import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';

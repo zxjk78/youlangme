@@ -15,7 +15,7 @@ import Modal from '../../../../common/UI/Modal/Modal';
 //components
 import CommentListItem from './CommentListItem';
 import LikeContainer from './LikeContainer';
-import UserInfo from '../../../profile/UserInfo/UserInfo';
+import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import LikeUserModal from './likeModal/LikeUserModal';
 
 // mui

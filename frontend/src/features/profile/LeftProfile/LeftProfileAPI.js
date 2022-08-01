@@ -87,7 +87,7 @@ export const uploadProfileImg = async (uploadedProfileImg, setUploadedProfileImg
           },
         }
       );
-      alert('서버에 프로필 사진 등록되었습니다!');
+      alert('프로필 사진이 등록되었습니다!');
       // const previewImageURL = URL.createObjectURL(uploadedProfileImg);
       setUploadedProfileImg({
         profileImageFile: '',

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import classes from "./ProfileEdit.module.scss";
 
 // data
-import { mainColors } from './ProfileColorPalette'
+import { mainColors } from '../ProfileColorPalette'
 
 // mui material
 import { Avatar, Button, Modal, Box, Icon, Typography, IconButton, TextField, Stack } from "@mui/material";
@@ -16,7 +16,7 @@ import { grey } from '@mui/material/colors';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
-import { submitDescription } from './ProfileAPI';
+import { submitDescription } from './LeftProfileAPI';
 
 
 
@@ -103,7 +103,7 @@ const ProfileDescEdit = (props) => {
             minRows={10} margin='dense'
             defaultValue={description}
             variant="filled"
-            color="secondary"
+            color="info"
             onChange={descInputChangeHandler}
           />
           <ThemeProvider theme={myTheme}>
