@@ -1,10 +1,16 @@
 .container {
   justify-content: center;
-  border: solid 3px #b865c6;
   border-radius: 15px;
 }
-
+.formCancel {
+  display: inline;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 .formContainer {
+  border: solid 5px #b865c6;
+
   display: flex;
   align-items: center;
   width: 400px;
@@ -18,14 +24,6 @@
 
   background-color: #fff;
 
-  // background: rgb(238, 66, 220);
-  // background: linear-gradient(
-  //   166deg,
-  //   rgba(238, 66, 220, 1) 0%,
-  //   rgba(244, 255, 243, 1) 89%,
-  //   rgba(244, 255, 243, 1) 100%,
-  //   rgba(232, 156, 224, 1) 100%
-  // );
   text-align: left;
 
   form {

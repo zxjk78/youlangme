@@ -7,11 +7,8 @@ import MuiSelect from '../../../common/UI/MuiSelect';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-
-//
 import CancelIcon from '@mui/icons-material/Cancel';
-import { grey} from '@mui/material/colors';
-//
+import { grey } from '@mui/material/colors';
 
 import moment from 'moment';
 // redux
@@ -39,24 +36,9 @@ const ModifyUserInfo = (props) => {
   // profile 안에서 모달로 부르는 방식이면, props로 받는 것도 가능함, ?. 연산자 + || 연산자 이용 = 프로퍼티가 존재 안하면
   // props 랑 연산자 이용해서 재사용 시도해보기?
 
-  // ?. 는 property 읽을 때 없는값이면 cannot read undefined 에러 없이
-  // undefined 출력하는 연산자
+  // ?. 는 property 읽을 때 null이나 undefined에서 꺼내오려는 시도면 cannot read undefined 에러 없이
+  // undefined 반환하는 연산자
   // const props.userInfo = { ...props.userInfo };
-
-  /*
- props.userInfo = {
-    "age": 0,
-    "favorites": [
-      "string"
-    ],
-    "gender": "FEMALE",
-    "mylanguage": "CHINESE",
-    "name": "string",
-    "nationality": "CHINA",
-    "yourlanguage": "CHINESE"
-  },
-  
-  */
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -67,7 +49,9 @@ const ModifyUserInfo = (props) => {
   const [gender, setGender] = useState(props.userInfo?.gender || '');
   const [myLang, setMyLang] = useState(props.userInfo?.mylanguage || '');
   const [yourLang, setYourLang] = useState(props.userInfo?.yourlanguage || '');
-  const [isNameUnique, setIsNameUnique] = useState(false);
+  const [isNameUnique, setIsNameUnique] = useState(
+    props.userInfo ? true : false
+  );
   const [needDupCheck, setNeedDupCheck] = useState(false);
 
   const [userFavoriteList, setUserFavoriteList] = useState(
@@ -206,7 +190,8 @@ const ModifyUserInfo = (props) => {
             history.replace('/main');
           }
           dispatch(modalActions.offModal());
-          document.location.reload();
+          // document.location.reload();
+          history.go(0);
         });
       }
     } catch (error) {
@@ -214,11 +199,21 @@ const ModifyUserInfo = (props) => {
     }
   };
 
+  const closeHandler = () => {
+    dispatch(modalActions.offModal());
+    return;
+  };
+
   return (
     <>
       <div className={classes.container}>
-        {/* {props.userInfo && <div><IconButton  size='small' onClick={}>
-        <CancelIcon sx={{ color: grey[400], fontSize: 30 }} /></IconButton></div>} */}
+        {props.userInfo && (
+          <div className={classes.formCancel}>
+            <IconButton size="small" onClick={closeHandler}>
+              <CancelIcon sx={{ color: grey[400], fontSize: 30 }} />
+            </IconButton>
+          </div>
+        )}
         <div className={`${classes.formContainer}`}>
           <form onSubmit={onSubmitHandler}>
             <h5>닉네임</h5>
