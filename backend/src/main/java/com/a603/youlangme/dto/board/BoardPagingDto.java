@@ -14,12 +14,14 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Builder
 public class BoardPagingDto {
-
+    private Long boardId;
     private String contents;
-
-    private String name;
-
+    private Long userId;
+    private String userName;
+    private int likeCnt;
+    private int replyCnt;
     private LocalDateTime createdTime;
+
 
     //List<BoadrImg>boadrImgList=new ArrayList<>();
 

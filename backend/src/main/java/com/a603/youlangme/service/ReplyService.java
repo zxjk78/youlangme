@@ -71,9 +71,12 @@ public class ReplyService {
 
         List<ReplyResponseDto>replyList=replyRepository.findAllByBoardIdOrderByPidAscCreatedDateAsc(boardId)
                         .stream()
-                .map(reply -> ReplyResponseDto.builder().pid(reply.getPid()).contents(reply.getContents())
+                .map(reply -> ReplyResponseDto.builder()
+                        .pid(reply.getPid())
+                        .contents(reply.getContents())
                         .createDate(reply.getCreatedDate())
                         .id(reply.getId())
+                        .userName(reply.getUser().getName())
                         .build()).collect(Collectors.toList());
 
         for(ReplyResponseDto replyResponseDto:replyList){
