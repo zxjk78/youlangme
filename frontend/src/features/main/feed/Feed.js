@@ -13,7 +13,7 @@ const Feed = (props) => {
   const [pageNum, setPageNum] = useState(1);
   const dispatch = useDispatch();
   const boardDetailVisible = useSelector((state) => state.modal.isVisible);
-  const showBoardDetailHandler = (event) => {
+  const showBoardDetailModalHandler = (event) => {
     // 게시글의 pk를 모달에 전달하고, 모달을 켜야함
     console.log('게시글 요약 창 클릭', event.target);
     dispatch(modalActions.onModal({ backDropTransparent: true }));
@@ -33,6 +33,7 @@ const Feed = (props) => {
   useEffect(() => {
     (async () => {
       const data = await fetchBoard();
+      console.log(data);
       setBoardList(data);
     })();
   }, []);
@@ -47,9 +48,9 @@ const Feed = (props) => {
           {/* 게시글 정보 받을 때, 유저 pk값 받기 필요 */}
           {boardList.map((item) => (
             <FeedBoardItem
-              key={item.createdTime}
+              key={item.boardId}
               boardInfo={item}
-              onClick={showBoardDetailHandler}
+              onClick={showBoardDetailModalHandler}
             />
           ))}
         </div>

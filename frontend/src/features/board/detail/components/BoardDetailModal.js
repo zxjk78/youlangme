@@ -72,6 +72,7 @@ const BoardDetail = (props) => {
     }
     const response = await addComment(boardId, newComment);
     if (response) {
+      commentRef.current.value = '';
       // 댓글작성 후 comment 재 fetch
       const newCommentList = await fetchCommentList(boardId);
       setCommentList(() => {
