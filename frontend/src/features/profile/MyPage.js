@@ -22,7 +22,7 @@ import ModifyUserInfo from '../auth/modify/ModifyUserInfo';
 // data import
 import * as data from '../auth/modify/data';
 import { iso_code } from './UserInfo/flagData'
-import { colorss } from './ChipsColorPalette'
+import { chipColors } from './ProfileColorPalette'
 
 // css
 import classes from './MyPage.module.scss';
@@ -58,52 +58,7 @@ const MyPage = () => {
   const history = useHistory();
 
   const myTheme = createTheme({
-      palette: 
-      {
-        primary: {
-          main: red[300],
-        },
-        secondary: {
-          main: pink[600],
-        },
-        error: {
-          main: purple[500]
-        },
-        info: {
-          main: yellow[500]
-        },
-        success: {
-          main: orange[500]
-        },
-        warning: {
-          main: teal[500]
-        },
-        // lblue: {
-        //   main: lightBlue[800]
-        // },
-        // ateal: {
-        //   main: teal[500]
-        // },
-        // agreen: {
-        //   main: green[600]
-        // },  
-        // alime: {
-        //   main: lime[500]
-        // },
-        // ayellow: {
-        //   main: yellow[500]
-        // },
-        // asamber: {
-        //   main: amber[600]
-        // },
-        // aorange: {
-        //   main: orange[500]
-        // },
-        // adeepOrange: {
-        //   main: deepOrange[400]
-        // },
-      }
-      ,
+      palette: chipColors
     });
   
     // redux
@@ -170,8 +125,7 @@ const MyPage = () => {
   // 'teal', 'green', 'lime', 'yellow', 'amber', 'orange', 'deepOrange']
   const colors = [ 'primary', 'secondary', 'warning', 'success', 'info', 'error']
 
-
-  // const chosenColor = colors[Math.floor(Math.random()*colors.length)]
+  const chosenColor = colors[Math.floor(Math.random()*colors.length)]
 
 
   // // 의존성에 fetchProfile 추가하면 fetchProfile에 useCallback 함수로.
@@ -197,6 +151,9 @@ const MyPage = () => {
               My Page
             </Typography>
             <CardMedia className={classes.avatar}>
+              <div className={classes.profile_img_add_icon}>
+                {isCurrentUser && <ProfileImageEdit getNewProfileImg={updateProfileImg}/>}      
+              </div>
               <Badge
                 badgeContent={
                   <img className={classes.flag} alt="flag" src={`http://www.geonames.org/flags/x/${nationalityCode}.gif`} />
@@ -205,8 +162,8 @@ const MyPage = () => {
                 overlap="circular"
               >
                 <Avatar sx={{ width: 200, height: 200 }} src={profileImg} />
-                {isCurrentUser && <ProfileImageEdit getNewProfileImg={updateProfileImg}/>}
               </Badge>
+            
             </CardMedia>
 
             <div className={classes.profile_content}>
@@ -221,7 +178,7 @@ const MyPage = () => {
                     {profileInfo.name}
                     { isCurrentUser && <IconButton onClick={modifyModalHandler} size='small'>
                     <Build
-                        sx={{ fontSize: 30, color: grey[500] }}
+                        sx={{ fontSize: 20, color: grey[500] }}
                       /></IconButton>}
                   </Typography>
                   <Follow profileUserId={params.userId} />
@@ -264,8 +221,9 @@ const MyPage = () => {
                           <Chip
                             key={fav}
                             label={data.favorites[fav]}
-                            color= 
+                            color =
                             { colors[Math.floor(Math.random() * colors.length)]}
+                            sx={{ color:'#F9F3EE'  }}
                             className={classes.chip}
                           />
                         );
