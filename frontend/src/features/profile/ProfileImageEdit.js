@@ -5,8 +5,13 @@ import { useSelector, useDispatch } from 'react-redux';
 // css
 import classes from "./ProfileEdit.module.scss";
 
+// data
+import { mainColors } from './ProfileColorPalette'
+
 // mui material
 import { Avatar, Button, Modal, Box, Icon, Typography, IconButton, Stack, Badge } from "@mui/material";
+import {  createTheme, ThemeProvider } from '@mui/material/styles';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { grey } from '@mui/material/colors';
 
 
@@ -18,6 +23,12 @@ import { uploadProfileImg } from './ProfileAPI';
 
 
 const ProfileImageEdit = (props) => {
+
+  const myTheme = createTheme({
+    palette: mainColors
+  });
+
+
   // redux
   const { currentUser } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
@@ -87,7 +98,7 @@ const ProfileImageEdit = (props) => {
     position: 'absolute',
     top: '50%', left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 330,
+    width: 350,
     backgroundColor: 'background.paper',
     border: '3px solid #9BA7AF',
     borderRadius: 5,
@@ -96,11 +107,11 @@ const ProfileImageEdit = (props) => {
   };
 
   return (
-    <>
+    <ThemeProvider theme={myTheme}>
       {/* IconButton fontawesome으로 만들기 */}
       {/* <IconButton className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</IconButton> */}
-      <Icon className={classes.cursor} sx={{ color: grey[400] }}  fontSize='large'
-        onClick={profileUploadHandler}>add_circle</Icon>
+      <IconButton onClick={profileUploadHandler} size='small'>
+        <AddCircleIcon sx={{ color: grey[400], fontSize: 30 }} /></IconButton>
 
       <Modal
         open={open}
@@ -120,15 +131,15 @@ const ProfileImageEdit = (props) => {
 
           <div className={classes.upload_profile_image}>
             <h3>프로필 사진 수정</h3>
-            <Button type="primary" variant="outlined" className={classes.choose_file_btn}
+            <Button color="mainPurple"  variant="text" className={classes.choose_file_btn}
               onClick={() => inputRef.click()}>파일 선택 
             </Button>
             <Avatar src={profileImg.previewImageURL} sx={{ width: 230, height: 230, mx: 'auto', my:3}} />
             <Stack direction='row-reverse' spacing={1} className={classes.upload_buttons}>
-              <Button color="primary" variant="contained" onClick={sendImageToServer}>
+              <Button color="mainPurple" sx={{ color: "#F9F3EE" }}  variant="contained" onClick={sendImageToServer}>
                 제출
               </Button>
-              <Button color="error" variant="contained" onClick={deleteImage}>
+              <Button color="mainGrey" variant="contained" sx={{ color: "#F9F3EE" }} onClick={deleteImage}>
                 취소 
               </Button>
             </Stack>
@@ -160,7 +171,7 @@ const ProfileImageEdit = (props) => {
           </Button>
         </div>
       </div> */}
-    </>
+    </ThemeProvider>
   );
 
 };

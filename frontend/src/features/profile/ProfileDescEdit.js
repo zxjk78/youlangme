@@ -5,8 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 // css
 import classes from "./ProfileEdit.module.scss";
 
+// data
+import { mainColors } from './ProfileColorPalette'
+
 // mui material
 import { Avatar, Button, Modal, Box, Icon, Typography, IconButton, TextField, Stack } from "@mui/material";
+import {  createTheme, ThemeProvider } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import { grey } from '@mui/material/colors';
 
@@ -17,6 +21,10 @@ import { submitDescription } from './ProfileAPI';
 
 
 const ProfileDescEdit = (props) => {
+  const myTheme = createTheme({
+    palette: mainColors
+  });
+
   // redux
   const { currentUser } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
@@ -76,7 +84,9 @@ const ProfileDescEdit = (props) => {
     <>
       {/* IconButton fontawesome으로 만들기 */}
       {/* <IconButton className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</IconButton> */}
-      <EditIcon className={classes.cursor} sx={{ color: grey[400] }} onClick={descUploadHandler}/>
+      <IconButton onClick={descUploadHandler} size='small'>
+        <EditIcon sx={{ color: grey[400], fontSize: 20 }} />
+      </IconButton>
       <Modal
         open={open}
         onClose={handleClose}
@@ -96,14 +106,16 @@ const ProfileDescEdit = (props) => {
             color="secondary"
             onChange={descInputChangeHandler}
           />
-          <Stack direction='row-reverse' spacing={1} className={classes.upload_buttons}>
-            <Button onClick={onDescSubmitHandler} color="warning" variant="contained" >
-              업로드
-            </Button>
-            <Button onClick={handleClose} color="success" variant="contained" >
-              취소
-            </Button>
-          </Stack>
+          <ThemeProvider theme={myTheme}>
+            <Stack direction='row-reverse' spacing={1} className={classes.upload_buttons}>
+              <Button onClick={onDescSubmitHandler} color="mainPurple" sx={{ color: "#F9F3EE" }} variant="contained" >
+                업로드
+              </Button>
+              <Button onClick={handleClose} color="mainGrey" sx={{ color: "#F9F3EE" }} variant="contained" >
+                취소
+              </Button>
+            </Stack>
+          </ThemeProvider>
         </Box>
       </Modal>
     </>
