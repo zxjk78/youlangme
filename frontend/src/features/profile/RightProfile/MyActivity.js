@@ -13,33 +13,28 @@ const data = [
   {
     "id": "English",
     "label": "English",
-    "value": 352,
+    "value": 36,
     "color": "hsl(334, 70%, 50%)"
   },
   {
     "id": "Korean",
     "label": "Korean",
-    "value": 105,
+    "value": 18,
     "color": "hsl(215, 70%, 50%)"
   },
   {
     "id": "Japanese",
     "label": "Japanese",
-    "value": 32,
+    "value": 8,
     "color": "hsl(148, 70%, 50%)"
   },
   {
     "id": "Spanish",
     "label": "Spanish",
-    "value": 112,
+    "value": 4,
     "color": "hsl(303, 70%, 50%)"
   },
-  // {
-  //   "id": "c",
-  //   "label": "c",
-  //   "value": 267,
-  //   "color": "hsl(299, 70%, 50%)"
-  // }
+
 ]
 
 
@@ -47,23 +42,26 @@ const data = [
 const MyActivity = () => {
   return (
     <div className={classes.container}>
-      <Typography gutterBottom color="#9BA7AF" variant="h5" component="div">
+      <Typography gutterBottom color="#9BA7AF" variant="h6" component="div">
         내 활동
       </Typography>
 
       <Card 
         className={classes.activity_card}  
-        sx={{ m:4 }}
-         >
+        sx={{ m:1}}
+        >
 
-        <CardContent sx={{ height: '300px', width: '100%' }}>
+        <div  className={classes.my_activity}  
+        // sx={{ height: '300px', width: '100%', p:0 }}
+        >
           <ResponsivePie
             data={data}
-            margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+            margin={{ top: 30, right: 20, bottom: 70, left: 20 }}
             startAngle={-149}
             innerRadius={0.5}
+            cornerRadius={3} 
             padAngle={0.7}
-            cornerRadius={3}
+            sortByValue={true}
             activeOuterRadiusOffset={8}
             borderWidth={1}
             borderColor={{
@@ -77,6 +75,7 @@ const MyActivity = () => {
             }}
             arcLinkLabelsSkipAngle={10}
             arcLinkLabelsTextColor="#333333"
+            // arcLinkLabelsDiagonalLength={12}
             arcLinkLabelsThickness={2}
             arcLinkLabelsColor={{ from: 'color' }}
             arcLabelsSkipAngle={10}
@@ -85,48 +84,36 @@ const MyActivity = () => {
                 modifiers: [
                     [
                         'darker',
-                        2
+                        '1.1'
                     ]
                 ]
             }}
             defs={[
-                {
-                    id: 'dots',
-                    type: 'patternDots',
-                    background: 'inherit',
-                    color: 'rgba(255, 255, 255, 0.3)',
-                    size: 2,
-                    // padding: 1,
-                    stagger: true
-                },
-                {
-                    id: 'lines',
-                    type: 'patternLines',
-                    background: 'inherit',
-                    color: 'rgba(255, 255, 255, 0.3)',
-                    rotation: -45,
-                    lineWidth: 6,
-                    spacing: 10
-                }
+                // {
+                //     id: 'dots',
+                //     type: 'patternDots',
+                //     background: 'inherit',
+                //     color: 'rgba(255, 255, 255, 0.3)',
+                //     size: 2,
+                //     // padding: 1,
+                //     stagger: true
+                // },
+                // {
+                //     id: 'lines',
+                //     type: 'patternLines',
+                //     background: 'inherit',
+                //     color: 'rgba(255, 255, 255, 0.3)',
+                //     rotation: -45,
+                //     lineWidth: 6,
+                //     spacing: 10
+                // }
             ]}
             fill={[
                 // {
                 //     match: {
                 //         id: 'Korean'
                 //     },
-                //     id: 'dots'
-                // },
-                // // {
-                // //     match: {
-                // //         id: 'c'
-                // //     },
-                // //     id: 'dots'
-                // // },
-                // {
-                //     match: {
-                //         id: 'go'
-                //     },
-                //     id: 'dots'
+                //     id: 'lines'
                 // },
                 // {
                 //     match: {
@@ -146,29 +133,17 @@ const MyActivity = () => {
                 //     },
                 //     id: 'lines'
                 // },
-                // {
-                //     match: {
-                //         id: 'elixir'
-                //     },
-                //     id: 'lines'
-                // },
-                // {
-                //     match: {
-                //         id: 'javascript'
-                //     },
-                //     id: 'lines'
-                // }
             ]}
             legends={[
                 {
                     anchor: 'bottom',
                     direction: 'row',
                     justify: false,
-                    translateX: 0,
-                    translateY: 56,
-                    itemsSpacing: 0,
-                    itemWidth: 100,
-                    itemHeight: 18,
+                    translateX: -8,
+                    translateY: 60,
+                    itemsSpacing: 18,
+                    itemWidth: 68,
+                    itemHeight: 10,
                     itemTextColor: '#999',
                     itemDirection: 'left-to-right',
                     itemOpacity: 1,
@@ -187,7 +162,7 @@ const MyActivity = () => {
           />
                 {/* <Typography gutterBottom color="#9BA7AF" variant="h3" component="span">Lv.</Typography>
           <Typography gutterBottom color="#FFC700" variant="h3" component="span">36</Typography> */}
-        </CardContent>
+        </div>
       </Card>
     </div>
 

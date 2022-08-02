@@ -1,6 +1,8 @@
 
 import React, { useEffect, useState } from 'react'
 import MyActivity from './MyActivity';
+import MyBadgeCollection from './MyBadgeCollection';
+import MyGrass from './MyGrass';
 import MyLevel from './MyLevel';
 
 // import { useSelector } from 'react-redux'
@@ -117,11 +119,9 @@ const RightProfile = (props) => {
           <div className={classes.wrapper_level_activity}>
             <MyLevel />
             <MyActivity />
-            {/* <div> 내활동 </div>
-            <div> 내 레벨</div> */}
           </div>
-          <div> 내 배지 </div>
-          <div>출석일수</div>
+          <MyBadgeCollection />
+          <MyGrass/>
         </div>
 
 
