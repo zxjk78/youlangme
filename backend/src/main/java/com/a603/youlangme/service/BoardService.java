@@ -191,9 +191,18 @@ public class BoardService {
         return likeUserResponseDtoList;
     }
 
+    // boardId는 초기값을 0을 보낼예정
+    public List<BoardPagingDto> readAuthorBoardList(Long authorId, Long boardId) {
+        List<BoardPagingDto> authorBoardList;
+        List<Board> tmpBoardList;
+        if (boardId.equals(0L)) {
+            tmpBoardList = boardRepository.findAllByAuthorIdOrderByIdDesc1(authorId, PageRequest.of(0,5));
+        } else {
+            tmpBoardList = boardRepository.findAllByAuthorIdOrderByIdDesc2(authorId, boardId,PageRequest.of(0,5));
 
-    public List<BoardPagingDto> readAuthorBoardList(Long authorId) {
-        List<BoardPagingDto> authorBoardList = boardRepository.findAllByAuthorIdOrderByIdDesc(authorId).stream()
+
+        }
+        authorBoardList = tmpBoardList.stream()
                 .map(board-> BoardPagingDto.builder()
                         .boardId(board.getId())
                         .contents(board.getContents())
@@ -204,6 +213,7 @@ public class BoardService {
                         .createdTime(board.getCreatedDate())
                         .imgList(board.getImgList().stream().map(boardImg -> boardImg.getPath()).collect(Collectors.toList()))
                         .build()).collect(Collectors.toList());
+
         return authorBoardList;
     }
 

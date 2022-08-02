@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,5 +23,8 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
     @Query(value = "select b from Board b join b.author u ")
     Page<Board>BoardList(PageRequest pageRequest);
 
-    List<Board> findAllByAuthorIdOrderByIdDesc(Long authorId);
+    @Query("select b from Board b where b.author.id = :authorId order by b.id desc")
+    List<Board> findAllByAuthorIdOrderByIdDesc1(@Param("authorId") Long authorId, Pageable pageable);
+    @Query("select b from Board b where b.author.id = :authorId and b.id < :boardId order by b.id desc")
+    List<Board> findAllByAuthorIdOrderByIdDesc2(@Param("authorId") Long authorId, @Param("boardId") Long id, Pageable pageable);
 }

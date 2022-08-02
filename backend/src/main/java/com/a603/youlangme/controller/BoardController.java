@@ -118,8 +118,8 @@ public class BoardController {
     }
 
     @GetMapping("/author/{id}")
-    public ManyResult<BoardPagingDto> authorBoard(@PathVariable(value = "id") Long authorId) {
-        return responseService.getManyResult(boardService.readAuthorBoardList(authorId));
+    public ManyResult<BoardPagingDto> authorBoard(@PathVariable(value = "id") Long authorId, @RequestParam("lastBoardId") Long boardId) {
+        return responseService.getManyResult(boardService.readAuthorBoardList(authorId, boardId));
     }
 
     @GetMapping("/list")
