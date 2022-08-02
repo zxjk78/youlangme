@@ -3,33 +3,29 @@ import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import BoardDetailModal from '../detail/components/BoardDetailModal';
 import { fetchUserBoardList } from '../boardAPI';
 const ProfileBoardSummeryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);
+  const [lastBoardId, setLastBoardId] = useState(0);
   const authorId = useParams().userId;
-  let modalLocation;
   useEffect(() => {
     (async () => {
-      const data = await fetchUserBoardList(authorId);
+      const data = await fetchUserBoardList(authorId, lastBoardId);
       setUserBoardList((prevState) => [...prevState, ...data]);
     })();
     setIsLoading(false);
-  }, [authorId]);
+  }, [authorId, lastBoardId]);
   const closeModal = () => {
     console.log('모달 닫기 시도');
   };
-  const showDetailModal = (boardId) => {
-    modalLocation = (
-      <BoardDetailModal boardId={boardId} closeModalHandler={closeModal} />
-    );
+
+  const fetchBoardListPage = () => {
+    setLastBoardId(userBoardList.at(-1).boardId);
   };
 
   return (
     <>
-      <div>{modalLocation}</div>
-
       {isLoading ? (
         '123'
       ) : (
@@ -41,11 +37,12 @@ const ProfileBoardSummeryList = (props) => {
                 <ProfileBoardSummeryItem
                   key={board.boardId}
                   boardInfo={board}
-                  showDetail={showDetailModal}
                 />
               ))}
             </div>
-            <div className={classes.footer}></div>
+            <div className={classes.footer}>
+              <button onClick={fetchBoardListPage}>더보기</button>
+            </div>
           </div>
         </div>
       )}
