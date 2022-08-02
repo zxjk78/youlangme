@@ -221,7 +221,7 @@ const LeftProfile = (props) => {
                           label={data.favorites[fav]}
                           color =
                           { colors[Math.floor(Math.random() * colors.length)]}
-                          sx={{ color:'#F9F3EE'  }}
+                          sx={{ color:'#F9F3EE', fontWeight: 'bold'  }}
                           className={classes.chip}
                         />
                       );
