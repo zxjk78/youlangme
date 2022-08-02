@@ -23,21 +23,23 @@ import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import classes from './BoardDetailModal.module.scss';
-const BoardDetail = (props) => {
+const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
   const [commentList, setCommentList] = useState([]);
   const [likeUsers, setLikeUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsliked] = useState(false);
   const [likeUserVisible, setLikeUserVisible] = useState(false);
-  const boardId = useParams().boardId;
+  const boardId = props.boardId;
   const API_URL = 'http://127.0.0.1:8080/';
   const commentRef = useRef();
   const history = useHistory();
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const boardDetail = await fetchBoardInfo(boardId);
+      // console.log(boardDetail);
       if (!boardDetail) {
         history.replace({
           pathname: '/404',
@@ -48,14 +50,13 @@ const BoardDetail = (props) => {
       const commentList = await fetchCommentList(boardId);
       const likeUsers = await fetchLikeUsers(boardId);
 
-      // const likeUsers = boardInfo.likeUsers;
       const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
       for (const iterator of likeUsers) {
         if (iterator.id === currentUserId) {
           setIsliked(true);
         }
       }
-      // console.log(boardInfo);
+
       setBoardDetail(boardDetail);
       setCommentList(commentList);
       setLikeUsers(likeUsers);
@@ -145,7 +146,7 @@ const BoardDetail = (props) => {
               <UserInfo user={currentUser} />
 
               <div className={classes.createdAt}>
-                {createdDateCal(boardDetail.modifiedTime)}
+                {createdDateCal(boardDetail.createdTime)}
               </div>
             </div>
             <div className={classes.main}>
@@ -221,4 +222,4 @@ const BoardDetail = (props) => {
   );
 };
 
-export default BoardDetail;
+export default BoardDetailModal;

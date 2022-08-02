@@ -1,0 +1,36 @@
+.wrapper {
+  background-color: #fcf9f6;
+  border: solid 2px #d3d3d3;
+  border-radius: 15px;
+}
+.container {
+  width: 90%;
+  margin: 0px auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 1px #d3d3d3;
+  & > div:nth-of-type(2) {
+    width: 100px;
+    font-size: 0.8rem;
+    color: #a5a5a5;
+  }
+}
+.main {
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+  }
+}
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+}
