@@ -1,6 +1,6 @@
 import classes from './Ranking.module.scss';
 import { useState } from 'react';
-import UserInfo from '../../profile/UserInfo/UserInfo';
+import UserInfo from '../../profile/LeftProfile/UserInfo/UserInfo';
 import { podium, bronze, silver, gold } from './assets';
 import { useEffect } from 'react';
 //header의 시상대 그냥 만들어서 사용할 것

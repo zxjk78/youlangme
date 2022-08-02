@@ -5,7 +5,7 @@ import Header from '../../common/UI/Header/Header';
 
 import { logout } from '../auth/authSlice';
 
-import UserInfo from '../profile/UserInfo/UserInfo';
+import UserInfo from '../profile/LeftProfile/UserInfo/UserInfo';
 
 const Main = () => {
   const { currentUser } = useSelector((state) => state.auth);

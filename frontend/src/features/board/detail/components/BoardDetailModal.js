@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { createdDateCal } from '../../func/commonFunctions';
+import { useHistory } from 'react-router-dom';
+import { createdDateCal } from '../../../../utils/functions/commonFunctions';
 // API
 import {
   fetchBoardInfo,
@@ -15,29 +15,34 @@ import Modal from '../../../../common/UI/Modal/Modal';
 //components
 import CommentListItem from './CommentListItem';
 import LikeContainer from './LikeContainer';
-import UserInfo from '../../../profile/UserInfo/UserInfo';
+import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import LikeUserModal from './likeModal/LikeUserModal';
-
+import PhotoCarousel from './PhotoCarousel/PhotoCarousel';
 // mui
 import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import classes from './BoardDetailModal.module.scss';
-const BoardDetail = (props) => {
+
+// etc
+import { API_URL } from '../../../../utils/data/apiData';
+
+const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
   const [commentList, setCommentList] = useState([]);
   const [likeUsers, setLikeUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsliked] = useState(false);
   const [likeUserVisible, setLikeUserVisible] = useState(false);
-  const boardId = useParams().boardId;
-  const API_URL = 'http://127.0.0.1:8080/';
+  const boardId = props.boardId;
   const commentRef = useRef();
   const history = useHistory();
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const boardDetail = await fetchBoardInfo(boardId);
+      // console.log(boardDetail);
       if (!boardDetail) {
         history.replace({
           pathname: '/404',
@@ -48,14 +53,13 @@ const BoardDetail = (props) => {
       const commentList = await fetchCommentList(boardId);
       const likeUsers = await fetchLikeUsers(boardId);
 
-      // const likeUsers = boardInfo.likeUsers;
       const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
       for (const iterator of likeUsers) {
         if (iterator.id === currentUserId) {
           setIsliked(true);
         }
       }
-      // console.log(boardInfo);
+
       setBoardDetail(boardDetail);
       setCommentList(commentList);
       setLikeUsers(likeUsers);
@@ -123,8 +127,11 @@ const BoardDetail = (props) => {
   const showLikeUserModal = () => {
     setLikeUserVisible((prevState) => !prevState);
   };
-  const modalCloseHandler = () => {
+  const likeModalClose = () => {
     setLikeUserVisible(() => false);
+  };
+  const closeModal = () => {
+    props.closeModalHandler();
   };
   return (
     <>
@@ -133,11 +140,11 @@ const BoardDetail = (props) => {
           <CircularProgress />
         </div>
       ) : (
-        <Modal>
+        <Modal closeModalHandler={closeModal}>
           {likeUserVisible && (
             <LikeUserModal
               likeUserList={likeUsers}
-              closeModal={modalCloseHandler}
+              closeModal={likeModalClose}
             />
           )}
 
@@ -146,7 +153,7 @@ const BoardDetail = (props) => {
               <UserInfo user={currentUser} />
 
               <div className={classes.createdAt}>
-                {createdDateCal(boardDetail.modifiedTime)}
+                {createdDateCal(boardDetail.createdTime)}
               </div>
             </div>
             <div className={classes.main}>
@@ -154,13 +161,14 @@ const BoardDetail = (props) => {
                 <p>{boardDetail.contents}</p>
               </div>
               <div className={classes.photoContainer}>
-                {boardDetail.imgList.map((image) => (
+                {/* {boardDetail.imgList.map((image) => (
                   <img
                     key={image}
                     src={`${API_URL}image/board/${image}`}
                     alt="게시판 이미지"
                   />
-                ))}
+                ))} */}
+                <PhotoCarousel pics={boardDetail.imgList} />
               </div>
 
               <div className={classes.likeCommentCnt}>
@@ -222,4 +230,4 @@ const BoardDetail = (props) => {
   );
 };
 
-export default BoardDetail;
+export default BoardDetailModal;

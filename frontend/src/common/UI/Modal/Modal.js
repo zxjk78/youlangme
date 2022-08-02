@@ -1,7 +1,5 @@
 import ReactDom from 'react-dom';
-// redux
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from './modalSlice';
+
 // style
 import classes from './Modal.module.scss';
 const Backdrop = (props) => {
@@ -21,25 +19,21 @@ const ModalOverlay = (props) => {
 const portalElement = document.querySelector('#overlays');
 
 const Modal = (props) => {
-  const isBackDropClickClose = useSelector(
-    (state) => state.modal.backDropClickClose
-  );
-  const isBackDropTransparent = useSelector(
-    (state) => state.modal.backDropTransparent
-  )
-    ? classes.backdrop2
-    : classes.backdrop;
+  const isBackDropClickClose = props.backdropClickClose || true;
+  const isBackDropTransparent = props.backDropTransparent || false;
 
-  const dispatch = useDispatch();
   const closeModal = () => {
-    dispatch(modalActions.offModal());
+    // 모달을 연 상위 컴포넌트에서 모달을 닫게 만듬
+    props.closeModalHandler();
   };
 
   return (
     <>
       {ReactDom.createPortal(
         <Backdrop
-          backdropStyle={isBackDropTransparent}
+          backdropStyle={
+            isBackDropTransparent ? classes.backdrop2 : classes.backdrop
+          }
           closeHandler={isBackDropClickClose ? closeModal : null}
         />,
         portalElement

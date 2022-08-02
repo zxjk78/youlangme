@@ -9,7 +9,7 @@ import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
 
 // component
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
-import UserInfo from '../../../profile/UserInfo/UserInfo';
+import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 // mUI
 import { common } from '@mui/material/colors';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';

@@ -43,6 +43,27 @@ export const fetchBoardInfo = async (boardId) => {
   }
 };
 
+export const fetchUserBoardList = async (userId, boardId = 0) => {
+  // console.log('boardId로 게시글 상세정보 받기');
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+  const header = {
+    'X-Auth-Token': accessToken,
+  };
+  try {
+    const response = await axios.get(
+      API_URL + `board/author/${userId}?lastBoardId=${boardId}`,
+      {
+        headers: header,
+      }
+    );
+
+    // console.log(response);
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const fetchCommentList = async (boardId) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   const header = {

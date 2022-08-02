@@ -12,7 +12,7 @@ const UserInfo = (props) => {
       <div className={classes.wrapper}>
         <Link
           to={`/profile/${user.id}`}
-          style={{ textDecoration: 'none', textDecorationColor: 'black' }}
+          style={{ textDecoration: 'none', color: 'black' }}
         >
           <div className={classes.container}>
             <div className={classes.imageContainer}>
@@ -31,7 +31,9 @@ const UserInfo = (props) => {
                 />
               )}
             </div>
-            <div className={classes.name}>{user.name}</div>
+            <div className={classes.name}>
+              <div>{user.name}</div>
+            </div>
           </div>
         </Link>
       </div>

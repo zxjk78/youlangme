@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import classes from "./ProfileEdit.module.scss";
 
 // data
-import { mainColors } from './ProfileColorPalette'
+import { mainColors } from '../ProfileColorPalette'
 
 // mui material
 import { Avatar, Button, Modal, Box, Icon, Typography, IconButton, Stack, Badge } from "@mui/material";
@@ -16,7 +16,7 @@ import { grey } from '@mui/material/colors';
 
 
 // 리덕스 안거치는 단순 서버 통신 API
-import { uploadProfileImg } from './ProfileAPI';
+import { uploadProfileImg } from './LeftProfileAPI';
 
 // import defaultuser from './images/defaultuser.png'
 

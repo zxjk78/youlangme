@@ -26,10 +26,12 @@
     }
   }
   .name {
+    width: 200px;
     font-size: 1.2rem;
     margin-left: 20px;
     font-weight: bold;
-    line-height: 40px;
+    display: flex;
+    align-items: center;
     text-decoration-line: none;
     text-decoration-color: black;
   }
