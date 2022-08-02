@@ -12,7 +12,7 @@ const UserInfo = (props) => {
       <div className={classes.wrapper}>
         <Link
           to={`/profile/${user.id}`}
-          style={{ textDecoration: 'none', textDecorationColor: 'black' }}
+          style={{ textDecoration: 'none', color: 'black' }}
         >
           <div className={classes.container}>
             <div className={classes.imageContainer}>

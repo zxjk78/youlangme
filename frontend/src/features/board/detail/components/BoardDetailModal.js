@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { createdDateCal } from '../../func/commonFunctions';
+import { useHistory } from 'react-router-dom';
+import { createdDateCal } from '../../../../utils/functions/commonFunctions';
 // API
 import {
   fetchBoardInfo,
@@ -23,6 +23,10 @@ import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import classes from './BoardDetailModal.module.scss';
+
+// etc
+import { API_URL } from '../../../../utils/data/apiData';
+
 const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
   const [commentList, setCommentList] = useState([]);
@@ -31,7 +35,6 @@ const BoardDetailModal = (props) => {
   const [isLiked, setIsliked] = useState(false);
   const [likeUserVisible, setLikeUserVisible] = useState(false);
   const boardId = props.boardId;
-  const API_URL = 'http://127.0.0.1:8080/';
   const commentRef = useRef();
   const history = useHistory();
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -124,8 +127,11 @@ const BoardDetailModal = (props) => {
   const showLikeUserModal = () => {
     setLikeUserVisible((prevState) => !prevState);
   };
-  const modalCloseHandler = () => {
+  const likeModalClose = () => {
     setLikeUserVisible(() => false);
+  };
+  const closeModal = () => {
+    props.closeModalHandler();
   };
   return (
     <>
@@ -134,11 +140,11 @@ const BoardDetailModal = (props) => {
           <CircularProgress />
         </div>
       ) : (
-        <Modal>
+        <Modal closeModalHandler={closeModal}>
           {likeUserVisible && (
             <LikeUserModal
               likeUserList={likeUsers}
-              closeModal={modalCloseHandler}
+              closeModal={likeModalClose}
             />
           )}
 

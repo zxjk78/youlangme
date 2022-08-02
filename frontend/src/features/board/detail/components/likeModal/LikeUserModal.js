@@ -10,7 +10,7 @@ const LikeUserModal = (props) => {
 
   return (
     <>
-      <Modal>
+      <Modal closeModalHandler={closeHandler}>
         <div className={classes.wrapper}>
           <div className={classes.header}>
             <div>좋아요</div>

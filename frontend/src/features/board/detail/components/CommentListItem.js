@@ -1,6 +1,5 @@
-import UserInfo from '../../../profile/UserInfo/UserInfo';
-
-import { createdDateCal } from '../../func/commonFunctions';
+import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
+import { createdDateCal } from '../../../../utils/functions/commonFunctions';
 import classes from './CommentListItem.module.scss';
 const API_URL = 'http://127.0.0.1:8080/';
 
