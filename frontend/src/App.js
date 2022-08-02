@@ -65,6 +65,7 @@ function App() {
             path="/board/detail/:boardId"
             component={BoardDetailModal}
           ></PrivateRoute>
+
           {/* test용 public route */}
           <PrivateRoute path="/test" component={Maintmp}></PrivateRoute>
           {/* 404 route */}

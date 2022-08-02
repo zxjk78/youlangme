@@ -9,8 +9,7 @@ import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
 var localUser = new UserModel();
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-const name = currentUser?.name;
+
 class VideoRoomComponent extends Component {
   constructor(props) {
     super(props);
@@ -32,14 +31,14 @@ class VideoRoomComponent extends Component {
     this.localUserAccessAllowed = false;
     this.state = {
       mySessionId: sessionName,
-      myUserName: name,
+      myUserName: undefined,
       session: undefined,
       localUser: undefined,
       subscribers: [],
       chatDisplay: 'none',
       currentVideoDevice: undefined,
     };
-
+  
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
@@ -56,7 +55,7 @@ class VideoRoomComponent extends Component {
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
   }
-
+  
   componentDidMount() {
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
@@ -699,4 +698,9 @@ class VideoRoomComponent extends Component {
     });
   }
 }
+
+// const mapStateToProps = (state) => ({
+//   currentUser: state.auth.currentUser
+// });
+
 export default VideoRoomComponent;

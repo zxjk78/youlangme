@@ -13,8 +13,9 @@ import IconButton from '@material-ui/core/IconButton';
 import HighlightOff from '@material-ui/icons/HighlightOff';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-const nationality = currentUser?.nationality;
+// const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+// const nationality = currentUser.nationality;
+
 export default class StreamComponent extends Component {
   constructor(props) {
     super(props);
@@ -96,7 +97,7 @@ export default class StreamComponent extends Component {
           ) : (
             <div onClick={this.toggleNicknameForm}>
               <span id="nickname">{this.props.user.getNickname()}</span>
-              {this.props.user.isLocal() && <span id=""> {nationality}</span>}
+              {this.props.user.isLocal() && <span id=""> </span>}
             </div>
           )}
         </div>
