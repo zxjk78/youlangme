@@ -70,7 +70,8 @@ public class UserExpService {
 
         return UserExpLevelResponseDto.builder()
                 .exp(userExp.getExp())
-                .level(userExp.getLevel().getLevel())
+                .levelId(userExp.getLevel().getId())
+                .levelName(userExp.getLevel().getName())
                 .build();
     }
 }
