@@ -56,7 +56,7 @@ const MyActivity = () => {
         >
           <ResponsivePie
             data={data}
-            margin={{ top: 30, right: 20, bottom: 70, left: 20 }}
+            margin={{ top: 30, right: 30, bottom: 70, left: 20 }}
             startAngle={-149}
             innerRadius={0.5}
             cornerRadius={3} 
@@ -139,7 +139,7 @@ const MyActivity = () => {
                     anchor: 'bottom',
                     direction: 'row',
                     justify: false,
-                    translateX: -8,
+                    translateX: 0,
                     translateY: 60,
                     itemsSpacing: 18,
                     itemWidth: 68,
