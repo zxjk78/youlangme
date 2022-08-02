@@ -5,6 +5,7 @@ import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.config.logging.ExpLogging;
 import com.a603.youlangme.config.logging.Logging;
 import com.a603.youlangme.dto.board.BoardPagingDto;
+import com.a603.youlangme.dto.board.BoardReadResponseDto;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
@@ -190,6 +191,23 @@ public class BoardService {
         return likeUserResponseDtoList;
     }
 
+
+    public List<BoardPagingDto> readAuthorBoardList(Long authorId) {
+        List<BoardPagingDto> authorBoardList = boardRepository.findAllByAuthorIdOrderByIdDesc(authorId).stream()
+                .map(board-> BoardPagingDto.builder()
+                        .boardId(board.getId())
+                        .contents(board.getContents())
+                        .userName(board.getAuthor().getUsername())
+                        .userId(board.getAuthor().getId())
+                        .replyCnt(board.getReplyList().size())
+                        .likeCnt(board.getUserBoardLikes().size())
+                        .createdTime(board.getCreatedDate())
+                        .imgList(board.getImgList().stream().map(boardImg -> boardImg.getPath()).collect(Collectors.toList()))
+                        .build()).collect(Collectors.toList());
+        return authorBoardList;
+    }
+
+
     public List<BoardPagingDto>BoardInit(User user){
         // boardId, userId 추가, userName 으로 수정
         List<BoardPagingDto>boardList=boardRepository.Boardfind(user.getId()).stream()
@@ -201,26 +219,27 @@ public class BoardService {
                         .replyCnt(board.getReplyList().size())
                         .likeCnt(board.getUserBoardLikes().size())
                         .createdTime(board.getCreatedDate())
+                        .imgList(board.getImgList().stream().map(boardImg -> boardImg.getPath()).collect(Collectors.toList()))
                         .build()).collect(Collectors.toList());
         return boardList;
     }
 
-    public Page<BoardPagingDto>boardPaging(User user,Pageable pageable,Long click) {
-//        Page<BoardPagingDto> boards = boardRepository.BoardList(PageRequest.of(0, 5)).stream()
-//                .map(board -> BoardPagingDto.builder()
-//                        .contents(board.getContents())
-//                        .name(user.getName()).
-//                        createdTime(board.getCreatedDate())
-//                        .build()).collect(Collectors.toList());
-        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click+1)));
-        Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
-            @Override
-            public BoardPagingDto apply(Board board) {
-                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getId(), board.getContents(), user.getId(), user.getName(), board.getUserBoardLikes().size(), board.getReplyList().size(),  board.getCreatedDate());
-                return boardPagingDto;
-            }
-        });
-
-        return boards;
-    }
+//    public Page<BoardPagingDto>boardPaging(User user,Pageable pageable,Long click) {
+////        Page<BoardPagingDto> boards = boardRepository.BoardList(PageRequest.of(0, 5)).stream()
+////                .map(board -> BoardPagingDto.builder()
+////                        .contents(board.getContents())
+////                        .name(user.getName()).
+////                        createdTime(board.getCreatedDate())
+////                        .build()).collect(Collectors.toList());
+//        Page<Board> boardList = boardRepository.BoardList(PageRequest.of(0, (int)(5L*click+1)));
+//        Page<BoardPagingDto> boards = boardList.map(new Function<Board, BoardPagingDto>() {
+//            @Override
+//            public BoardPagingDto apply(Board board) {
+//                BoardPagingDto boardPagingDto = new BoardPagingDto(board.getId(), board.getContents(), user.getId(), user.getName(), board.getUserBoardLikes().size(), board.getReplyList().size(),  board.getCreatedDate(),board.getImgList());
+//                return boardPagingDto;
+//            }
+//        });
+//
+//        return boards;
+//    }
 }
