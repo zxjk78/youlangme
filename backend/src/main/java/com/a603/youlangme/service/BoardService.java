@@ -197,7 +197,7 @@ public class BoardService {
                 .map(board-> BoardPagingDto.builder()
                         .boardId(board.getId())
                         .contents(board.getContents())
-                        .userName(board.getAuthor().getUsername())
+                        .userName(board.getAuthor().getName())
                         .userId(board.getAuthor().getId())
                         .replyCnt(board.getReplyList().size())
                         .likeCnt(board.getUserBoardLikes().size())
