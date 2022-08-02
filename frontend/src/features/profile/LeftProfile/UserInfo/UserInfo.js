@@ -31,7 +31,9 @@ const UserInfo = (props) => {
                 />
               )}
             </div>
-            <div className={classes.name}>{user.name}</div>
+            <div className={classes.name}>
+              <div>{user.name}</div>
+            </div>
           </div>
         </Link>
       </div>

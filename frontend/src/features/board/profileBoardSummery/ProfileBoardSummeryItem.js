@@ -19,12 +19,13 @@ const ProfileBoardSummeryItem = (props) => {
   const history = useHistory();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const boardInfo = props.boardInfo;
+  // console.log(boardInfo);
   const showDetailModal = (event) => {
     setIsModalVisible(() => true);
   };
   const closeModal = () => {
     setIsModalVisible(() => false);
-    history.go(0);
+    // history.go(0);
   };
   return (
     <>

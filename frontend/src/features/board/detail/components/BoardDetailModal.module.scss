@@ -40,15 +40,20 @@
 }
 
 .photoContainer {
+  width: 650px;
+
   display: flex;
   justify-content: flex-start;
-  gap: 10px;
   img {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
+    box-sizing: border-box;
+    margin: 0px auto;
+    width: 220px;
+    height: 175px;
+    padding: 10px;
+    border-radius: 20px;
   }
 }
+
 .likeCommentCnt {
   width: 100%;
   display: flex;

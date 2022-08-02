@@ -17,7 +17,7 @@ import CommentListItem from './CommentListItem';
 import LikeContainer from './LikeContainer';
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import LikeUserModal from './likeModal/LikeUserModal';
-
+import PhotoCarousel from './PhotoCarousel/PhotoCarousel';
 // mui
 import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -161,13 +161,14 @@ const BoardDetailModal = (props) => {
                 <p>{boardDetail.contents}</p>
               </div>
               <div className={classes.photoContainer}>
-                {boardDetail.imgList.map((image) => (
+                {/* {boardDetail.imgList.map((image) => (
                   <img
                     key={image}
                     src={`${API_URL}image/board/${image}`}
                     alt="게시판 이미지"
                   />
-                ))}
+                ))} */}
+                <PhotoCarousel pics={boardDetail.imgList} />
               </div>
 
               <div className={classes.likeCommentCnt}>
