@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Getter
 public class Level extends BaseEntity {
 
-    private Integer level;
+    private String name;
     private Integer minExp;
     private Integer maxExp;
 }

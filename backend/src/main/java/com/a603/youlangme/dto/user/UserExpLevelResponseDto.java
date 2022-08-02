@@ -8,5 +8,6 @@ import lombok.*;
 @Getter
 public class UserExpLevelResponseDto {
     private Integer exp;
-    private Integer level;
+    private Long levelId;
+    private String levelName;
 }
