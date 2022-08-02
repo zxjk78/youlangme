@@ -9,12 +9,7 @@ import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
 var localUser = new UserModel();
-<<<<<<< HEAD
 
-=======
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-const name = currentUser?.name;
->>>>>>> 907dd189f819c01d6292179a567b615dac007d88
 class VideoRoomComponent extends Component {
   constructor(props) {
     super(props);
