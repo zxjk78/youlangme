@@ -2,16 +2,13 @@ import classes from './ProfileBoardSummeryList.module.scss';
 import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { modalActions } from '../../../common/UI/Modal/modalSlice';
+
 import BoardDetailModal from '../detail/components/BoardDetailModal';
 import { fetchUserBoardList } from '../boardAPI';
 const ProfileBoardSummeryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);
   const authorId = useParams().userId;
-  const isBoardDetailVisible = useSelector((state) => state.modal.isVisible);
-  const dispatch = useDispatch();
   let modalLocation;
   useEffect(() => {
     (async () => {
@@ -20,15 +17,18 @@ const ProfileBoardSummeryList = (props) => {
     })();
     setIsLoading(false);
   }, [authorId]);
-
+  const closeModal = () => {
+    console.log('모달 닫기 시도');
+  };
   const showDetailModal = (boardId) => {
-    modalLocation = <BoardDetailModal boardId={boardId} />;
-    dispatch(modalActions.onModal());
+    modalLocation = (
+      <BoardDetailModal boardId={boardId} closeModalHandler={closeModal} />
+    );
   };
 
   return (
     <>
-      {isBoardDetailVisible && <div>{modalLocation}</div>}
+      <div>{modalLocation}</div>
 
       {isLoading ? (
         '123'

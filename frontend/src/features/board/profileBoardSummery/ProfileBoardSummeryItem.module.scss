@@ -1,16 +1,18 @@
 .wrapper {
+  width: 70%;
   background-color: #fcf9f6;
   border: solid 2px #d3d3d3;
   border-radius: 15px;
 }
 .container {
-  width: 90%;
+  width: 95%;
   margin: 0px auto;
 }
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
   border-bottom: solid 1px #d3d3d3;
   & > div:nth-of-type(2) {
     width: 100px;
@@ -20,15 +22,34 @@
 }
 .main {
   img {
-    width: 100px;
+    width: 130px;
     height: 100px;
     border-radius: 15px;
   }
 }
+.contentContainer {
+  width: 90%;
+  margin: 10px 5px;
+  font-size: 0.9rem;
+  font-weight: 200;
+  /* 여러 줄 줄이기 위한 코드 3줄 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.imgContainer {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
 .footer {
   display: flex;
   justify-content: flex-end;
-  gap: 20px;
+  padding: 20px;
+  gap: 30px;
   & > div {
     display: flex;
     align-items: center;

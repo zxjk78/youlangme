@@ -1,23 +1,41 @@
 import UserInfo from '../../profile/LeftProfile/UserInfo/UserInfo';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { modalActions } from '../../../common/UI/Modal/modalSlice';
+import { useState } from 'react';
+// router
+import { useHistory } from 'react-router-dom';
+//component
+import BoardDetailModal from '../detail/components/BoardDetailModal';
 //mui
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 // css
 import classes from './ProfileBoardSummeryItem.module.scss';
-import { createdDateCal } from '../func/commonFunctions';
+// etc
+import { createdDateCal } from '../../../utils/functions/commonFunctions';
+import { API_URL } from '../../../utils/data/apiData';
 
-const API_URL = 'http://127.0.0.1:8080/';
 // 클릭시 디테일로 이동하는 부분으로 어디로 정할지를 의논할 것
 const ProfileBoardSummeryItem = (props) => {
+  const history = useHistory();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const boardInfo = props.boardInfo;
   const showDetailModal = (event) => {
-    props.showDetail(boardInfo.boardId);
+    setIsModalVisible(() => true);
+  };
+  const closeModal = () => {
+    setIsModalVisible(() => false);
+    history.go(0);
   };
   return (
     <>
+      {isModalVisible && (
+        <div>
+          <BoardDetailModal
+            boardId={boardInfo.boardId}
+            closeModalHandler={closeModal}
+          />
+        </div>
+      )}
       <div className={classes.wrapper}>
         <div className={classes.container}>
           <div className={classes.header}>
@@ -40,12 +58,10 @@ const ProfileBoardSummeryItem = (props) => {
           </div>
           <div className={classes.footer}>
             <div>
-              <FavoriteBorderIcon />
-              {boardInfo.likeCnt}
+              <FavoriteBorderIcon /> {boardInfo.likeCnt}
             </div>
             <div>
-              <ChatBubbleOutlineIcon />
-              {boardInfo.replyCnt}
+              <ChatBubbleOutlineIcon /> {boardInfo.replyCnt}
             </div>
           </div>
         </div>

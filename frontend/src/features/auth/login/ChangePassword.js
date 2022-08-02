@@ -1,11 +1,8 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { modalActions } from '../../../common/UI/Modal/modalSlice';
 import classes from './ChangePassword.module.scss';
 
 const ChangePassword = () => {
-  const dispatch = useDispatch();
   const emailRef = useRef();
   const API_URL = 'http://127.0.0.1:8080/';
   const [validation, setValidation] = useState(false);
@@ -16,7 +13,6 @@ const ChangePassword = () => {
       const email = emailRef.current.value;
       const response = await axios.post(API_URL + `findPwd/${email}`);
       alert('임시 비밀번호가 발급되었습니다.');
-      dispatch(modalActions.offModal());
     } catch (err) {
       alert(err.message);
     }
