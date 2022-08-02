@@ -1,66 +1,101 @@
 .right_profile {
   display: flex;
   flex-direction: column;
-  width: 75%;
-  margin-top: 3%;
-  margin-left: 7%;
+  width: 80%;
+  margin-top: 1%;
+  margin-left: 5%;
   margin-right: 3%;
   
   .wrapper_level_activity {
     display: flex;
     flex-direction: row;
+    height: 45%;
 
     .container {
       width: 50%;
       
       .level_card {
-        width: 60%;
+        width: 75%;
+        height: 85%;
         // margin-top: 20px;
         // margin-bottom: 20px;
         // margin: 15px 10px 12px 20px;
         
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid #CAD6E2;
-        border-radius: 20px;
-        text-align: center;
-        
-        .trophy {
-          margin-top: 2%;
-          margin-bottom: 4%;
+        // background: rgba(255, 255, 255, 0.2);
+        // border: 1px solid #CAD6E2;
+        // border-radius: 20px;
 
-        }
         
         .level {
-          // display: flex;
-          // justify-content: center;
-          // align-items: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .trophy {
+            // margin-top: 2%;
+            // margin-bottom: 0%;
+          }
         }
+
       }
 
       .activity_card {
         width: 80%;
-        height: 80%;
+        // height: 300px;
+        height: 85%;
         // margin-top: 20px;
         // margin-bottom: 20px;
         // margin: 15px 10px 12px 20px;
         
         background: rgba(255, 255, 255, 0.2);
-        border: 1px solid #CAD6E2;
+        // border: 1px solid #CAD6E2;
         border-radius: 20px;
         // text-align: center;
         
+        .my_activity {
+          height: 280px;
+          width: 100%;
+          padding-bottom: 15px;
+          // margin-bottom: 0px;
+        }
       }
     }
-    
-    .my_activity {
-      width: 50%;
+  }
 
+  .badge_container {
+    width: 92%;
+    height: 25%;
+    margin-top: 1%;
+    .badge_card {
+      height: 70%;
+      background: rgba(255, 255, 255, 0.2);
+      // border: 1px solid #CAD6E2;
+      border-radius: 20px;
     }
+  }
 
+  .grass_container {
+    width: 92%;
+    height: 27%;
+    // margin-top: 1%;
+    .grass_card {
+      height: 80%;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid #CAD6E2;
+      border-radius: 20px;
+    }
   }
 }
 
 
+
+.modal_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin-top: 2%;
+}
 
 // .left_profile {
 //   display: flex;
