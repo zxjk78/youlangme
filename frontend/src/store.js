@@ -5,7 +5,7 @@ import modifyReducer from './features/auth/modify/modifySlice';
 import modalReducer from './common/UI/Modal/modalSlice';
 import boardReducer from './features/board/boardSlice';
 import createBoardReducer from './features/board/create/createBoardSlice';
-import profileReducer from './features/profile/profileSlice';
+// import profileReducer from './features/profile/profileSlice';
 import storage from 'redux-persist/lib/storage';
 import persistReducer from 'redux-persist/es/persistReducer';
 
@@ -25,7 +25,7 @@ const reducer = combineReducers({
   //board
   board: boardReducer,
   createBoard: createBoardReducer,
-  profile: profileReducer,
+  // profile: profileReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

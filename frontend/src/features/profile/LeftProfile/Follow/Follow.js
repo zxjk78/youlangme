@@ -133,14 +133,16 @@ const Follow = (props) => {
                   <span className={classes.cnt}>{followCnt.followeeCnt} </span>
                 </div>
 
+
+                {/* dialog 대신에 mui popover  or popper사용해보기!!!!!! */}
                 <Dialog open={showFollowers} onClose={handleCloseFollowers} 
                   >
                   <DialogTitle sx={{ fontSize: 28, fontWeight: 500, letterSpacing: 2, 
-                    mb:1, bgcolor:'#FFC700', color:'#F9F3EE' }}>
+                     bgcolor:'#FFC700', color:'#F9F3EE' }}>
                     팔로워
                   </DialogTitle>
-                  <DialogContent sx={{ width: 240, height: 300}} >
-                    <List sx={{ pt: 0 }}>
+                  <DialogContent sx={{ width: 270, height: 300, px:2 }} >
+                    <List sx={{ pt: 1 }}>
                       {followers.map(follower=>(
                         <ListItem button key={follower.id} onClick={() => {
                           setShowFollowers(false)
@@ -168,15 +170,15 @@ const Follow = (props) => {
                 <Dialog open={showFollowings} onClose={handleCloseFollowings}
                   >
                   <DialogTitle sx={{ fontSize: 28, fontWeight: 500, letterSpacing: 2,
-                    mb:1, bgcolor:'#FFC700', color:'#F9F3EE' }}>
+                    bgcolor:'#FFC700', color:'#F9F3EE' }}>
                     팔로잉</DialogTitle>
-                  <DialogContent sx={{ width: 240, height: 300}} >
-                    <List sx={{ pt: 0 }}>
+                  <DialogContent sx={{ width: 270, height: 300, px:2 }} >
+                    <List sx={{ pt: 1 }}>
                       {followees.map(followee=>(
                         <ListItem button key={followee.id} onClick={() => {
                           setShowFollowings(false)
                           history.push(`/profile/${followee.followeeId}`)}}
-                          sx={{ px: 1}} >
+                          sx={{px: 1 }} >
                           <ListItemAvatar>
                             <Avatar sx={{ width: 50, height: 50, mr: 2 }} src={API_URL + `image/profile/${followee.followeeId}.jpg`} />    
                             {/* <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}  src={profileImg}/> */}

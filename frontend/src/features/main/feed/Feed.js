@@ -1,11 +1,11 @@
 // redux
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { modalActions } from '../../../../common/UI/Modal/modalSlice';
+import { modalActions } from '../../../common/UI/Modal/modalSlice';
 //API
-import { fetchBoard } from '../../mainAPI';
-import BoardMainItem from './BoardMainItem';
-import BoardDetailModal from '../../../board/detail/components/BoardDetailModal';
+import { fetchBoard } from '../mainAPI';
+import FeedBoardItem from './components/FeedBoardItem';
+import BoardDetailModal from '../../board/detail/components/BoardDetailModal';
 import classes from './Feed.module.scss';
 
 const Feed = (props) => {
@@ -46,7 +46,7 @@ const Feed = (props) => {
           </div>
           {/* 게시글 정보 받을 때, 유저 pk값 받기 필요 */}
           {boardList.map((item) => (
-            <BoardMainItem
+            <FeedBoardItem
               key={item.createdTime}
               boardInfo={item}
               onClick={showBoardDetailHandler}
