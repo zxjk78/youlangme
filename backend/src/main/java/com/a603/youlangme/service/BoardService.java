@@ -217,6 +217,33 @@ public class BoardService {
         return authorBoardList;
     }
 
+    public List<BoardPagingDto> readFolloweeBoardList(Long userId, Long boardId) {
+        List<BoardPagingDto> followeeBoardList;
+        List<Board> tmpBoardList;
+        if (boardId.equals(0L)) {
+            tmpBoardList = boardRepository.findAllByFolloweeIdOrderByIdDesc1(userId, PageRequest.of(0,5));
+        } else {
+            tmpBoardList = boardRepository.findAllByFolloweeIdOrderByIdDesc2(userId, boardId,PageRequest.of(0,5));
+
+
+        }
+        followeeBoardList = tmpBoardList.stream()
+                .map(board-> BoardPagingDto.builder()
+                        .boardId(board.getId())
+                        .contents(board.getContents())
+                        .userName(board.getAuthor().getName())
+                        .userId(board.getAuthor().getId())
+                        .replyCnt(board.getReplyList().size())
+                        .likeCnt(board.getUserBoardLikes().size())
+                        .createdTime(board.getCreatedDate())
+                        .imgList(board.getImgList().stream().map(boardImg -> boardImg.getPath()).collect(Collectors.toList()))
+                        .build()).collect(Collectors.toList());
+
+        return followeeBoardList;
+
+    }
+
+
 
     public List<BoardPagingDto>BoardInit(User user){
         // boardId, userId 추가, userName 으로 수정
@@ -233,6 +260,7 @@ public class BoardService {
                         .build()).collect(Collectors.toList());
         return boardList;
     }
+
 
 //    public Page<BoardPagingDto>boardPaging(User user,Pageable pageable,Long click) {
 ////        Page<BoardPagingDto> boards = boardRepository.BoardList(PageRequest.of(0, 5)).stream()

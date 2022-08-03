@@ -122,6 +122,15 @@ public class BoardController {
         return responseService.getManyResult(boardService.readAuthorBoardList(authorId, boardId));
     }
 
+    @GetMapping("/followee")
+    public ManyResult<BoardPagingDto> followeeBoard(@RequestParam("lastBoardId") Long boardId) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        return responseService.getManyResult(boardService.readFolloweeBoardList(user.getId(), boardId));
+    }
+
+
     @GetMapping("/list")
     public ManyResult<BoardPagingDto>BoardPage(){
         SecurityContext context = SecurityContextHolder.getContext();
