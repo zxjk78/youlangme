@@ -9,6 +9,8 @@ const ProfileBoardSummeryList = (props) => {
   const [userBoardList, setUserBoardList] = useState([]);
   const [lastBoardId, setLastBoardId] = useState(0);
   const authorId = useParams().userId;
+
+  console.log(authorId, 'gggggggggggggggggg')
   useEffect(() => {
     (async () => {
       const data = await fetchUserBoardList(authorId, lastBoardId);

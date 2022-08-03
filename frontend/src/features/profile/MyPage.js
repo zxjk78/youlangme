@@ -23,12 +23,8 @@ import classes from './MyPage.module.scss';
 
 // mui
 import { Card } from '@mui/material';
+import ProfileMenu from './ProfileMenu';
 
-
-const activeStyle = {
-  fontWeight:'900',
-  color:'red',
- }
 
 
 
@@ -36,18 +32,21 @@ const MyPage = () => {
   const params = useParams();
 
   return (
-    <Card className={classes.profile_wrapper}>
-      <LeftProfile userId={params.userId}/>
-      <div>
-        <NavLink to={`/profile/${params.userId}`} activeStyle={activeStyle}>프로필
-          {/* <RightProfile userId={params.userId} /> */}
-        </NavLink>
-        <NavLink  to={`/profile/${params.userId}/board`} activeStyle={activeStyle}>게시글</NavLink>
-      </div>
-      <PrivateRoute path="" component={RightProfile}></PrivateRoute>
-      <PrivateRoute path="/board" component={ProfileBoardSummeryList}></PrivateRoute>
-      
-    </Card>
+    <div>
+      <Card className={classes.profile_wrapper}>
+        <LeftProfile userId={params.userId}/>
+        <ProfileMenu userId={params.userId}/>
+        <RightProfile userId={params.userId}/>
+        <div>
+          {/* <PrivateRoute path={`/profile/${params.userId}`} exact component={RightProfile} /> */}
+          {/* <PrivateRoute path='/profile/:userId/board' component={ProfileBoardSummeryList} />   */}
+        </div>
+        {/* <PrivateRoute path="/board" component={ProfileBoardSummeryList} />   */}
+        {/* <PrivateRoute path={`/profile/${params.userId}/board`} component={ProfileBoardSummeryList} />   */}
+      </Card>
+
+      {/* <PrivateRoute path={`/profile/${params.userId}/board`} component={ProfileBoardSummeryList} />   */}
+    </div>
   
   );
 };
