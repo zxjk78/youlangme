@@ -19,7 +19,9 @@ import VideoRoomComponent from './features/matching/matching/VideoRoomComponent'
 import NotFound from './features/other/NotFound/NotFound';
 //test
 import Maintmp from './features/main/Maintmp';
-import ProfileBoardSummeryList from './features/board/profileBoardSummery/ProfileBoardSummeryList';
+import ProfileBoardSummeryList from './features/profile/RightProfile/profileBoardSummery/ProfileBoardSummeryList';
+import RightProfile from './features/profile/RightProfile/RightProfile';
+
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -41,8 +43,9 @@ function App() {
           <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>
           <PrivateRoute path="/start" exact component={StartMatching} />
           <PrivateRoute path="/profile/:userId" exact component={MyPage}>
-            {/* <PrivateRoute path="activity" component={MyActivity}></PrivateRoute> */}
-            {/* <PrivateRoute path="articles" component={MyArticleList}></PrivateRoute> */}
+          {/* <PrivateRoute path="/profile/:userId" exact component={MyPage}> */}
+            <PrivateRoute path="activity" component={RightProfile}></PrivateRoute>
+            <PrivateRoute path="board" component={ProfileBoardSummeryList}></PrivateRoute>
           </PrivateRoute>
           <PrivateRoute
             exact
