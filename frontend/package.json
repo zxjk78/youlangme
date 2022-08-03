@@ -15,6 +15,7 @@
     "@nivo/calendar": "^0.79.1",
     "@nivo/core": "^0.79.0",
     "@nivo/pie": "^0.79.1",
+    "@nivo/tooltip": "^0.79.0",
     "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

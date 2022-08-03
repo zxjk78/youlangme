@@ -46,6 +46,8 @@ import classes from './RightProfile.module.scss';
 
 const RightProfile = (props) => {
 
+  const userId = props.userId
+
     // const history = useHistory();
     // // redux
     // const { currentUser } = useSelector((state) => state.auth);
@@ -117,7 +119,7 @@ const RightProfile = (props) => {
       <>
         <div className={classes.right_profile}>
           <div className={classes.wrapper_level_activity}>
-            <MyLevel />
+            <MyLevel userId={userId}/>
             <MyActivity />
           </div>
           <MyBadgeCollection />

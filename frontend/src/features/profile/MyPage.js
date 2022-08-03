@@ -30,7 +30,7 @@ const MyPage = () => {
   return (
     <Card className={classes.profile_wrapper}>
       <LeftProfile userId={params.userId}/>
-      <RightProfile />
+      <RightProfile userId={params.userId} />
     </Card>
   
   );
