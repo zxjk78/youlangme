@@ -139,7 +139,7 @@ const LevelStatistic = (props) => {
           component="span"
           sx={{ fontSize: 20, fontWeight: 'medium', ml:4}}
           >
-          {`exp ${exp}`}</Typography>
+          {`exp. ${exp}`}</Typography>
       </div>
 
 
@@ -163,7 +163,7 @@ const LevelStatistic = (props) => {
           // ]}
           // fill={[
           // ]}
-          borderRadius={15}
+          borderRadius={20}
           borderWidth={2}
           borderColor={{
               from: 'color',
