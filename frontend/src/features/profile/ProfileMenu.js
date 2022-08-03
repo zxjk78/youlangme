@@ -1,4 +1,5 @@
-import React from 'react'
+import { Box, Tab, Tabs } from '@mui/material'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import PrivateRoute from '../../common/routes/PrivateRoute'
 import ProfileBoardSummeryList from './RightProfile/profileBoardSummery/ProfileBoardSummeryList'
@@ -10,22 +11,41 @@ const activeStyle = {
  }
 
 function ProfileMenu({userId}) {
+
+  const [value, setValue] = useState('one');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <div>
-      <li>
-        <NavLink to={`/profile/${userId}`} exact activeStyle={activeStyle}>프로필
-          {/* <RightProfile userId={params.userId} /> */}
-        </NavLink>
+    <Box sx={{ width: '100%' }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        textColor="secondary"
+        indicatorColor="secondary"
+        aria-label="secondary tabs example"
+      >
+        <Tab value="one" label="프로필">
+          <NavLink to={`/profile/${userId}`} exact activeStyle={activeStyle}>
+          프로필 </NavLink>
+        </Tab>
+        <Tab value="two" label="게시글">
+          <NavLink to={`/profile/${userId}/board`} exact activeStyle={activeStyle} />
+        </Tab>
+      </Tabs>
+    </Box>
+      // <li>
     
-      </li>
-      <li>
-        <NavLink  to={`/profile/${userId}/board`} activeStyle={activeStyle}>
-          게시글
+      // </li>
+      // <li>
+      //   <NavLink  to={`/profile/${userId}/board`} activeStyle={activeStyle}>
+      //     게시글
           
-        </NavLink>
-      </li>
-      {/* <PrivateRoute path='/profile/:userId/board' component={ProfileBoardSummeryList} />   */}
-    </div>
+      //   </NavLink>
+      // </li>
+      /* <PrivateRoute path='/profile/:userId/board' component={ProfileBoardSummeryList} />   */
     
   )
 }
