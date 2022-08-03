@@ -3,14 +3,14 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
 import { modalActions } from '../../../common/UI/Modal/modalSlice';
 //API
-import { fetchBoard } from '../mainAPI';
+import { fetchFolloweeBoard } from '../mainAPI';
 import FeedBoardItem from './components/FeedBoardItem';
 import BoardDetailModal from '../../board/detail/components/BoardDetailModal';
 import classes from './Feed.module.scss';
 
 const Feed = (props) => {
   const [boardList, setBoardList] = useState([]);
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
   const dispatch = useDispatch();
   const boardDetailVisible = useSelector((state) => state.modal.isVisible);
   const showBoardDetailModalHandler = (event) => {
@@ -22,7 +22,7 @@ const Feed = (props) => {
   const fetchBoardPageHandler = async (event) => {
     console.log('게시글 더보기 버튼 클릭', event.target);
     // 페이지 번호 담아서 api에 요청하고, 받아와서 list 뒤에 추가
-    const data = await fetchBoard(pageNum + 1);
+    const data = await fetchFolloweeBoard(pageNum + 1);
 
     if (data) {
       setPageNum((prevState) => prevState + 1);
@@ -32,7 +32,7 @@ const Feed = (props) => {
   };
   useEffect(() => {
     (async () => {
-      const data = await fetchBoard();
+      const data = await fetchFolloweeBoard();
       setBoardList(data);
     })();
   }, []);
