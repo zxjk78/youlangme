@@ -33,7 +33,6 @@ const Feed = (props) => {
   useEffect(() => {
     (async () => {
       const data = await fetchBoard();
-      console.log(data);
       setBoardList(data);
     })();
   }, []);

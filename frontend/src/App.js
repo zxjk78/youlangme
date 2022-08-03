@@ -20,6 +20,7 @@ import NotFound from './features/other/NotFound/NotFound';
 //test
 import Maintmp from './features/main/Maintmp';
 import ProfileBoardSummeryList from './features/board/profileBoardSummery/ProfileBoardSummeryList';
+import imageResizing from './features/board/create/component/imageModal/practice/imageResizing';
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -74,6 +75,7 @@ function App() {
             path="/test2/:userId"
             component={ProfileBoardSummeryList}
           ></PrivateRoute>
+          <PrivateRoute path="/test3" component={imageResizing}></PrivateRoute>
           {/* 404 route */}
           <PrivateRoute path="*" component={NotFound}></PrivateRoute>
         </Switch>
