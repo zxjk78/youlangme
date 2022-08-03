@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-// redux
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../../../../common/UI/Modal/modalSlice';
-import { createBoardActions } from '../createBoardSlice';
+
 // API
 import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
 
@@ -26,12 +23,11 @@ const CreateBoardForm = () => {
   const API_URL = 'http://127.0.0.1:8080/';
   const boardId = useParams().boardId;
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [imageCnt, setImageCnt] = useState(0);
   const [boardInfo, setBoardInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
   const contentRef = useRef();
-  const dispatch = useDispatch();
   const history = useHistory();
   const imageLimit = MAX_IMAGE_LIMIT;
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -55,7 +51,8 @@ const CreateBoardForm = () => {
         const tmpInfo = await fetchBoardInfo(boardId);
         setBoardInfo(() => tmpInfo);
         const imageSrcs = tmpInfo.imgList;
-        dispatch(createBoardActions.setFileCnt(imageSrcs.length));
+        setImageCnt((prevState) => (prevState += imageSrcs.length));
+
         const convertedList = await Promise.all(
           imageSrcs.map((item) => {
             const url = `${API_URL}image/board/${item}`;
@@ -75,12 +72,13 @@ const CreateBoardForm = () => {
   const modalImageLoadHandler = (files) => {
     // console.log('제출 form에서 보여줘야함', files);
     setImages((prevState) => prevState.concat(files));
+    setImageCnt((prevState) => (prevState += files.length));
   };
   const imageRemoveHandler = (event) => {
     const fileIdx = Number(event.target.dataset.index);
-    dispatch(createBoardActions.removeFileCnt());
-    setImages((state) =>
-      state.filter((file, index) => {
+    setImageCnt((prevState) => (prevState -= 1));
+    setImages((prevState) =>
+      prevState.filter((file, index) => {
         return index !== fileIdx;
       })
     );
@@ -98,7 +96,6 @@ const CreateBoardForm = () => {
     }
 
     if (data.success) {
-      dispatch(createBoardActions.clearFile());
       history.push('/main');
     } else {
       alert('오류가 발생했습니다.');
@@ -117,6 +114,7 @@ const CreateBoardForm = () => {
         <BoardImageUploadModal
           loadImageFromModal={modalImageLoadHandler}
           closeModal={closeModalHandler}
+          imageCount={imageCnt}
         />
       )}
       {!isLoading ? (

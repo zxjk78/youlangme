@@ -27,7 +27,10 @@ const BoardImageUploadModal = (props) => {
               <CloseIcon onClick={closeModalHandler} />
             </div>
           </div>
-          <ImageDragNDrop loadImageFromModal={loadImageFromModal} />
+          <ImageDragNDrop
+            loadImageFromModal={loadImageFromModal}
+            imageCount={props.imageCount}
+          />
         </div>
       </Modal>
     </>
