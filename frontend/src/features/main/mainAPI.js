@@ -1,25 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../../utils/data/apiData';
 
-export const fetchFolloweeBoard = async (lastBoardId = 0) => {
-  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
-
-  try {
-    const response = await axios.get(
-      API_URL + `board/list?lastBoardId=${lastBoardId}`,
-      {
-        headers: {
-          'X-AUTH-TOKEN': accessToken,
-        },
-      }
-    );
-
-    return response.data.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const fetchUserRanking = async () => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
 

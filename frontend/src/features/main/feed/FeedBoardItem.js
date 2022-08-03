@@ -1,6 +1,6 @@
-import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
+import UserInfo from '../../profile/LeftProfile/UserInfo/UserInfo';
 
-import { createdDateCal } from '../../../../utils/functions/commonFunctions';
+import { createdDateCal } from '../../../utils/functions/commonFunctions';
 
 // mui
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';

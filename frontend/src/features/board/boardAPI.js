@@ -193,3 +193,22 @@ export const dislike = async (boardId) => {
     console.log(error);
   }
 };
+
+export const fetchFolloweeBoard = async (lastBoardId = 0) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+
+  try {
+    const response = await axios.get(
+      API_URL + `board/followee?lastBoardId=${lastBoardId}`,
+      {
+        headers: {
+          'X-AUTH-TOKEN': accessToken,
+        },
+      }
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
