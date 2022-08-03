@@ -3,7 +3,7 @@ import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { fetchUserBoardList } from '../boardAPI';
+import { fetchUserBoardList } from '../../../board/boardAPI';
 const ProfileBoardSummeryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);

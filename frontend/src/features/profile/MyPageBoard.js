@@ -5,14 +5,12 @@ import * as React from 'react';
 
 // router
 import { NavLink, useParams } from 'react-router-dom';
-import PrivateRoute from '../../common/routes/PrivateRoute';
 
 
 
 // component
 import LeftProfile from './LeftProfile/LeftProfile';
 import RightProfile from './RightProfile/RightProfile';
-import ProfileBoardSummeryList from './RightProfile/profileBoardSummery/ProfileBoardSummeryList';
 
 // data import
 
@@ -32,24 +30,23 @@ const activeStyle = {
 
 
 
-const MyPage = () => {
+const MyPageBoard = () => {
   const params = useParams();
 
   return (
     <Card className={classes.profile_wrapper}>
       <LeftProfile userId={params.userId}/>
+      {/* <RightProfile userId={params.userId} /> */}
       <div>
-        <NavLink to={`/profile/${params.userId}`} activeStyle={activeStyle}>프로필
-          {/* <RightProfile userId={params.userId} /> */}
+
+        {/* <NavLink to={`/profile/${params.userId}/activity`} activeStyle={activeStyle}>프로필
         </NavLink>
-        <NavLink  to={`/profile/${params.userId}/board`} activeStyle={activeStyle}>게시글</NavLink>
+        <NavLink  to={`/profile/${params.userId}/board`} activeStyle={activeStyle}>게시글</NavLink> */}
       </div>
-      <PrivateRoute path="" component={RightProfile}></PrivateRoute>
-      <PrivateRoute path="/board" component={ProfileBoardSummeryList}></PrivateRoute>
       
     </Card>
   
   );
 };
 
-export default MyPage;
+export default MyPageBoard;

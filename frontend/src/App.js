@@ -12,15 +12,15 @@ import Social from './features/auth/social/Social';
 // import { useSelector } from "react-redux";
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
-import BoardMainItem from './features/main/feed/FeedBoardItem';
 import StartMatching from './features/matching/StartMatching';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
 import NotFound from './features/other/NotFound/NotFound';
 //test
 import Maintmp from './features/main/Maintmp';
-import ProfileBoardSummeryList from './features/board/profileBoardSummery/ProfileBoardSummeryList';
-import imageResizing from './features/board/create/component/imageModal/practice/imageResizing';
+import ProfileBoardSummeryList from './features/profile/RightProfile/profileBoardSummery/ProfileBoardSummeryList';
+import RightProfile from './features/profile/RightProfile/RightProfile';
+
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -42,8 +42,15 @@ function App() {
           <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>
           <PrivateRoute path="/start" exact component={StartMatching} />
           <PrivateRoute path="/profile/:userId" exact component={MyPage}>
-            {/* <PrivateRoute path="activity" component={MyActivity}></PrivateRoute> */}
-            {/* <PrivateRoute path="articles" component={MyArticleList}></PrivateRoute> */}
+            {/* <PrivateRoute path="/profile/:userId" exact component={MyPage}> */}
+            <PrivateRoute
+              path="activity"
+              component={RightProfile}
+            ></PrivateRoute>
+            <PrivateRoute
+              path="board"
+              component={ProfileBoardSummeryList}
+            ></PrivateRoute>
           </PrivateRoute>
           <PrivateRoute
             exact
@@ -75,7 +82,6 @@ function App() {
             path="/test2/:userId"
             component={ProfileBoardSummeryList}
           ></PrivateRoute>
-          <PrivateRoute path="/test3" component={imageResizing}></PrivateRoute>
           {/* 404 route */}
           <PrivateRoute path="*" component={NotFound}></PrivateRoute>
         </Switch>
