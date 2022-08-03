@@ -51,7 +51,6 @@ const CreateBoardForm = () => {
         const tmpInfo = await fetchBoardInfo(boardId);
         setBoardInfo(() => tmpInfo);
         const imageSrcs = tmpInfo.imgList;
-        setImageCnt((prevState) => (prevState += imageSrcs.length));
 
         const convertedList = await Promise.all(
           imageSrcs.map((item) => {
@@ -60,6 +59,7 @@ const CreateBoardForm = () => {
           })
         );
         setImages((prevState) => prevState.concat(convertedList));
+        setImageCnt((prevState) => (prevState += imageSrcs.length));
         setIsLoading(false);
       })();
     }
@@ -75,13 +75,14 @@ const CreateBoardForm = () => {
     setImageCnt((prevState) => (prevState += files.length));
   };
   const imageRemoveHandler = (event) => {
-    const fileIdx = Number(event.target.dataset.index);
-    setImageCnt((prevState) => (prevState -= 1));
+    const fileIdx = Number(event.currentTarget.dataset.index);
+
     setImages((prevState) =>
       prevState.filter((file, index) => {
         return index !== fileIdx;
       })
     );
+    setImageCnt((prevState) => (prevState -= 1));
   };
   const boardUploadHandler = async (event) => {
     event.preventDefault();
@@ -148,12 +149,13 @@ const CreateBoardForm = () => {
                         // console.log(file); //promise file이 반환되는 문제 해결 필요
                         return (
                           <div key={file.preview} className={classes.fileImage}>
-                            <HighlightOffIcon
-                              sx={{ color: common[500] }}
+                            <div
                               className={classes.removeImgButton}
                               data-index={index}
                               onClick={imageRemoveHandler}
-                            />
+                            >
+                              <HighlightOffIcon sx={{ color: common[500] }} />
+                            </div>
                             <img src={file.preview} alt="" />
                           </div>
                         );
@@ -191,12 +193,3 @@ const CreateBoardForm = () => {
 };
 
 export default CreateBoardForm;
-
-// {/* {!boardInfo ? */}
-//       // : boardInfo.imgList.map((image) => (
-//       //     <img
-//       //       key={image}
-//       //       src={`${API_URL}image/board/${image}`}
-//       //       alt="게시판 수정 시 이미지"
-//       //     />
-//         ))}
