@@ -1,26 +1,25 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { login } from "../authSlice";
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { login } from '../authSlice';
 
-import classes from "./Login.module.scss";
-import { Link, useHistory } from "react-router-dom";
-import ChangePassword from "./ChangePassword";
-import { modalActions } from "../../../common/UI/Modal/modalSlice";
-import Modal from "../../../common/UI/Modal/Modal";
+import classes from './Login.module.scss';
+import { Link, useHistory } from 'react-router-dom';
+import ChangePassword from './ChangePassword';
+import Modal from '../../../common/UI/Modal/Modal';
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
-  const isModalVisible = useSelector((state) => state.modal.isVisible);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // const { message } = useSelector((state) => state.message);
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const modifyModalHandler = () => {
-    dispatch(modalActions.onModal());
+  const showModalHandler = () => {
+    setIsModalVisible(() => true);
   };
   // const { isLoggedIn } = useSelector((state) => state.auth);
 
@@ -29,12 +28,12 @@ const Login = (props) => {
   // }, [dispatch]);
 
   const initialValues = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required("This field is required!"),
-    password: Yup.string().required("This field is required!"),
+    email: Yup.string().required('This field is required!'),
+    password: Yup.string().required('This field is required!'),
   });
 
   const handleLogin = (formValue) => {
@@ -44,7 +43,7 @@ const Login = (props) => {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        document.location.href = "/main";
+        document.location.href = '/main';
       })
       .catch(() => {
         setLoading(false);
@@ -58,13 +57,15 @@ const Login = (props) => {
     //   .catch(() => {
     //     setLoading(false);
     //   });
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
   };
-
+  const closeModal = () => {
+    setIsModalVisible(() => false);
+  };
   return (
     <div className={classes.login}>
       {isModalVisible && (
-        <Modal>
+        <Modal closeModalHandler={closeModal}>
           <ChangePassword></ChangePassword>
         </Modal>
       )}
@@ -106,7 +107,7 @@ const Login = (props) => {
 
         <button onClick={googleLogin}>테스트용 구글</button>
         <Link to="/signup">회원가입 하시겠습니까?</Link>
-        <span onClick={modifyModalHandler}>임시 비밀번호 발급?</span>
+        <span onClick={showModalHandler}>비밀번호를 잊으셨나요?</span>
       </div>
     </div>
   );

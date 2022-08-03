@@ -13,7 +13,7 @@ const persistConfig = {
   key: 'root',
   storage,
   version: 3,
-  blacklist: ['createBoard'],
+  blacklist: ['createBoard', 'modal'],
 };
 
 const reducer = combineReducers({

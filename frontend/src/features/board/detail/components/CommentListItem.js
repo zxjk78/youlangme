@@ -1,4 +1,5 @@
-import { createdDateCal } from '../../func/commonFunctions';
+import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
+import { createdDateCal } from '../../../../utils/functions/commonFunctions';
 import classes from './CommentListItem.module.scss';
 const API_URL = 'http://127.0.0.1:8080/';
 
@@ -10,13 +11,12 @@ const CommentListItem = (props) => {
         <div className={classes.container}>
           <div className={classes.header}>
             <div className={classes.userContainer}>
-              <div>
-                <img
-                  src={`${API_URL}image/profile/${commentUserInfo.pid}.jpg`}
-                  alt=""
-                />
-              </div>
-              <div>{commentUserInfo.username}</div>
+              <UserInfo
+                user={{
+                  id: commentUserInfo.pid,
+                  name: commentUserInfo.userName,
+                }}
+              />
             </div>
             <div>{createdDateCal(commentUserInfo.createDate, false)}</div>
           </div>

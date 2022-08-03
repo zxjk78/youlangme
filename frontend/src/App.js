@@ -17,7 +17,9 @@ import StartMatching from './features/matching/StartMatching';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
 import NotFound from './features/other/NotFound/NotFound';
+//test
 import Maintmp from './features/main/Maintmp';
+import ProfileBoardSummeryList from './features/board/profileBoardSummery/ProfileBoardSummeryList';
 function App() {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   return (
@@ -68,6 +70,10 @@ function App() {
 
           {/* test용 public route */}
           <PrivateRoute path="/test" component={Maintmp}></PrivateRoute>
+          <PrivateRoute
+            path="/test2/:userId"
+            component={ProfileBoardSummeryList}
+          ></PrivateRoute>
           {/* 404 route */}
           <PrivateRoute path="*" component={NotFound}></PrivateRoute>
         </Switch>

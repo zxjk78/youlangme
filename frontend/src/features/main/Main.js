@@ -34,7 +34,9 @@ const Main = () => {
       <div>
         <Link to="/board/create">게시판 생성작업</Link>
       </div>
-      <div>피드 - 아직 boardPk 못받음</div>
+      <div>
+        <Link to="/test">메인페이지 임시</Link>
+      </div>
 
       <div>
         <Link to={`/profile/${currentUser.id}`}>프로필 작업</Link>
