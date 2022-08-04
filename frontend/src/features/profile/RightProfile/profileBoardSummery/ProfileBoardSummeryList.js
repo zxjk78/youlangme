@@ -1,9 +1,13 @@
-import classes from './ProfileBoardSummeryList.module.scss';
-import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
+// API
 import { fetchUserBoardList } from '../../../board/boardAPI';
+//custom-component
+import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
+// mui
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// css
+import classes from './ProfileBoardSummeryList.module.scss';
 
 const ProfileBoardSummeryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,14 +29,11 @@ const ProfileBoardSummeryList = (props) => {
     const data = await fetchUserBoardList(authorId, lastBoardId);
     setUserBoardList((prevState) => [...prevState, ...data]);
   };
-  const closeModal = () => {
-    console.log('모달 닫기 시도');
-  };
 
   return (
     <>
       {isLoading ? (
-        '...loading'
+        <div>...loading</div>
       ) : (
         <div className={classes.wrapper}>
           <div className={classes.container}>
@@ -46,7 +47,14 @@ const ProfileBoardSummeryList = (props) => {
               ))}
             </div>
             <div className={classes.footer}>
-              <button onClick={fetchBoardListPaging}>더보기</button>
+              {isLoading ? (
+                <div>...loading</div>
+              ) : (
+                <div onClick={fetchBoardListPaging}>
+                  <div>더보기</div>
+                  <ExpandMoreIcon />
+                </div>
+              )}
             </div>
           </div>
         </div>

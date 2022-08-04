@@ -5,7 +5,7 @@ import { API_URL } from '../../../../utils/data/apiData';
 
 const UserInfo = (props) => {
   // redux-persist에서 가져온 유저정보
-  const handleImgError = (e) => {
+  const imgErrorHandler = (e) => {
     e.target.src =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_RlT-ytB9A_TQFLKMqVYpdJiiRbckTCThmw&usqp=CAU';
   };
@@ -21,7 +21,7 @@ const UserInfo = (props) => {
             <div className={classes.imageContainer}>
               <img
                 src={`${API_URL}image/profile/${user.id}.jpg`}
-                onError={handleImgError}
+                onError={imgErrorHandler}
                 className={classes.userProfileImg}
                 alt=""
               />
