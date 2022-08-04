@@ -9,22 +9,29 @@ import MyPage from './features/profile/MyPage';
 import PrivateRoute from './common/routes/PrivateRoute';
 import PublicRoute from './common/routes/PublicRoute';
 import Social from './features/auth/social/Social';
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
-import BoardMainItem from './features/main/feed/components/FeedBoardItem';
 import StartMatching from './features/matching/StartMatching';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
 import NotFound from './features/other/NotFound/NotFound';
 //test
 import Maintmp from './features/main/Maintmp';
-import ProfileBoardSummeryList from './features/board/profileBoardSummery/ProfileBoardSummeryList';
+import ProfileBoardSummeryList from './features/profile/RightProfile/profileBoardSummery/ProfileBoardSummeryList';
+import Header from './common/UI/Header/Header';
+// import RightProfile from './features/profile/RightProfile/RightProfile';
+// import MyPageBoard from './features/profile/MyPageBoard';
+
 function App() {
-  // const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { currentUser } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+
   return (
-    <div className="App">
+    <div class="App">
       <BrowserRouter>
+        {isLoggedIn  && <Header/>}
         <Switch>
           <PublicRoute
             restricted
@@ -40,13 +47,13 @@ function App() {
           <PublicRoute path="/social" component={Social}></PublicRoute>
           <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>
           <PrivateRoute path="/start" exact component={StartMatching} />
-          <PrivateRoute path="/profile/:userId" exact component={MyPage}>
-            {/* <PrivateRoute path="activity" component={MyActivity}></PrivateRoute> */}
-            {/* <PrivateRoute path="articles" component={MyArticleList}></PrivateRoute> */}
-          </PrivateRoute>
+          <PrivateRoute path="/profile/:userId" exact component={MyPage} />
+          {/* <PrivateRoute path="/profile/:userId/board" exact component={MyPageBoard}/> */}
+
           <PrivateRoute
             exact
             path="/match"
+            s
             component={VideoRoomComponent}
           ></PrivateRoute>
           <PrivateRoute exact path="/main" component={Main}></PrivateRoute>

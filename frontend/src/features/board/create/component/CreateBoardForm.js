@@ -25,12 +25,12 @@ import { MAX_IMAGE_LIMIT } from '../data';
 const CreateBoardForm = () => {
   const API_URL = 'http://127.0.0.1:8080/';
   const boardId = useParams().boardId;
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [boardInfo, setBoardInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
   const contentRef = useRef();
-  const isImageUploadVisible = useSelector((state) => state.modal.isVisible);
   const dispatch = useDispatch();
   const history = useHistory();
   const imageLimit = MAX_IMAGE_LIMIT;
@@ -69,12 +69,7 @@ const CreateBoardForm = () => {
   }, [boardId]);
 
   const addPhotoHander = () => {
-    dispatch(
-      modalActions.onModal({
-        backDropClickClose: false,
-        backDropTransparent: true,
-      })
-    );
+    setIsModalVisible(() => true);
   };
 
   const modalImageLoadHandler = (files) => {
@@ -112,11 +107,17 @@ const CreateBoardForm = () => {
   const cancelHandler = (event) => {
     history.goBack();
   };
+  const closeModalHandler = () => {
+    setIsModalVisible(() => false);
+  };
 
   return (
     <>
-      {isImageUploadVisible && (
-        <BoardImageUploadModal loadImageFromModal={modalImageLoadHandler} />
+      {isModalVisible && (
+        <BoardImageUploadModal
+          loadImageFromModal={modalImageLoadHandler}
+          closeModal={closeModalHandler}
+        />
       )}
       {!isLoading ? (
         <div className={classes.wrapper}>

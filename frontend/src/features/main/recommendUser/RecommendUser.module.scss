@@ -6,6 +6,8 @@
 .container {
 }
 .header {
+  display: flex;
+  justify-content: space-around;
   font-weight: bold;
   font-size: 1.2rem;
 }

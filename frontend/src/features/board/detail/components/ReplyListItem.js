@@ -1,9 +1,9 @@
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import { createdDateCal } from '../../../../utils/functions/commonFunctions';
-import classes from './CommentListItem.module.scss';
+import classes from './ReplyListItem.module.scss';
 const API_URL = 'http://127.0.0.1:8080/';
 
-const CommentListItem = (props) => {
+const ReplyListItem = (props) => {
   const commentUserInfo = props.commentInfo;
   return (
     <>
@@ -29,4 +29,4 @@ const CommentListItem = (props) => {
   );
 };
 
-export default CommentListItem;
+export default ReplyListItem;

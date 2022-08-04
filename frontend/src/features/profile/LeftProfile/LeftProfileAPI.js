@@ -39,7 +39,7 @@ export const fetchProfileImg =  async (userId) =>  {
     const response = await axios.get(
       API_URL + `image/profile/${userId}.jpg`,
     );
-    // console.log( '나는 이미지', response.config.url)
+    console.log( '나는 이미지', response.config.url)
 
     return response.config.url
 
@@ -94,7 +94,7 @@ export const uploadProfileImg = async (uploadedProfileImg, setUploadedProfileImg
       });
     }
   } catch (err) {
-    console.log('에러');
+    console.log('에러', err);
     alert('사진을 등록하세요!');
   }
 };

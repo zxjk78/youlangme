@@ -5,13 +5,11 @@ import * as React from 'react';
 
 // router
 import { NavLink, useParams } from 'react-router-dom';
-import PrivateRoute from '../../common/routes/PrivateRoute';
 
 
 
 // component
 import LeftProfile from './LeftProfile/LeftProfile';
-import RightProfile from './RightProfile/RightProfile';
 import ProfileBoardSummeryList from './RightProfile/profileBoardSummery/ProfileBoardSummeryList';
 
 // data import
@@ -27,20 +25,18 @@ import { Card } from '@mui/material';
 
 
 
-const MyPage = () => {
+
+const MyPageBoard = () => {
   const params = useParams();
 
   return (
-    <div>
-      <Card className={classes.profile_wrapper}>
-        <LeftProfile userId={params.userId}/>
-        <RightProfile userId={params.userId}/>
-      </Card>
-
-      {/* <PrivateRoute path={`/profile/${params.userId}/board`} component={ProfileBoardSummeryList} />   */}
-    </div>
+    <Card className={classes.profile_wrapper}>
+      <LeftProfile userId={params.userId}/>
+      <ProfileBoardSummeryList />
+      
+    </Card>
   
   );
 };
 
-export default MyPage;
+export default MyPageBoard;

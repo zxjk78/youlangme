@@ -1,25 +1,22 @@
 import Modal from '../../../../../common/UI/Modal/Modal';
 import ImageDragNDrop from './ImageDragNDrop';
-// redux
-import { useDispatch } from 'react-redux';
-import { modalActions } from '../../../../../common/UI/Modal/modalSlice';
+
 // mui
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import CloseIcon from '@mui/icons-material/Close';
 // style
 import classes from './BoardImageUploadModal.module.scss';
 const BoardImageUploadModal = (props) => {
-  const dispatch = useDispatch();
   const closeModalHandler = () => {
-    dispatch(modalActions.offModal());
+    props.closeModal();
   };
   const loadImageFromModal = (files) => {
     props.loadImageFromModal(files);
-    dispatch(modalActions.offModal());
+    props.closeModal();
   };
   return (
     <>
-      <Modal>
+      <Modal backdropClickClose={false} backDropTransparent={true}>
         <div className={classes.container}>
           <div className={classes.title}>
             <div>
