@@ -35,11 +35,6 @@ const MyPage = () => {
       <Card className={classes.profile_wrapper}>
         <LeftProfile userId={params.userId}/>
         <RightProfile userId={params.userId}/>
-          {/* <PrivateRoute path={`/profile/${params.userId}`} exact component={RightProfile} /> */}
-          {/* <PrivateRoute path='/profile/:userId/board' component={ProfileBoardSummeryList} />   */}
-
-        {/* <PrivateRoute path="/board" component={ProfileBoardSummeryList} />   */}
-        {/* <PrivateRoute path={`/profile/${params.userId}/board`} component={ProfileBoardSummeryList} />   */}
       </Card>
 
       {/* <PrivateRoute path={`/profile/${params.userId}/board`} component={ProfileBoardSummeryList} />   */}
