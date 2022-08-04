@@ -12,7 +12,7 @@ import classes from './RightProfile.module.scss'
 import LevelStatistic from './LevelStatistic';
 
 // data
-import { LevelCriteria } from '../../../data/Level';
+import { LevelCriteria } from '../../../utils/data/Level';
 
 // 리덕스 안거치는 단순 서버 통신 API
 import { fetchLevelExp } from './RightProfileAPI';

@@ -8,7 +8,7 @@ import { grey } from '@mui/material/colors';
 
 // data
 import { mainColors } from '../ProfileColorPalette'
-import { LevelCriteria } from '../../../data/Level';
+import { LevelCriteria } from '../../../utils/data/Level';
 
 // css
 import classes from './RightProfile.module.scss'

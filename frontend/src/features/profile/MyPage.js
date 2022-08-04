@@ -23,7 +23,6 @@ import classes from './MyPage.module.scss';
 
 // mui
 import { Card } from '@mui/material';
-import ProfileMenu from './ProfileMenu';
 
 
 
@@ -35,12 +34,10 @@ const MyPage = () => {
     <div>
       <Card className={classes.profile_wrapper}>
         <LeftProfile userId={params.userId}/>
-        <ProfileMenu userId={params.userId}/>
         <RightProfile userId={params.userId}/>
-        <div>
           {/* <PrivateRoute path={`/profile/${params.userId}`} exact component={RightProfile} /> */}
           {/* <PrivateRoute path='/profile/:userId/board' component={ProfileBoardSummeryList} />   */}
-        </div>
+
         {/* <PrivateRoute path="/board" component={ProfileBoardSummeryList} />   */}
         {/* <PrivateRoute path={`/profile/${params.userId}/board`} component={ProfileBoardSummeryList} />   */}
       </Card>
