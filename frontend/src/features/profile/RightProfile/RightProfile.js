@@ -31,14 +31,6 @@ const RightProfile = (props) => {
           <RightProfileInfo userId={userId}/> :
           <ProfileBoardSummeryList userId={userId}/>
         }
-
-
-        {/* <div className={classes.wrapper_level_activity}>
-          <MyLevel userId={userId}/>
-          <MyActivity />
-        </div>
-        <MyBadgeCollection />
-        <MyGrass/> */}
       </div>    
     )
   }
