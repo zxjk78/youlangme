@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 import classes from './UserInfo.module.scss';
-
 import { iso_code } from './flagData';
-const API_URL = 'http://127.0.0.1:8080/';
+import { API_URL } from '../../../../utils/data/apiData';
 
 const UserInfo = (props) => {
   // redux-persist에서 가져온 유저정보
+  const handleImgError = (e) => {
+    e.target.src =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_RlT-ytB9A_TQFLKMqVYpdJiiRbckTCThmw&usqp=CAU';
+  };
   const user = props.user;
   return (
     <>
@@ -18,6 +21,7 @@ const UserInfo = (props) => {
             <div className={classes.imageContainer}>
               <img
                 src={`${API_URL}image/profile/${user.id}.jpg`}
+                onError={handleImgError}
                 className={classes.userProfileImg}
                 alt=""
               />

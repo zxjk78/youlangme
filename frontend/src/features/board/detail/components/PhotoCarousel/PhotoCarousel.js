@@ -20,7 +20,7 @@ export default class FocusOnSelect extends Component {
     return (
       <div>
         <Slider {...settings}>
-          {this.state.pics.map((image, index) => {
+          {this.props.pics.map((image, index) => {
             return (
               <div key={image}>
                 <img

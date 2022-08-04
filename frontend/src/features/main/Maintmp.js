@@ -1,5 +1,5 @@
 import classes from './Maintmp.module.scss';
-import Feed from './feed/Feed';
+import FeedBoardList from './feed/FeedBoardList';
 import Ranking from './ranking/Ranking';
 import RecommendUser from './recommendUser/RecommendUser';
 import LanguageRank from './language/LanguageRank';
@@ -10,7 +10,7 @@ const Maintmp = (props) => {
         <div className={classes.container}>
           <div className={classes.header}></div>
           <div className={classes.main}>
-            <Feed />
+            <FeedBoardList />
             <div className={classes.column2}>
               <Ranking />
               <RecommendUser />

@@ -5,42 +5,35 @@ import { useParams } from 'react-router-dom';
 
 import { fetchUserBoardList } from '../../../board/boardAPI';
 
-
 const ProfileBoardSummeryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);
-  const [lastBoardId, setLastBoardId] = useState(0);
+  // const [lastBoardId, setLastBoardId] = useState(0);
+  const params = useParams();
+  const authorId = params?.userId || props.userId;
 
-
-  // const authorId = useParams().userId;
-  const authorId = props.userId;
-
-  console.log(authorId, 'gggggggggggggggggg')
   useEffect(() => {
     (async () => {
-      const data = await fetchUserBoardList(authorId, lastBoardId);
-      setUserBoardList((prevState) => [...prevState, ...data]);
+      const data = await fetchUserBoardList(authorId);
+      setUserBoardList((prevState) => [...data]);
     })();
     setIsLoading(false);
-    // return () => {
-    //   setIsLoading(true)
-    // }
-  }, [authorId, lastBoardId]);
+  }, [authorId]);
 
-
+  const fetchBoardListPaging = async () => {
+    const lastBoardId = userBoardList.at(-1).boardId;
+    const data = await fetchUserBoardList(authorId, lastBoardId);
+    setUserBoardList((prevState) => [...prevState, ...data]);
+  };
   const closeModal = () => {
     console.log('모달 닫기 시도');
-  };
-
-  const fetchBoardListPage = () => {
-    setLastBoardId(userBoardList.at(-1).boardId);
   };
 
   return (
     <>
       {isLoading ? (
-        '123') : ( 
-
+        '...loading'
+      ) : (
         <div className={classes.wrapper}>
           <div className={classes.container}>
             <div className={classes.header}></div>
@@ -53,11 +46,10 @@ const ProfileBoardSummeryList = (props) => {
               ))}
             </div>
             <div className={classes.footer}>
-              <button onClick={fetchBoardListPage}>더보기</button>
+              <button onClick={fetchBoardListPaging}>더보기</button>
             </div>
           </div>
         </div>
-
       )}
     </>
   );

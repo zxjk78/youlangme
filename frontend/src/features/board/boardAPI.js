@@ -1,13 +1,25 @@
 import axios from 'axios';
-const API_URL = 'http://127.0.0.1:8080/';
+import { API_URL } from '../../utils/data/apiData';
+import { imgResizing } from '../../utils/functions/commonFunctions';
 
 export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // console.log('boardAPI post 게시글 생성요청, formData 사용할지, 그냥 key-val로 보낼지 결정');
-  const formData = new FormData();
 
-  for (let i = 0; i < images.length; i++) {
-    formData.append('pics', images[i]);
+  const formData = new FormData();
+  const newImage = [];
+
+  for (const image of images) {
+    if (image.size > 1024000) {
+      const newImg = await imgResizing(image);
+      newImage.push(newImg);
+    } else {
+      newImage.push(image);
+    }
+  }
+
+  for (let i = 0; i < newImage.length; i++) {
+    formData.append('pics', newImage[i]);
   }
   formData.append('contents', content);
 
@@ -89,10 +101,10 @@ export const fetchLikeUsers = async (boardId) => {
     const response = await axios.get(API_URL + `board/likeUsers/${boardId}`, {
       headers: header,
     });
-
     return response.data.data;
   } catch (error) {
     console.log(error);
+    console.log(error.message);
   }
 };
 
@@ -188,6 +200,25 @@ export const dislike = async (boardId) => {
       }
     );
     return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchFolloweeBoard = async (lastBoardId = 0) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+
+  try {
+    const response = await axios.get(
+      API_URL + `board/followee?lastBoardId=${lastBoardId}`,
+      {
+        headers: {
+          'X-AUTH-TOKEN': accessToken,
+        },
+      }
+    );
+
+    return response.data.data;
   } catch (error) {
     console.log(error);
   }

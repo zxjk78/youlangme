@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createdDateCal } from '../../../../utils/functions/commonFunctions';
+import { useParams } from 'react-router-dom';
 // API
 import {
   fetchBoardInfo,
@@ -34,7 +35,8 @@ const BoardDetailModal = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsliked] = useState(false);
   const [likeUserVisible, setLikeUserVisible] = useState(false);
-  const boardId = props.boardId;
+  const params = useParams();
+  const boardId = props?.boardId || params.boardId;
   const commentRef = useRef();
   const history = useHistory();
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
