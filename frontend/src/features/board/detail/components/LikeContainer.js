@@ -4,8 +4,9 @@ import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useState } from 'react';
+import { API_URL } from '../../../../common/api/http-config';
 import classes from './LikeContainer.module.scss';
-const API_URL = 'http://127.0.0.1:8080/';
+
 
 const LikeContainer = (props) => {
   const dislikeHandler = () => {

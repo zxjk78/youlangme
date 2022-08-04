@@ -1,19 +1,21 @@
 import axios from 'axios';
 import { useCallback } from 'react';
-
+import { API_URL, user, accessToken, getConfig } from '../../../common/api/http-config';
 // const config = {
 //   headers: { "Content-Type": "application/json" },
 // };
-const user = JSON.parse(localStorage.getItem('user'));
-const accessToken = user ? user.accessToken : null;
-const getConfig = { headers: { 'X-Auth-Token': accessToken } };
+// const user = JSON.parse(localStorage.getItem('user'));
+// const accessToken = user ? user.accessToken : null;
+// const getConfig = { headers: { 'X-Auth-Token': accessToken } };
 
-const API_URL = 'http://127.0.0.1:8080/';
+// const API_URL = 'http://127.0.0.1:8080/';
 // 리덕스랑 관련없는 서버 통신 API들 모음
 
 // 프로필 기본정보(username, languages, favorites) API
 export const fetchProfile =  async (userId) =>  {
-    
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
     console.log('fetch 프로필');
 
     try {
@@ -33,11 +35,15 @@ export const fetchProfile =  async (userId) =>  {
 
 // // 프로필 이미지 불러오는 API
 export const fetchProfileImg =  async (userId) =>  {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
   console.log('fetch 이미지');
 
   try {
     const response = await axios.get(
       API_URL + `image/profile/${userId}.jpg`,
+      getConfig
     );
     console.log( '나는 이미지', response.config.url)
 
@@ -51,6 +57,9 @@ export const fetchProfileImg =  async (userId) =>  {
 
 // description 불러오는 API
 export const fetchDescription = async (userId) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
   console.log('fetch description');
 
   try {
@@ -69,6 +78,9 @@ export const fetchDescription = async (userId) => {
 
 // Profile Image put 요청 API
 export const uploadProfileImg = async (uploadedProfileImg, setUploadedProfileImg) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  // const getConfig = { headers: { 'X-Auth-Token': accessToken } };
   console.log('프로필 사진 업로드 시작');
   // console.log(uploadedProfileImg);
 
@@ -100,6 +112,9 @@ export const uploadProfileImg = async (uploadedProfileImg, setUploadedProfileImg
 };
 
 export const submitDescription = async (uploadedDescription) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  // const getConfig = { headers: { 'X-Auth-Token': accessToken } };
   // console.log('업로드 시작');
   console.log('업로드 시작 api', uploadedDescription);
 

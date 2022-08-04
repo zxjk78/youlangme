@@ -1,15 +1,15 @@
 import UserInfo from '../../profile/LeftProfile/UserInfo/UserInfo';
 
 import { createdDateCal } from '../../../utils/functions/commonFunctions';
-
+import { API_URL } from '../../../common/api/http-config';
 // mui
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
+
 // css
 import classes from './FeedBoardItem.module.scss';
-const API_URL = 'http://127.0.0.1:8080/';
 const FeedBoardItem = (props) => {
   const boardInfo = props.boardInfo;
   const contents = boardInfo?.contents;

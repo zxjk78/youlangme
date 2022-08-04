@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import classes from './UserInfo.module.scss';
 import { iso_code } from './flagData';
-import { API_URL } from '../../../../utils/data/apiData';
+import { API_URL } from '../../../../common/api/http-config';
 
 const UserInfo = (props) => {
   // redux-persist에서 가져온 유저정보

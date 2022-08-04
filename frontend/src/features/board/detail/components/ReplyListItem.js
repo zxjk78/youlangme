@@ -1,7 +1,7 @@
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import { createdDateCal } from '../../../../utils/functions/commonFunctions';
 import classes from './ReplyListItem.module.scss';
-const API_URL = 'http://127.0.0.1:8080/';
+import { API_URL } from '../../../../common/api/http-config';
 
 const ReplyListItem = (props) => {
   const commentUserInfo = props.commentInfo;

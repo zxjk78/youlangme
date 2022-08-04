@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { login } from '../authSlice';
+import { API_URL } from '../../../common/api/http-config';
 
 import classes from './Login.module.scss';
 import { Link, useHistory } from 'react-router-dom';
