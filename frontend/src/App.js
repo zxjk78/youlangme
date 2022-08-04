@@ -42,17 +42,9 @@ function App() {
           <PublicRoute path="/social" component={Social}></PublicRoute>
           <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>
           <PrivateRoute path="/start" exact component={StartMatching} />
-          <PrivateRoute path="/profile/:userId" exact component={MyPage}>
-            {/* <PrivateRoute path="/profile/:userId" exact component={MyPage}> */}
-            <PrivateRoute
-              path="activity"
-              component={RightProfile}
-            ></PrivateRoute>
-            <PrivateRoute
-              path="board"
-              component={ProfileBoardSummeryList}
-            ></PrivateRoute>
-          </PrivateRoute>
+          <PrivateRoute path="/profile/:userId" exact component={MyPage} />
+          {/* <PrivateRoute path="/profile/:userId/board" exact component={MyPageBoard}/> */}
+
           <PrivateRoute
             exact
             path="/match"

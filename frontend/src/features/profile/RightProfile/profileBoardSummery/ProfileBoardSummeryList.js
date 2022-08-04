@@ -10,14 +10,23 @@ const ProfileBoardSummeryList = (props) => {
   const [lastBoardId, setLastBoardId] = useState(0);
   const authorId = useParams().userId;
 
-  console.log(authorId, 'gggggggggggggggggg')
+  console.log(authorId, 'gggggggggggggggggg');
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetchUserBoardList(authorId);
+      setUserBoardList((prevState) => [...data]);
+    })();
+    setIsLoading(false);
+  }, [authorId]);
+
   useEffect(() => {
     (async () => {
       const data = await fetchUserBoardList(authorId, lastBoardId);
       setUserBoardList((prevState) => [...prevState, ...data]);
     })();
     setIsLoading(false);
-  }, [authorId, lastBoardId]);
+  }, [lastBoardId]);
   const closeModal = () => {
     console.log('모달 닫기 시도');
   };
