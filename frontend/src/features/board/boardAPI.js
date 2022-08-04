@@ -1,15 +1,24 @@
 import axios from 'axios';
 import { API_URL } from '../../utils/data/apiData';
-import { imageResize } from '../../utils/functions/commonFunctions';
+import { imgResizing } from '../../utils/functions/commonFunctions';
 
 export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // console.log('boardAPI post 게시글 생성요청, formData 사용할지, 그냥 key-val로 보낼지 결정');
   const formData = new FormData();
-  imageResize(images);
-  for (let i = 0; i < images.length; i++) {
-    // formData.append('pics', images[i]);
-    formData.append('pics', new File(images[i], images[i].path));
+  const newImage = [];
+
+  for (const image of images) {
+    if (image.size > 1024000) {
+      const newImg = await imgResizing(image);
+      newImage.push(newImg);
+    } else {
+      newImage.push(image);
+    }
+  }
+
+  for (let i = 0; i < newImage.length; i++) {
+    formData.append('pics', newImage[i]);
   }
   formData.append('contents', content);
 
@@ -91,10 +100,10 @@ export const fetchLikeUsers = async (boardId) => {
     const response = await axios.get(API_URL + `board/likeUsers/${boardId}`, {
       headers: header,
     });
-
     return response.data.data;
   } catch (error) {
     console.log(error);
+    console.log(error.message);
   }
 };
 
