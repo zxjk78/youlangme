@@ -1,18 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL, user, accessToken, getConfig } from "../../common/api/http-config";
 
 // const config = {
 //   headers: { "Content-Type": "application/json" },
 // };
-const API_URL = "http://127.0.0.1:8080/";
-const user = JSON.parse(localStorage.getItem("user"));
-const accessToken = user ? user.accessToken : null;
-const getConfig = { headers: { "X-Auth-Token": accessToken } };
 
 export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
   try {
     const response = await axios.post(API_URL + "login", userInfo);
-    console.log(response);
     localStorage.setItem("user", JSON.stringify(response.data.data));
     return response;
   } catch (err) {

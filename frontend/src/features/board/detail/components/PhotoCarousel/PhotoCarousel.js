@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import './slick-theme.scss';
 import './slick.scss';
-import { API_URL } from '../../../../../utils/data/apiData';
+import { API_URL } from '../../../../../common/api/http-config';
 export default class FocusOnSelect extends Component {
   constructor(props) {
     super(props);

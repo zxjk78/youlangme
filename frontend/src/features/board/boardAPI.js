@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../utils/data/apiData';
+import { API_URL } from '../../common/api/http-config';
 import { imgResizing } from '../../utils/functions/commonFunctions';
 
 export const createBoard = async (content, images) => {

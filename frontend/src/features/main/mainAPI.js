@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../utils/data/apiData';
+import { API_URL } from '../../common/api/http-config';
 
 export const fetchUserRanking = async () => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;

@@ -6,6 +6,7 @@ import { modalActions } from '../../../../common/UI/Modal/modalSlice';
 import { createBoardActions } from '../createBoardSlice';
 // API
 import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
+import { API_URL } from '../../../../common/api/http-config';
 
 // component
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
@@ -23,7 +24,6 @@ import { MAX_IMAGE_LIMIT } from '../data';
 // 어떤 방식으로던 이동해옴, 라우터로부터 수정인지 생성인지 알아냄
 
 const CreateBoardForm = () => {
-  const API_URL = 'http://127.0.0.1:8080/';
   const boardId = useParams().boardId;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
