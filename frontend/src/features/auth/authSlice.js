@@ -11,7 +11,7 @@ const getConfig = { headers: { "X-Auth-Token": accessToken } };
 
 export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + "login/", userInfo);
+    const response = await axios.post(API_URL + "login", userInfo);
     console.log(response);
     localStorage.setItem("user", JSON.stringify(response.data.data));
     return response;
@@ -22,7 +22,7 @@ export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
 
 export const signup = createAsyncThunk("SIGNUP", async (userInfo, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + "signup/", userInfo);
+    const response = await axios.post(API_URL + "signup", userInfo);
     return response;
   } catch (err) {
     return thunkAPI.rejectWithValue(err.message);
@@ -31,7 +31,7 @@ export const signup = createAsyncThunk("SIGNUP", async (userInfo, thunkAPI) => {
 
 export const logout = createAsyncThunk("LOGOUT", async (thunkAPI) => {
   try {
-    const response = await axios.delete(API_URL + "log-out/", getConfig);
+    const response = await axios.delete(API_URL + "log-out", getConfig);
     window.localStorage.clear();
     return response.data;
   } catch (err) {
@@ -41,7 +41,7 @@ export const logout = createAsyncThunk("LOGOUT", async (thunkAPI) => {
 
 export const getUser = createAsyncThunk("GETUSER", async (thunkAPI) => {
   try {
-    const response = await axios.get(API_URL + "user/login-user/", getConfig);
+    const response = await axios.get(API_URL + "user/login-user", getConfig);
     localStorage.setItem("currentUser", JSON.stringify(response.data.data));
     return response.data;
   } catch (err) {
