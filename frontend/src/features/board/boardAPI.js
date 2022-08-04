@@ -1,13 +1,15 @@
 import axios from 'axios';
-const API_URL = 'http://127.0.0.1:8080/';
+import { API_URL } from '../../utils/data/apiData';
+import { imageResize } from '../../utils/functions/commonFunctions';
 
 export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // console.log('boardAPI post 게시글 생성요청, formData 사용할지, 그냥 key-val로 보낼지 결정');
   const formData = new FormData();
-
+  imageResize(images);
   for (let i = 0; i < images.length; i++) {
-    formData.append('pics', images[i]);
+    // formData.append('pics', images[i]);
+    formData.append('pics', new File(images[i], images[i].path));
   }
   formData.append('contents', content);
 
