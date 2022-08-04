@@ -21,7 +21,7 @@ import classes from './MyPage.module.scss';
 
 // mui
 import { Card } from '@mui/material';
-import ProfileMenu from './ProfileMenu';
+
 
 
 
@@ -32,7 +32,6 @@ const MyPageBoard = () => {
   return (
     <Card className={classes.profile_wrapper}>
       <LeftProfile userId={params.userId}/>
-      <ProfileMenu userId={params.userId}/>
       <ProfileBoardSummeryList />
       
     </Card>
