@@ -1,19 +1,21 @@
 import axios from 'axios';
-
+import { API_URL } from '../../../../common/api/http-config';
 // const config = {
 //   headers: { "Content-Type": "application/json" },
 // };
-const user = JSON.parse(localStorage.getItem('user'));
-const accessToken = user ? user.accessToken : null;
-const getConfig = { headers: { 'X-Auth-Token': accessToken } };
+// const user = JSON.parse(localStorage.getItem('user'));
+// const accessToken = user ? user.accessToken : null;
+// const getConfig = { headers: { 'X-Auth-Token': accessToken } };
 
-const API_URL = 'http://127.0.0.1:8080/';
+// const API_URL = 'http://127.0.0.1:8080/';
 // 리덕스랑 관련없는 서버 통신 API들 모음
 
 
 
 export const fetchFollowCnt =  async (setFollowCount, userId) =>  {
-
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
   try {
     const response = await axios.get(
       API_URL + `follow/follower-followee-cnt/${userId}`,
@@ -34,7 +36,9 @@ export const fetchFollowCnt =  async (setFollowCount, userId) =>  {
 
 // followers 배열 받아오기
 export const fetchFollowers =  async (setFlwers, userId) =>  {
-
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
   try {
     const response = await axios.get(
       API_URL + `follow/followers/${userId}`,
@@ -59,7 +63,9 @@ export const fetchFollowers =  async (setFlwers, userId) =>  {
 
 // followees 배열 받아오기
 export const fetchFollowees = async (setFlwees, userId) =>  {
-  
+    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = user ? user.accessToken : null;
+    const getConfig = { headers: { 'X-Auth-Token': accessToken } };
     try {
       const response = await axios.get(
         API_URL + `follow/followees/${userId}`,
@@ -81,7 +87,9 @@ export const fetchFollowees = async (setFlwees, userId) =>  {
 
 
 export const fetchFollowOrNot = async (setIsFlw, userId, currentUserId) =>  {
-
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
   try {
     const response = await axios.get(
       API_URL + `follow/followers/${userId}`,
@@ -105,7 +113,9 @@ export const fetchFollowOrNot = async (setIsFlw, userId, currentUserId) =>  {
 
 // follow 요청
 export const sendFollow =  async (setIsFlwed, userId) =>  {
-    
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };   
   console.log('팔로우 버튼 클릭');
 
   try {
@@ -124,7 +134,9 @@ export const sendFollow =  async (setIsFlwed, userId) =>  {
 
 // unfollow 요청
 export const sendUnfollow =  async (setIsFlwed, userId) =>  {
-    
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };  
   console.log('언팔로우 버튼 클릭');
 
   try {

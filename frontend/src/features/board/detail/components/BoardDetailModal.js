@@ -26,7 +26,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 // css
 import classes from './BoardDetailModal.module.scss';
 // etc
-import { API_URL } from '../../../../utils/data/apiData';
+import { API_URL } from '../../../../common/api/http-config';
 
 const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);

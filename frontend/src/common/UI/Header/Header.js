@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../../../features/auth/authSlice';
@@ -7,6 +7,8 @@ import classes from './Header.module.scss';
 import youlangme from '../../../assets/youlangme.jpg';
 import go from '../../../assets/go.png';
 
+// API
+import { fetchProfileImg } from '../../../features/profile/LeftProfile/LeftProfileAPI';
 
 // mui
 import AppBar from '@mui/material/AppBar';
@@ -22,6 +24,12 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import ShuffleOnIcon from '@mui/icons-material/ShuffleOn';
+import Logout from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import { CircularProgress, ListItemIcon } from '@mui/material';
+
+
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -30,14 +38,10 @@ const Header = () => {
   const { currentUser } = useSelector((state) => state.auth);
   console.log(currentUser)
   const dispatch = useDispatch();
-  const logoutHandler = () => {
-    dispatch(logout())
-      .unwrap()
-      .then(() => {
-        document.location.href = '/';
-      });
 
-  };
+  const [profileImg, setProfileImg] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -53,10 +57,36 @@ const Header = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  
+
+  const logoutHandler = () => {
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        document.location.href = '/';
+      });
+
+  };
+
+
+
+  useEffect(() => {
+    (
+      async () => {
+        const profileImage = await fetchProfileImg(currentUser.id);
+      
+        setProfileImg(profileImage)
+        setIsLoading(false);
+        console.log('navbar 프사: ', profileImg)
+      })();
+
+    return () => {
+      setProfileImg(null)
+    }
+  }, [currentUser.id]);
 
 
 
@@ -82,7 +112,7 @@ const Header = () => {
     //   </div>
     // </nav>
     <AppBar position="static" className={classes.navbar} color='transparent' 
-      sx={{ borderRadius: 4}}>
+      sx={{ borderRadius: 0}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -94,22 +124,23 @@ const Header = () => {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              // fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            YOULANGME
+            너LANG나
           </Typography>
+
           <Typography
             variant="h4"
             noWrap
             component="a"
             href="/start"
             sx={{
-              mr: 2,
+              ml: 2,
               display: { xs: 'none', md: 'flex' },
               // fontFamily: 'monospace',
               fontWeight: 700,
@@ -118,20 +149,32 @@ const Header = () => {
               textDecoration: 'none',
             }}
           >
-            MATCH
+            <ShuffleOnIcon sx={{ fontSize: '40px', color: '#B865C6' }}/>
           </Typography>
 
           
 
           <Box sx={{ ml:'auto' }}>
             <Tooltip title={currentUser.name}>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Button onClick={handleOpenUserMenu} sx={{ p: 1 }}>
                 {/* 프로필 이미지 넣기! */}
-                <Avatar  sx={{ width: 56, height: 56 }} alt="" src="" />
-              </IconButton>
+                {  isLoading ? <CircularProgress /> : <Avatar  sx={{ width: 56, height: 56, mr:2}} alt="" src={profileImg} />}
+                <Typography
+                  sx={{
+                    // mr: 2,
+                    // display: { xs: 'none', md: 'flex' },
+                    // fontFamily: 'monospace',
+                    fontWeight: 700,
+                    // letterSpacing: '.3rem',
+                    color: 'black',
+                    textDecoration: 'none',
+                  }}>
+                  {currentUser.name}
+                </Typography>
+              </Button>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: '60px' }}
               id="profile-menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -146,19 +189,25 @@ const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={handleCloseUserMenu} sx={{ py: 2, px: 3}}>
                 <Typography 
                   textAlign="center"
                   // textDecoration='none'   
                   component="a"
                   sx={{ textDecoration:'none', color:'black'}}
                   href={`/profile/${currentUser.id}`} >
+                <ListItemIcon>
+                  <HomeIcon fontSize="medium"/>
+                </ListItemIcon>
                   MY PAGE</Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={handleCloseUserMenu} sx={{ py: 2, px: 3}}>
                 <Typography textAlign="center"
                   component="p"
                   onClick={logoutHandler}>
+                  <ListItemIcon >
+                    <Logout fontSize="medium" className={classes.header_profile_menu_icon}/>
+                  </ListItemIcon>
                   LOGOUT</Typography>
               </MenuItem>
             

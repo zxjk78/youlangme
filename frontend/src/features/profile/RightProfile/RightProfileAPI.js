@@ -1,18 +1,20 @@
 import axios from 'axios';
-
+import { API_URL, user, accessToken, getConfig } from '../../../common/api/http-config';
 // const config = {
 //   headers: { "Content-Type": "application/json" },
 // };
-const user = JSON.parse(localStorage.getItem('user'));
-const accessToken = user ? user.accessToken : null;
-const getConfig = { headers: { 'X-Auth-Token': accessToken } };
+// const user = JSON.parse(localStorage.getItem('user'));
+// const accessToken = user ? user.accessToken : null;
+// const getConfig = { headers: { 'X-Auth-Token': accessToken } };
 
-const API_URL = 'http://127.0.0.1:8080/';
+// const API_URL = 'http://127.0.0.1:8080/';
 // 리덕스랑 관련없는 서버 통신 API들 모음
 
 // 프로필 유저 레벨 불러오는 API
 export const fetchLevelExp =  async (userId) =>  {
-    
+    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = user ? user.accessToken : null;
+    const getConfig = { headers: { 'X-Auth-Token': accessToken } };
     console.log('fetch 레벨 & exp');
 
     try {
