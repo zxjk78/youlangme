@@ -163,14 +163,19 @@ const BoardDetailModal = (props) => {
                 <p>{boardDetail.contents}</p>
               </div>
               <div className={classes.photoContainer}>
-                {/* {boardDetail.imgList.map((image) => (
-                  <img
-                    key={image}
-                    src={`${API_URL}image/board/${image}`}
-                    alt="게시판 이미지"
-                  />
-                ))} */}
-                <PhotoCarousel pics={boardDetail.imgList} />
+                {boardDetail.imgList.length > 3 ? (
+                  <PhotoCarousel pics={boardDetail.imgList} />
+                ) : (
+                  <div>
+                    {boardDetail.imgList.map((image) => (
+                      <img
+                        key={image}
+                        src={`${API_URL}image/board/${image}`}
+                        alt="게시판 이미지"
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className={classes.likeCommentCnt}>
