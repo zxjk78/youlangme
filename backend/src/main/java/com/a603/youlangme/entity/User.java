@@ -6,11 +6,13 @@ import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.Nationality;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User extends BaseEntity implements UserDetails {
+public class User extends BaseEntity implements UserDetails, Serializable {
 
     @Column(unique = true, nullable = true, length = 30)
     String name;

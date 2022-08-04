@@ -34,6 +34,7 @@ public class UserService {
     private final UserBadgeRepository userBadgeRepository;
     private final BadgeRepository badgeRepository;
 
+
     public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -151,4 +152,8 @@ public class UserService {
     }
 
     // Profile end
+
+    public User findByUserAll(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }

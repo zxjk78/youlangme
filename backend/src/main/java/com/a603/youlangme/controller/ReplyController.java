@@ -63,6 +63,7 @@ public class ReplyController {
     @GetMapping("/replyList/{boardId}")
     public ManyResult<ReplyResponseDto> readReply(@PathVariable(value = "boardId") Long boardId){
         List<ReplyResponseDto> replyDtoList=replyService.readReply(boardId);
+
         return responseService.getManyResult(replyDtoList);
     }
     @GetMapping("/replyCnt/{boardId}")
