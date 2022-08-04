@@ -12,7 +12,6 @@ import Social from './features/auth/social/Social';
 // import { useSelector } from "react-redux";
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
-import BoardMainItem from './features/main/feed/components/FeedBoardItem';
 import StartMatching from './features/matching/StartMatching';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
@@ -43,15 +42,21 @@ function App() {
           <PublicRoute path="/social" component={Social}></PublicRoute>
           <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>
           <PrivateRoute path="/start" exact component={StartMatching} />
-          <PrivateRoute path="/profile/:userId" exact component={MyPage}/>
-          <PrivateRoute path="/profile/:userId/board" exact component={MyPageBoard}/>
-            {/* <PrivateRoute path="board" component={ProfileBoardSummeryList} />   */}
-            {/* <PrivateRoute path="/" component={RightProfile} />
-            <PrivateRoute path="/board" component={ProfileBoardSummeryList} />   */}
-
+          <PrivateRoute path="/profile/:userId" exact component={MyPage}>
+            {/* <PrivateRoute path="/profile/:userId" exact component={MyPage}> */}
+            <PrivateRoute
+              path="activity"
+              component={RightProfile}
+            ></PrivateRoute>
+            <PrivateRoute
+              path="board"
+              component={ProfileBoardSummeryList}
+            ></PrivateRoute>
+          </PrivateRoute>
           <PrivateRoute
             exact
-            path="/match"s
+            path="/match"
+            s
             component={VideoRoomComponent}
           ></PrivateRoute>
           <PrivateRoute exact path="/main" component={Main}></PrivateRoute>
