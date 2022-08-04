@@ -29,7 +29,7 @@ function App() {
 
 
   return (
-    <div className="App">
+    <div class="App">
       <BrowserRouter>
         {isLoggedIn  && <Header/>}
         <Switch>
