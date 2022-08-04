@@ -9,7 +9,7 @@ import MyPage from './features/profile/MyPage';
 import PrivateRoute from './common/routes/PrivateRoute';
 import PublicRoute from './common/routes/PublicRoute';
 import Social from './features/auth/social/Social';
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
 import StartMatching from './features/matching/StartMatching';
@@ -19,14 +19,19 @@ import NotFound from './features/other/NotFound/NotFound';
 //test
 import Maintmp from './features/main/Maintmp';
 import ProfileBoardSummeryList from './features/profile/RightProfile/profileBoardSummery/ProfileBoardSummeryList';
-import RightProfile from './features/profile/RightProfile/RightProfile';
-import MyPageBoard from './features/profile/MyPageBoard';
+import Header from './common/UI/Header/Header';
+// import RightProfile from './features/profile/RightProfile/RightProfile';
+// import MyPageBoard from './features/profile/MyPageBoard';
 
 function App() {
-  // const { isLoggedIn } = useSelector((state) => state.auth);
+  // const { currentUser } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
+
   return (
     <div className="App">
       <BrowserRouter>
+        {isLoggedIn  && <Header/>}
         <Switch>
           <PublicRoute
             restricted
