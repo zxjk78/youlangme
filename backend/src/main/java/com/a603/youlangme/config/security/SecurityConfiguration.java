@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -59,7 +62,7 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Jwt로 인증하므로 세션이 필요하지 않음
                 .and()
                 .authorizeRequests() // exception Handling을 위해 permit
-                .antMatchers("/login/**", "/signup/**", "/reissue", "/oauth2/**", "/exception/**", "/home", "/user/image/**", "/image/**","/findPwd/**").permitAll() // 로그인, 회원가입은 누구나 허용
+                .antMatchers("/login/**", "/signup/**", "/reissue", "/oauth2/**", "/exception/**", "/home", "/user/image/**", "/image/**","/findPwd/**","/redis/**").permitAll() // 로그인, 회원가입은 누구나 허용
                 .anyRequest().hasRole("USER")
 
                 .and()
@@ -96,4 +99,15 @@ public class SecurityConfiguration {
         return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
                 "/swagger-ui/index.html", "/webjars/**", "/swagger/**", "/swagger-ui/**", "/resources/**");
     }
+
+
+    public void configure(WebSecurity web) throws Exception {
+        web.httpFirewall(defaultHttpFirewall());
+    }
+
+    @Bean
+    public HttpFirewall defaultHttpFirewall() {
+        return new DefaultHttpFirewall();
+    }
+
 }
