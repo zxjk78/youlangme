@@ -6,6 +6,7 @@ import com.a603.youlangme.config.logging.ExpLogging;
 import com.a603.youlangme.config.logging.Logging;
 import com.a603.youlangme.dto.board.BoardPagingDto;
 import com.a603.youlangme.dto.board.BoardReadResponseDto;
+import com.a603.youlangme.dto.like.LikeUserCntDto;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
@@ -190,6 +191,14 @@ public class BoardService {
         }
         return likeUserResponseDtoList;
     }
+    public LikeUserCntDto readLikeCnt(Long boardId) {
+        List<UserBoardLike> userBoardLikes = userBoardLikeRepository.findAllByBoardId(boardId);
+        LikeUserCntDto likeUserCnt = new LikeUserCntDto(userBoardLikes.size());
+
+        return likeUserCnt;
+    }
+
+
 
     // boardId는 초기값을 0을 보낼예정
     public List<BoardPagingDto> readAuthorBoardList(Long authorId, Long boardId) {

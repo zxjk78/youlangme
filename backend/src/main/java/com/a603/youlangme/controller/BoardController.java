@@ -3,6 +3,7 @@ package com.a603.youlangme.controller;
 import com.a603.youlangme.dto.board.BoardPagingDto;
 import com.a603.youlangme.advice.exception.AccessDeniedException;
 import com.a603.youlangme.dto.board.BoardReadResponseDto;
+import com.a603.youlangme.dto.like.LikeUserCntDto;
 import com.a603.youlangme.dto.like.LikeUserResponseDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.BoardImg;
@@ -116,11 +117,17 @@ public class BoardController {
     public ManyResult<LikeUserResponseDto> likeUsers(@PathVariable(value = "id") Long boardId) {
         return responseService.getManyResult(boardService.readLikeUsers(boardId));
     }
+    @GetMapping("/likeCnt/{id}")
+    public OneResult<LikeUserCntDto> likeUsersCnt(@PathVariable(value = "id") Long boardId) {
+        return responseService.getOneResult(boardService.readLikeCnt(boardId));
+    }
 
     @GetMapping("/author/{id}")
     public ManyResult<BoardPagingDto> authorBoard(@PathVariable(value = "id") Long authorId, @RequestParam("lastBoardId") Long boardId) {
         return responseService.getManyResult(boardService.readAuthorBoardList(authorId, boardId));
     }
+
+
 
     @GetMapping("/followee")
     public ManyResult<BoardPagingDto> followeeBoard(@RequestParam("lastBoardId") Long boardId) {

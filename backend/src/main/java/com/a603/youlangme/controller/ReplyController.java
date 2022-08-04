@@ -1,10 +1,12 @@
 package com.a603.youlangme.controller;
 
+import com.a603.youlangme.dto.reply.ReplyCntDto;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.dto.reply.ReplyDto;
 import com.a603.youlangme.dto.reply.ReplyResponseDto;
 import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.ManyResult;
+import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.ReplyService;
 import com.a603.youlangme.service.ResponseService;
 import io.swagger.annotations.Api;
@@ -63,6 +65,9 @@ public class ReplyController {
         List<ReplyResponseDto> replyDtoList=replyService.readReply(boardId);
         return responseService.getManyResult(replyDtoList);
     }
-
+    @GetMapping("/replyCnt/{boardId}")
+    public OneResult<ReplyCntDto> readReplyCnt(@PathVariable(value = "boardId") Long boardId){
+        return responseService.getOneResult(replyService.readReplyCnt(boardId));
+    }
 
 }

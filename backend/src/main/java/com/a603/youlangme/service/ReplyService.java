@@ -4,11 +4,14 @@ import com.a603.youlangme.advice.exception.BoardNotFoundException;
 import com.a603.youlangme.advice.exception.ReplyNotFoundException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.config.logging.ExpLogging;
+import com.a603.youlangme.dto.like.LikeUserCntDto;
+import com.a603.youlangme.dto.reply.ReplyCntDto;
 import com.a603.youlangme.entity.Board;
 import com.a603.youlangme.entity.Reply;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.dto.reply.ReplyDto;
 import com.a603.youlangme.dto.reply.ReplyResponseDto;
+import com.a603.youlangme.entity.UserBoardLike;
 import com.a603.youlangme.repository.BoardRepository;
 import com.a603.youlangme.repository.ReplyRepository;
 import com.a603.youlangme.repository.UserRepository;
@@ -86,6 +89,15 @@ public class ReplyService {
 
         return replyList;
 
+    }
+
+
+    public ReplyCntDto readReplyCnt(Long boardId) {
+
+
+        ReplyCntDto replyUserCnt = new ReplyCntDto(replyRepository.findAllByBoardIdOrderByPidAscCreatedDateAsc(boardId).size());
+
+        return replyUserCnt;
     }
 
 }
