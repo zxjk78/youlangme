@@ -1,17 +1,14 @@
 package com.a603.youlangme.dto.reply;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.Column;
 import javax.persistence.Lob;
 
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
+@AllArgsConstructor
 public class ReplyDto {
 
     private String contents;

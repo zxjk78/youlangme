@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 public class LikeUserCntDto implements Serializable {
-    int cnt;
+    int likeCnt;
 }
 
 
