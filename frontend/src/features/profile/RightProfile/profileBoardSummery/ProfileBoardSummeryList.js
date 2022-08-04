@@ -4,11 +4,16 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { fetchUserBoardList } from '../../../board/boardAPI';
+
+
 const ProfileBoardSummeryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);
   const [lastBoardId, setLastBoardId] = useState(0);
-  const authorId = useParams().userId;
+
+
+  // const authorId = useParams().userId;
+  const authorId = props.userId;
 
   console.log(authorId, 'gggggggggggggggggg')
   useEffect(() => {
@@ -17,7 +22,12 @@ const ProfileBoardSummeryList = (props) => {
       setUserBoardList((prevState) => [...prevState, ...data]);
     })();
     setIsLoading(false);
+    // return () => {
+    //   setIsLoading(true)
+    // }
   }, [authorId, lastBoardId]);
+
+
   const closeModal = () => {
     console.log('모달 닫기 시도');
   };
@@ -29,8 +39,8 @@ const ProfileBoardSummeryList = (props) => {
   return (
     <>
       {isLoading ? (
-        '123'
-      ) : (
+        '123') : ( 
+
         <div className={classes.wrapper}>
           <div className={classes.container}>
             <div className={classes.header}></div>
@@ -47,6 +57,7 @@ const ProfileBoardSummeryList = (props) => {
             </div>
           </div>
         </div>
+
       )}
     </>
   );

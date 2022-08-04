@@ -23,10 +23,8 @@ const RightProfile = (props) => {
     setTabValue(tab);
   }
 
-  // useEffect({}, [])
-
-
-    return (
+  
+  return (
       <div className={classes.right_profile}>
         <ProfileMenu userId={userId} onChangeTab={tabChangeHandler}/>
         { tabValue === 'profile' ?
