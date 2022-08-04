@@ -26,7 +26,7 @@ const Main = () => {
   // console.log(user);
   return (
     <div>
-      {currentUser.name && <Header></Header>}
+      {/* {currentUser.name && <Header/>} */}
       <h2>이곳은 임시 홈페이지</h2>
       <div>
         <Link to="/board/detail">게시판 작업, 뒤에 /게시글번호</Link>

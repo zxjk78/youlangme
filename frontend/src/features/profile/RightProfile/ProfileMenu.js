@@ -18,9 +18,14 @@ function ProfileMenu({userId, onChangeTab}) {
     onChangeTab(newValue);
   };
 
+  const tabFont = {
+    fontSize: 20, 
+    fontWeight: 800
+  }
+
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', mb:4,}}>
       <Tabs
         value={value}
         centered
@@ -31,10 +36,10 @@ function ProfileMenu({userId, onChangeTab}) {
         aria-label="secondary tabs example"
       >
         
-        <Tab value="profile" label="프로필">
+        <Tab value="profile" label="프로필" sx={tabFont}>
           {/* <NavLink to={`/profile/${userId}`}></NavLink> */}
         </Tab>
-        <Tab value="board" label="게시글">
+        <Tab value="board" label="게시글"  sx={tabFont}>
           {/* <NavLink to={`/profile/${userId}/board`}></NavLink> */}
         </Tab>
       </Tabs>
