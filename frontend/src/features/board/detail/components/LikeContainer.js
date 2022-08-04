@@ -27,7 +27,7 @@ const LikeContainer = (props) => {
             <FavoriteBorderIcon onClick={likeHandler} />
           )}
         </div>
-        <div onClick={showLikeUserModal}>{props.likeUsers.length}</div>
+        <div onClick={showLikeUserModal}>{props.likeCnt}</div>
       </div>
     </>
   );

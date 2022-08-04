@@ -2,12 +2,14 @@ import UserInfo from '../../LeftProfile/UserInfo/UserInfo';
 import { useState } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
-//component
+//custom component
 import BoardDetailModal from '../../../board/detail/components/BoardDetailModal';
+import BoardImageSrc from '../../../../common/UI/BoardImageSrc';
 //mui
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import AddIcon from '@mui/icons-material/Add';
 // css
 import classes from './ProfileBoardSummeryItem.module.scss';
 // etc
@@ -19,14 +21,24 @@ const ProfileBoardSummeryItem = (props) => {
   const history = useHistory();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const boardInfo = props.boardInfo;
+  const [likeCnt, setLikeCnt] = useState(boardInfo.likeCnt);
+  const [replyCnt, setReplyCnt] = useState(boardInfo.replyCnt);
   // console.log(boardInfo);
   const showDetailModal = (event) => {
     setIsModalVisible(() => true);
+  };
+
+  const likeChange = (cnt) => {
+    setLikeCnt(() => cnt);
+  };
+  const replyChange = (cnt) => {
+    setReplyCnt(() => cnt);
   };
   const closeModal = () => {
     setIsModalVisible(() => false);
     // history.go(0);
   };
+
   return (
     <>
       {isModalVisible && (
@@ -34,6 +46,8 @@ const ProfileBoardSummeryItem = (props) => {
           <BoardDetailModal
             boardId={boardInfo.boardId}
             closeModalHandler={closeModal}
+            likeChangeHandler={likeChange}
+            replyChangeHandler={replyChange}
           />
         </div>
       )}
@@ -48,21 +62,18 @@ const ProfileBoardSummeryItem = (props) => {
           <div className={classes.main} onClick={showDetailModal}>
             <div className={classes.contentContainer}>{boardInfo.contents}</div>
             <div className={classes.imgContainer}>
-              {boardInfo.imgList.map((pic) => (
-                <img
-                  src={`${API_URL}image/board/${pic}`}
-                  key={pic}
-                  alt="사진"
-                />
+              {boardInfo.imgList.slice(0, 3).map((pic) => (
+                <BoardImageSrc imgName={pic} alt={pic} key={pic} />
               ))}
+              {/* {boardInfo.imgList.length > 3 && <AddIcon />} */}
             </div>
           </div>
           <div className={classes.footer}>
             <div>
-              <FavoriteBorderIcon /> {boardInfo.likeCnt}
+              <FavoriteBorderIcon /> {likeCnt}
             </div>
             <div>
-              <ChatBubbleOutlineIcon /> {boardInfo.replyCnt}
+              <ChatBubbleOutlineIcon /> {replyCnt}
             </div>
           </div>
         </div>

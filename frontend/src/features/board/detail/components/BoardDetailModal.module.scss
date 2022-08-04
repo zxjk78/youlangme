@@ -40,10 +40,13 @@
 }
 
 .photoContainer {
-  width: 650px;
+  width: 700px;
 
   display: flex;
   justify-content: flex-start;
+  & > div {
+    margin-left: -10px;
+  }
   img {
     box-sizing: border-box;
     margin: 0px auto;

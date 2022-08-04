@@ -76,7 +76,7 @@ export const fetchUserBoardList = async (userId, boardId = 0) => {
   }
 };
 
-export const fetchCommentList = async (boardId) => {
+export const fetchReplyList = async (boardId) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   const header = {
     'X-Auth-Token': accessToken,
@@ -162,8 +162,12 @@ export const addComment = async (boardId, comment) => {
         headers: header,
       }
     );
-
-    return response.data;
+    if (response.data.success) {
+      const response2 = await axios.get(API_URL + `reply/replyCnt/${boardId}`, {
+        headers: { 'X-Auth-Token': accessToken },
+      });
+      return response2.data;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -179,8 +183,12 @@ export const like = async (boardId) => {
     const response = await axios.post(API_URL + `board/like/${boardId}`, null, {
       headers: header,
     });
-
-    return response.data;
+    if (response.data.success) {
+      const response2 = await axios.get(API_URL + `board/likeCnt/${boardId}`, {
+        headers: header,
+      });
+      return response2.data;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -199,7 +207,12 @@ export const dislike = async (boardId) => {
         headers: header,
       }
     );
-    return response.data;
+    if (response.data.success) {
+      const response2 = await axios.get(API_URL + `board/likeCnt/${boardId}`, {
+        headers: header,
+      });
+      return response2.data;
+    }
   } catch (error) {
     console.log(error);
   }
