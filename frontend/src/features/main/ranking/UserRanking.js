@@ -1,10 +1,10 @@
-import classes from './Ranking.module.scss';
+import classes from './UserRanking.module.scss';
 import { useState } from 'react';
 import UserInfo from '../../profile/LeftProfile/UserInfo/UserInfo';
 import { podium, bronze, silver, gold } from './assets';
 import { useEffect } from 'react';
 //header의 시상대 그냥 만들어서 사용할 것
-const Ranking = (props) => {
+const UserRanking = (props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -36,9 +36,9 @@ const Ranking = (props) => {
               <img src={bronze} alt="3위" />
               <UserInfo user={3} />
             </div>
-            <div>...</div>
+            <div className={classes.omit}>...</div>
             <div>
-              나
+              내 순위
               <UserInfo user={4} />
             </div>
           </div>
@@ -48,4 +48,4 @@ const Ranking = (props) => {
     </>
   );
 };
-export default Ranking;
+export default UserRanking;

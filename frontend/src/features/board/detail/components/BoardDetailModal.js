@@ -13,12 +13,13 @@ import {
   deleteBoard,
 } from '../../boardAPI';
 import Modal from '../../../../common/UI/Modal/Modal';
-//components
+//custom components
 import ReplyListItem from './ReplyListItem';
 import LikeContainer from './LikeContainer';
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import LikeUserModal from './likeModal/LikeUserModal';
 import PhotoCarousel from './PhotoCarousel/PhotoCarousel';
+import BoardImageSrc from '../../../../common/UI/BoardImageSrc';
 // mui
 import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -39,7 +40,7 @@ const BoardDetailModal = (props) => {
   const [replyCnt, setReplyCnt] = useState(0);
   const params = useParams();
   const boardId = props?.boardId || params.boardId;
-  const commentRef = useRef();
+  const replyRef = useRef();
   const history = useHistory();
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
@@ -76,13 +77,13 @@ const BoardDetailModal = (props) => {
 
   const addCommentHandler = async (event) => {
     event.preventDefault();
-    const newComment = commentRef.current.value;
+    const newComment = replyRef.current.value;
     if (!newComment.trim().length) {
       return;
     }
     const response = await addComment(boardId, newComment);
     if (response.success) {
-      commentRef.current.value = '';
+      replyRef.current.value = '';
       // 댓글작성 후 comment 재 fetch
       const newreplyList = await fetchReplyList(boardId);
       setReplyCnt(() => response.data.replyCnt);
@@ -180,17 +181,13 @@ const BoardDetailModal = (props) => {
                 ) : (
                   <div>
                     {boardDetail.imgList.map((image) => (
-                      <img
-                        key={image}
-                        src={`${API_URL}image/board/${image}`}
-                        alt="게시판 이미지"
-                      />
+                      <BoardImageSrc imgName={image} alt={image} key={image} />
                     ))}
                   </div>
                 )}
               </div>
 
-              <div className={classes.likeCommentCnt}>
+              <div className={classes.likeReplyCnt}>
                 <div>
                   <LikeContainer
                     isLiked={isLiked}
@@ -219,22 +216,26 @@ const BoardDetailModal = (props) => {
               </div>
             )}
 
-            <div className={classes.comment}>
+            <div className={classes.reply}>
               <div className={classes.header}>
                 <ChatBubbleOutlineIcon />
                 <div>댓글 ({replyCnt}) </div>
               </div>
-              <div className={classes.commentContainer}>
-                {replyList.map((comment) => (
-                  <ReplyListItem key={comment.id} commentInfo={comment} />
-                ))}
+              <div className={classes.replyContainer}>
+                {replyList.length === 0 ? (
+                  <div className={classes.noReply}>댓글이 없습니다</div>
+                ) : (
+                  replyList.map((reply) => (
+                    <ReplyListItem key={reply.id} commentInfo={reply} />
+                  ))
+                )}
               </div>
-              <div className={classes.commentInput}>
+              <div className={classes.replyInput}>
                 <form onSubmit={addCommentHandler}>
                   <input
                     type="text"
                     placeholder="댓글을 입력하세요"
-                    ref={commentRef}
+                    ref={replyRef}
                   />
                   <button>
                     <SendIcon />

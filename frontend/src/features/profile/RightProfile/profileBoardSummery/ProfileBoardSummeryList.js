@@ -12,13 +12,16 @@ import classes from './ProfileBoardSummeryList.module.scss';
 const ProfileBoardSummeryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);
-  // const [lastBoardId, setLastBoardId] = useState(0);
+  const [isBoardOver, setIsBoardOver] = useState(false);
   const params = useParams();
   const authorId = params?.userId || props.userId;
 
   useEffect(() => {
     (async () => {
       const data = await fetchUserBoardList(authorId);
+      if (data.length < 5) {
+        setIsBoardOver(() => true);
+      }
       setUserBoardList((prevState) => [...data]);
     })();
     setIsLoading(false);
@@ -27,9 +30,11 @@ const ProfileBoardSummeryList = (props) => {
   const fetchBoardListPaging = async () => {
     const lastBoardId = userBoardList.at(-1).boardId;
     const data = await fetchUserBoardList(authorId, lastBoardId);
+    if (data.length < 5) {
+      setIsBoardOver(() => true);
+    }
     setUserBoardList((prevState) => [...prevState, ...data]);
   };
-
   return (
     <>
       {isLoading ? (
@@ -50,10 +55,12 @@ const ProfileBoardSummeryList = (props) => {
               {isLoading ? (
                 <div>...loading</div>
               ) : (
-                <div onClick={fetchBoardListPaging}>
-                  <div>더보기</div>
-                  <ExpandMoreIcon />
-                </div>
+                !isBoardOver && (
+                  <div onClick={fetchBoardListPaging}>
+                    <div>더보기</div>
+                    <ExpandMoreIcon />
+                  </div>
+                )
               )}
             </div>
           </div>

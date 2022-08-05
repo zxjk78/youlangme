@@ -1,5 +1,5 @@
 .wrapper {
-  height: 60vh;
+  height: 100vh;
   overflow-y: scroll;
 }
 .container {
@@ -9,4 +9,10 @@
 .main {
 }
 .footer {
+  & > div {
+    display: flex;
+
+    justify-content: center;
+    cursor: pointer;
+  }
 }

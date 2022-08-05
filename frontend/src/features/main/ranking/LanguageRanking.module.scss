@@ -1,17 +1,23 @@
 .wrapper {
   width: 300px;
-  height: 300px;
+  height: auto;
   background-color: bisque;
+  padding: 8px;
+  border-radius: 15px;
 }
 .container {
 }
 .header {
+  display: flex;
+  align-items: center;
   font-weight: bold;
   font-size: 1.2rem;
 }
 .main {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 .footer {
 }
