@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../../../features/auth/authSlice';
 import classes from './Header.module.scss';
-import youlangme from '../../../assets/youlangme.jpg';
+import youlangme from '../../../assets/logo_1.png';
 import go from '../../../assets/go.png';
 
 // API
@@ -23,11 +23,15 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+// import AdbIcon from '@mui/icons-material/Adb';
+import TranslateIcon from '@mui/icons-material/Translate';
 import ShuffleOnIcon from '@mui/icons-material/ShuffleOn';
+import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
+import StartIcon from '@mui/icons-material/Start';
 import Logout from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import { CircularProgress, ListItemIcon } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 
 
@@ -63,9 +67,9 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
 
   const logoutHandler = () => {
+    handleCloseUserMenu()
     dispatch(logout())
       .unwrap()
       .then(() => {
@@ -104,7 +108,6 @@ const Header = () => {
   // Mui AppBar 참고해서 만들기!!!!!!!!
   return (
     // <nav className={classes.navbar}>
-    //   <div>
     //     <Link to="/main">
     //       <img src={youlangme} className={classes.navbar__logo}></img>
     //     </Link>
@@ -120,56 +123,26 @@ const Header = () => {
     //       </Link>
     //       <p onClick={logoutHandler}>Logout</p>
     //     </div>
-    //   </div>
     // </nav>
+
     <AppBar position="static" className={classes.navbar} color='transparent' 
       sx={{ borderRadius: 0}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{
-            // display: { xs: 'none', md: 'flex' }, 
-            mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              // display: { xs: 'none', md: 'flex' },
-              // fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            너LANG나
-          </Typography>
-
-          <Typography
-            variant="h4"
-            noWrap
-            component="a"
-            href="/start"
-            sx={{
-              ml: 2,
-              // display: { xs: 'none', md: 'flex' },
-              // fontFamily: 'monospace',
-              fontWeight: 700,
-              // letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            <ShuffleOnIcon sx={{ fontSize: '40px', color: '#B865C6' }}/>
-          </Typography>
-
+          <div className={classes.navbar__left}>
+              <Link to="/main">
+                <img src={youlangme} className={classes.navbar__logo}/>
+              </Link>
+              <Link to="/start">
+                <StartIcon sx={{ fontSize: '60px', color: '#FFC700',  ml: 3}}/>
+              </Link>
+          </div>
+        
           
 
           <Box sx={{ ml:'auto' }}>
             <Tooltip title={currentUser.name}>
-              <Button onClick={handleOpenUserMenu} sx={{ p: 1 }}>
+              <Button onClick={handleOpenUserMenu} sx={{ py: 1, px:2, width: '100%'}}>
                 {/* 프로필 이미지 넣기! */}
                 {  isLoading ? <CircularProgress /> : 
                   <Avatar  sx={{ width: 56, height: 56, mr:2}} alt="" src={profileImg} />}
@@ -188,7 +161,7 @@ const Header = () => {
               </Button>
             </Tooltip>
             <Menu
-              sx={{ mt: '60px' }}
+              sx={{ mt: '60px',  }}
               id="profile-menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -203,26 +176,25 @@ const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu} sx={{ py: 2, px: 3}}>
-                <Typography 
-                  textAlign="center"
-                  // textDecoration='none'   
-                  component="a"
-                  sx={{ textDecoration:'none', color:'black'}}
-                  href={`/profile/${currentUser.id}`} >
-                <ListItemIcon>
-                  <HomeIcon fontSize="medium"/>
-                </ListItemIcon>
-                  MY PAGE</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu} sx={{ py: 2, px: 3}}>
-                <Typography textAlign="center"
-                  component="p"
-                  onClick={logoutHandler}>
+              <Link to={`/profile/${currentUser.id}`} className={classes.link}>
+                <MenuItem onClick={handleCloseUserMenu} sx={{ py: 2, px: 3}}>
+                  <ListItemIcon>
+                    <HomeIcon fontSize="medium"/>
+                  </ListItemIcon>
+                  <Typography 
+                    textAlign="center"   
+                    >
+                    MY PAGE</Typography>
+                </MenuItem>
+              </Link>
+      
+              <MenuItem onClick={logoutHandler} sx={{ py: 2, px: 3}}>
                   <ListItemIcon >
                     <Logout fontSize="medium" className={classes.header_profile_menu_icon}/>
                   </ListItemIcon>
-                  LOGOUT</Typography>
+                  <Typography textAlign="center"
+                    component="p">
+                    LOGOUT</Typography>
               </MenuItem>
             
             </Menu>
