@@ -43,7 +43,7 @@ nationalityList = ["KOREA", "JAPAN", "CHINA", "AMERICA"]
 favoriteList = ["", "Movie", "Sports", "Music", "Investment", "Travel", "Coding", "Game", "Food", "Cooking", "Cafe", "Reading", "Pet", "Party", "Collecting"]
 MATCH_SCORE = 0.7
 
-@background(schedule=3)
+#@background(schedule=3)
 def matching():
     print("background processing....")
     con = redis.StrictRedis(host="localhost", port=6379, charset="utf-8", decode_responses=True)

@@ -21,9 +21,9 @@ def responseData(msg, opponentId, sessionId):
 # Create your views here.
 @csrf_exempt
 def matchmakingApi(request):
-    if request.method=='GET':
-        matching(repeat=3)
-        return JsonResponse("Background Start Successfully", safe=False)
+    # if request.method=='GET':
+    #     matching(repeat=3)
+    #     return JsonResponse("Background Start Successfully", safe=False)
 
     if request.method=='POST':
         user = JSONParser().parse(request)
