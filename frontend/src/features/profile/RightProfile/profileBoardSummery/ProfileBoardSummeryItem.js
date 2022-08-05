@@ -1,8 +1,8 @@
-import UserInfo from '../../LeftProfile/UserInfo/UserInfo';
 import { useState } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
 //custom component
+import UserInfo from '../../LeftProfile/UserInfo/UserInfo';
 import BoardDetailModal from '../../../board/detail/components/BoardDetailModal';
 import BoardImageSrc from '../../../../common/UI/BoardImageSrc';
 //mui
@@ -38,6 +38,7 @@ const ProfileBoardSummeryItem = (props) => {
     setIsModalVisible(() => false);
     // history.go(0);
   };
+
 
   return (
     <>
