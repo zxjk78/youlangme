@@ -35,6 +35,7 @@ const Feed = (props) => {
       ) : (
         <div className={classes.wrapper}>
           <div className={classes.container}>
+            <div className={classes.header}>피드</div>
             {/* 게시글 정보 받을 때, 유저 pk값 받기 필요 */}
             {followeeBoardList.map((item) => (
               <FeedBoardItem key={item.boardId} boardInfo={item} />

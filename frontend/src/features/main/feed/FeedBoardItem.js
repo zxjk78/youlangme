@@ -18,13 +18,14 @@ import { API_URL } from '../../../common/api/http-config';
 
 const FeedBoardItem = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
+
   const boardInfo = props.boardInfo;
   const contents = boardInfo?.contents;
   const username = boardInfo?.userName;
   const userId = boardInfo?.userId;
   const boardId = boardInfo?.boardId;
   const createdAt = createdDateCal(boardInfo.createdTime, false);
-  const [replyCnt, setReplyCnt] = useState(boardInfo?.commentCnt || 0);
+  const [replyCnt, setReplyCnt] = useState(boardInfo?.replyCnt || 0);
   const [likeCnt, setlikeCnt] = useState(boardInfo?.likeCnt || 0);
 
   const showBoardDetailModal = () => {

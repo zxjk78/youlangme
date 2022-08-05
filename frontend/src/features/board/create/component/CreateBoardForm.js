@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../../../../common/UI/Modal/modalSlice';
 import { createBoardActions } from '../createBoardSlice';
 // API
 import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
