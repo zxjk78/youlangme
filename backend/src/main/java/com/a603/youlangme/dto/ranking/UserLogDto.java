@@ -1,4 +1,4 @@
-package com.a603.youlangme.dto.chat;
+package com.a603.youlangme.dto.ranking;
 
 import lombok.*;
 

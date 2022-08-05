@@ -148,7 +148,6 @@ public class UserService {
         for (BadgeRequestDto badgeRequestDto : badgeRequestDtoList) {
             userBadgeRepository.save(new UserBadge(user, badgeRepository.findById(badgeRequestDto.getId()).orElse(null), badgeRequestDto.getBadgeSelect()));
         }
-
     }
 
     // Profile end

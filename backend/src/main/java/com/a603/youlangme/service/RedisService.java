@@ -1,14 +1,22 @@
 package com.a603.youlangme.service;
 
-import com.a603.youlangme.dto.chat.UserLogResponseDto;
+import com.a603.youlangme.advice.exception.BoardNotFoundException;
+import com.a603.youlangme.advice.exception.LevelNotFoundException;
+import com.a603.youlangme.advice.exception.UserLogNotFoundException;
+import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.dto.ranking.RankLogResponseDto;
+import com.a603.youlangme.dto.ranking.UserLogResponseDto;
+import com.a603.youlangme.entity.User;
+import com.a603.youlangme.entity.UserExp;
 import com.a603.youlangme.entity.log.UserLog;
-import com.a603.youlangme.repository.ChatRepository;
-import com.a603.youlangme.repository.UserLogRepository;
+import com.a603.youlangme.entity.meta.Level;
+import com.a603.youlangme.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +35,19 @@ public class RedisService {
     ChatRepository chatRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     UserLogRepository userLogRepository;
+
+    @Autowired
+    UserExpRepository userExpRepository;
+
+    @Autowired
+    LevelRepository levelRepository;
 
     @Cacheable(value = "userLogList",key = "{#id}",cacheManager = "cacheManager")
     public List<UserLogResponseDto>TopLanguage(Long id){
-        System.out.println("1111111111111111111");
 
         List<UserLog>userLogList= (List<UserLog>) userLogRepository.findAll();
 
@@ -62,6 +78,72 @@ public class RedisService {
         }
         return result;
     }
+
+    @Cacheable(value = "RankUser",key = "{#id}",cacheManager = "cacheRankManager")
+    public List<RankLogResponseDto>RankList(Long id,Long userId){
+        List<RankLogResponseDto>result=new ArrayList<>();
+
+        List<UserExp>userExpList=userExpRepository.findAll();
+
+        PriorityQueue<Rank>pq=new PriorityQueue<>();
+
+        User user=userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
+        String userName=user.getName(); //마이페이지 유저
+
+        System.out.println(userExpList.size()+" 사이즈");
+        for(UserExp userExp:userExpList){
+            System.out.println(userExp.getUser().getName()+" "+userExp.getExp());
+            pq.add(new Rank(userExp.getUser().getName(),userExp.getExp()));
+        }
+
+        while(pq.size()<3){
+            return null;
+        }
+
+        Rank rank1=pq.poll();
+        Rank rank2=pq.poll();
+        Rank rank3=pq.poll();
+
+        for(int i=1;i<4;i++){
+            RankLogResponseDto rankLogResponseDto=new RankLogResponseDto();
+            if(i==1){
+                rankLogResponseDto.setRank(i);
+                rankLogResponseDto.setLv(rank1.LV);
+                rankLogResponseDto.setName(rank1.name);
+            }else if(i==2){
+                rankLogResponseDto.setRank(i);
+                rankLogResponseDto.setLv(rank2.LV);
+                rankLogResponseDto.setName(rank2.name);
+            }else{
+                rankLogResponseDto.setRank(i);
+                rankLogResponseDto.setLv(rank3.LV);
+                rankLogResponseDto.setName(rank3.name);
+            }
+            result.add(rankLogResponseDto);
+        }
+
+        if(!rank1.name.equals(userName)&&!rank2.name.equals(userName)&&!rank3.name.equals(userName)){
+            int ranking=4;
+            while(!pq.isEmpty()){
+                Rank rank=pq.poll();
+                if(rank.name.equals(userName)){
+                    RankLogResponseDto rankLogResponseDto=new RankLogResponseDto().builder()
+                            .lv(rank.LV)
+                            .name(rank.name)
+                            .rank(ranking)
+                            .build();
+                    result.add(rankLogResponseDto);
+                    return  result;
+                }else{
+                    ranking++;
+                    continue;
+                }
+            }
+        }
+
+        return result;
+    }
 }
 
 class Lang implements Comparable<Lang>{
@@ -74,5 +156,18 @@ class Lang implements Comparable<Lang>{
 
     public int compareTo(Lang l){
         return l.per-this.per;
+    }
+}
+
+class Rank implements Comparable<Rank>{
+    String name;
+    int LV;
+    Rank(String name,int LV){
+        this.name=name;
+        this.LV=LV;
+    }
+
+    public int compareTo(Rank l){
+        return l.LV-this.LV;
     }
 }

@@ -1,17 +1,20 @@
 package com.a603.youlangme.config;
 
 
-import com.a603.youlangme.dto.chat.UserLogDto;
+import com.a603.youlangme.dto.ranking.RankLogResponseDto;
+import com.a603.youlangme.dto.ranking.UserLogDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -51,6 +54,18 @@ public class RedisConfig {
         return builder.build();
     }
 
+    @Primary
+    @Bean
+    public CacheManager cacheRankManager() {
+        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory());
+        RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
+                .prefixKeysWith("Rank:") // Key Prefix로 "Rank:"를 앞에 붙여 저장
+                .entryTtl(Duration.ofMinutes(60)); // 캐시 수명 30분
+        builder.cacheDefaults(configuration);
+        return builder.build();
+    }
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
@@ -67,6 +82,15 @@ public class RedisConfig {
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(UserLogDto.class));
         return redisTemplate;
+    }
+
+    @Bean
+    public RedisTemplate<String, RankLogResponseDto> rankredisTemplate(){
+        RedisTemplate<String, RankLogResponseDto> rankredisTemplate = new RedisTemplate<>();
+        rankredisTemplate.setConnectionFactory(redisConnectionFactory());
+        rankredisTemplate.setKeySerializer(new StringRedisSerializer());
+        rankredisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(RankLogResponseDto.class));
+        return rankredisTemplate;
     }
 
     private ObjectMapper objectMapper() {
