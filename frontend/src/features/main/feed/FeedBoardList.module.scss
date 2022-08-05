@@ -1,12 +1,28 @@
 .wrapper {
-  height: 60vh;
+  height: 100vh;
   overflow-y: scroll;
+  border: solid 2px #d3d3d3;
+  border-radius: 15px;
+  padding: 20px 0px;
 }
 .container {
 }
 .header {
+  padding: 10px;
+  margin-left: 10%;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(217, 8, 210);
+  text-shadow: 2px 2px #d3d3d3;
 }
 .main {
 }
 .footer {
+  & > div {
+    display: flex;
+
+    justify-content: center;
+    cursor: pointer;
+  }
 }

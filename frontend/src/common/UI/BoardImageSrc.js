@@ -1,4 +1,5 @@
-import { API_URL } from '../../utils/data/apiData';
+import { API_URL } from '../api/http-config';
+
 const BoardImageSrc = (props) => {
   const imgErrorHandler = (e) => {
     e.target.src =

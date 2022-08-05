@@ -1,8 +1,15 @@
-import classes from './Maintmp.module.scss';
+import { Link } from 'react-router-dom';
+
+// custom component
 import FeedBoardList from './feed/FeedBoardList';
-import Ranking from './ranking/Ranking';
+import UserRanking from './ranking/UserRanking';
 import RecommendUser from './recommendUser/RecommendUser';
-import LanguageRank from './language/LanguageRank';
+import LanguageRank from './ranking/LanguageRanking';
+// external component
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+
+// css
+import classes from './Maintmp.module.scss';
 const Maintmp = (props) => {
   return (
     <>
@@ -10,11 +17,17 @@ const Maintmp = (props) => {
         <div className={classes.container}>
           <div className={classes.header}></div>
           <div className={classes.main}>
-            <FeedBoardList />
+            <div className={classes.column1}>
+              <Link to={`board/create`}>
+                <ControlPointIcon />
+              </Link>
+              <FeedBoardList />
+            </div>
+
             <div className={classes.column2}>
-              <Ranking />
-              <RecommendUser />
+              <UserRanking />
               <LanguageRank />
+              <RecommendUser />
             </div>
           </div>
           <div className={classes.footer}></div>

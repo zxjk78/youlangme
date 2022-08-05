@@ -10,7 +10,7 @@ export const createBoard = async (content, images) => {
   const newImage = [];
 
   for (const image of images) {
-    if (image.size > 1024000) {
+    if (image.size > 512000) {
       const newImg = await imgResizing(image);
       newImage.push(newImg);
     } else {

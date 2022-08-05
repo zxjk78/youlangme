@@ -57,7 +57,7 @@
   }
 }
 
-.likeCommentCnt {
+.likeReplyCnt {
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -86,14 +86,14 @@
   }
 }
 
-.comment {
+.reply {
   .header {
     display: flex;
     margin-bottom: 20px;
     gap: 0px 10px;
   }
 
-  .commentInput {
+  .replyInput {
     margin: 10px auto;
     padding: 8px;
     border: solid 1px #d3d3d3;
@@ -121,11 +121,17 @@
       cursor: pointer;
     }
   }
-  .commentContainer {
+  .replyContainer {
+    min-height: 50px;
     height: auto;
     border: solid 1px #b865c6;
     border-radius: 5px;
-    padding: 20px;
+    padding: 10px 20px;
+
     overflow: scroll;
   }
+}
+.noReply {
+  color: #b865c6;
+  font-size: 0.8rem;
 }

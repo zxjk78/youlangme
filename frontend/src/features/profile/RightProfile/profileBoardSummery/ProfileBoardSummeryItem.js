@@ -15,7 +15,6 @@ import classes from './ProfileBoardSummeryItem.module.scss';
 // etc
 import { createdDateCal } from '../../../../utils/functions/commonFunctions';
 
-
 // 클릭시 디테일로 이동하는 부분으로 어디로 정할지를 의논할 것
 const ProfileBoardSummeryItem = (props) => {
   const history = useHistory();
@@ -63,8 +62,8 @@ const ProfileBoardSummeryItem = (props) => {
           <div className={classes.main} onClick={showDetailModal}>
             <div className={classes.contentContainer}>{boardInfo.contents}</div>
             <div className={classes.imgContainer}>
-              {boardInfo.imgList.slice(0, 3).map((pic) => (
-                <BoardImageSrc imgName={pic} alt={pic} key={pic} />
+              {boardInfo.imgList.slice(0, 3).map((image) => (
+                <BoardImageSrc imgName={image} alt={image} key={image} />
               ))}
               {/* {boardInfo.imgList.length > 3 && <AddIcon />} */}
             </div>
