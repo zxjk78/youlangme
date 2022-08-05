@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 // API
 import { fetchUserBoardList } from '../../../board/boardAPI';
 //custom-component
 import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
 // mui
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 // css
 import classes from './ProfileBoardSummeryList.module.scss';
 
@@ -40,31 +41,38 @@ const ProfileBoardSummeryList = (props) => {
       {isLoading ? (
         <div>...loading</div>
       ) : (
-        <div className={classes.wrapper}>
-          <div className={classes.container}>
-            <div className={classes.header}></div>
-            <div className={classes.main}>
-              {userBoardList.map((board) => (
-                <ProfileBoardSummeryItem
-                  key={board.boardId}
-                  boardInfo={board}
-                />
-              ))}
-            </div>
-            <div className={classes.footer}>
-              {isLoading ? (
-                <div>...loading</div>
-              ) : (
-                !isBoardOver && (
-                  <div onClick={fetchBoardListPaging}>
-                    <div>더보기</div>
-                    <ExpandMoreIcon />
-                  </div>
-                )
-              )}
+        <>
+          <div>
+            <Link to={`board/create`}>
+              <ControlPointIcon />
+            </Link>
+          </div>
+          <div className={classes.wrapper}>
+            <div className={classes.container}>
+              <div className={classes.header}></div>
+              <div className={classes.main}>
+                {userBoardList.map((board) => (
+                  <ProfileBoardSummeryItem
+                    key={board.boardId}
+                    boardInfo={board}
+                  />
+                ))}
+              </div>
+              <div className={classes.footer}>
+                {isLoading ? (
+                  <div>...loading</div>
+                ) : (
+                  !isBoardOver && (
+                    <div onClick={fetchBoardListPaging}>
+                      <div>더보기</div>
+                      <ExpandMoreIcon />
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

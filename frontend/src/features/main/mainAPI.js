@@ -2,16 +2,24 @@ import axios from 'axios';
 import { API_URL } from '../../common/api/http-config';
 
 export const fetchUserRanking = async () => {
-  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
-
-  // 1위 2위 3위 ... 내 순위
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
   try {
-    const response = await axios.get(API_URL + `user/exp/ranking`, {
-      headers: {
-        'X-AUTH-TOKEN': accessToken,
-      },
+    const response = await axios.get(API_URL + `redis/rankList`, {
+      headers: { 'X-Auth-Token': accessToken },
     });
-
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const fetchLanguageRanking = async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  try {
+    const response = await axios.get(API_URL + `redis/langList`, {
+      headers: { 'X-Auth-Token': accessToken },
+    });
     return response.data.data;
   } catch (error) {
     console.log(error);
