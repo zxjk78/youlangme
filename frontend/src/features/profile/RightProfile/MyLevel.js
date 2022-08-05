@@ -87,9 +87,9 @@ const MyLevel = (props) => {
           </Modal>
 
           <CardContent sx={{ height: 300}} className={classes.level} >
-            <IconButton onClick={levelModalHandler}>
+            <IconButton onClick={levelModalHandler} sx={{ height: 250, width: 250}} >
               <div>
-                <Badge badgeContent={LevelCriteria[levelId][1]} overlap="circular"s
+                <Badge badgeContent={LevelCriteria[levelId][1]} overlap="circular"
                   anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'right',

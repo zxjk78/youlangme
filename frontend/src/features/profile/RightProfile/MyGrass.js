@@ -119,7 +119,7 @@ const MyGrass = (props) => {
         component="div"
         sx={{ mb: 0, mt: 1 }}
       >
-        나의 출석 일수
+        내 활동
       </Typography>
 
       <div className={classes.grass_card}>
@@ -129,7 +129,7 @@ const MyGrass = (props) => {
           to="2022-12-31"
           emptyColor="#eeeeee"
           colors={['#61cdbb', '#97e3d5', '#e8c1a0', '#f47560']}
-          margin={{ top: 0, right: 0, bottom: 10, left: 30 }}
+          margin={{ top: 0, right: 0, bottom: 50, left: 30 }}
           // yearSpacing={40}
           monthBorderColor="#ffffff"
           dayBorderWidth={2}
