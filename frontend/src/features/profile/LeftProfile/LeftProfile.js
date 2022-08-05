@@ -5,6 +5,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { modalActions } from '../../../common/UI/Modal/modalSlice';
+import { profileActions } from '../profileSlice';
 
 // router
 import { useHistory } from 'react-router-dom';
@@ -54,28 +55,33 @@ import { CompareArrows, GTranslate, Build} from '@mui/icons-material';
 
 const LeftProfile = (props) => {
   const userId = props.userId
-  // const params = useParams();
-  const dispatch = useDispatch();
   const history = useHistory();
-
-  const myTheme = createTheme({
-      palette: chipColors
-    });
+  // const params = useParams();
   
-    // redux
-    const { currentUser } = useSelector((state) => state.auth);
+  const myTheme = createTheme({
+    palette: chipColors
+  });
+  
+  // redux
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
+  const { isProfileImgUpdated }  = useSelector((state) => state.profile);
     // const dispatch = useDispatch();
     // console.log('리덕스 테스트:', currentUser );
 
   const [profileInfo, setProfileInfo] = useState(null);
-  const [profileImg, setProfileImg] = useState(null);
+  const [otherProfileImg, setOtherProfileImg] = useState(null);
+  const [myProfileImg, setMyProfileImg] = useState(null);
+
   const [profileDescription, setProfileDescription] = useState('');
-  const [isUploaded, setIsUploaded] = useState(false)
+  const [isDescUploaded, setIsDescUploaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
   const isModalVisible = useSelector((state) => state.modal.isVisible);
   // console.log(userId);
   
   const nationalityCode = profileInfo ? iso_code[profileInfo.nationality] : null
+
+
   const isCurrentUser = currentUser.id === Number(userId);
   // console.log(isCurrentUser);
 
@@ -84,20 +90,23 @@ const LeftProfile = (props) => {
     dispatch(modalActions.onModal());
   };
 
-  const updateProfileImg = (isUpdated) => {
-      console.log(isUpdated, '이미지 업데이트여부')
-      if (isUpdated) {
-        setIsUploaded(true)
-      }
-    }
+  // const updateProfileImg = (isUpdated) => {
+  //   // console.log(isUpdated, '이미지 업데이트여부')
+  //   if (isUpdated) {
+  //     dispatch(profileActions.profileImgUpdate(true));
+  //     console.log('지금 이미지 상태',isprofileImgUploaded)
+  //   }
+  // }
+
+
   const updateProfileDesc = (isUpdated) => {
     console.log(isUpdated, '자기소개 업데이트여부')
     if (isUpdated) {
-      setIsUploaded(true)
-    }
+      setIsDescUploaded(true)
+    } 
   }
-
-
+  
+  
   useEffect(() => {
     (
       async () => {
@@ -110,17 +119,29 @@ const LeftProfile = (props) => {
         }
         const profileImage = await fetchProfileImg(userId);
         const profileDescript = await fetchDescription(userId);
-
+        
         setProfileInfo(profileDetail);
-        setProfileImg(profileImage)
         setProfileDescription(profileDescript)
+
+        if (isCurrentUser) {
+          setMyProfileImg(profileImage)
+        } else {
+          setOtherProfileImg(profileImage)
+        }
+
         setIsLoading(false);
-        setIsUploaded(false)
+        setIsDescUploaded(false)
+        dispatch(profileActions.resetProfileImgUpdate());
       })();
-    return () => {
-      setProfileImg(null)
+      
+      return () => {
+        if (isCurrentUser) {
+        setMyProfileImg(null)
+      } else {
+        setOtherProfileImg(null)
+      }
     }
-  }, [userId, isUploaded, profileDescription]);
+  }, [userId, isDescUploaded, isProfileImgUpdated, profileDescription]);
 
   // const colors = [ 'red', 'pink', 'purple', 'deepPurple', 'indigo', 'blue', 'lightBlue', 
   // 'teal', 'green', 'lime', 'yellow', 'amber', 'orange', 'deepOrange']
@@ -150,7 +171,9 @@ const LeftProfile = (props) => {
           </Typography>
           <CardMedia className={classes.avatar}>
             <div className={classes.profile_img_add_icon}>
-              {isCurrentUser && <ProfileImageEdit getNewProfileImg={updateProfileImg}/>}      
+              {isCurrentUser && <ProfileImageEdit 
+              // getNewProfileImg={updateProfileImg}
+              />}      
             </div>
             <Badge
               badgeContent={
@@ -159,7 +182,8 @@ const LeftProfile = (props) => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               overlap="circular"
             >
-              <Avatar sx={{ width: 200, height: 200 }} src={profileImg} />
+              <Avatar sx={{ width: 200, height: 200 }} 
+                src={isCurrentUser ? myProfileImg : otherProfileImg} />
             </Badge>
           
           </CardMedia>

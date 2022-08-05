@@ -35,11 +35,14 @@ const pages = ['Products', 'Pricing', 'Blog'];
 
 
 const Header = () => {
+  const { isProfileImgUpdated }  = useSelector((state) => state.profile);
   const { currentUser } = useSelector((state) => state.auth);
-  console.log(currentUser)
+  
+  // console.log(currentUser)
   const dispatch = useDispatch();
 
   const [profileImg, setProfileImg] = useState(null);
+  const [isUploaded, setIsUploaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
 
 
@@ -70,6 +73,14 @@ const Header = () => {
       });
 
   };
+  // 리덕스로 isprofileImgUploaded 관리해서 leftprofile에서 이미지 업데이트 했을때
+  // 내브바랑, 프로필 페이지 우측에 게시글 프사 다시 불러오게
+  // const updateProfileImg = (isUpdated) => {
+  //   console.log(isUpdated, '내브바 프로필  이미지 업데이트여부')
+  //   if (isUpdated) {
+  //     setIsUploaded(true)
+  //   }
+  // }
 
 
 
@@ -86,7 +97,7 @@ const Header = () => {
     return () => {
       setProfileImg(null)
     }
-  }, [currentUser.id]);
+  }, [currentUser.id, isProfileImgUpdated]);
 
 
 
@@ -115,7 +126,9 @@ const Header = () => {
       sx={{ borderRadius: 0}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <AdbIcon sx={{
+            // display: { xs: 'none', md: 'flex' }, 
+            mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -123,7 +136,7 @@ const Header = () => {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
+              // display: { xs: 'none', md: 'flex' },
               // fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
@@ -141,7 +154,7 @@ const Header = () => {
             href="/start"
             sx={{
               ml: 2,
-              display: { xs: 'none', md: 'flex' },
+              // display: { xs: 'none', md: 'flex' },
               // fontFamily: 'monospace',
               fontWeight: 700,
               // letterSpacing: '.3rem',
@@ -158,7 +171,8 @@ const Header = () => {
             <Tooltip title={currentUser.name}>
               <Button onClick={handleOpenUserMenu} sx={{ p: 1 }}>
                 {/* 프로필 이미지 넣기! */}
-                {  isLoading ? <CircularProgress /> : <Avatar  sx={{ width: 56, height: 56, mr:2}} alt="" src={profileImg} />}
+                {  isLoading ? <CircularProgress /> : 
+                  <Avatar  sx={{ width: 56, height: 56, mr:2}} alt="" src={profileImg} />}
                 <Typography
                   sx={{
                     // mr: 2,

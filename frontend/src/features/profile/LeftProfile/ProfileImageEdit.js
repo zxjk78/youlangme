@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { profileActions } from '../profileSlice';
 // import { currentUser } from '../auth/authSlice';
+
+import { API_URL, user, accessToken  } from "../../../common/api/http-config";
 
 // css
 import classes from "./ProfileEdit.module.scss";
@@ -31,9 +34,8 @@ const ProfileImageEdit = (props) => {
 
   // redux
   const { currentUser } = useSelector((state) => state.auth);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // console.log(' 프로필 리덕스 테스트:', currentUser);
-  const API_URL = 'http://127.0.0.1:8080/';
 
   const [open, setOpen] = useState(false);
   const profileUploadHandler = () => setOpen(true);
@@ -76,6 +78,21 @@ const ProfileImageEdit = (props) => {
     setOpen(false);
   }
 
+
+  const sendImageToServer = async () => {
+    
+    await uploadProfileImg(profileImg.profileImageFile);
+    // console.log('send이미지', profileImg.profileImageFile)
+    // dispatch(profileActions.profileImgUpdate(profileImg.profileImageFile));
+    setProfileImg({
+      profileImageFile: '',
+    })
+
+    dispatch(profileActions.profileImgUpdate())
+    // props.getNewProfileImg(true)
+    setOpen(false);
+  }
+
   useEffect(() => {
     // 컴포넌트가 언마운트되면 createObjectURL()을 통해 생성한 기존 URL을 폐기
     // fetchProfileImg(setProfileImg, params.userId);
@@ -86,12 +103,6 @@ const ProfileImageEdit = (props) => {
   }, [profileImg.previewImageURL]);
   
   
-  const sendImageToServer = () => {
-    
-    uploadProfileImg(profileImg.profileImageFile, setProfileImg);
-    props.getNewProfileImg(true)
-    setOpen(false);
-  }
 
 
   const style = {
