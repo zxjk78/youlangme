@@ -79,17 +79,17 @@ WSGI_APPLICATION = 'matchmaking_server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-import pymysql
-pymysql.install_as_MySQLdb()
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'youlangme',
-        'USER': 'a603',
-        'PASSWORD': 'youlangme',
-        'PORT': '3306'
-    }
-}
+# import pymysql
+# pymysql.install_as_MySQLdb()
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'youlangme',
+#         'USER': 'a603',
+#         'PASSWORD': 'youlangme',
+#         'PORT': '3306'
+#     }
+# }
 
 
 # Password validation

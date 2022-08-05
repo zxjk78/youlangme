@@ -36,7 +36,7 @@ public class MatchingController {
     private final UserService userService;
 
     @ResponseBody
-    @GetMapping
+    @PostMapping
     @Transactional
     public OneResult<MatchingResponseDto> requestMatching(@RequestBody MatchingRequestDto matchingRequestDto) throws JsonProcessingException {
         SecurityContext context = SecurityContextHolder.getContext();
