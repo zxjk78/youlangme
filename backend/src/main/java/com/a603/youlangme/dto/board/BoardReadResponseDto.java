@@ -33,7 +33,7 @@ public class BoardReadResponseDto {
         res.createdTime = board.getCreatedDate();
         res.modifiedTime = board.getModifiedDate();
         res.userId = board.getAuthor().getId();
-        res.userName = board.getAuthor().getUsername();
+        res.userName = board.getAuthor().getName();
 
         for(BoardImg img : boardImgList){
             res.imgList.add(img.getPath());
