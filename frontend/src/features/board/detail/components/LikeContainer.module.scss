@@ -5,6 +5,17 @@
   flex-direction: row;
   align-items: center;
   cursor: pointer;
+  & > div:nth-of-type(2) {
+    box-sizing: border-box;
+    width: 30px;
+    height: 30px;
+    padding: 10px 0px;
+    text-align: center;
+    line-height: 8px;
+    &:hover {
+      font-weight: bold;
+    }
+  }
 }
 
 .likeUserList {

@@ -95,7 +95,11 @@ const ImageDragNDrop = (props) => {
             <input {...getInputProps()} />
             {!isImageLoaded && (
               <div className={classes.msgStyle}>
-                <CloudUploadOutlinedIcon />
+                <img
+                  src="http://cdn.onlinewebfonts.com/svg/img_150954.png"
+                  alt=""
+                />
+                {/* <CloudUploadOutlinedIcon fontSize="large" /> */}
                 <p>
                   이미지를 선택하거나 이곳에 올려 주세요. <br />
                   이미지는 최대 {maxLimit}장까지 업로드 가능합니다.

@@ -47,7 +47,7 @@ const BoardDetailModal = (props) => {
     setIsLoading(true);
     (async () => {
       const boardDetail = await fetchBoardInfo(boardId);
-      // console.log(boardDetail);
+      console.log(boardDetail);
       if (!boardDetail) {
         history.replace({
           pathname: '/404',
@@ -136,7 +136,7 @@ const BoardDetailModal = (props) => {
     // delete API 요청
     const data = await deleteBoard(boardId);
     if (data.success === true) {
-      history.push('/main');
+      history.goBack();
     }
   };
   const showLikeUserModal = () => {
@@ -155,7 +155,7 @@ const BoardDetailModal = (props) => {
           <CircularProgress />
         </div>
       ) : (
-        <Modal closeModalHandler={closeModal}>
+        <Modal closeModalHandler={closeModal} boardDetail>
           {likeUserVisible && (
             <LikeUserModal
               likeUserList={likeUsers}
@@ -165,7 +165,12 @@ const BoardDetailModal = (props) => {
 
           <div className={classes.wrapper}>
             <div className={classes.boardHeader}>
-              <UserInfo user={currentUser} />
+              <UserInfo
+                user={{
+                  id: boardDetail.userId,
+                  name: boardDetail.userName,
+                }}
+              />
 
               <div className={classes.createdAt}>
                 {createdDateCal(boardDetail.createdTime)}

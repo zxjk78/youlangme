@@ -9,7 +9,14 @@ const Backdrop = (props) => {
 const ModalOverlay = (props) => {
   return (
     <>
-      <div className={classes.modal}>
+      <div
+        className={`${classes.modal} ${
+          props.isImageUpload && classes.imageUpload
+        }        
+        ${props.isBoardDetail && classes.boardDetail}
+        ${props.isUserLike && classes.userLike}
+        `}
+      >
         <div className={classes.content}>{props.children}</div>
       </div>
     </>
@@ -19,11 +26,16 @@ const ModalOverlay = (props) => {
 const portalElement = document.querySelector('#overlays');
 
 const Modal = (props) => {
-  const isBackDropClickClose = props.backdropClickClose || true;
   const isBackDropTransparent = props.backDropTransparent || false;
+  // 백드롭이 투명하거나, 옵션에 클릭으로 삭제 못하게 만들어놨으면 click으로 지우기 안됨
+  const isBackDropClickClose = isBackDropTransparent ? false : true;
 
   const closeModal = () => {
     // 모달을 연 상위 컴포넌트에서 모달을 닫게 만듬
+    if (!isBackDropClickClose) {
+      return;
+    }
+
     props.closeModalHandler();
   };
 
@@ -39,7 +51,13 @@ const Modal = (props) => {
         portalElement
       )}
       {ReactDom.createPortal(
-        <ModalOverlay>{props.children}</ModalOverlay>,
+        <ModalOverlay
+          isImageUpload={props.imageUpload}
+          isBoardDetail={props.boardDetail}
+          isUserLike={props.userLike}
+        >
+          {props.children}
+        </ModalOverlay>,
         portalElement
       )}
     </>

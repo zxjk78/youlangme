@@ -7,7 +7,7 @@ import { createBoardActions } from '../createBoardSlice';
 import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
 import { API_URL } from '../../../../common/api/http-config';
 
-// component
+// custom component
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 // mUI
@@ -98,7 +98,7 @@ const CreateBoardForm = () => {
 
     if (data.success) {
       dispatch(createBoardActions.clearFile());
-      history.push('/main');
+      history.goBack();
     } else {
       alert('오류가 발생했습니다.');
     }
@@ -146,7 +146,6 @@ const CreateBoardForm = () => {
                   <div className={classes.imageContainer}>
                     {images.length !== 0 &&
                       images.map((file, index) => {
-                        // console.log(file); //promise file이 반환되는 문제 해결 필요
                         return (
                           <div key={file.preview} className={classes.fileImage}>
                             <HighlightOffIcon
