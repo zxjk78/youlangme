@@ -145,7 +145,6 @@ public class RedisService {
                 }
             }
         }
-
         return result;
     }
 }
