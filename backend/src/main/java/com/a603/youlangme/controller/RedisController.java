@@ -35,7 +35,9 @@ public class RedisController {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User user=((User)authentication.getPrincipal());
+        //return responseService.getManyResult(redisService.RankList(id,1002L));  //로그인 했다 치고 실행했을 떄 결과 TEST
         return responseService.getManyResult(redisService.RankList(id,user.getId()));
+
     }
 
 }
