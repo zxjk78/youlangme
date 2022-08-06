@@ -1,5 +1,5 @@
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
-import { createdDateCal } from '../../../../utils/functions/commonFunctions';
+import { createdDateCal } from '../../../../common/utils/functions/commonFunctions'
 import classes from './ReplyListItem.module.scss';
 import { API_URL } from '../../../../common/api/http-config';
 

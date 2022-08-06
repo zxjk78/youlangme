@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { createdDateCal } from '../../../../utils/functions/commonFunctions';
+import { createdDateCal } from '../../../../common/utils/functions/commonFunctions';
 import { useParams } from 'react-router-dom';
 // API
 import {
