@@ -11,7 +11,8 @@ import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import { MAX_IMAGE_LIMIT } from '../../data';
 //css
 import classes from './ImageDragNDrop.module.scss';
-
+// etc
+import imageUpload from '../../../../../assets/imageUploadIcon.png';
 const baseStyle = {
   height: '168px',
   flex: 1,
@@ -95,10 +96,7 @@ const ImageDragNDrop = (props) => {
             <input {...getInputProps()} />
             {!isImageLoaded && (
               <div className={classes.msgStyle}>
-                <img
-                  src="http://cdn.onlinewebfonts.com/svg/img_150954.png"
-                  alt=""
-                />
+                <img src={imageUpload} alt="" />
                 {/* <CloudUploadOutlinedIcon fontSize="large" /> */}
                 <p>
                   이미지를 선택하거나 이곳에 올려 주세요. <br />
