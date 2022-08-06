@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../../common/api/http-config';
-import { imgResizing } from '../../utils/functions/commonFunctions';
+import { imgResizing } from '../../common/utils/functions/commonFunctions';
 
 export const createBoard = async (content, images) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;

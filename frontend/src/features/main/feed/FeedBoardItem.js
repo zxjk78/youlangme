@@ -13,7 +13,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import classes from './FeedBoardItem.module.scss';
 
 // etc
-import { createdDateCal } from '../../../utils/functions/commonFunctions';
+import { createdDateCal } from '../../../common/utils/functions/commonFunctions';
 import { API_URL } from '../../../common/api/http-config';
 
 const FeedBoardItem = (props) => {

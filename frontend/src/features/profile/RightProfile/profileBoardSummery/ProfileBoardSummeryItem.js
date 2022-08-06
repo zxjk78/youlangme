@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add';
 // css
 import classes from './ProfileBoardSummeryItem.module.scss';
 // etc
-import { createdDateCal } from '../../../../utils/functions/commonFunctions';
+import { createdDateCal } from '../../../../common/utils/functions/commonFunctions';
 
 // 클릭시 디테일로 이동하는 부분으로 어디로 정할지를 의논할 것
 const ProfileBoardSummeryItem = (props) => {
