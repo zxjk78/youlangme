@@ -89,12 +89,12 @@ public class RedisService {
 
         User user=userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
-        String userName=user.getName(); //마이페이지 유저
+        Long uid=user.getId(); //마이페이지 유저
 
         System.out.println(userExpList.size()+" 사이즈");
         for(UserExp userExp:userExpList){
             System.out.println(userExp.getUser().getName()+" "+userExp.getExp());
-            pq.add(new Rank(userExp.getUser().getName(),userExp.getExp()));
+            pq.add(new Rank(userExp.getUser().getId(),userExp.getUser().getName(),userExp.getExp()));
         }
 
         while(pq.size()<3){
@@ -108,14 +108,17 @@ public class RedisService {
         for(int i=1;i<4;i++){
             RankLogResponseDto rankLogResponseDto=new RankLogResponseDto();
             if(i==1){
+                rankLogResponseDto.setId(rank1.id);
                 rankLogResponseDto.setRank(i);
                 rankLogResponseDto.setLv(rank1.LV);
                 rankLogResponseDto.setName(rank1.name);
             }else if(i==2){
+                rankLogResponseDto.setId(rank2.id);
                 rankLogResponseDto.setRank(i);
                 rankLogResponseDto.setLv(rank2.LV);
                 rankLogResponseDto.setName(rank2.name);
             }else{
+                rankLogResponseDto.setId(rank3.id);
                 rankLogResponseDto.setRank(i);
                 rankLogResponseDto.setLv(rank3.LV);
                 rankLogResponseDto.setName(rank3.name);
@@ -123,12 +126,13 @@ public class RedisService {
             result.add(rankLogResponseDto);
         }
 
-        if(!rank1.name.equals(userName)&&!rank2.name.equals(userName)&&!rank3.name.equals(userName)){
+        if(rank1.id!=uid&&rank2.id!=uid&&rank3.id!=uid){
             int ranking=4;
             while(!pq.isEmpty()){
                 Rank rank=pq.poll();
-                if(rank.name.equals(userName)){
+                if(rank.id==uid){
                     RankLogResponseDto rankLogResponseDto=new RankLogResponseDto().builder()
+                            .id(rank.id)
                             .lv(rank.LV)
                             .name(rank.name)
                             .rank(ranking)
@@ -160,9 +164,12 @@ class Lang implements Comparable<Lang>{
 }
 
 class Rank implements Comparable<Rank>{
+
+    Long id;
     String name;
     int LV;
-    Rank(String name,int LV){
+    Rank(Long id,String name,int LV){
+        this.id=id;
         this.name=name;
         this.LV=LV;
     }
