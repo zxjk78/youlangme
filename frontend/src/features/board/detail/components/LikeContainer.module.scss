@@ -5,6 +5,7 @@
   flex-direction: row;
   align-items: center;
   cursor: pointer;
+
   & > div:nth-of-type(2) {
     box-sizing: border-box;
     width: 30px;
@@ -37,3 +38,13 @@
     text-decoration: none;
   }
 }
+
+// @keyframes clickHeart {
+//   0%,
+//   100% {
+//     top: 0;
+//   }
+//   50% {
+//     top: -10px;
+//   }
+// }
