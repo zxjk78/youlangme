@@ -227,12 +227,12 @@ ex) Feat: Add follow API
 
      ⇒ pull request 시 이상이 없는지 확인하고 merge한다.
 
-  2. backend, front 브랜치에서 서로 연결되는 작업 완성 시 develop 브랜치로 pull request를 통해 merge한다.
+  2. backend, frontend 브랜치에서 서로 연결되는 작업 완성 시 develop 브랜치로 pull request를 통해 merge한다.
   3. 다음 배포 버전이 준비되면 master 브랜치로 pull request를 통해 merge한다.
 - feature 브랜치 이름 명명 규칙
   - [F or B]-[기능 이름] or 개발자명
     ex) B-Board
-    ex) B-Auth
+    ex) F-Match
     ex) mujong
 
 ## 👨‍👩‍👧 Jira
