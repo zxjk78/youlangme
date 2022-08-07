@@ -202,12 +202,12 @@ Remove:  파일 삭제
 ```
 
 ```
-커밋 타입: 내용 자세히 적어주기 [#지라이슈넘버]
-ex) FEAT: 로그인 rest api 추가 [#지라이슈넘버]
+커밋 타입: 수정된 내역 설명
+ex) Feat: Add follow API 
 
 ```
 
-해당 [Git 스타일 가이드](https://udacity.github.io/git-styleguide/)를 참고하여서 정했습니다
+
 
 ## 💡Git Flow 브랜치 전략
 
