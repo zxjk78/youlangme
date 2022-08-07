@@ -4,7 +4,18 @@
 
 ## 배포
 
-[React App](https://i7a603.p.ssafy.io)
+[너LANG나 배포 URL](https://i7a603.p.ssafy.io)
+
+## 👨‍👩‍👧 Notion
+
+---
+
+`A603 팀 노션 링크`
+
+[2학기 공통 프로젝트-YouLangMe](https://www.notion.so/2-YouLangMe-ad727a9ac92c4927a246106890bc05da)
+
+모두가 봐야할 공지, 참고 할 링크 등을 모아 관리했습니다. 그리고 항상 모든 회의 및 피드백은 기록으로 남겨두어서 잘 반영할 수 있도록 하였습니다. 컨벤션 규칙, 요구사항 정의서, API 문서 등도 노션에 기록하여 모두가 항시 확인할 수 있도록 관리했습니다.
+
 
 ## ✨Overview
 
@@ -53,15 +64,6 @@
 
 ![15.png](images/15.png)
 
-## 👨‍👩‍👧 Notion
-
----
-
-`A603 팀 노션 링크`
-
-[2학기 공통 프로젝트-YouLangMe](https://www.notion.so/2-YouLangMe-ad727a9ac92c4927a246106890bc05da)
-
-모두가 봐야할 공지, 참고 할 링크 등을 모아 관리했습니다. 그리고 항상 모든 회의 및 피드백은 기록으로 남겨두어서 잘 반영할 수 있도록 하였습니다. 컨벤션 규칙, 요구사항 정의서, API 문서 등도 노션에 기록하여 모두가 항시 확인할 수 있도록 관리했습니다.
 
 ## ✨ 주요 기능
 
@@ -258,6 +260,18 @@ story에 예상 시간(story point)을 기록해 더 세세하게 일정 관리�
 ### ✨ EC2 포트 정리
 
 ---
+
+|PORT|이름|
+|---|---|
+|443|HTTPS|
+|80|HTTP - HTTPS로 리다이렉트(프론트 페이지지로 리다이렉트)|
+|8443|Openvidu|
+|6379|Redis|
+|3306|MySQL|
+|8000|Django|
+|8080|Spring boot Docker|
+|3000|React|
+
 
 [제목 없음](https://www.notion.so/ea411c074a1d46429e0021c09d28a65b)
 
