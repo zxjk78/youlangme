@@ -71,4 +71,8 @@ def matchmakingApi(request):
                 return JsonResponse(responseData("Matched Successfully", opponentId, sessionId), safe=False)
             sleep(1)
         
-        return JsonResponse(responseData("Matching Failed", -1, "-1"), safe=False)
+
+        con.lrem(userInfo['mylang'] + " " + userInfo['yourlang'], 1, user_id)
+        con.lrem("matchingOrder", 1, user_id)
+        con.delete(user_id)
+        return JsonResponse(responseData("Matching Failed", "-1", "-1"), safe=False)
