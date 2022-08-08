@@ -23,14 +23,14 @@ import { MAX_IMAGE_LIMIT } from '../data';
 // 어떤 방식으로던 이동해옴, 라우터로부터 수정인지 생성인지 알아냄
 
 const CreateBoardForm = () => {
+  const dispatch = useDispatch();
   const boardId = useParams().boardId;
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [imageCnt, setImageCnt] = useState(0);
   const [boardInfo, setBoardInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
   const contentRef = useRef();
-  const dispatch = useDispatch();
   const history = useHistory();
   const imageLimit = MAX_IMAGE_LIMIT;
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -54,7 +54,7 @@ const CreateBoardForm = () => {
         const tmpInfo = await fetchBoardInfo(boardId);
         setBoardInfo(() => tmpInfo);
         const imageSrcs = tmpInfo.imgList;
-        dispatch(createBoardActions.setFileCnt(imageSrcs.length));
+
         const convertedList = await Promise.all(
           imageSrcs.map((item) => {
             const url = `${API_URL}image/board/${item}`;
@@ -62,6 +62,7 @@ const CreateBoardForm = () => {
           })
         );
         setImages((prevState) => prevState.concat(convertedList));
+        setImageCnt((prevState) => (prevState += imageSrcs.length));
         setIsLoading(false);
       })();
     }
@@ -74,15 +75,17 @@ const CreateBoardForm = () => {
   const modalImageLoadHandler = (files) => {
     // console.log('제출 form에서 보여줘야함', files);
     setImages((prevState) => prevState.concat(files));
+    setImageCnt((prevState) => (prevState += files.length));
   };
   const imageRemoveHandler = (event) => {
-    const fileIdx = Number(event.target.dataset.index);
-    dispatch(createBoardActions.removeFileCnt());
-    setImages((state) =>
-      state.filter((file, index) => {
+    const fileIdx = Number(event.currentTarget.dataset.index);
+
+    setImages((prevState) =>
+      prevState.filter((file, index) => {
         return index !== fileIdx;
       })
     );
+    setImageCnt((prevState) => (prevState -= 1));
   };
   const boardUploadHandler = async (event) => {
     event.preventDefault();
@@ -116,6 +119,7 @@ const CreateBoardForm = () => {
         <BoardImageUploadModal
           loadImageFromModal={modalImageLoadHandler}
           closeModal={closeModalHandler}
+          imageCount={imageCnt}
         />
       )}
       {!isLoading ? (
@@ -148,12 +152,13 @@ const CreateBoardForm = () => {
                       images.map((file, index) => {
                         return (
                           <div key={file.preview} className={classes.fileImage}>
-                            <HighlightOffIcon
-                              sx={{ color: common[500] }}
+                            <div
                               className={classes.removeImgButton}
                               data-index={index}
                               onClick={imageRemoveHandler}
-                            />
+                            >
+                              <HighlightOffIcon sx={{ color: common[500] }} />
+                            </div>
                             <img src={file.preview} alt="" />
                           </div>
                         );
@@ -191,12 +196,3 @@ const CreateBoardForm = () => {
 };
 
 export default CreateBoardForm;
-
-// {/* {!boardInfo ? */}
-//       // : boardInfo.imgList.map((image) => (
-//       //     <img
-//       //       key={image}
-//       //       src={`${API_URL}image/board/${image}`}
-//       //       alt="게시판 수정 시 이미지"
-//       //     />
-//         ))}
