@@ -1,7 +1,7 @@
 .left_profile {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 33%;
   margin-top: 1%;
   margin-left: 4%;
   margin-right: 2%;
@@ -14,7 +14,7 @@
   .avatar {
     // justify-content: center;
     text-align: center;
-    margin-top: 10%;
+    // margin-top: 10%;
 
     .profile_img_add_icon {
       text-align: end;
@@ -23,13 +23,13 @@
     }
 
     .flag {
-      width: 85px;
-      height: 55px
+      width: 60px;
+      height: 35px
     }
   }
 
   .profile_content {
-    margin-top: 10px;
+    margin-top: 5px;
 
     .name {
       margin-left: 20px;
@@ -41,8 +41,8 @@
       flex-direction: column;
       // justify-content: space-between;
       width: 100%;
-      margin-top: 20px;
-      min-height: 140px;
+      margin-top: 12px;
+      min-height: 105px;
       max-height: 140px;
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid #CAD6E2;
@@ -56,17 +56,17 @@
       }
 
       .description_card_content {
-        padding: 10px 20px 10px 20px;
-        min-height: 100px;
+        padding: 10px 20px 7px 20px;
+        min-height: 90px;
         max-height: 130px;
       }
     }
 
     .rest_info {
       width: 100%;
-      margin-top: 20px;
+      margin-top: 10px;
       // margin-bottom: 20px;
-      padding: 15px 10px 12px 20px;
+      padding: 10px 10px 10px 20px;
 
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid #CAD6E2;
@@ -77,6 +77,7 @@
 
         .greys {
           color: #9BA7AF;
+          font-size: small;
         }
 
         .language {
@@ -95,9 +96,9 @@
         // justify-content: space-around;
 
         .chip {
-          padding: 0px 4px;
+          padding: 0px 1px;
           margin-left: 10px;
-          font-size: 14px;
+          font-size: 13px;
         }
       }
     }

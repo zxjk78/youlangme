@@ -1,8 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
-// redux
-import { useSelector, useDispatch } from 'react-redux';
-import { createBoardActions } from '../../createBoardSlice';
 
 // component
 import ImageThumbContainer from './ImageThumbContainer';
@@ -34,11 +31,7 @@ const ImageDragNDrop = (props) => {
   const maxLimit = MAX_IMAGE_LIMIT;
   const [files, setFiles] = useState([]);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const loadedImgCnt = useSelector(
-    (state) => state.createBoard.loadedImgFileCnt
-  );
-  // console.log(loadedImgCnt);
-  const dispatch = useDispatch();
+  const [loadedImgCnt, setLoadedImgCnt] = useState(props.imageCount);
 
   const { getRootProps, getInputProps, isFocused } = useDropzone({
     accept: {
@@ -47,7 +40,7 @@ const ImageDragNDrop = (props) => {
     onDrop: (acceptedFiles) => {
       if (loadedImgCnt + acceptedFiles.length > maxLimit) {
         alert('이미지 최대 갯수를 초과하였습니다.');
-        // console.log(maxLimit, '이미지 최대 갯수 초과');
+
         return;
       }
 
@@ -59,7 +52,7 @@ const ImageDragNDrop = (props) => {
         );
         return [...files].concat(newAddedFiles);
       });
-      dispatch(createBoardActions.addFileCnt(acceptedFiles.length));
+      setLoadedImgCnt((prevState) => (prevState += acceptedFiles.length));
     },
     maxFiles: maxLimit,
     multiple: true,
@@ -73,12 +66,6 @@ const ImageDragNDrop = (props) => {
     }),
     [isFocused]
   );
-
-  // useEffect(() => {
-  //   console.log(files);
-  //   // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-  //   return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  // }, [files]);
 
   const onButtonClickHander = () => {
     props.loadImageFromModal(files);

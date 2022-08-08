@@ -2,8 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // background: transparent;
-  padding: 12px 9% 12px 6%;
+  margin: auto;
+  margin-top: 7px;
+
+  width: 90%;
+  background: transparent;
+  padding: 0px 3% 0px 3%;
 
   .navbar__left {
     // display: flex;
@@ -11,9 +15,9 @@
   
     .navbar__logo {
       // text-decoration: none;
-      height: 50px;
-      width: 220px;
-      margin-top: 10px;
+      height: 40px;
+      width: 130px;
+      // margin-top: 5px;
       // width: 100%;
       // align-items: center;
       // // color: white;
