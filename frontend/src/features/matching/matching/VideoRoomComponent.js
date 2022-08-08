@@ -39,6 +39,8 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: 'none',
       currentVideoDevice: undefined,
+      // youlangme custom
+      isHelpModalVisible: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -544,6 +546,11 @@ class VideoRoomComponent extends Component {
       this.hasBeenUpdated = false;
     }
   }
+  ///////// youlangme 커스텀
+
+  showHelpModal(event) {
+    console.log(event.target);
+  }
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -607,7 +614,10 @@ class VideoRoomComponent extends Component {
               </div>
             )}
         </div>
-        <div className="help-btn">Help 버튼 위치</div>
+
+        <div className="help-btn" onClick={this.showHelpModal}>
+          Help 버튼 위치
+        </div>
       </div>
     );
   }
