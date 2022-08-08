@@ -12,7 +12,7 @@ from numpy import dot
 from numpy.linalg import norm
 import time
 
-FAVOIRTE_NUM = 14
+FAVOIRTE_NUM = 15
 
 def vectorize(user):
     favoriteFlags = [0 for i in range(FAVOIRTE_NUM)]
@@ -40,7 +40,6 @@ def one_hot_encoding(df, enc_col):
 
 genderList = ["MALE", "FEMALE"]
 nationalityList = ["KOREA", "JAPAN", "CHINA", "AMERICA"]
-favoriteList = ["", "Movie", "Sports", "Music", "Investment", "Travel", "Coding", "Game", "Food", "Cooking", "Cafe", "Reading", "Pet", "Party", "Collecting"]
 MATCH_SCORE = 0.7
 
 #@background(schedule=3)
@@ -65,33 +64,18 @@ def matching():
             targetUserList.append(targetUser)
         
         df = pd.DataFrame(targetUserList)
-        #print(df)
         df_favo = df['favorites'].to_numpy()
-        #print(df_favo)
+
         vectorArray = []
         for i in df_favo:
             vec = [0 for v in range(FAVOIRTE_NUM)]
             for j in i.split(" "):
                 vec[int(j)] = 1
             vectorArray.append(vec)
-        #print(vectorArray)
-        
-        #count_vector = CountVectorizer()
-        #count_vector.fit(df_favo)
-        
-        #df_favo_count = pd.DataFrame(count_vector.transform(df_favo).toarray())
-        #df_favo_count.columns = count_vector.get_feature_names_out()
-        #df = df.join(df_favo_count)
+
         idList = df['id'].tolist()
         countList = df['count'].tolist()
-        #drop_cols = ['id', 'opnt', 'count', 'done', 'age', 'gender', 'nationality', 'favorites', 'mylang', 'yourlang']
-        #df.drop(columns = drop_cols, inplace=True)
-        
-        #userVector = df[0]
-        #targetVector = df[1:]
-        #vectorArray = df.to_numpy()
-        #df = cosine_similarity(df, df)
-        #print(df)
+
         user_count = countList[0]
         isMatched = False
         opponentId = -1
@@ -118,12 +102,10 @@ def matching():
             con.hset(userId, "opnt", opponentId)
             con.hset(opponentId, "opnt", userId)
             time_ = time.time()
-            print(str(time_))
             sessionId = str(userId) + "@" + str(opponentId) + "@" + str(time_)
             con.hset(userId, "sessionId", sessionId)
             con.hset(opponentId, "sessionId", sessionId)
-            #con.delete(userId)
-            #con.delete(opponentId)
+
     # 한 Matching cycle이 진행된 이후
     for userId in matchingOrder:
         userCount = con.hget(userId, "count")

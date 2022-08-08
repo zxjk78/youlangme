@@ -67,9 +67,6 @@ public class MatchingController {
             bodyJson.put("age", user.getAge());
             bodyJson.put("gender", user.getGender());
             bodyJson.put("nationality", user.getNationality());
-
-
-
             bodyJson.put("favorites", user.getUserFavorites().stream().map(
                     userFavorite -> userFavorite.getFavorite().getId()
             ).collect(Collectors.toList()));
