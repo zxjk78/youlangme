@@ -11,7 +11,6 @@
 
 .toolbar {
   min-height: 40px !important;
-
 }
 
 #titleContent {
@@ -45,9 +44,9 @@
   padding: 0;
 }
 
-
+/* 그냥 화면에 보여지는 컴포넌트들 올라오는 바운더리 */
 .bounds {
-  background-color: #494949;
+  background-color: #963636;
   overflow: hidden;
   position: absolute;
   left: 0;
@@ -59,6 +58,12 @@
   min-width: 400px !important;
   width: inherit;
 }
+
+/*  스크린 추가 */
+/* .screens {
+  display: flex;
+  flex-direction: column;
+} */
 
 
 /*!
@@ -750,7 +755,9 @@
 .OT_audio-level-meter__value {
   position: absolute;
   border-radius: 50%;
-  background-image: radial-gradient(circle, rgba(151, 206, 0, 1) 0%, rgba(151, 206, 0, 0) 100%);
+  background-image: radial-gradient(circle,
+      rgba(151, 206, 0, 1) 0%,
+      rgba(151, 206, 0, 0) 100%);
 }
 
 .OT_audio-level-meter.OT_mode-off {
@@ -898,4 +905,26 @@
   text-align: center;
   height: 100%;
   margin-top: 40px;
+}
+
+/* youlangme 추가 css */
+.modalZone {
+  position: absolute;
+  background-color: #1ca3dc;
+  width: 700px;
+  height: 400px;
+  z-index: 100;
+}
+
+.chat-container {
+  margin-right: 100px;
+}
+
+.help-btn {
+  background-color: #1ca3dc;
+  border-radius: 70%;
+  z-index: 500;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
 }
