@@ -162,8 +162,9 @@ const LeftProfile = (props) => {
           <Typography
             sx={{
               color: 'rgba(0, 0, 0, 0.6)',
-              fontSize: 30,
+              fontSize: 35,
               fontWeight: 'bold',
+              mb:3
             }}
             className={classes.header}
           >
@@ -182,7 +183,7 @@ const LeftProfile = (props) => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               overlap="circular"
             >
-              <Avatar sx={{ width: 200, height: 200 }} 
+              <Avatar sx={{ width: 150, height: 150 }} 
                 src={isCurrentUser ? myProfileImg : otherProfileImg} />
             </Badge>
           
@@ -193,12 +194,12 @@ const LeftProfile = (props) => {
               <CardContent>
                 <Typography
                   className={classes.name}
-                  sx={{ fontWeight: 'bold', letterSpacing: 3, fontSize: 26 }}
+                  sx={{ fontWeight: 'bold', letterSpacing: 3, fontSize: 25 }}
                   gutterBottom
                   component="div"
                 >
                   {profileInfo.name}
-                  { isCurrentUser && <IconButton onClick={modifyModalHandler} size='small'>
+                  { isCurrentUser && <IconButton onClick={modifyModalHandler} sx={{ width: '35px', height: '35px'}}>
                   <Build
                       sx={{ fontSize: 20, color: grey[500] }}
                     /></IconButton>}
@@ -213,7 +214,7 @@ const LeftProfile = (props) => {
                     <Typography
                       variant="body1"
                       color="text.secondary"
-                      sx={{ fontWeight: 'light' }}
+                      sx={{ fontWeight: 'light', fontSize: 15 }}
                     >
                       {profileDescription}
                     </Typography>

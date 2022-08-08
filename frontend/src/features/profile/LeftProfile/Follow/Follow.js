@@ -122,7 +122,7 @@ const Follow = (props) => {
                 }
               </div>}
               <div className={classes.follow}>
-                <Group sx={{  fontSize: 27, mx: 2, color: grey[500]}} />
+                <Group sx={{  fontSize: 23, mx: 2, color: grey[500]}} />
                 <div className={classes.followCnt}>
                   <span className={classes.follow_greys} onClick={() => setShowFollowers(true)}>팔로워 </span>
                   <span className={classes.cnt} >{followCnt.followerCnt} </span>

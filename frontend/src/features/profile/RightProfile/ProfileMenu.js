@@ -19,13 +19,13 @@ function ProfileMenu({userId, onChangeTab}) {
   };
 
   const tabFont = {
-    fontSize: 20, 
+    fontSize: 15, 
     fontWeight: 800
   }
 
 
   return (
-    <Box sx={{ width: '100%', mb:4,}}>
+    <Box sx={{ width: '90%', mb:2, mx: 'auto'}}>
       <Tabs
         value={value}
         centered
