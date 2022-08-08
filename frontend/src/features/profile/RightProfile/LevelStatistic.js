@@ -123,7 +123,8 @@ const LevelStatistic = (props) => {
         <Typography variant="button"
           sx={{ fontSize: 23, fontWeight: 'bold'}} component="span">레벨 상세 정보</Typography>
         <IconButton 
-          size="small" onClick={() => setOpen(false)}>
+           onClick={() => setOpen(false)}
+           sx={{ width: '35px', height: '35px'}}>
           <CancelIcon sx={{ color: grey[400], fontSize: 30 }} />
         </IconButton>
       </div>
