@@ -9,12 +9,13 @@ import MyPage from './features/profile/MyPage';
 import PrivateRoute from './common/routes/PrivateRoute';
 import PublicRoute from './common/routes/PublicRoute';
 import Social from './features/auth/social/Social';
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
 import StartMatching from './features/matching/StartMatching';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
+import VideoRoomComponentLocal from './features/matching/matching/VideoRoomComponentLocal';
 import NotFound from './features/other/NotFound/NotFound';
 //test
 import Maintmp from './features/main/Maintmp';
@@ -27,11 +28,10 @@ function App() {
   // const { currentUser } = useSelector((state) => state.auth);
   const { isLoggedIn } = useSelector((state) => state.auth);
 
-
   return (
     <div class="App">
       <BrowserRouter>
-        {isLoggedIn  && <Header/>}
+        {isLoggedIn && <Header />}
         <Switch>
           <PublicRoute
             restricted
@@ -54,7 +54,8 @@ function App() {
             exact
             path="/match"
             s
-            component={VideoRoomComponent}
+            // component={VideoRoomComponent}
+            component={VideoRoomComponentLocal}
           ></PrivateRoute>
           <PrivateRoute exact path="/main" component={Main}></PrivateRoute>
 
