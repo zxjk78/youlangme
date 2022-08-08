@@ -4,6 +4,7 @@ import com.a603.youlangme.advice.exception.AccessDeniedException;
 import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.aop.LoginUser;
 import com.a603.youlangme.dto.follow.FollowFolloweeResponseDto;
 import com.a603.youlangme.dto.follow.FollowFollowerFolloweeCntResponseDto;
 import com.a603.youlangme.dto.follow.FollowFollowerResponseDto;
@@ -21,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,11 +41,7 @@ public class FollowController {
 
     // 팔로우 추가
     @PostMapping("/{userId}")
-    public CommonResult registFollow(@PathVariable("userId") Long userToFollowId) {
-        // 로그인 유저 가져오기
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User loginUser = (User) authentication.getPrincipal();
+    public CommonResult registFollow(@PathVariable("userId") Long userToFollowId, @ApiIgnore @LoginUser User loginUser) {
 
         User userToFollow = userService.findUserById(userToFollowId);
 
@@ -61,11 +59,7 @@ public class FollowController {
 
     // 팔로우 취소
     @DeleteMapping("/{userId}")
-    public CommonResult cancleFollow(@PathVariable("userId") Long userToUnfollowId) {
-        // 로그인 유저 가져오기
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User loginUser = (User) authentication.getPrincipal();
+    public CommonResult cancleFollow(@PathVariable("userId") Long userToUnfollowId,  @ApiIgnore @LoginUser User loginUser) {
 
         User followee = userService.findUserById(userToUnfollowId);
         Follow follow = followService.searchFollowByFollowerAndFollowee(loginUser, followee);
@@ -115,16 +109,6 @@ public class FollowController {
     // follower들 (이 유저를 follow 하는 사람)
     @GetMapping("/followers/{userId}")
     public ManyResult<FollowFollowerResponseDto> listFollower(@PathVariable("userId") Long userId) {
-        // 본인만 볼 수 있다면 아래를 추가
-
-        // 로그인 유저 가져오기
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        Authentication authentication = context.getAuthentication();
-//        User loginUser = (User) authentication.getPrincipal();
-//
-//        if(loginUser.getId() != userId) throw  new UnAllowedAccessException();
-//        if(loginUser == null) throw new AccessDeniedException();
-//         ------
 
         User followee = userService.findUserById(userId);
 
@@ -149,16 +133,6 @@ public class FollowController {
     // followee들 (이 유저의 followings)
     @GetMapping("/followees/{userId}")
     public ManyResult<FollowFolloweeResponseDto> listFollowee(@PathVariable("userId") Long userId) {
-        // 본인만 볼 수 있다면 아래를 추가
-
-        // 로그인 유저 가져오기
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        Authentication authentication = context.getAuthentication();
-//        User loginUser = (User) authentication.getPrincipal();
-//
-//        if(loginUser.getId() != userId) throw  new UnAllowedAccessException();
-//        if(loginUser == null) throw new AccessDeniedException();
-//         ------
 
         User follower = userService.findUserById(userId);
 
