@@ -84,7 +84,7 @@ const ProfileDescEdit = (props) => {
     <>
       {/* IconButton fontawesome으로 만들기 */}
       {/* <IconButton className={classes.add_profile_img} sx={{ color: green[500] }} onClick={profileUploadHandler}>add_circle</IconButton> */}
-      <IconButton onClick={descUploadHandler} size='small'>
+      <IconButton onClick={descUploadHandler} sx={{ width: '35px', height: '35px'}}>
         <EditIcon sx={{ color: grey[400], fontSize: 20 }} />
       </IconButton>
       <Modal

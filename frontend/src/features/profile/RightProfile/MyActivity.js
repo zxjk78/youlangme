@@ -41,14 +41,18 @@ const data = [
 
 const MyActivity = () => {
   return (
-    <div className={classes.container}>
-      <Typography gutterBottom color="#9BA7AF" variant="h6" component="div">
+    <div className={classes.activity_container}>
+      <Typography gutterBottom color="#9BA7AF" 
+      sx={{
+        // color: 'rgba(0, 0, 0, 0.6)',
+        fontSize: 16,
+        fontWeight: 'bold',
+      }} component="div">
         내 활동
       </Typography>
 
-      <Card 
+      <div
         className={classes.activity_card}  
-        sx={{ m:1}}
         >
 
         <div  className={classes.my_activity}  
@@ -56,7 +60,7 @@ const MyActivity = () => {
         >
           <ResponsivePie
             data={data}
-            margin={{ top: 30, right: 30, bottom: 70, left: 20 }}
+            margin={{ top: 0, right: 30, bottom: 70, left: 20 }}
             startAngle={-149}
             innerRadius={0.5}
             cornerRadius={3} 
@@ -163,7 +167,7 @@ const MyActivity = () => {
                 {/* <Typography gutterBottom color="#9BA7AF" variant="h3" component="span">Lv.</Typography>
           <Typography gutterBottom color="#FFC700" variant="h3" component="span">36</Typography> */}
         </div>
-      </Card>
+      </div>
     </div>
 
   )

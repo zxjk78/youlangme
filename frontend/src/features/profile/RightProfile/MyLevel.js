@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 // mui
 import { Card, CardContent, CardMedia, Typography, CardActionArea, Badge, Modal, 
-  CardActions, IconButton, CircularProgress } from '@mui/material';
+  CardActions, IconButton, CircularProgress, Fab } from '@mui/material';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 // css
@@ -68,16 +68,22 @@ const MyLevel = (props) => {
   return (
     <>
     { isLoading ? <CircularProgress /> :
-      <div className={classes.container}>
+      <div className={classes.level_container}>
 
         {/* 레벨 클릭하면 모달창!!!!!!!!!!!!!!!!!!!!!!!!!! */}
-        <Typography gutterBottom color="#9BA7AF" variant="h6" component="div">
+        <Typography gutterBottom color="#9BA7AF"
+         sx={{
+              // color: 'rgba(0, 0, 0, 0.6)',
+              fontSize: 16,
+              fontWeight: 'bold',
+            }} component="div">
           내 레벨
         </Typography>
 
         <div className={classes.level_card}  
           // fullWidth
-          sx={{ m:1 }}>
+          // sx={{ m:1 }}
+          >
 
           <Modal   
             open={open}
@@ -86,24 +92,24 @@ const MyLevel = (props) => {
             <LevelStatistic setModalOpen={setOpen} levelId={levelId} exp={exp} trophyColor={LevelCriteria[levelId][2]}/>
           </Modal>
 
-          <CardContent sx={{ height: 300}} className={classes.level} >
-            <IconButton onClick={levelModalHandler} sx={{ height: 250, width: 250}} >
+          <CardContent sx={{ height: 200, width: 320}} className={classes.level} >
+            <IconButton onClick={levelModalHandler} sx={{ height: 170, width: 170}} >
               <div>
                 <Badge badgeContent={LevelCriteria[levelId][1]} overlap="circular"
                   anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'right',
                   }}
-                  sx={{ "& .MuiBadge-badge": { fontSize: 33 ,fontWeight: 'bold', height: 41, width: 41,
+                  sx={{ "& .MuiBadge-badge": { fontSize: 26 ,fontWeight: 'bold', height: 35, width: 35,
                   borderRadius: '50%', color: 'white',
                   backgroundColor: '#B865C6', }}}
                   >
-                  <EmojiEventsIcon sx={{ fontSize: 140, color: LevelCriteria[levelId][2]} } className={classes.trophy} />
+                  <EmojiEventsIcon sx={{ fontSize: 100, color: LevelCriteria[levelId][2]} } className={classes.trophy} />
                 </Badge>
                 <Typography gutterBottom color={LevelCriteria[levelId][2]} 
                   // variant="h6" 
                   component="span"
-                  sx={{ fontSize: 50, fontWeight: 'bold', mr:2}}
+                  sx={{ fontSize: 40, fontWeight: 'bold', mr:2}}
                   >
                   {LevelCriteria[levelId][0]}</Typography>
                 {/* <Typography gutterBottom color="#9BA7AF"

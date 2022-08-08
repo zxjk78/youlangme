@@ -115,9 +115,13 @@ const MyGrass = (props) => {
       <Typography
         gutterBottom
         color="#9BA7AF"
-        variant="h6"
+        sx={{
+          // color: 'rgba(0, 0, 0, 0.6)',
+          fontSize: 16,
+          fontWeight: 'bold',
+          mb: 0, mt: 1
+        }} 
         component="div"
-        sx={{ mb: 0, mt: 1 }}
       >
         내 활동
       </Typography>
@@ -129,7 +133,7 @@ const MyGrass = (props) => {
           to="2022-12-31"
           emptyColor="#eeeeee"
           colors={['#61cdbb', '#97e3d5', '#e8c1a0', '#f47560']}
-          margin={{ top: 0, right: 0, bottom: 50, left: 30 }}
+          margin={{ top: 0, right: 0, bottom: 20, left: 30 }}
           // yearSpacing={40}
           monthBorderColor="#ffffff"
           dayBorderWidth={2}
