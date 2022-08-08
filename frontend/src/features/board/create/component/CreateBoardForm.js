@@ -23,6 +23,7 @@ import { MAX_IMAGE_LIMIT } from '../data';
 // 어떤 방식으로던 이동해옴, 라우터로부터 수정인지 생성인지 알아냄
 
 const CreateBoardForm = () => {
+  const dispatch = useDispatch();
   const boardId = useParams().boardId;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [imageCnt, setImageCnt] = useState(0);
