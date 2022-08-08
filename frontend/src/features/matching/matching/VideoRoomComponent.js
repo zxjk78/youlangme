@@ -8,6 +8,8 @@ import ChatComponent from './chat/ChatComponent';
 import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
+//test
+import Test11111 from '../youlangmeCustom/news/component/Test';
 var localUser = new UserModel();
 
 class VideoRoomComponent extends Component {
@@ -38,7 +40,7 @@ class VideoRoomComponent extends Component {
       chatDisplay: 'none',
       currentVideoDevice: undefined,
     };
-  
+
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
@@ -55,7 +57,7 @@ class VideoRoomComponent extends Component {
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
   }
-  
+
   componentDidMount() {
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
@@ -579,6 +581,9 @@ class VideoRoomComponent extends Component {
                 />
               </div>
             )}
+          {[1].map(() => (
+            <Test11111 />
+          ))}
           {this.state.subscribers.map((sub, i) => (
             <div
               key={i}

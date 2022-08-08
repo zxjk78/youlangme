@@ -1,14 +1,16 @@
 #header {
   color: #ffffff;
   height: 40px;
-  background-color: #333333;
+  background-color: #f05b5b;
   padding: 0 14px 0 0;
   position: absolute;
   top: 0;
   left: 0;
+  /* bottom: 0; */
   z-index: 999999;
   min-width: 400px !important;
 }
+
 .toolbar {
   padding: 0 !important;
 }
@@ -28,6 +30,7 @@
   right: 0;
   min-width: 400px;
 }
+
 #navChatButton {
   position: absolute;
   right: 10px;
@@ -72,11 +75,13 @@
   border: 1px solid #000;
   z-index: 99999;
 }
+
 .pointLight {
   border: 1px solid #ffffff !important;
 }
 
 @media only screen and (max-width: 700px) {
+
   #titleContent,
   #navChatButton {
     display: none;
