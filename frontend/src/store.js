@@ -8,6 +8,7 @@ import createBoardReducer from './features/board/create/createBoardSlice';
 import profileReducer from './features/profile/profileSlice';
 import storage from 'redux-persist/lib/storage';
 import persistReducer from 'redux-persist/es/persistReducer';
+import matchSlice from "./features/matching/matchSlice";
 
 const persistConfig = {
   key: 'root',
@@ -26,6 +27,7 @@ const reducer = combineReducers({
   board: boardReducer,
   createBoard: createBoardReducer,
   profile: profileReducer,
+  match: matchSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
@@ -33,6 +35,10 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;
