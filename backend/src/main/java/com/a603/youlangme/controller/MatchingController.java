@@ -6,6 +6,7 @@ import com.a603.youlangme.entity.User;
 import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.ResponseService;
 import com.a603.youlangme.service.UserService;
+import com.a603.youlangme.util.SHA256;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,7 +40,7 @@ public class MatchingController {
     @ResponseBody
     @PostMapping
     @Transactional
-    public OneResult<MatchingResponseDto> requestMatching(@RequestBody MatchingRequestDto matchingRequestDto) throws JsonProcessingException {
+    public OneResult<MatchingResponseDto> requestMatching(@RequestBody MatchingRequestDto matchingRequestDto) throws JsonProcessingException, NoSuchAlgorithmException {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
@@ -80,6 +82,6 @@ public class MatchingController {
             Map<String, Object> map = mapper.readValue(response.getBody(), Map.class);
 
 
-        return responseService.getOneResult(new MatchingResponseDto((String)map.get("sessionId"), Long.parseLong((String)map.get("opponentId")), (String)map.get("message")));
+        return responseService.getOneResult(new MatchingResponseDto(SHA256.encrypt((String)map.get("sessionId")), Long.parseLong((String)map.get("opponentId")), (String)map.get("message")));
     }
 }
