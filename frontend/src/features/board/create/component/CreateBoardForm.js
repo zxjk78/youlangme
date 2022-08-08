@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-<<<<<<< HEAD
-
-=======
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { createBoardActions } from '../createBoardSlice';
->>>>>>> 200cd84b8e6355fc086eef24030b1b65eb6b5147
 // API
 import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
 import { API_URL } from '../../../../common/api/http-config';
