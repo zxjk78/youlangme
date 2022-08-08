@@ -1,8 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
-// redux
-import { useSelector, useDispatch } from 'react-redux';
-import { createBoardActions } from '../../createBoardSlice';
 
 // component
 import ImageThumbContainer from './ImageThumbContainer';
@@ -11,7 +8,8 @@ import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import { MAX_IMAGE_LIMIT } from '../../data';
 //css
 import classes from './ImageDragNDrop.module.scss';
-
+// etc
+import imageUpload from '../../../../../assets/imageUploadIcon.png';
 const baseStyle = {
   height: '168px',
   flex: 1,
@@ -33,11 +31,7 @@ const ImageDragNDrop = (props) => {
   const maxLimit = MAX_IMAGE_LIMIT;
   const [files, setFiles] = useState([]);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const loadedImgCnt = useSelector(
-    (state) => state.createBoard.loadedImgFileCnt
-  );
-  // console.log(loadedImgCnt);
-  const dispatch = useDispatch();
+  const [loadedImgCnt, setLoadedImgCnt] = useState(props.imageCount);
 
   const { getRootProps, getInputProps, isFocused } = useDropzone({
     accept: {
@@ -46,7 +40,7 @@ const ImageDragNDrop = (props) => {
     onDrop: (acceptedFiles) => {
       if (loadedImgCnt + acceptedFiles.length > maxLimit) {
         alert('이미지 최대 갯수를 초과하였습니다.');
-        // console.log(maxLimit, '이미지 최대 갯수 초과');
+
         return;
       }
 
@@ -58,7 +52,7 @@ const ImageDragNDrop = (props) => {
         );
         return [...files].concat(newAddedFiles);
       });
-      dispatch(createBoardActions.addFileCnt(acceptedFiles.length));
+      setLoadedImgCnt((prevState) => (prevState += acceptedFiles.length));
     },
     maxFiles: maxLimit,
     multiple: true,
@@ -72,12 +66,6 @@ const ImageDragNDrop = (props) => {
     }),
     [isFocused]
   );
-
-  // useEffect(() => {
-  //   console.log(files);
-  //   // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-  //   return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  // }, [files]);
 
   const onButtonClickHander = () => {
     props.loadImageFromModal(files);
@@ -95,7 +83,8 @@ const ImageDragNDrop = (props) => {
             <input {...getInputProps()} />
             {!isImageLoaded && (
               <div className={classes.msgStyle}>
-                <CloudUploadOutlinedIcon />
+                <img src={imageUpload} alt="" />
+                {/* <CloudUploadOutlinedIcon fontSize="large" /> */}
                 <p>
                   이미지를 선택하거나 이곳에 올려 주세요. <br />
                   이미지는 최대 {maxLimit}장까지 업로드 가능합니다.

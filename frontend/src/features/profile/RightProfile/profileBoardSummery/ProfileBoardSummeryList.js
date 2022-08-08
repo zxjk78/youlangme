@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { fetchUserBoardList } from '../../../board/boardAPI';
 //custom-component
 import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
+import CreateNewBoardLink from '../../../board/create/component/CreateNewBoardLink';
 // mui
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
@@ -42,14 +43,11 @@ const ProfileBoardSummeryList = (props) => {
         <div>...loading</div>
       ) : (
         <>
-          <div>
-            <Link to={`board/create`}>
-              <ControlPointIcon />
-            </Link>
-          </div>
           <div className={classes.wrapper}>
             <div className={classes.container}>
-              <div className={classes.header}></div>
+              <div className={classes.header}>
+                <CreateNewBoardLink />
+              </div>
               <div className={classes.main}>
                 {userBoardList.map((board) => (
                   <ProfileBoardSummeryItem
