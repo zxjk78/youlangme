@@ -39,6 +39,8 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: 'none',
       currentVideoDevice: undefined,
+      // youlangme custom
+      isHelpModalVisible: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -544,6 +546,11 @@ class VideoRoomComponent extends Component {
       this.hasBeenUpdated = false;
     }
   }
+  ///////// youlangme 커스텀
+
+  showHelpModal(event) {
+    console.log(event.target);
+  }
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -570,7 +577,7 @@ class VideoRoomComponent extends Component {
           showDialog={this.state.showExtensionDialog}
           cancelClicked={this.closeDialogExtension}
         />
-
+        <div className="modalZone">테스트용 z-index 조작</div>
         <div id="layout" className="bounds">
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
@@ -581,25 +588,21 @@ class VideoRoomComponent extends Component {
                 />
               </div>
             )}
+          {/* 위에가 나, 아래가 들어오는 유저들 */}
           {[1].map(() => (
-            <Test11111 />
-          ))}
-          {this.state.subscribers.map((sub, i) => (
-            <div
-              key={i}
-              className="OT_root OT_publisher custom-class"
-              id="remoteUsers"
-            >
-              <StreamComponent
-                user={sub}
-                streamId={sub.streamManager.stream.streamId}
-              />
+            <div className="OT_root OT_publisher custom-class" id="remoteUsers">
+              {/* 화면이 stream component
+                <StreamComponent
+                  user={sub}
+                  streamId={sub.streamManager.stream.streamId}
+                /> */}
             </div>
           ))}
+
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div
-                className="OT_root OT_publisher custom-class"
+                className="OT_root OT_publisher custom-class chat-container"
                 style={chatDisplay}
               >
                 <ChatComponent
@@ -610,6 +613,10 @@ class VideoRoomComponent extends Component {
                 />
               </div>
             )}
+        </div>
+
+        <div className="help-btn" onClick={this.showHelpModal}>
+          Help 버튼 위치
         </div>
       </div>
     );
