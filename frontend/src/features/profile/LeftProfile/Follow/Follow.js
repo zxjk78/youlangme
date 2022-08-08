@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 
 // 리덕스 안거치는 단순 서버 통신 API
 import { fetchFollowCnt, fetchFollowers, fetchFollowees, sendFollow, sendUnfollow, fetchFollowOrNot } from './FollowAPI';
-
+import { API_URL } from '../../../../common/api/http-config';
 
 // css
 import classes from './Follow.module.scss';
@@ -19,9 +19,6 @@ import { Avatar, Box, Button, CircularProgress, Dialog, DialogContent, DialogTit
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { grey, purple } from '@mui/material/colors';
 import { Group } from '@mui/icons-material';
-
-
-const API_URL = 'http://127.0.0.1:8080/';
 
 const myColorTheme = createTheme({
   palette: {
@@ -138,7 +135,7 @@ const Follow = (props) => {
                 <Dialog open={showFollowers} onClose={handleCloseFollowers} 
                   >
                   <DialogTitle sx={{ fontSize: 28, fontWeight: 500, letterSpacing: 2, 
-                     bgcolor:'#FFC700', color:'#F9F3EE' }}>
+                    bgcolor:'#FFC700', color:'#F9F3EE' }}>
                     팔로워
                   </DialogTitle>
                   <DialogContent sx={{ width: 270, height: 300, px:2 }} >

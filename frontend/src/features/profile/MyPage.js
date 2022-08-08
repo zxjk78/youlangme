@@ -25,29 +25,20 @@ import classes from './MyPage.module.scss';
 import { Card } from '@mui/material';
 
 
-const activeStyle = {
-  fontWeight:'900',
-  color:'red',
- }
-
 
 
 const MyPage = () => {
   const params = useParams();
 
   return (
-    <Card className={classes.profile_wrapper}>
-      <LeftProfile userId={params.userId}/>
-      <div>
-        <NavLink to={`/profile/${params.userId}`} activeStyle={activeStyle}>프로필
-          {/* <RightProfile userId={params.userId} /> */}
-        </NavLink>
-        <NavLink  to={`/profile/${params.userId}/board`} activeStyle={activeStyle}>게시글</NavLink>
-      </div>
-      <PrivateRoute path="" component={RightProfile}></PrivateRoute>
-      <PrivateRoute path="/board" component={ProfileBoardSummeryList}></PrivateRoute>
-      
-    </Card>
+    <div>
+      <Card className={classes.profile_wrapper}>
+        <LeftProfile userId={params.userId}/>
+        <RightProfile userId={params.userId}/>
+      </Card>
+
+      {/* <PrivateRoute path={`/profile/${params.userId}/board`} component={ProfileBoardSummeryList} />   */}
+    </div>
   
   );
 };

@@ -12,7 +12,7 @@ import classes from './RightProfile.module.scss'
 import LevelStatistic from './LevelStatistic';
 
 // data
-import { LevelCriteria } from '../../../data/Level';
+import { LevelCriteria } from '../../../common/utils/data/Level';
 
 // 리덕스 안거치는 단순 서버 통신 API
 import { fetchLevelExp } from './RightProfileAPI';
@@ -87,9 +87,9 @@ const MyLevel = (props) => {
           </Modal>
 
           <CardContent sx={{ height: 300}} className={classes.level} >
-            <IconButton onClick={levelModalHandler}>
+            <IconButton onClick={levelModalHandler} sx={{ height: 250, width: 250}} >
               <div>
-                <Badge badgeContent={LevelCriteria[levelId][1]} overlap="circular"s
+                <Badge badgeContent={LevelCriteria[levelId][1]} overlap="circular"
                   anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'right',

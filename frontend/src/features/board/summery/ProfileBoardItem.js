@@ -3,7 +3,7 @@ import UserInfo from '../../profile/UserInfo/UserInfo';
 // css
 import classes from './ProfileBoardItem.module.scss';
 // func
-import { createdDateCal } from '../func/commonFunctions';
+import { createdDateCal } from '../../../common/utils/functions/commonFunctions'
 
 const ProfileBoardItem = (props) => {
   return (

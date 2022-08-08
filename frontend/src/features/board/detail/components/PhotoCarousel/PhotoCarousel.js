@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import './slick-theme.scss';
 import './slick.scss';
-import { API_URL } from '../../../../../utils/data/apiData';
+import { API_URL } from '../../../../../common/api/http-config';
 export default class FocusOnSelect extends Component {
   constructor(props) {
     super(props);
@@ -30,31 +30,6 @@ export default class FocusOnSelect extends Component {
               </div>
             );
           })}
-
-          {/* <div>
-            <img
-              src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg"
-              alt=""
-            />
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div> */}
         </Slider>
       </div>
     );

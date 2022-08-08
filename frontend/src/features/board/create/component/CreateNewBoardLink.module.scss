@@ -1,0 +1,15 @@
+.link {
+  & > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+    &:hover {
+      background-color: #9c27b0;
+      color: azure;
+    }
+  }
+}

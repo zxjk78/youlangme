@@ -1,6 +1,6 @@
 .wrapper {
   width: 300px;
-  height: 400px;
+  height: 350px;
   padding: 8px;
   background-color: antiquewhite;
   border-radius: 15px;
@@ -11,24 +11,40 @@
   justify-content: space-evenly;
 }
 .header {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
   font-size: 1.2rem;
   font-weight: bold;
   img {
     width: 50px;
     height: 50px;
-    background-color: yellow;
+    // background-color: yellow;
   }
 }
 .main {
+  margin-top: 10px;
+  margin-left: 20px;
+
   img {
     width: 35px;
     height: 40px;
   }
   & > div {
     display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 1.1rem;
     font-weight: bold;
   }
+}
+.omit {
+  margin: 10px auto;
+
+  width: 0px;
+  height: 0px;
+  transform: rotate(90deg);
 }
 .footer {
 }

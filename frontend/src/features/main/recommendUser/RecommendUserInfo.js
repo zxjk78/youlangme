@@ -8,15 +8,15 @@ const RecommendUserInfo = (props) => {
 
   const followHandler = async (event) => {
     const targetUserId = event.target.dataset.id;
-    let data;
+    let isSuccess;
     if (isFollow) {
-      data = await sendUnFollow(targetUserId);
-      if (data) {
+      isSuccess = await sendUnFollow(targetUserId);
+      if (isSuccess) {
         setIsFollow(() => false);
       }
     } else {
-      data = await sendFollow(targetUserId);
-      if (data) {
+      isSuccess = await sendFollow(targetUserId);
+      if (isSuccess) {
         setIsFollow(() => true);
       }
     }

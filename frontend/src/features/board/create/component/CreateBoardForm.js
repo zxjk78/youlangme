@@ -1,10 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+<<<<<<< HEAD
 
+=======
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { createBoardActions } from '../createBoardSlice';
+>>>>>>> 200cd84b8e6355fc086eef24030b1b65eb6b5147
 // API
 import { createBoard, fetchBoardInfo, updateBoard } from '../../boardAPI';
+import { API_URL } from '../../../../common/api/http-config';
 
-// component
+// custom component
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 // mUI
@@ -20,7 +27,6 @@ import { MAX_IMAGE_LIMIT } from '../data';
 // 어떤 방식으로던 이동해옴, 라우터로부터 수정인지 생성인지 알아냄
 
 const CreateBoardForm = () => {
-  const API_URL = 'http://127.0.0.1:8080/';
   const boardId = useParams().boardId;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [imageCnt, setImageCnt] = useState(0);
@@ -97,7 +103,8 @@ const CreateBoardForm = () => {
     }
 
     if (data.success) {
-      history.push('/main');
+      dispatch(createBoardActions.clearFile());
+      history.goBack();
     } else {
       alert('오류가 발생했습니다.');
     }
@@ -146,7 +153,6 @@ const CreateBoardForm = () => {
                   <div className={classes.imageContainer}>
                     {images.length !== 0 &&
                       images.map((file, index) => {
-                        // console.log(file); //promise file이 반환되는 문제 해결 필요
                         return (
                           <div key={file.preview} className={classes.fileImage}>
                             <div

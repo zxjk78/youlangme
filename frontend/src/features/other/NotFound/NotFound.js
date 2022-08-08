@@ -13,7 +13,6 @@ const NotFound = () => {
 
   return (
     <>
-      {currentUser.name && <Header></Header>}
       <div className={classes.wrapper}>
         <div className={classes.container}>
           <div className={classes.notFound}>

@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { createdDateCal } from '../../../../utils/functions/commonFunctions';
+import { createdDateCal } from '../../../../common/utils/functions/commonFunctions';
+import { useParams } from 'react-router-dom';
 // API
 import {
   fetchBoardInfo,
-  fetchCommentList,
+  fetchReplyList,
   fetchLikeUsers,
   addComment,
   like,
@@ -12,37 +13,41 @@ import {
   deleteBoard,
 } from '../../boardAPI';
 import Modal from '../../../../common/UI/Modal/Modal';
-//components
-import CommentListItem from './CommentListItem';
+//custom components
+import ReplyListItem from './ReplyListItem';
 import LikeContainer from './LikeContainer';
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import LikeUserModal from './likeModal/LikeUserModal';
 import PhotoCarousel from './PhotoCarousel/PhotoCarousel';
+import BoardImageSrc from '../../../../common/UI/BoardImageSrc';
 // mui
 import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+// css
 import classes from './BoardDetailModal.module.scss';
-
 // etc
-import { API_URL } from '../../../../utils/data/apiData';
+import { API_URL } from '../../../../common/api/http-config';
 
 const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
-  const [commentList, setCommentList] = useState([]);
+  const [replyList, setReplyList] = useState([]);
   const [likeUsers, setLikeUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsliked] = useState(false);
   const [likeUserVisible, setLikeUserVisible] = useState(false);
-  const boardId = props.boardId;
-  const commentRef = useRef();
+  const [likeCnt, setLikeCnt] = useState(0);
+  const [replyCnt, setReplyCnt] = useState(0);
+  const params = useParams();
+  const boardId = props?.boardId || params.boardId;
+  const replyRef = useRef();
   const history = useHistory();
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
     setIsLoading(true);
     (async () => {
       const boardDetail = await fetchBoardInfo(boardId);
-      // console.log(boardDetail);
+      console.log(boardDetail);
       if (!boardDetail) {
         history.replace({
           pathname: '/404',
@@ -50,7 +55,7 @@ const BoardDetailModal = (props) => {
         });
       }
 
-      const commentList = await fetchCommentList(boardId);
+      const replyList = await fetchReplyList(boardId);
       const likeUsers = await fetchLikeUsers(boardId);
 
       const currentUserId = JSON.parse(localStorage.getItem('currentUser')).id;
@@ -61,8 +66,10 @@ const BoardDetailModal = (props) => {
       }
 
       setBoardDetail(boardDetail);
-      setCommentList(commentList);
+      setReplyList(replyList);
+      setReplyCnt(replyList.length);
       setLikeUsers(likeUsers);
+      setLikeCnt(likeUsers.length);
 
       setIsLoading(false);
     })();
@@ -70,24 +77,30 @@ const BoardDetailModal = (props) => {
 
   const addCommentHandler = async (event) => {
     event.preventDefault();
-    const newComment = commentRef.current.value;
+    const newComment = replyRef.current.value;
     if (!newComment.trim().length) {
       return;
     }
     const response = await addComment(boardId, newComment);
-    if (response) {
-      commentRef.current.value = '';
+    if (response.success) {
+      replyRef.current.value = '';
       // 댓글작성 후 comment 재 fetch
-      const newCommentList = await fetchCommentList(boardId);
-      setCommentList(() => {
-        return [...newCommentList];
+      const newreplyList = await fetchReplyList(boardId);
+      setReplyCnt(() => response.data.replyCnt);
+      props.replyChangeHandler(response.data.replyCnt);
+      setReplyList(() => {
+        return [...newreplyList];
       });
     }
   };
 
   const likeHandler = async () => {
     const result = await like(boardId);
+
     if (result.success) {
+      // 부모에게 전달
+      props.likeChangeHandler(result.data.likeCnt);
+      setLikeCnt(result.data.likeCnt);
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       const addedUser = { id: currentUser.id, name: currentUser.name };
       setIsliked(true);
@@ -98,7 +111,9 @@ const BoardDetailModal = (props) => {
     const result = await dislike(boardId);
     if (result.success) {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
+      // 부모에게 전달
+      props.likeChangeHandler(result.data.likeCnt);
+      setLikeCnt(result.data.likeCnt);
       setIsliked(false);
       setLikeUsers((prevState) =>
         prevState.filter((user) => user.id !== currentUser.id)
@@ -121,7 +136,7 @@ const BoardDetailModal = (props) => {
     // delete API 요청
     const data = await deleteBoard(boardId);
     if (data.success === true) {
-      history.push('/main');
+      history.goBack();
     }
   };
   const showLikeUserModal = () => {
@@ -140,7 +155,7 @@ const BoardDetailModal = (props) => {
           <CircularProgress />
         </div>
       ) : (
-        <Modal closeModalHandler={closeModal}>
+        <Modal closeModalHandler={closeModal} boardDetail>
           {likeUserVisible && (
             <LikeUserModal
               likeUserList={likeUsers}
@@ -150,7 +165,12 @@ const BoardDetailModal = (props) => {
 
           <div className={classes.wrapper}>
             <div className={classes.boardHeader}>
-              <UserInfo user={currentUser} />
+              <UserInfo
+                user={{
+                  id: boardDetail.userId,
+                  name: boardDetail.userName,
+                }}
+              />
 
               <div className={classes.createdAt}>
                 {createdDateCal(boardDetail.createdTime)}
@@ -161,29 +181,30 @@ const BoardDetailModal = (props) => {
                 <p>{boardDetail.contents}</p>
               </div>
               <div className={classes.photoContainer}>
-                {/* {boardDetail.imgList.map((image) => (
-                  <img
-                    key={image}
-                    src={`${API_URL}image/board/${image}`}
-                    alt="게시판 이미지"
-                  />
-                ))} */}
-                <PhotoCarousel pics={boardDetail.imgList} />
+                {boardDetail.imgList.length > 3 ? (
+                  <PhotoCarousel pics={boardDetail.imgList} />
+                ) : (
+                  <div>
+                    {boardDetail.imgList.map((image) => (
+                      <BoardImageSrc imgName={image} alt={image} key={image} />
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <div className={classes.likeCommentCnt}>
+              <div className={classes.likeReplyCnt}>
                 <div>
                   <LikeContainer
                     isLiked={isLiked}
                     like={likeHandler}
                     dislike={dislikeHandler}
-                    likeUsers={likeUsers}
+                    likeCnt={likeCnt}
                     showModal={showLikeUserModal}
                   />
                 </div>
                 {/* <div>
                   <ChatBubbleOutlineIcon />
-                  {commentList.length}
+                  {replyList.length}
                 </div> */}
               </div>
               <br />
@@ -200,22 +221,26 @@ const BoardDetailModal = (props) => {
               </div>
             )}
 
-            <div className={classes.comment}>
+            <div className={classes.reply}>
               <div className={classes.header}>
                 <ChatBubbleOutlineIcon />
-                <div>댓글 ({commentList.length}) </div>
+                <div>댓글 ({replyCnt}) </div>
               </div>
-              <div className={classes.commentContainer}>
-                {commentList.map((comment) => (
-                  <CommentListItem key={comment.id} commentInfo={comment} />
-                ))}
+              <div className={classes.replyContainer}>
+                {replyList.length === 0 ? (
+                  <div className={classes.noReply}>댓글이 없습니다</div>
+                ) : (
+                  replyList.map((reply) => (
+                    <ReplyListItem key={reply.id} commentInfo={reply} />
+                  ))
+                )}
               </div>
-              <div className={classes.commentInput}>
+              <div className={classes.replyInput}>
                 <form onSubmit={addCommentHandler}>
                   <input
                     type="text"
                     placeholder="댓글을 입력하세요"
-                    ref={commentRef}
+                    ref={replyRef}
                   />
                   <button>
                     <SendIcon />

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import classes from './ChangePassword.module.scss';
+import { API_URL } from '../../../common/api/http-config';
 
 const ChangePassword = () => {
   const emailRef = useRef();
-  const API_URL = 'http://127.0.0.1:8080/';
   const [validation, setValidation] = useState(false);
   const [isBlur, setIsBlur] = useState(false);
   // cors 에러 남. 백엔드 수정 필요

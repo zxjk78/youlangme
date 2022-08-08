@@ -1,50 +1,76 @@
-import classes from './ProfileBoardSummeryList.module.scss';
-import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { Link, useParams } from 'react-router-dom';
+// API
 import { fetchUserBoardList } from '../../../board/boardAPI';
+//custom-component
+import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
+import CreateNewBoardLink from '../../../board/create/component/CreateNewBoardLink';
+// mui
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+// css
+import classes from './ProfileBoardSummeryList.module.scss';
+
 const ProfileBoardSummeryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);
-  const [lastBoardId, setLastBoardId] = useState(0);
-  const authorId = useParams().userId;
+  const [isBoardOver, setIsBoardOver] = useState(false);
+  const params = useParams();
+  const authorId = params?.userId || props.userId;
+
   useEffect(() => {
     (async () => {
-      const data = await fetchUserBoardList(authorId, lastBoardId);
-      setUserBoardList((prevState) => [...prevState, ...data]);
+      const data = await fetchUserBoardList(authorId);
+      if (data.length < 5) {
+        setIsBoardOver(() => true);
+      }
+      setUserBoardList((prevState) => [...data]);
     })();
     setIsLoading(false);
-  }, [authorId, lastBoardId]);
-  const closeModal = () => {
-    console.log('모달 닫기 시도');
-  };
+  }, [authorId]);
 
-  const fetchBoardListPage = () => {
-    setLastBoardId(userBoardList.at(-1).boardId);
+  const fetchBoardListPaging = async () => {
+    const lastBoardId = userBoardList.at(-1).boardId;
+    const data = await fetchUserBoardList(authorId, lastBoardId);
+    if (data.length < 5) {
+      setIsBoardOver(() => true);
+    }
+    setUserBoardList((prevState) => [...prevState, ...data]);
   };
-
   return (
     <>
       {isLoading ? (
-        '123'
+        <div>...loading</div>
       ) : (
-        <div className={classes.wrapper}>
-          <div className={classes.container}>
-            <div className={classes.header}></div>
-            <div className={classes.main}>
-              {userBoardList.map((board) => (
-                <ProfileBoardSummeryItem
-                  key={board.boardId}
-                  boardInfo={board}
-                />
-              ))}
-            </div>
-            <div className={classes.footer}>
-              <button onClick={fetchBoardListPage}>더보기</button>
+        <>
+          <div className={classes.wrapper}>
+            <div className={classes.container}>
+              <div className={classes.header}>
+                <CreateNewBoardLink />
+              </div>
+              <div className={classes.main}>
+                {userBoardList.map((board) => (
+                  <ProfileBoardSummeryItem
+                    key={board.boardId}
+                    boardInfo={board}
+                  />
+                ))}
+              </div>
+              <div className={classes.footer}>
+                {isLoading ? (
+                  <div>...loading</div>
+                ) : (
+                  !isBoardOver && (
+                    <div onClick={fetchBoardListPaging}>
+                      <div>더보기</div>
+                      <ExpandMoreIcon />
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

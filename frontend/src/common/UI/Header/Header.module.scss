@@ -2,16 +2,34 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #263333;
-  padding: 12px 40px;
+  // background: transparent;
+  padding: 12px 9% 12px 6%;
+
+  .navbar__left {
+    // display: flex;
+    // flex-direction: row;
+  
+    .navbar__logo {
+      // text-decoration: none;
+      height: 50px;
+      width: 220px;
+      margin-top: 10px;
+      // width: 100%;
+      // align-items: center;
+      // // color: white;
+      cursor: pointer;
+    }
+  }
 }
-.navbar__logo {
-  text-decoration: none;
-  height: 40px;
-  width: auto;
-  color: white;
-  cursor: pointer;
+
+
+.header_profile_menu_icon {
+  // margin-top: 10px;
+
 }
+
+
+
 
 .dropdown {
   position: relative;
@@ -25,7 +43,9 @@
 }
 .link {
   text-decoration: none;
+  color: black;
 }
+
 .content {
   display: none;
   position: absolute;

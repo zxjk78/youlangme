@@ -2,11 +2,10 @@
 
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+import { API_URL } from '../../../common/api/http-config';
 // const config = {
 //   headers: { "Content-Type": "application/json" },
 // };
-const API_URL = 'http://127.0.0.1:8080/';
 
 const initState = {
   isNameUnique: false,

@@ -1,18 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL, user, accessToken, getConfig } from "../../common/api/http-config";
 
 // const config = {
 //   headers: { "Content-Type": "application/json" },
 // };
-const API_URL = "http://127.0.0.1:8080/";
-const user = JSON.parse(localStorage.getItem("user"));
-const accessToken = user ? user.accessToken : null;
-const getConfig = { headers: { "X-Auth-Token": accessToken } };
 
 export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + "login/", userInfo);
-    console.log(response);
+    const response = await axios.post(API_URL + "login", userInfo);
     localStorage.setItem("user", JSON.stringify(response.data.data));
     return response;
   } catch (err) {
@@ -22,7 +18,7 @@ export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
 
 export const signup = createAsyncThunk("SIGNUP", async (userInfo, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + "signup/", userInfo);
+    const response = await axios.post(API_URL + "signup", userInfo);
     return response;
   } catch (err) {
     return thunkAPI.rejectWithValue(err.message);
@@ -31,7 +27,7 @@ export const signup = createAsyncThunk("SIGNUP", async (userInfo, thunkAPI) => {
 
 export const logout = createAsyncThunk("LOGOUT", async (thunkAPI) => {
   try {
-    const response = await axios.delete(API_URL + "log-out/", getConfig);
+    const response = await axios.delete(API_URL + "log-out", getConfig);
     window.localStorage.clear();
     return response.data;
   } catch (err) {
@@ -41,7 +37,7 @@ export const logout = createAsyncThunk("LOGOUT", async (thunkAPI) => {
 
 export const getUser = createAsyncThunk("GETUSER", async (thunkAPI) => {
   try {
-    const response = await axios.get(API_URL + "user/login-user/", getConfig);
+    const response = await axios.get(API_URL + "user/login-user", getConfig);
     localStorage.setItem("currentUser", JSON.stringify(response.data.data));
     return response.data;
   } catch (err) {
