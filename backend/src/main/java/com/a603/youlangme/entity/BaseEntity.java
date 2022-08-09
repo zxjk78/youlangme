@@ -18,9 +18,9 @@ public abstract class BaseEntity {
     private Long id;
 
     @CreatedDate // 생성된 시간 저장
-    private LocalDateTime createdDate;
+    private LocalDateTime createdTime;
 
     @LastModifiedDate // Entity의 값을 변경할 때 시간 갱신 저장
-    private LocalDateTime modifiedDate;
+    private LocalDateTime modifiedTime;
 
 }
