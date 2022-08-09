@@ -33,7 +33,7 @@ public class UserLoginUserResponseDto {
 
     public UserLoginUserResponseDto(User user) {
         this.id = user.getId();
-        this.regTime = user.getCreatedDate();
+        this.regTime = user.getCreatedTime();
         this.name = user.getName();
         this.nationality=user.getNationality();
         this.gender=user.getGender();
