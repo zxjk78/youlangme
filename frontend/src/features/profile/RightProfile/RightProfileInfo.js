@@ -20,7 +20,7 @@ const RightProfileInfo = (props) => {
         <MyLevel userId={userId}/>
         <MyLanguages />
       </div>
-      <MyBadgeCollection />
+      <MyBadgeCollection userId={userId}/>
       <MyGrass/>
     </>
   );

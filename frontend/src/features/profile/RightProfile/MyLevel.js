@@ -72,7 +72,7 @@ const MyLevel = (props) => {
 
         {/* 레벨 클릭하면 모달창!!!!!!!!!!!!!!!!!!!!!!!!!! */}
         <Typography gutterBottom color="#9BA7AF"
-         sx={{
+          sx={{
               // color: 'rgba(0, 0, 0, 0.6)',
               fontSize: 16,
               fontWeight: 'bold',

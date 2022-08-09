@@ -178,7 +178,8 @@ const LeftProfile = (props) => {
             </div>
             <Badge
               badgeContent={
-                <img className={classes.flag} alt="flag" src={`http://www.geonames.org/flags/x/${nationalityCode}.gif`} />
+                <img className={classes.flag} alt="flag" 
+                src={`http://www.geonames.org/flags/x/${nationalityCode}.gif`} />
               }
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               overlap="circular"
