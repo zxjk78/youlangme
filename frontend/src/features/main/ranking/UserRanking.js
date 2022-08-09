@@ -11,14 +11,15 @@ import classes from './UserRanking.module.scss';
 const UserRanking = (props) => {
   const [loading, setLoading] = useState(true);
   const [langRanking, setLangRanking] = useState([]);
-  // useEffect(() => {
-  //   setLoading(true);
-  //   (async () => {
-  //     const data = await fetchUserRanking();
-  //     setLangRanking(() => data);
-  //   })();
-  //   setLoading(() => false);
-  // }, []);
+  useEffect(() => {
+    setLoading(true);
+    (async () => {
+      const data = await fetchUserRanking();
+      console.log(data);
+      setLangRanking(() => data);
+    })();
+    setLoading(() => false);
+  }, []);
 
   return (
     <>

@@ -8,7 +8,6 @@ import ChatComponent from './chat/ChatComponent';
 import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
-
 //youlangme-custom
 import { connect } from 'react-redux';
 import { resetMatching } from '../matchSlice';
@@ -21,17 +20,16 @@ class VideoRoomComponent extends Component {
     super(props);
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
-      : 'https://' + window.location.hostname + ':8443';
-    // : 'https://' + window.location.hostname + ':4443';
-
+      : 'https://' + window.location.hostname + ':4443';
+    // : 'https://' + window.location.hostname + ':8443';
     this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret
       ? this.props.openviduSecret
-      : 'YOULANGME';
-    // : 'MY_SECRET';
-
+      : 'MY_SECRET';
+    // : 'YOULANGME';
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     let sessionName = undefined;
+    let userName = undefined;
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -43,7 +41,6 @@ class VideoRoomComponent extends Component {
       chatDisplay: 'none',
       currentVideoDevice: undefined,
       nationality: '',
-      yourNationality: '',
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -84,35 +81,30 @@ class VideoRoomComponent extends Component {
       document.getElementById('layout'),
       openViduLayoutOptions
     );
-    window.addEventListener('beforeunload', this.onbeforeunload);
-    window.addEventListener('resize', this.updateLayout);
-    window.addEventListener('resize', this.checkSize);
     // this.props.doResetMyPageInfo();
-    window.addEventListener('beforeunload', () => {
-      this.componentWillUnmount();
-    });
-    try {
-      const sessionId = this.props.location.state.sessionId;
-      setTimeout(() => {
-        const myName = this.props.location.state.MyInfo.name;
-        const myNationality = this.props.location.state.MyInfo.nationality;
-        const yourNationality = this.props.location.state.youInfo.nationality;
+    // window.addEventListener("beforeunload", () => {
+    //   this.componentWillUnmount();
+    // });
 
-        console.log('이름, 국적', myName, myNationality);
-        console.log('상대국적', yourNationality);
-        this.setState({
-          mySessionId: sessionId,
-          myUserName: myName,
-          nationality: myNationality,
-          yourNationality: yourNationality,
-        });
+    setTimeout(() => {
+      const { auth } = this.props;
+      const { currentUser } = auth;
+      const { name, nationality } = currentUser;
+      const { match } = this.props;
+      const { sessionId } = match;
 
-        console.log('세션아이디', sessionId);
-        this.joinSession();
-      }, 500);
-    } catch {
-      this.props.history.push('/main');
-    }
+      this.setState({
+        myUserName: name,
+        nationality: nationality,
+        mySessionId: sessionId,
+      });
+      console.log('이름, 국적', name, nationality);
+      console.log('세션아이디', sessionId);
+      this.joinSession();
+    }, 500);
+    // window.addEventListener("beforeunload", this.onbeforeunload);
+    // window.addEventListener("resize", this.updateLayout);
+    // window.addEventListener("resize", this.checkSize);
 
     // this.joinSession();
   }
@@ -282,8 +274,9 @@ class VideoRoomComponent extends Component {
 
     if (this.props.leaveSession) {
       this.props.leaveSession();
+      this.props.resetMatching();
+      this.props.history.push('/main');
     }
-    this.props.history.push('/main');
   }
   camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive());
@@ -353,7 +346,8 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
-      this.leaveSession();
+      event.preventDefault();
+      this.updateLayout();
     });
   }
 
@@ -580,8 +574,7 @@ class VideoRoomComponent extends Component {
       this.hasBeenUpdated = false;
     }
   }
-
-  // youlangme custom
+  ///////// youlangme custom
   toggleHelpModal(event) {
     this.setState({ isHelpModalVisible: !this.state.isHelpModalVisible });
   }
@@ -591,6 +584,7 @@ class VideoRoomComponent extends Component {
     const localUser = this.state.localUser;
     const name = this.state.myUserName;
     const nationality = this.state.nationality;
+
     var chatDisplay = { display: this.state.chatDisplay };
 
     return (
@@ -655,11 +649,7 @@ class VideoRoomComponent extends Component {
         <div>{nationality}</div>
 
         {this.state.isHelpModalVisible ? (
-          <HelpTemplate
-            toggleModal={this.toggleHelpModal}
-            myNationality={this.state.nationality}
-            yourNationality={this.state.yourNationality}
-          />
+          <HelpTemplate toggleModal={this.toggleHelpModal} />
         ) : (
           <div className="help-btn" onClick={this.toggleHelpModal}>
             Help

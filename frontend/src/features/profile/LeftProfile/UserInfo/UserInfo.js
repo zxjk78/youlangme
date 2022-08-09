@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import classes from './UserInfo.module.scss';
 import { iso_code } from './flagData';
 import { API_URL } from '../../../../common/api/http-config';
 import { fetchProfileImg } from '../LeftProfileAPI';
 
+import classes from './UserInfo.module.scss';
 const UserInfo = (props) => {
   const { isProfileImgUpdated } = useSelector((state) => state.profile);
   const [profileImg, setProfileImg] = useState(null);

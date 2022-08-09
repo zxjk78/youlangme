@@ -24,9 +24,13 @@ const LikeContainer = (props) => {
       <div className={classes.container}>
         <div>
           {props.isLiked ? (
-            <FavoriteIcon sx={{ color: red[500] }} onClick={dislikeHandler} />
+            <span>
+              <FavoriteIcon sx={{ color: red[500] }} onClick={dislikeHandler} />
+            </span>
           ) : (
-            <FavoriteBorderIcon onClick={likeHandler} />
+            <span>
+              <FavoriteBorderIcon onClick={likeHandler} />
+            </span>
           )}
         </div>
         <div onClick={showLikeUserModal}>{props.likeCnt}</div>
