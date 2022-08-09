@@ -26,7 +26,6 @@ class VideoRoomComponent extends Component {
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     let sessionName = undefined
-    let userName = undefined
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -80,23 +79,26 @@ class VideoRoomComponent extends Component {
     // window.addEventListener("beforeunload", () => {
     //   this.componentWillUnmount();
     // });
-
-    setTimeout(() => {
-      const { auth } = this.props;
-      const { currentUser } = auth;
-      const { name, nationality } = currentUser;
-      const {match} = this.props
-      const {sessionId} = match
-
-      this.setState({
-        myUserName: name,
-        nationality: nationality,
-        mySessionId: sessionId
-      });
-      console.log(name, nationality);
-      console.log(sessionId)
-      this.joinSession();
-    }, 500);
+    try {
+      const sessionId = this.props.location.state.sessionId
+      setTimeout(() => {
+        const myName = this.props.location.state.MyInfo.name
+        const myNationality = this.props.location.state.MyInfo.nationality
+  
+        console.log(myName, myNationality)
+        this.setState({
+          mySessionId: sessionId,
+          myUserName: myName,
+          nationality: myNationality
+        });
+      
+        console.log(sessionId)
+        this.joinSession();
+      }, 500);
+    } catch {
+      this.props.history.push('/main')
+    } 
+    
     // window.addEventListener("beforeunload", this.onbeforeunload);
     // window.addEventListener("resize", this.updateLayout);
     // window.addEventListener("resize", this.checkSize);
@@ -272,10 +274,8 @@ class VideoRoomComponent extends Component {
 
     if (this.props.leaveSession) {
       this.props.leaveSession();
-      this.props.resetMatching()
-      this.props.history.push('/main')
-
     }
+    this.props.history.push('/main')
   }
   camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive());
@@ -750,4 +750,4 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(VideoRoomComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoRoomComponent)
