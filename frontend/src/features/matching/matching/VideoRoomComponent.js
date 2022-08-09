@@ -8,8 +8,11 @@ import ChatComponent from './chat/ChatComponent';
 import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
+
+//youlangme-custom
 import { connect } from 'react-redux';
 import { resetMatching } from '../matchSlice';
+import HelpTemplate from '../youlangmeCustom/helps/HelpTemplate';
 
 var localUser = new UserModel();
 
@@ -19,9 +22,13 @@ class VideoRoomComponent extends Component {
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
       : 'https://' + window.location.hostname + ':8443';
+    // : 'https://' + window.location.hostname + ':4443';
+
     this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret
       ? this.props.openviduSecret
       : 'YOULANGME';
+    // : 'MY_SECRET';
+
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     let sessionName = undefined;
@@ -54,6 +61,8 @@ class VideoRoomComponent extends Component {
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
     this.nationality = createRef(null);
+    // youlangme custom
+    this.toggleHelpModal = this.toggleHelpModal.bind(this);
   }
 
   componentDidMount() {
@@ -87,14 +96,14 @@ class VideoRoomComponent extends Component {
         const myName = this.props.location.state.MyInfo.name;
         const myNationality = this.props.location.state.MyInfo.nationality;
 
-        console.log(myName, myNationality);
+        console.log('이름, 국적', myName, myNationality);
         this.setState({
           mySessionId: sessionId,
           myUserName: myName,
           nationality: myNationality,
         });
 
-        console.log(sessionId);
+        console.log('세션아이디', sessionId);
         this.joinSession();
       }, 500);
     } catch {
@@ -568,6 +577,11 @@ class VideoRoomComponent extends Component {
     }
   }
 
+  // youlangme custom
+  toggleHelpModal(event) {
+    this.setState({ isHelpModalVisible: !this.state.isHelpModalVisible });
+  }
+
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
@@ -635,6 +649,14 @@ class VideoRoomComponent extends Component {
         </div>
         <div>{name}</div>
         <div>{nationality}</div>
+
+        {this.state.isHelpModalVisible ? (
+          <HelpTemplate toggleModal={this.toggleHelpModal} />
+        ) : (
+          <div className="help-btn" onClick={this.toggleHelpModal}>
+            Help
+          </div>
+        )}
       </div>
     );
   }
