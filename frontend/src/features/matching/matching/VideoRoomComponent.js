@@ -18,16 +18,13 @@ class VideoRoomComponent extends Component {
     super(props);
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
-      : 'https://' + window.location.hostname + ':4443';
-    // : 'https://' + window.location.hostname + ':8443';
+      : 'https://' + window.location.hostname + ':8443';
     this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret
       ? this.props.openviduSecret
-      : 'MY_SECRET';
-    // : 'YOULANGME';
+      : 'YOULANGME';
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     let sessionName = undefined;
-    let userName = undefined;
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -77,30 +74,32 @@ class VideoRoomComponent extends Component {
       document.getElementById('layout'),
       openViduLayoutOptions
     );
+    window.addEventListener('beforeunload', this.onbeforeunload);
+    window.addEventListener('resize', this.updateLayout);
+    window.addEventListener('resize', this.checkSize);
     // this.props.doResetMyPageInfo();
-    // window.addEventListener("beforeunload", () => {
-    //   this.componentWillUnmount();
-    // });
+    window.addEventListener('beforeunload', () => {
+      this.componentWillUnmount();
+    });
+    try {
+      const sessionId = this.props.location.state.sessionId;
+      setTimeout(() => {
+        const myName = this.props.location.state.MyInfo.name;
+        const myNationality = this.props.location.state.MyInfo.nationality;
 
-    setTimeout(() => {
-      const { auth } = this.props;
-      const { currentUser } = auth;
-      const { name, nationality } = currentUser;
-      const { match } = this.props;
-      const { sessionId } = match;
+        console.log(myName, myNationality);
+        this.setState({
+          mySessionId: sessionId,
+          myUserName: myName,
+          nationality: myNationality,
+        });
 
-      this.setState({
-        myUserName: name,
-        nationality: nationality,
-        mySessionId: sessionId,
-      });
-      console.log(name, nationality);
-      console.log(sessionId);
-      this.joinSession();
-    }, 500);
-    // window.addEventListener("beforeunload", this.onbeforeunload);
-    // window.addEventListener("resize", this.updateLayout);
-    // window.addEventListener("resize", this.checkSize);
+        console.log(sessionId);
+        this.joinSession();
+      }, 500);
+    } catch {
+      this.props.history.push('/main');
+    }
 
     // this.joinSession();
   }
@@ -270,9 +269,8 @@ class VideoRoomComponent extends Component {
 
     if (this.props.leaveSession) {
       this.props.leaveSession();
-      this.props.resetMatching();
-      this.props.history.push('/main');
     }
+    this.props.history.push('/main');
   }
   camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive());
@@ -342,8 +340,7 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
-      event.preventDefault();
-      this.updateLayout();
+      this.leaveSession();
     });
   }
 

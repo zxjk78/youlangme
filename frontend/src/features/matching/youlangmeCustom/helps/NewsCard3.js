@@ -1,5 +1,5 @@
 import React from 'react';
-import './NewsCard2.scss';
+import './NewsCard.scss';
 
 class CardHeader extends React.Component {
   render() {

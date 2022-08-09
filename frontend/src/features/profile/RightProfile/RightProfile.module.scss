@@ -70,14 +70,24 @@
   }
 
   .badge_container {
+    // display: ;
     width: 92%;
     height: 25%;
-    margin-top: 1%;
+    margin-top: 1px;
+
     .badge_card {
-      height: 70%;
-      background: rgba(255, 255, 255, 0.2);
+      margin-top: 1%;
+      // height: 70%;
+      // background: rgba(255, 255, 255, 0.2);
       // border: 1px solid #CAD6E2;
-      border-radius: 20px;
+      // border-radius: 20px;
+      
+      .badge_image {
+        margin-right: 2%;
+        width: 105px;
+        height: 100px;
+      }
+
     }
   }
 
@@ -114,8 +124,19 @@
 }
 
 
+.badge_select_box {
+  margin-top: 2%;
 
-.badge_image {
-  width: 85px;
-  height: 85px;
+  .each_badge_list {
+    margin-top: 2%;
+
+  }
+
+}
+
+.modal_badge_image {
+  
+
+  width: 70px;
+  height: 70px;
 }

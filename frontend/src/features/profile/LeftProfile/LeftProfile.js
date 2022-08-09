@@ -159,7 +159,7 @@ const LeftProfile = (props) => {
           </Modal>
         )}
         <div>
-          <Typography
+          {/* <Typography
             sx={{
               color: 'rgba(0, 0, 0, 0.6)',
               fontSize: 35,
@@ -168,8 +168,8 @@ const LeftProfile = (props) => {
             }}
             className={classes.header}
           >
-            My Page
-          </Typography>
+            {profileInfo.name}
+          </Typography> */}
           <CardMedia className={classes.avatar}>
             <div className={classes.profile_img_add_icon}>
               {isCurrentUser && <ProfileImageEdit 
@@ -178,12 +178,13 @@ const LeftProfile = (props) => {
             </div>
             <Badge
               badgeContent={
-                <img className={classes.flag} alt="flag" src={`http://www.geonames.org/flags/x/${nationalityCode}.gif`} />
+                <img className={classes.flag} alt="flag" 
+                src={`http://www.geonames.org/flags/x/${nationalityCode}.gif`} />
               }
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               overlap="circular"
             >
-              <Avatar sx={{ width: 150, height: 150 }} 
+              <Avatar sx={{ width: 200, height: 200 }} 
                 src={isCurrentUser ? myProfileImg : otherProfileImg} />
             </Badge>
           
@@ -194,7 +195,7 @@ const LeftProfile = (props) => {
               <CardContent>
                 <Typography
                   className={classes.name}
-                  sx={{ fontWeight: 'bold', letterSpacing: 3, fontSize: 25 }}
+                  sx={{ fontWeight: 'bold', letterSpacing: 3, fontSize: 30 }}
                   gutterBottom
                   component="div"
                 >

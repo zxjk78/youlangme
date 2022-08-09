@@ -51,10 +51,10 @@ const NewsCardList = (props) => {
     console.log(url);
   };
   return (
-    <>
+    <div className={classes.wrapper}>
       {loading ? (
         <div className={classes.loading}>
-          <div>Now Loading...</div>
+          <div>Now Loading....</div>
           <div>
             <CircularProgress />
           </div>
@@ -82,7 +82,6 @@ const NewsCardList = (props) => {
               </div>
             </div>
             <div className={classes.main}>
-              {/* {loadedArticles.map((article) => ( */}
               {articles.slice(page * 4, page * 4 + 4).map((article) => (
                 <NewsCard
                   key={article.title}
@@ -95,7 +94,7 @@ const NewsCardList = (props) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default NewsCardList;
