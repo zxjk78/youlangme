@@ -74,11 +74,14 @@ class VideoRoomComponent extends Component {
     this.layout.initLayoutContainer(
       document.getElementById("layout"),
       openViduLayoutOptions
-    );
-    // this.props.doResetMyPageInfo();
-    // window.addEventListener("beforeunload", () => {
-    //   this.componentWillUnmount();
-    // });
+      );
+      window.addEventListener("beforeunload", this.onbeforeunload);
+      window.addEventListener("resize", this.updateLayout);
+      window.addEventListener("resize", this.checkSize);
+      // this.props.doResetMyPageInfo();
+      window.addEventListener("beforeunload", () => {
+        this.componentWillUnmount();
+      });
     try {
       const sessionId = this.props.location.state.sessionId
       setTimeout(() => {
@@ -99,9 +102,6 @@ class VideoRoomComponent extends Component {
       this.props.history.push('/main')
     } 
     
-    // window.addEventListener("beforeunload", this.onbeforeunload);
-    // window.addEventListener("resize", this.updateLayout);
-    // window.addEventListener("resize", this.checkSize);
 
     // this.joinSession();
   }
@@ -345,8 +345,7 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
-      event.preventDefault();
-      this.updateLayout();
+      this.leaveSession()
     });
   }
 
