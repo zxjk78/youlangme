@@ -14,8 +14,7 @@ import NewsCardList from './NewsCardList';
 import classes from './HelpTemplate.module.scss';
 
 const HelpTemplate = (props) => {
-  const remoteUserId = props.remoteUserId;
-  // useEffect(() => {}, []);
+  console.log(props.nationality, props.yourNationality);
 
   const closeModal = () => {
     props.toggleModal();
@@ -32,7 +31,10 @@ const HelpTemplate = (props) => {
             </div>
           </div>
           <div className={classes.main}>
-            <NewsCardList remoteUserId={remoteUserId} />
+            <NewsCardList
+              myNationality={props.nationality}
+              yourNationality={props.yourNationality}
+            />
           </div>
           <div className={classes.footer}></div>
         </div>

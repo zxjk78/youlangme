@@ -43,6 +43,7 @@ class VideoRoomComponent extends Component {
       chatDisplay: 'none',
       currentVideoDevice: undefined,
       nationality: '',
+      yourNationality: '',
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -95,12 +96,15 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         const myName = this.props.location.state.MyInfo.name;
         const myNationality = this.props.location.state.MyInfo.nationality;
+        const yourNationality = this.props.location.state.youInfo.nationality;
 
         console.log('이름, 국적', myName, myNationality);
+        console.log('상대국적', yourNationality);
         this.setState({
           mySessionId: sessionId,
           myUserName: myName,
           nationality: myNationality,
+          yourNationality: yourNationality,
         });
 
         console.log('세션아이디', sessionId);
@@ -651,7 +655,11 @@ class VideoRoomComponent extends Component {
         <div>{nationality}</div>
 
         {this.state.isHelpModalVisible ? (
-          <HelpTemplate toggleModal={this.toggleHelpModal} />
+          <HelpTemplate
+            toggleModal={this.toggleHelpModal}
+            myNationality={this.state.nationality}
+            yourNationality={this.state.yourNationality}
+          />
         ) : (
           <div className="help-btn" onClick={this.toggleHelpModal}>
             Help
