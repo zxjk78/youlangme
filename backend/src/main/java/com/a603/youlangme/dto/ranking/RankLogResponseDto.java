@@ -12,6 +12,8 @@ import java.io.Serializable;
 @Builder
 public class RankLogResponseDto implements Serializable {
 
+    private Long id;
+
     private String name;
 
     private int rank;
