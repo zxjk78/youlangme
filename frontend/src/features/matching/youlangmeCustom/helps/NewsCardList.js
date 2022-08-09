@@ -19,27 +19,25 @@ import classes from './NewsCardList.module.scss';
 import { newsText } from '../../../../common/utils/data/nationalityData';
 
 const NewsCardList = (props) => {
-  const remoteUserId = props.remoteUserId;
   const [loading, setLoading] = useState(true);
   const [remoteUserNationality, setRemoteUserNationality] = useState(null);
   const [articles, setArticles] = useState([]);
   // const [loadedArticles, setLoadedArticles] = useState([]);
   const [page, setPage] = useState(0);
-  const myNation = 'USA';
+  const myNationality = props.myNationality;
+  const yourNationality = props.yourNationality;
   useEffect(() => {
     (async () => {
-      const oppoNation = await fetchNationality(remoteUserId);
-      setRemoteUserNationality(oppoNation);
+      // const oppoNation = await fetchNationality(remoteUserId);
+      setRemoteUserNationality(yourNationality);
       // 내 국가 언어, 상대 국가 뉴스 받는 api
-      const data = await fetchNews(myNation, oppoNation);
-      console.log(data);
+      const data = await fetchNews(myNationality, yourNationality);
+      // console.log(data);
       setArticles(data.articles);
       setLoading(false);
     })();
   }, []);
-  // useEffect(() => {
-  //   setLoadedArticles(articles.slice(page, page + 4));
-  // }, [articles, page]);
+
   const showPrev = () => {
     setPage((prev) => prev - 1);
   };
@@ -63,7 +61,7 @@ const NewsCardList = (props) => {
         <div className={classes.wrapper}>
           <div className={classes.container}>
             <div className={classes.header}>
-              <div>{newsText(myNation, remoteUserNationality)}</div>
+              <div>{newsText(myNationality, yourNationality)}</div>
               <div>
                 {page !== 0 ? (
                   <div>
