@@ -7,65 +7,88 @@ import { fetchNationality, fetchNews } from '../../matchAPI';
 // external module
 
 // external component
+import CircularProgress from '@mui/material/CircularProgress';
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 // custom component
-import NewsCard from './NewsCard2';
+import NewsCard from './NewsCard3';
 // css
 import classes from './NewsCardList.module.scss';
+// static data
+import { newsText } from '../../../../common/utils/data/nationalityData';
 
 const NewsCardList = (props) => {
   const remoteUserId = props.remoteUserId;
   const [loading, setLoading] = useState(true);
   const [remoteUserNationality, setRemoteUserNationality] = useState(null);
   const [articles, setArticles] = useState([]);
-  const [nowPage, setNowPage] = useState(1);
-  const [page, setPage] = useState(1);
-  const myLang = 'ENGLISH';
+  // const [loadedArticles, setLoadedArticles] = useState([]);
+  const [page, setPage] = useState(0);
+  const myNation = 'USA';
   useEffect(() => {
     (async () => {
-      const nation = await fetchNationality(remoteUserId);
-      setRemoteUserNationality(nation);
+      const oppoNation = await fetchNationality(remoteUserId);
+      setRemoteUserNationality(oppoNation);
       // 내 국가 언어, 상대 국가 뉴스 받는 api
-      const data = await fetchNews(myLang, nation, page);
-      // console.log(data);
+      const data = await fetchNews(myNation, oppoNation);
+      console.log(data);
       setArticles(data.articles);
       setLoading(false);
     })();
-  }, [page]);
-  const fetchPrev = async () => {
+  }, []);
+  // useEffect(() => {
+  //   setLoadedArticles(articles.slice(page, page + 4));
+  // }, [articles, page]);
+  const showPrev = () => {
     setPage((prev) => prev - 1);
   };
-  const fetchNext = async () => {
+  const showNext = () => {
     setPage((prev) => prev + 1);
+  };
+  const openOriginHandler = (url) => {
+    window.open(url, '', 'left=50,top=50,width=800,height=600');
+    console.log(url);
   };
   return (
     <>
       {loading ? (
-        <div>...is Loading</div>
+        <div className={classes.loading}>
+          <div>Now Loading...</div>
+          <div>
+            <CircularProgress />
+          </div>
+        </div>
       ) : (
         <div className={classes.wrapper}>
           <div className={classes.container}>
             <div className={classes.header}>
-              <div>[{remoteUserNationality}]의 뉴스</div>
+              <div>{newsText(myNation, remoteUserNationality)}</div>
               <div>
-                {page !== 1 ? (
+                {page !== 0 ? (
                   <div>
-                    <ArrowBackIosIcon onClick={fetchPrev} />
+                    <ArrowBackIosIcon onClick={showPrev} />
                   </div>
                 ) : (
-                  <div></div>
+                  <div>Start</div>
                 )}
-                <div>
-                  <ArrowForwardIosIcon onClick={fetchNext} />
-                </div>
+                {page !== 9 ? (
+                  <div>
+                    <ArrowForwardIosIcon onClick={showNext} />
+                  </div>
+                ) : (
+                  <div>End</div>
+                )}
               </div>
             </div>
             <div className={classes.main}>
-              {articles.map((article) => (
-                <>
-                  <NewsCard key={article._id} article={article} />
-                </>
+              {/* {loadedArticles.map((article) => ( */}
+              {articles.slice(page * 4, page * 4 + 4).map((article) => (
+                <NewsCard
+                  key={article.title}
+                  article={article}
+                  openOrigin={openOriginHandler}
+                />
               ))}
             </div>
             <div className={classes.footer}></div>

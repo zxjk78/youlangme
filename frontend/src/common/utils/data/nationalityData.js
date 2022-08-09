@@ -1,56 +1,60 @@
-export const nationOptions = [
-  { name: '국가 선택', id: '' },
-  { name: '미국', id: 'USA' },
-  { name: '한국', id: 'KOREA' },
-  { name: '중국', id: 'CHINA' },
-  { name: '스페인', id: 'SPAIN' },
-  { name: '일본', id: 'JAPAN' },
-];
+// 내 국적 - 상대방의국적, 뉴스 검색 텍스트를 다르게
+export const nationalityNewsMapping = {
+  KOREA: {
+    USA: '미국',
+    JAPAN: '일본',
+    CHINA: '중국',
+    SPAIN: '스페인',
+  },
+  USA: {
+    KOREA: 'South Korea',
+    JAPAN: 'Japan',
+    CHINA: 'China',
+    SPAIN: 'Spain',
+  },
 
-export const languageOptions = [
-  { name: '언어 선택', id: '' },
-  { name: '영어', id: 'ENGLISH' },
-  { name: '한국어', id: 'KOREAN' },
-  { name: '중국어', id: 'CHINESE' },
-  { name: '스페인어', id: 'SPANISH' },
-  { name: '일본어', id: 'JAPANESE' },
-];
-export const genderOptions = [
-  { name: '성별 선택', id: '' },
-  { name: '남성', id: 'MALE' },
-  { name: '여성', id: 'FEMALE' },
-];
-
-export const favorites = {
-  1: '영화',
-  2: '스포츠',
-  3: '음악',
-  4: '투자',
-  5: '여행',
-  6: '코딩',
-  7: '게임',
-  8: '맛집',
-  9: '요리',
-  10: '카페',
-  11: '독서',
-  12: '반려동물',
-  13: '파티',
-  14: '콜렉팅',
+  JAPAN: {
+    KOREA: '韓国',
+    USA: '米国',
+    CHINA: '中国',
+    SPAIN: 'スペイン',
+  },
+  CHINA: {
+    KOREA: '韩国',
+    USA: '美国',
+    JAPAN: '日本',
+    SPAIN: '西班牙',
+  },
+  SPAIN: {
+    KOREA: 'Corea',
+    USA: 'América',
+    JAPAN: 'Japón',
+    CHINA: 'China',
+  },
 };
 
-export const chipColor = [
-  'primary',
-  'secondary',
-  'error',
-  'info',
-  'success',
-  'warning',
-];
+export const newsText = (myNation, yourNation) => {
+  let result;
+  switch (myNation) {
+    case 'KOREA':
+      result = `${nationalityNewsMapping[myNation][yourNation]}의 최근 소식`;
+      break;
+    case 'USA':
+      result = `${nationalityNewsMapping[myNation][yourNation]} Today`;
 
-export const langCode = {
-  KOREAN: 'ko',
-  ENGLISH: 'en',
-  JAPANESE: 'jp',
-  CHINESE: 'cn',
-  SPANISH: 'es',
+      break;
+    case 'JAPAN':
+      result = '海外ニュース';
+      break;
+    case 'CHINA':
+      result = '外电';
+      break;
+    case 'SPAIN':
+      result = 'noticias mundiales';
+      break;
+
+    default:
+      break;
+  }
+  return result;
 };

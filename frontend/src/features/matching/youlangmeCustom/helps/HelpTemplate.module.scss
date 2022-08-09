@@ -10,24 +10,20 @@
 .container {
 }
 .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
   color: #fff;
   background-color: blueviolet;
   height: 60px;
-  & > div:first-child {
-    width: 90%;
-    margin: 0px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  & > div {
+    margin: 0px 20px;
   }
 }
-// 한번에 2개씩 4개 들어가는 뉴스 카드 그리드 레이아웃
-// .main {
-//   padding: 8px;
-//   display: grid;
-//   grid-template-columns: 1fr 1fr;
-//   grid-template-rows: 1fr;
-//   gap: 10px;
-// }
+
 .footer {
 }
