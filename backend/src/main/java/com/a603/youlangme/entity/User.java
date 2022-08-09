@@ -155,5 +155,7 @@ public class User extends BaseEntity implements UserDetails, Serializable {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserExp expInfo;
-
+    public int getAge() {
+        return LocalDate.now().getYear() - this.birthDay.getYear();
+    }
 }

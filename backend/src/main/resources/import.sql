@@ -49,6 +49,16 @@ INSERT INTO user VALUES(1003,'2022-07-21 16:32:22.232051','2022-07-21 16:30:22.2
 INSERT INTO user VALUES(1004,'2022-07-21 12:33:22.232051','2022-07-21 16:30:22.232051','2001-02-13','hello!!','userbot4@gmail.com','MALE',null,'ENGLISH','userbot4','USA','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','KOREAN');
 INSERT INTO user VALUES(1005,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','userbot5@gmail.com','FEMALE',null,'JAPANESE','userbot5','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
 
+INSERT INTO user VALUES(2001,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2001@gmail.com','MALE',null,'JAPANESE','userbot2001','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(2002,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2002@gmail.com','MALE',null,'JAPANESE','userbot2002','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(2003,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2003@gmail.com','MALE',null,'JAPANESE','userbot2003','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(2004,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2004@gmail.com','MALE',null,'JAPANESE','userbot2004','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(2005,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2005@gmail.com','MALE',null,'JAPANESE','userbot2005','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(2006,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2006@gmail.com','MALE',null,'JAPANESE','userbot2006','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(2007,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2007@gmail.com','MALE',null,'JAPANESE','userbot2007','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+INSERT INTO user VALUES(2008,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2008@gmail.com','MALE',null,'JAPANESE','userbot2008','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
+
+
 
 -- User Roles
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (1001,'ROLE_USER');
@@ -57,6 +67,15 @@ INSERT INTO user_roles(`user_id`,`roles`) VALUES (1003,'ROLE_USER');
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (1004,'ROLE_USER');
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (1005,'ROLE_USER');
 
+INSERT INTO user_roles(`user_id`,`roles`) VALUES (2001,'ROLE_USER');
+INSERT INTO user_roles(`user_id`,`roles`) VALUES (2002,'ROLE_USER');
+INSERT INTO user_roles(`user_id`,`roles`) VALUES (2003,'ROLE_USER');
+INSERT INTO user_roles(`user_id`,`roles`) VALUES (2004,'ROLE_USER');
+INSERT INTO user_roles(`user_id`,`roles`) VALUES (2005,'ROLE_USER');
+INSERT INTO user_roles(`user_id`,`roles`) VALUES (2006,'ROLE_USER');
+INSERT INTO user_roles(`user_id`,`roles`) VALUES (2007,'ROLE_USER');
+INSERT INTO user_roles(`user_id`,`roles`) VALUES (2008,'ROLE_USER');
+
 
 -- User Exp (유저별 경험치 테이블 생성 및 초기화, 원래는 정상적인 루트로 회원 가입하면 자동으로 생성)
 INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (1001,0,1,1001);
@@ -64,6 +83,15 @@ INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (1002,0,1,1002);
 INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (1003,0,1,1003);
 INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (1004,0,1,1004);
 INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (1005,0,1,1005);
+
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2001,0,1,2001);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2002,0,1,2002);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2003,0,1,2003);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2004,0,1,2004);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2005,0,1,2005);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2006,0,1,2006);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2007,0,1,2007);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2008,0,1,2008);
 
 -- 경험치 획득 활동 (1001,1002 만)
 
@@ -98,6 +126,23 @@ INSERT INTO user_favorite VALUES(2005,'2022-07-21 16:30:22.232051','2022-07-21 1
 INSERT INTO user_favorite VALUES(2006,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',10,1003);
 INSERT INTO user_favorite VALUES(2007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',7,1004);
 INSERT INTO user_favorite VALUES(2008,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',9,1005);
+
+INSERT INTO user_favorite VALUES(2009,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',1,2001);
+INSERT INTO user_favorite VALUES(2010,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',4,2001);
+INSERT INTO user_favorite VALUES(2011,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',2,2002);
+INSERT INTO user_favorite VALUES(2012,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',3,2002);
+INSERT INTO user_favorite VALUES(2013,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',4,2002);
+INSERT INTO user_favorite VALUES(2014,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',5,2003);
+INSERT INTO user_favorite VALUES(2015,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',2,2004);
+INSERT INTO user_favorite VALUES(2016,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',3,2004);
+INSERT INTO user_favorite VALUES(2017,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',1,2005);
+INSERT INTO user_favorite VALUES(2018,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',5,2005);
+INSERT INTO user_favorite VALUES(2019,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',1,2006);
+INSERT INTO user_favorite VALUES(2020,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',6,2006);
+INSERT INTO user_favorite VALUES(2021,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',7,2006);
+INSERT INTO user_favorite VALUES(2022,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',13,2007);
+INSERT INTO user_favorite VALUES(2023,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',1,2008);
+INSERT INTO user_favorite VALUES(2024,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22.232051',2,2008);
 
 
 -- Follow (userbot1(1001) 위주)
