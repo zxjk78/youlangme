@@ -908,23 +908,30 @@
 }
 
 /* youlangme 추가 css */
-.modalZone {
+/* .modalZone {
   position: absolute;
   background-color: #1ca3dc;
   width: 700px;
   height: 400px;
   z-index: 100;
-}
+} */
 
 .chat-container {
   margin-right: 100px;
 }
 
 .help-btn {
-  background-color: #1ca3dc;
-  border-radius: 70%;
-  z-index: 500;
+  width: 70px;
+  height: 70px;
   position: absolute;
   right: 20px;
   bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c52afe;
+  border-radius: 70%;
+  color: #fff;
+  font-weight: bold;
+  z-index: 500;
 }

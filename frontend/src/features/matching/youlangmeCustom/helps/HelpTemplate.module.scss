@@ -1,14 +1,33 @@
 .wrapper {
-  background-color: aqua;
+  width: auto;
+  background-color: #fff;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 100;
+  height: 80%;
 }
 .container {
 }
 .header {
   color: #fff;
   background-color: blueviolet;
-  height: 250px;
+  height: 60px;
+  & > div:first-child {
+    width: 90%;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
-.main {
-}
+// 한번에 2개씩 4개 들어가는 뉴스 카드 그리드 레이아웃
+// .main {
+//   padding: 8px;
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   grid-template-rows: 1fr;
+//   gap: 10px;
+// }
 .footer {
 }

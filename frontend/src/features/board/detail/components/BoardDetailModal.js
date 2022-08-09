@@ -47,7 +47,7 @@ const BoardDetailModal = (props) => {
     setIsLoading(true);
     (async () => {
       const boardDetail = await fetchBoardInfo(boardId);
-      console.log(boardDetail);
+      // console.log(boardDetail);
       if (!boardDetail) {
         history.replace({
           pathname: '/404',

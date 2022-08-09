@@ -15,7 +15,7 @@ import BoardDetailModal from './features/board/detail/components/BoardDetailModa
 import StartMatching from './features/matching/StartMatching';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
-import VideoRoomComponentLocal from './features/matching/matching/VideoRoomComponentLocal';
+import VideoRoomComponentLocal2 from './features/matching/matching/VideoRoomComponentLocal2';
 import NotFound from './features/other/NotFound/NotFound';
 //test
 import Maintmp from './features/main/Maintmp';
@@ -54,8 +54,15 @@ function App() {
             exact
             path="/match"
             s
+            component={VideoRoomComponent}
+          ></PrivateRoute>
+          {/* local 작업중 */}
+          <PrivateRoute
+            exact
+            path="/match2"
+            s
             // component={VideoRoomComponent}
-            component={VideoRoomComponentLocal}
+            component={VideoRoomComponentLocal2}
           ></PrivateRoute>
           <PrivateRoute exact path="/main" component={Main}></PrivateRoute>
 
