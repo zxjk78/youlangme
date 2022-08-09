@@ -48,7 +48,7 @@ const MyActivity = () => {
         fontSize: 16,
         fontWeight: 'bold',
       }} component="div">
-        내 활동
+        내 언어
       </Typography>
 
       <div
@@ -60,7 +60,7 @@ const MyActivity = () => {
         >
           <ResponsivePie
             data={data}
-            margin={{ top: 0, right: 30, bottom: 70, left: 20 }}
+            margin={{ top: 9, right: 30, bottom: 70, left: 0 }}
             startAngle={-149}
             innerRadius={0.5}
             cornerRadius={3} 

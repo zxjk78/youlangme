@@ -209,7 +209,7 @@ const ModifyUserInfo = (props) => {
       <div className={classes.container}>
         {props.userInfo && (
           <div className={classes.formCancel}>
-            <IconButton size="small" onClick={closeHandler}>
+            <IconButton sx={{ width: '35px', height: '35px'}} onClick={closeHandler}>
               <CancelIcon sx={{ color: grey[400], fontSize: 30 }} />
             </IconButton>
           </div>
