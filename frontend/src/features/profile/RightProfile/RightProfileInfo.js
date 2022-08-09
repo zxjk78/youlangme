@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import MyActivity from './MyActivity';
+import MyLanguages from './MyLanguages'
 import MyBadgeCollection from './MyBadgeCollection';
 import MyGrass from './MyGrass';
 import MyLevel from './MyLevel';
@@ -18,9 +18,9 @@ const RightProfileInfo = (props) => {
     <>
       <div className={classes.wrapper_level_activity}>
         <MyLevel userId={userId}/>
-        <MyActivity />
+        <MyLanguages />
       </div>
-      <MyBadgeCollection />
+      <MyBadgeCollection userId={userId}/>
       <MyGrass/>
     </>
   );
