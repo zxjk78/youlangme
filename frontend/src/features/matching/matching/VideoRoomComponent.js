@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import axios from 'axios';
 import './VideoRoomComponent.css';
 import { OpenVidu } from 'openvidu-browser';
@@ -8,8 +8,9 @@ import ChatComponent from './chat/ChatComponent';
 import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
-//test
-import Test11111 from '../youlangmeCustom/news/component/Test';
+import { connect } from 'react-redux';
+import { resetMatching } from '../matchSlice';
+
 var localUser = new UserModel();
 
 class VideoRoomComponent extends Component {
@@ -18,17 +19,15 @@ class VideoRoomComponent extends Component {
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
       : 'https://' + window.location.hostname + ':4443';
+    // : 'https://' + window.location.hostname + ':8443';
     this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret
       ? this.props.openviduSecret
       : 'MY_SECRET';
+    // : 'YOULANGME';
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
-    let sessionName = this.props.sessionName
-      ? this.props.sessionName
-      : 'SessionA';
-    let userName = this.props.user
-      ? this.props.user
-      : 'OpenVidu_User' + Math.floor(Math.random() * 100);
+    let sessionName = undefined;
+    let userName = undefined;
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -39,8 +38,7 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: 'none',
       currentVideoDevice: undefined,
-      // youlangme custom
-      isHelpModalVisible: false,
+      nationality: '',
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -58,6 +56,7 @@ class VideoRoomComponent extends Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
+    this.nationality = createRef(null);
   }
 
   componentDidMount() {
@@ -78,10 +77,32 @@ class VideoRoomComponent extends Component {
       document.getElementById('layout'),
       openViduLayoutOptions
     );
-    window.addEventListener('beforeunload', this.onbeforeunload);
-    window.addEventListener('resize', this.updateLayout);
-    window.addEventListener('resize', this.checkSize);
-    this.joinSession();
+    // this.props.doResetMyPageInfo();
+    // window.addEventListener("beforeunload", () => {
+    //   this.componentWillUnmount();
+    // });
+
+    setTimeout(() => {
+      const { auth } = this.props;
+      const { currentUser } = auth;
+      const { name, nationality } = currentUser;
+      const { match } = this.props;
+      const { sessionId } = match;
+
+      this.setState({
+        myUserName: name,
+        nationality: nationality,
+        mySessionId: sessionId,
+      });
+      console.log(name, nationality);
+      console.log(sessionId);
+      this.joinSession();
+    }, 500);
+    // window.addEventListener("beforeunload", this.onbeforeunload);
+    // window.addEventListener("resize", this.updateLayout);
+    // window.addEventListener("resize", this.checkSize);
+
+    // this.joinSession();
   }
 
   componentWillUnmount() {
@@ -242,12 +263,15 @@ class VideoRoomComponent extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: 'SessionA',
-      myUserName: 'OpenVidu_User' + Math.floor(Math.random() * 100),
+      mySessionId: undefined,
+      myUserName: undefined,
       localUser: undefined,
     });
+
     if (this.props.leaveSession) {
       this.props.leaveSession();
+      this.props.resetMatching();
+      this.props.history.push('/main');
     }
   }
   camStatusChanged() {
@@ -546,15 +570,12 @@ class VideoRoomComponent extends Component {
       this.hasBeenUpdated = false;
     }
   }
-  ///////// youlangme 커스텀
-
-  showHelpModal(event) {
-    console.log(event.target);
-  }
 
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
+    const name = this.state.myUserName;
+    const nationality = this.state.nationality;
     var chatDisplay = { display: this.state.chatDisplay };
 
     return (
@@ -577,7 +598,7 @@ class VideoRoomComponent extends Component {
           showDialog={this.state.showExtensionDialog}
           cancelClicked={this.closeDialogExtension}
         />
-        <div className="modalZone">테스트용 z-index 조작</div>
+
         <div id="layout" className="bounds">
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
@@ -588,21 +609,22 @@ class VideoRoomComponent extends Component {
                 />
               </div>
             )}
-          {/* 위에가 나, 아래가 들어오는 유저들 */}
-          {[1].map(() => (
-            <div className="OT_root OT_publisher custom-class" id="remoteUsers">
-              {/* 화면이 stream component
-                <StreamComponent
-                  user={sub}
-                  streamId={sub.streamManager.stream.streamId}
-                /> */}
+          {this.state.subscribers.map((sub, i) => (
+            <div
+              key={i}
+              className="OT_root OT_publisher custom-class"
+              id="remoteUsers"
+            >
+              <StreamComponent
+                user={sub}
+                streamId={sub.streamManager.stream.streamId}
+              />
             </div>
           ))}
-
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div
-                className="OT_root OT_publisher custom-class chat-container"
+                className="OT_root OT_publisher custom-class"
                 style={chatDisplay}
               >
                 <ChatComponent
@@ -614,10 +636,8 @@ class VideoRoomComponent extends Component {
               </div>
             )}
         </div>
-
-        <div className="help-btn" onClick={this.showHelpModal}>
-          Help 버튼 위치
-        </div>
+        <div>{name}</div>
+        <div>{nationality}</div>
       </div>
     );
   }
@@ -643,6 +663,7 @@ class VideoRoomComponent extends Component {
   createSession(sessionId) {
     return new Promise((resolve, reject) => {
       var data = JSON.stringify({ customSessionId: sessionId });
+      console.log(data);
       axios
         .post(this.OPENVIDU_SERVER_URL + '/openvidu/api/sessions', data, {
           headers: {
@@ -711,8 +732,15 @@ class VideoRoomComponent extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   currentUser: state.auth.currentUser
-// });
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  match: state.match,
+});
 
-export default VideoRoomComponent;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetMatching: () => dispatch(resetMatching()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VideoRoomComponent);

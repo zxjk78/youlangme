@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../../../features/auth/authSlice';
 import classes from './Header.module.scss';
-import youlangme from '../../../assets/logo_1.png';
+import youlangme from '../../../assets/logo_2.png';
 import go from '../../../assets/go.png';
 
 // API
@@ -125,8 +125,7 @@ const Header = () => {
     //     </div>
     // </nav>
 
-    <AppBar position="static" className={classes.navbar} color='transparent' 
-      sx={{ borderRadius: 0}}>
+    <div className={classes.navbar}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <div className={classes.navbar__left}>
@@ -134,7 +133,7 @@ const Header = () => {
                 <img src={youlangme} className={classes.navbar__logo}/>
               </Link>
               <Link to="/start">
-                <StartIcon sx={{ fontSize: '60px', color: '#FFC700',  ml: 3}}/>
+                <StartIcon sx={{ fontSize: '50px', color: '#FFC700',  ml: 3}}/>
               </Link>
           </div>
         
@@ -201,7 +200,7 @@ const Header = () => {
           </Box>
         </Toolbar>
       </Container>
-    </AppBar>
+    </div>
   );
 };
 

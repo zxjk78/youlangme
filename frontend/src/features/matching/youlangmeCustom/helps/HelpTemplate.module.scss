@@ -1,14 +1,29 @@
 .wrapper {
-  background-color: aqua;
+  width: auto;
+  background-color: #fff;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 100;
+  height: 80%;
 }
 .container {
 }
 .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
   color: #fff;
   background-color: blueviolet;
-  height: 250px;
+  height: 60px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  & > div {
+    margin: 0px 20px;
+  }
 }
-.main {
-}
+
 .footer {
 }
