@@ -2,12 +2,16 @@ package com.a603.youlangme.service;
 
 import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
+import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
+import com.a603.youlangme.dto.user.UserLevelDetailsResponseDto;
 import com.a603.youlangme.dto.user.UserProfileResponseDto;
 import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
 import com.a603.youlangme.entity.*;
 import com.a603.youlangme.entity.Favorite;
+import com.a603.youlangme.entity.log.MeetingLog;
+import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +42,9 @@ public class UserService {
     private final UserFavoriteRepository userFavoriteRepository;
     private final UserBadgeRepository userBadgeRepository;
     private final BadgeRepository badgeRepository;
+    private final BoardRepository boardRepository;
+    private final ReplyRepository replyRepository;
+    private final MeetingLogRepository meetingLogRepository;
 
 
     public User findUserById(Long id) {
@@ -54,7 +66,7 @@ public class UserService {
     @Transactional
     public void updateBasicInfo(Long userId, UserSetBasicInfoRequestDto basicInfo) {
 
-        List<Long> favoriteIdList =  basicInfo.getFavoriteList();
+        List<Long> favoriteIdList = basicInfo.getFavoriteList();
 
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) return;
@@ -65,7 +77,8 @@ public class UserService {
         user.getUserFavorites().clear();
         userFavoriteRepository.deleteByUserId(user.getId());
 
-        if(basicInfo.getFavoriteList().isEmpty() || basicInfo.getFavoriteList().size()>3) throw new UnAllowedAccessException();
+        if (basicInfo.getFavoriteList().isEmpty() || basicInfo.getFavoriteList().size() > 3)
+            throw new UnAllowedAccessException();
         for (Long favoriteId : favoriteIdList) {
             Favorite favorite = favoriteRepository.findById(favoriteId).orElseThrow(DataNotFoundException::new);
             UserFavorite userFavorite = UserFavorite.builder().user(user).favorite(favorite).build();
@@ -99,7 +112,7 @@ public class UserService {
         String path = System.getProperty("user.dir");
         String fileName = user.getId() + ".jpg";
         File f = new File(path + profilePath + fileName);
-        if(!f.getParentFile().exists())
+        if (!f.getParentFile().exists())
             f.getParentFile().mkdir();
         file.transferTo(f);
         user.updateImage(path + profilePath + fileName);
@@ -154,5 +167,55 @@ public class UserService {
 
     public User findByUserAll(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    public UserLevelDetailsResponseDto readUserLevelDetails(Long id) {
+
+        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        // 총 미팅 시간(초)
+        long meetingTime = 0L;
+
+        // dateTime을 milliseconds로 바꿔 차이를 계산
+        Map<String, Long> startLog = new HashMap<>();
+        List<MeetingLog> meetingLogs = meetingLogRepository.findAllByUserWithChatRoomLog(user);
+        for (MeetingLog log : meetingLogs) {
+            String sessionId = log.getChatRoomLog().getSessionId();
+            Long time = log.getChatRoomLog().getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            if (log.getLogType().equals(MeetingLogType.START)) {
+                startLog.put(sessionId, time);
+            } else {
+                // end 로그 시간 - start 로그 시간을 더해준다.
+                if (!startLog.containsKey(sessionId)) continue;
+                meetingTime += time - startLog.get(sessionId);
+                startLog.remove(sessionId);
+            }
+        }
+
+        // 총 대화 참여 횟수
+        Integer meetingCnt = meetingLogRepository.countByUser(user) / 2;
+
+        // 게시글 개수
+        Integer boardCnt = boardRepository.countByAuthor(user);
+
+        // 댓글 개수
+        Integer replyCnt = replyRepository.countByUser(user);
+
+        // 총 출석 일수
+        Integer attendanceCnt = 0;
+
+        UserLevelDetailsResponseDto res = UserLevelDetailsResponseDto.builder().
+                meetingTime((int)(meetingTime/1000)).
+                meetingCnt(meetingCnt).
+                boardCnt(boardCnt).
+                replyCnt(replyCnt).
+                attendanceCnt(attendanceCnt).
+                build();
+
+        return res;
+    }
+
+    public Object readUserLanguageStat(Long id) {
+        return null;
     }
 }

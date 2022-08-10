@@ -32,4 +32,6 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
     List<Board> findAllByFolloweeIdOrderByIdDesc1(@Param("userId") Long authorId, Pageable pageable);
     @Query("select b from Board b where b.author.id in (select f.followee.id from Follow f where f.follower.id = :userId ) and b.id < :boardId  order by b.id desc")
     List<Board> findAllByFolloweeIdOrderByIdDesc2(@Param("userId") Long userId, @Param("boardId") Long id, Pageable pageable);
+
+    Integer countByAuthor(User author);
 }

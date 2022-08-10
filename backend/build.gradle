@@ -69,6 +69,14 @@ dependencies {
 	//쿼리 dsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+	// test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//JUnit Test
+	implementation 'junit:junit:4.13.1'
+	testImplementation("org.junit.vintage:junit-vintage-engine") {
+		exclude group: "org.hamcrest", module: "hamcrest-core"
+	}
 }
 
 tasks.named('test') {
