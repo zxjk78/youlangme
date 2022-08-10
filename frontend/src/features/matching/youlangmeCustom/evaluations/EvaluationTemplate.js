@@ -10,7 +10,6 @@ import { accessToken, API_URL } from '../../../../common/api/http-config';
 import classes from './EvaluationTemplate.module.scss';
 
 const EvaluationTemplate = (props) => {
-    console.log(props.sessionId)
     const closeModal = () => {
         props.toggleModal();
     };
@@ -18,31 +17,11 @@ const EvaluationTemplate = (props) => {
   const [isEvaluation, setIsEvaluation] = useState(null)
 
   const closeSessionTrue = (event) => {
-    console.log(props.sessionId)
-    axios.delete(API_URL + `meeting/end/${props.sessionId}`, {headers: {
-        'X-AUTH-TOKEN': accessToken,
-      }})
-      .then((res)=> {
-        console.log(res.data)
-        props.leaveSession()
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
+    closeModal()
   }
 
   const closeSessionFalse = (event) => {
-    console.log(props.sessionId)
-    axios.delete(API_URL + `meeting/end/${props.sessionId}`, {headers: {
-        'X-AUTH-TOKEN': accessToken,
-      }})
-      .then((res)=> {
-        console.log(res.data)
-        props.leaveSession()
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
+    closeModal()
   }
 
 
