@@ -639,7 +639,7 @@ class VideoRoomComponent extends Component {
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div
-                className="OT_root OT_publisher custom-class"
+                className="OT_root OT_publisher custom-class chat-container"
                 style={chatDisplay}
               >
                 <ChatComponent
