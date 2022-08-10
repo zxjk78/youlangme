@@ -19,7 +19,7 @@ public enum ErrorCode {
     DataNotFoundException(1009, "DB에 데이터가 존재하지 않음"),
     ImgSaveFailException(1010, "이미지 저장에 실패함"),
     EmailNotFount(1011,"가입된 이메일 없음"),
-    SessionNotFoundException(1012,"입장 가능한 세션이 존재하지 않음")
+    SessionNotFoundException(1012,"현재 미팅 세션이 존재하지 않음")
     ;
 
 
