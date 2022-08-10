@@ -20,7 +20,7 @@ import { newsText } from '../../../../common/utils/data/nationalityData';
 
 const NewsCardList = (props) => {
   const [loading, setLoading] = useState(true);
-  const [remoteUserNationality, setRemoteUserNationality] = useState(null);
+  // const [remoteUserNationality, setRemoteUserNationality] = useState(null);
   const [articles, setArticles] = useState([]);
   // const [loadedArticles, setLoadedArticles] = useState([]);
   const [page, setPage] = useState(0);
@@ -29,7 +29,7 @@ const NewsCardList = (props) => {
   useEffect(() => {
     (async () => {
       // const oppoNation = await fetchNationality(remoteUserId);
-      setRemoteUserNationality(yourNationality);
+      // setRemoteUserNationality(yourNationality);
       // 내 국가 언어, 상대 국가 뉴스 받는 api
       const data = await fetchNews(myNationality, yourNationality);
       // console.log(data);
@@ -46,7 +46,7 @@ const NewsCardList = (props) => {
   };
   const openOriginHandler = (url) => {
     window.open(url, '', 'left=50,top=50,width=800,height=600');
-    console.log(url);
+    // console.log(url);
   };
   return (
     <div className={classes.wrapper}>

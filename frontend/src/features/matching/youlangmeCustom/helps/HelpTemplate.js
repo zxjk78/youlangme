@@ -14,7 +14,7 @@ import NewsCardList from './NewsCardList';
 import classes from './HelpTemplate.module.scss';
 
 const HelpTemplate = (props) => {
-  console.log(props.nationality, props.yourNationality);
+  console.log(props.myNationality, props.yourNationality);
 
   const closeModal = () => {
     props.toggleModal();
@@ -32,7 +32,7 @@ const HelpTemplate = (props) => {
           </div>
           <div className={classes.main}>
             <NewsCardList
-              myNationality={props.nationality}
+              myNationality={props.myNationality}
               yourNationality={props.yourNationality}
             />
           </div>

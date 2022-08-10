@@ -46,7 +46,7 @@
 
 /* 그냥 화면에 보여지는 컴포넌트들 올라오는 바운더리 */
 .bounds {
-  background-color: #963636;
+  background-color: #737373;
   overflow: hidden;
   position: absolute;
   left: 0;
