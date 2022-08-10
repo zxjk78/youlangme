@@ -9,6 +9,10 @@ import { Tooltip } from '@material-ui/core';
 
 // youlangme custom
 import ChatContextMenu from './components/ChatContextMenu';
+import MessageInput from './components/MessageInput';
+import ReplyMessageInput from './components/ReplyMessageInput';
+import MsgBoxNormal from './components/MsgBoxNormal';
+import MsgBoxReply from './components/MsgBoxReply';
 
 export default class ChatComponent extends Component {
   constructor(props) {
@@ -17,10 +21,14 @@ export default class ChatComponent extends Component {
       messageList: [],
       message: '',
       // youlangmeCustum
+      // 메뉴 관련 state 4
       isCMenuVisible: false,
       clX: null,
       clY: null,
       targetMsgIdx: 0,
+      // 답글 관련 state 2
+      originalMessage: '',
+      isReply: false,
     };
     this.chatScroll = React.createRef();
 
@@ -35,6 +43,8 @@ export default class ChatComponent extends Component {
     this.modifyHandler = this.modifyHandler.bind(this);
     this.copyHandler = this.copyHandler.bind(this);
     this.translateHandler = this.translateHandler.bind(this);
+    // 댓글 답글 컴포넌트 요청
+    this.handleReply = this.handleReply.bind(this);
   }
 
   componentDidMount() {
@@ -47,6 +57,7 @@ export default class ChatComponent extends Component {
           connectionId: event.from.connectionId,
           nickname: data.nickname,
           message: data.message,
+          originalMessage: data.originalMessage,
         });
         const document = window.document;
         setTimeout(() => {
@@ -66,23 +77,23 @@ export default class ChatComponent extends Component {
     });
   }
 
-  handleChange(event) {
-    this.setState({ message: event.target.value });
+  handleChange(val) {
+    this.setState({ message: val });
   }
 
   handlePressKey(event) {
-    if (event.key === 'Enter') {
-      this.sendMessage();
-    }
+    this.sendMessage();
   }
 
   sendMessage() {
     console.log(this.state.message);
     if (this.props.user && this.state.message) {
       let message = this.state.message.replace(/ +(?= )/g, '');
+      let originalMessage = this.state.originalMessage.replace(/ +(?= )/g, '');
       if (message !== '' && message !== ' ') {
         const data = {
           message: message,
+          originalMessage: originalMessage,
           nickname: this.props.user.getNickname(),
           streamId: this.props.user.getStreamManager().stream.streamId,
         };
@@ -107,7 +118,7 @@ export default class ChatComponent extends Component {
   close() {
     this.props.close(undefined);
   }
-  // youlangme custom
+  //---------------------- youlangme custom ------------------------------
 
   showContextMenu(event) {
     event.preventDefault();
@@ -126,7 +137,17 @@ export default class ChatComponent extends Component {
     console.log(idx + '번 말풍선 복사요청');
   }
   modifyHandler(idx) {
-    console.log(idx + '번 말풍선 수정요청');
+    this.setState({
+      originalMessage: this.state.messageList[idx].message,
+      isReply: true,
+    });
+  }
+  handleReply() {
+    this.sendMessage();
+    this.setState({
+      originalMessage: '',
+      isReply: false,
+    });
   }
   render() {
     const styleChat = { display: this.props.chatDisplay };
@@ -144,40 +165,64 @@ export default class ChatComponent extends Component {
           </div>
           <div className="message-wrap" ref={this.chatScroll}>
             {this.state.messageList.map((data, i) => (
-              <div
-                key={i}
-                id="remoteUsers"
-                className={
-                  'message' +
-                  (data.connectionId !== this.props.user.getConnectionId()
-                    ? ' left'
-                    : ' right')
-                }
-              >
-                <canvas
-                  id={'userImg-' + i}
-                  width="60"
-                  height="60"
-                  className="user-img"
-                />
+              <>
                 <div
-                  className="msg-detail"
-                  onContextMenu={this.showContextMenu}
-                  data-idx={i}
+                  key={i}
+                  id="remoteUsers"
+                  className={
+                    'message' +
+                    (data.connectionId !== this.props.user.getConnectionId()
+                      ? ' left'
+                      : ' right')
+                  }
                 >
-                  <div className="msg-info">
-                    <p> {data.nickname}</p>
-                  </div>
-                  <div className="msg-content">
-                    <span className="triangle" />
-                    <p className="text">{data.message}</p>
+                  <canvas
+                    id={'userImg-' + i}
+                    width="60"
+                    height="60"
+                    className="user-img"
+                  />
+                  <div
+                    className="msg-detail"
+                    onContextMenu={this.showContextMenu}
+                    data-idx={i}
+                  >
+                    <div className="msg-info">
+                      <p> {data.nickname}</p>
+                    </div>
+                    <div className="msg-content">
+                      <span className="triangle" />
+                      {data.originalMessage.length > 0 ? (
+                        <MsgBoxReply
+                          message={data.message}
+                          originalMessage={data.originalMessage}
+                        />
+                      ) : (
+                        <MsgBoxNormal className="text" message={data.message} />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </>
             ))}
           </div>
-
-          <div id="messageInput">
+          {!this.state.isReply ? (
+            <MessageInput
+              messageVal={this.state.message}
+              handleChange={this.handleChange}
+              handleKeyPress={this.handlePressKey}
+              sendBtnClick={this.sendMessage}
+            />
+          ) : (
+            <ReplyMessageInput
+              originalMessage={this.state.originalMessage}
+              messageVal={this.state.message}
+              handleChange={this.handleChange}
+              handleKeyPress={this.handlePressKey}
+              sendReplyBtnClick={this.handleReply}
+            />
+          )}
+          {/* <div id="messageInput">
             <input
               placeholder="Send a messge"
               id="chatInput"
@@ -190,7 +235,7 @@ export default class ChatComponent extends Component {
                 <Send />
               </Fab>
             </Tooltip>
-          </div>
+          </div> */}
           {this.state.isCMenuVisible && (
             <ChatContextMenu
               clientX={this.state.clX}
