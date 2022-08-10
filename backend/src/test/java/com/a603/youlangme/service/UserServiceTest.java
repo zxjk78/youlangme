@@ -2,6 +2,7 @@ package com.a603.youlangme.service;
 
 import com.a603.youlangme.dto.user.UserLevelDetailsResponseDto;
 import com.a603.youlangme.entity.User;
+import com.a603.youlangme.enums.Language;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class) // JUnit을 스프링과 함께 실행
 @SpringBootTest // 스프링 컨테이너 안에서 테스트를 돌리기 위해, Autowired를 위해
@@ -34,6 +36,18 @@ public class UserServiceTest {
         Assertions.assertEquals(3, res.getBoardCnt());
         Assertions.assertEquals(1, res.getReplyCnt());
         Assertions.assertEquals(0, res.getAttendanceCnt());
+    }
+
+    @Test
+    public void userLangStatTest() throws Exception {
+        //given
+        User user = userService.findUserById(1001L);
+
+        //when
+        Map<Language, Integer> res = userService.readUserLanguageStat(user.getId());
+
+        //then
+        Assertions.assertEquals(4730, res.get(Language.KOREAN));
     }
 
 }

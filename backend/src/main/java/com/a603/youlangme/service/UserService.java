@@ -11,8 +11,14 @@ import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
 import com.a603.youlangme.entity.*;
 import com.a603.youlangme.entity.Favorite;
 import com.a603.youlangme.entity.log.MeetingLog;
+import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.repository.*;
+import com.a603.youlangme.response.CommonResult;
+import io.swagger.models.auth.In;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -174,14 +180,14 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
         // 총 미팅 시간(초)
-        long meetingTime = 0L;
+        int meetingTime = 0;
 
         // dateTime을 milliseconds로 바꿔 차이를 계산
-        Map<String, Long> startLog = new HashMap<>();
+        Map<String, Integer> startLog = new HashMap<>();
         List<MeetingLog> meetingLogs = meetingLogRepository.findAllByUserWithChatRoomLog(user);
         for (MeetingLog log : meetingLogs) {
             String sessionId = log.getChatRoomLog().getSessionId();
-            Long time = log.getChatRoomLog().getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            int time = (int)(log.getChatRoomLog().getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000);
             if (log.getLogType().equals(MeetingLogType.START)) {
                 startLog.put(sessionId, time);
             } else {
@@ -205,7 +211,7 @@ public class UserService {
         Integer attendanceCnt = 0;
 
         UserLevelDetailsResponseDto res = UserLevelDetailsResponseDto.builder().
-                meetingTime((int)(meetingTime/1000)).
+                meetingTime(meetingTime).
                 meetingCnt(meetingCnt).
                 boardCnt(boardCnt).
                 replyCnt(replyCnt).
@@ -215,7 +221,35 @@ public class UserService {
         return res;
     }
 
-    public Object readUserLanguageStat(Long id) {
-        return null;
+    public Map<Language, Integer> readUserLanguageStat(Long id) {
+
+
+        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        Map<Language, Integer> langTimeMap = new HashMap<>();
+
+        // dateTime을 milliseconds로 바꿔 차이를 계산
+        Map<String, Integer> startLog = new HashMap<>();
+
+        List<MeetingLog> meetingLogs = meetingLogRepository.findAllByUserWithChatRoomLog(user);
+        for (MeetingLog log : meetingLogs) {
+            String sessionId = log.getChatRoomLog().getSessionId();
+            Language lang = log.getYourLanguage();
+            int time = (int)(log.getChatRoomLog().getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000);
+            if (log.getLogType().equals(MeetingLogType.START)) {
+                startLog.put(sessionId, time);
+            } else {
+                // end 로그 시간 - start 로그 시간을 더해준다.
+                if(!startLog.containsKey(sessionId)) continue;
+                int timeToAdd = time - startLog.get(sessionId);
+                if(!langTimeMap.containsKey(lang))
+                    langTimeMap.put(lang, timeToAdd);
+                else langTimeMap.put(lang,  langTimeMap.get(lang)+timeToAdd);
+
+                startLog.remove(sessionId);
+            }
+        }
+
+        return langTimeMap;
     }
 }
