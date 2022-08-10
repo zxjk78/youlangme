@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 
 import { fetchProfile, fetchProfileImg } from "../../profile/LeftProfile/LeftProfileAPI"
+import axios from "axios"
+import { API_URL, accessToken } from "../../../common/api/http-config"
 
 const ConfirmChat = (props) => {
    
@@ -38,14 +40,23 @@ const ConfirmChat = (props) => {
     }, [props.matchConfirm, loading])
 
     const matchingHandler = () =>{
-        history.push({
-          pathname: '/match',
-          state: {
-            sessionId: props.sessionId,
-            MyInfo: MyInfo,
-            youInfo: youInfo
-            }
+      axios.post(API_URL + `meeting/enter/${props.sessionId}`, {yourlanguage: MyInfo.yourlanguage}, {  headers: {
+        'Content-Type': 'application/json',
+        'X-AUTH-TOKEN': accessToken,
+      }})
+        .then((res) => 
+        { console.log(res.data)
+          history.push({
+            pathname: '/match',
+            state: {
+              sessionId: props.sessionId,
+              MyInfo: MyInfo,
+              youInfo: youInfo
+              }
+          })
         })
+        .catch((err) => console.log(err.message))
+      
     }
   
     useEffect(()=>{

@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, useEffect } from 'react';
 import axios from 'axios';
 import './VideoRoomComponent.css';
 import { OpenVidu } from 'openvidu-browser';
@@ -8,11 +8,14 @@ import ChatComponent from './chat/ChatComponent';
 import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
+import { API_URL, accessToken } from '../../../common/api/http-config';
 
 //youlangme-custom
 import { connect } from 'react-redux';
 import { resetMatching } from '../matchSlice';
 import HelpTemplate from '../youlangmeCustom/helps/HelpTemplate';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import EvaluationTemplate from '../youlangmeCustom/evaluations/EvaluationTemplate';
 
 var localUser = new UserModel();
 
@@ -64,6 +67,15 @@ class VideoRoomComponent extends Component {
     this.nationality = createRef(null);
     // youlangme custom
     this.toggleHelpModal = this.toggleHelpModal.bind(this);
+    this.toggleEvaluationModal = this.toggleEvaluationModal.bind(this)
+  }
+
+  checkSubscribers = () => {
+    if(this.state.subscribers.length){
+      return true
+    } else {
+      return false
+    }
   }
 
   componentDidMount() {
@@ -113,6 +125,14 @@ class VideoRoomComponent extends Component {
     } catch {
       this.props.history.push('/main');
     }
+
+    setTimeout(() => {
+      console.log(this.checkSubscribers())
+      if(!this.checkSubscribers()){
+        alert('상대방이 입장하지 않았습니다.')
+        this.leaveSession()
+      } 
+    }, 15000);
 
     // this.joinSession();
   }
@@ -353,7 +373,8 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
-      this.leaveSession();
+      alert("상대방이 나가셨습니다.")
+      this.leaveSession()
     });
   }
 
@@ -586,6 +607,11 @@ class VideoRoomComponent extends Component {
     this.setState({ isHelpModalVisible: !this.state.isHelpModalVisible });
   }
 
+  toggleEvaluationModal(event){
+    this.setState({isEvaluationModalVisible: !this.state.isEvaluationModalVisible})
+  }
+ 
+
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
@@ -664,6 +690,15 @@ class VideoRoomComponent extends Component {
           <div className="help-btn" onClick={this.toggleHelpModal}>
             Help
           </div>
+        )}
+        {this.state.isEvaluationModalVisible ? (
+          <EvaluationTemplate
+            sessionId={mySessionId}
+            toggleModal={this.toggleEvaluationModal}
+            leaveSession={this.leaveSession}
+          />
+        ) : (
+          <ExitToAppIcon className="evaluation-btn" fontSize="large" onClick={this.toggleEvaluationModal}/>
         )}
       </div>
     );
