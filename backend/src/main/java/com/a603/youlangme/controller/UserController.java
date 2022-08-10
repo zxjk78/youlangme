@@ -1,6 +1,7 @@
 package com.a603.youlangme.controller;
 
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.cache.Grass;
 import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.*;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -146,14 +148,18 @@ public class UserController {
         return responseService.getSuccessResult();
     }
 
-
     // Profile End
     @GetMapping("/exp-level/{id}")
     public OneResult<UserExpLevelResponseDto> getExpAndLevelInfo(@PathVariable("id") Long id) {
         UserExpLevelResponseDto res = userExpService.getExpAndLevel(id);
-
         return responseService.getOneResult(res);
     }
 
-//
+
+    @GetMapping("/grass/{id}")
+    public ManyResult<Grass> setGrass(@PathVariable(value = "id") Long id) throws ParseException {
+        List<Grass>grassList=userService.setGrassList(id);
+        return responseService.getManyResult(grassList);
+    }
+
 }
