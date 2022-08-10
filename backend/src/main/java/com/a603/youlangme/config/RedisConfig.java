@@ -1,6 +1,7 @@
 package com.a603.youlangme.config;
 
 
+import com.a603.youlangme.dto.grass.GrassResponseDto;
 import com.a603.youlangme.dto.ranking.RankLogResponseDto;
 import com.a603.youlangme.dto.ranking.UserLogDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +50,7 @@ public class RedisConfig {
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
                 .prefixKeysWith("Language:") // Key Prefix로 "Language:"를 앞에 붙여 저장
-                .entryTtl(Duration.ofMinutes(60)); // 캐시 수명 30분
+                .entryTtl(Duration.ofMinutes(30)); // 캐시 수명 30분
         builder.cacheDefaults(configuration);
         return builder.build();
     }
@@ -62,6 +63,18 @@ public class RedisConfig {
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
                 .prefixKeysWith("Rank:") // Key Prefix로 "Rank:"를 앞에 붙여 저장
                 .entryTtl(Duration.ofMinutes(60)); // 캐시 수명 30분
+        builder.cacheDefaults(configuration);
+        return builder.build();
+    }
+
+    //@Primary
+    @Bean
+    public CacheManager cacheGrassManager() {
+        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory());
+        RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
+                .prefixKeysWith("Grass:") // Key Prefix로 "Grass:"를 앞에 붙여 저장
+                .entryTtl(Duration.ofMinutes(15)); // 캐시 수명 30분
         builder.cacheDefaults(configuration);
         return builder.build();
     }
@@ -91,6 +104,15 @@ public class RedisConfig {
         rankredisTemplate.setKeySerializer(new StringRedisSerializer());
         rankredisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(RankLogResponseDto.class));
         return rankredisTemplate;
+    }
+
+    @Bean
+    public RedisTemplate<String, GrassResponseDto> grassredisTemplate(){
+        RedisTemplate<String, GrassResponseDto> grassredisTemplate = new RedisTemplate<>();
+        grassredisTemplate.setConnectionFactory(redisConnectionFactory());
+        grassredisTemplate.setKeySerializer(new StringRedisSerializer());
+        grassredisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(GrassResponseDto.class));
+        return grassredisTemplate;
     }
 
     private ObjectMapper objectMapper() {
