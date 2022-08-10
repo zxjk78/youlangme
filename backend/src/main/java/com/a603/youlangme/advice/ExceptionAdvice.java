@@ -90,4 +90,10 @@ public class  ExceptionAdvice {
     protected CommonResult imgSaveFailException(HttpServletRequest request, ImgSaveFailException e) {
         return responseService.getFailResult(ErrorCode.ImgSaveFailException.getCode(), ErrorCode.ImgSaveFailException.getMessage());
     }
+
+    @ExceptionHandler(SessionNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult sessionNotFoundException(HttpServletRequest request, SessionNotFoundException e) {
+        return responseService.getFailResult(ErrorCode.SessionNotFoundException.getCode(), ErrorCode.SessionNotFoundException.getMessage());
+    }
 }

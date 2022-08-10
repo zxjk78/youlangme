@@ -4,12 +4,18 @@ import com.a603.youlangme.entity.BaseEntity;
 import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.Language;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 // MatchingLog -> MeetingLog : 매칭이 아닌 챗룸도 열릴 수 있다.
 public class MeetingLog extends BaseEntity {
 
