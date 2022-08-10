@@ -68,7 +68,7 @@ public class MeetingService {
     public void startMeeting(String sessionId, Long userId1, Long userId2, Language yourLanguage1, Language yourLanguage2) {
         
         // 이미 존재하는 세션이라면 오류
-        meetingSessionRepository.findById("MeetingSession:"+sessionId).orElseThrow(UnAllowedAccessException::new);
+        if (meetingSessionRepository.findById(sessionId).orElse(null)!=null) throw new UnAllowedAccessException();
         
         // redis에 Meeting:sessionId에 유저 리스트를 다시 저장 (유지기간 24시간)
         MeetingSession newMeetingSession = MeetingSession.builder()
@@ -128,6 +128,8 @@ public class MeetingService {
                 .sessionId(sessionId)
                 .logType(ChatRoomLogType.CLOSE)
                 .build();
+
+        chatRoomLogRepository.save(chatRoomLog);
 
         // 미팅 로그를 생성1 (END)
         User user1 = userRepository.findById(userId1).orElseThrow(UserLogNotFoundException::new);
