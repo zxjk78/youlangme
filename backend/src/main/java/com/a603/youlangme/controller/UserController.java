@@ -2,6 +2,7 @@ package com.a603.youlangme.controller;
 
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.aop.LoginUser;
+import com.a603.youlangme.cache.Grass;
 import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.*;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -168,6 +170,10 @@ public class UserController {
     }
 
 
+    @GetMapping("/grass/{id}")
+    public ManyResult<Grass> setGrass(@PathVariable(value = "id") Long id) throws ParseException {
+        List<Grass>grassList=userService.setGrassList(id);
+        return responseService.getManyResult(grassList);
+    }
 
-//
 }

@@ -3,9 +3,11 @@ package com.a603.youlangme.service;
 import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.cache.Grass;
 import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.UserLevelDetailsResponseDto;
+import com.a603.youlangme.dto.grass.GrassResponseDto;
 import com.a603.youlangme.dto.user.UserProfileResponseDto;
 import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
 import com.a603.youlangme.entity.*;
@@ -13,21 +15,26 @@ import com.a603.youlangme.entity.Favorite;
 import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
+import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.repository.*;
-import com.a603.youlangme.response.CommonResult;
-import io.swagger.models.auth.In;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import java.io.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -252,4 +259,43 @@ public class UserService {
 
         return langTimeMap;
     }
+
+
+    // set grass
+    @Cacheable(value = "Grass",key = "{#id}",cacheManager = "cacheGrassManager")
+    public  List<Grass>setGrassList(Long id) throws ParseException {
+        List<Grass>result=new ArrayList<>();
+        TreeMap<String,Integer>map=new TreeMap<>();
+        List<Board>boardList=userRepository.countBoard(id);
+
+        for(Board board:boardList){
+            String parsedLocalDateTimeNow = board.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+10);
+        }
+        List<Reply>replyList=userRepository.countReply(id);
+
+        for(Reply reply:replyList){
+            String parsedLocalDateTimeNow = reply.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+1);
+        }
+
+//        for(String key:map.keySet()){
+//            GrassResponseDto grassResponseDto=GrassResponseDto.builder()
+//                    .day(key)
+//                    .value(map.get(key))
+//                    .build();
+//            result.add(grassResponseDto);
+//        }
+
+        for(String key:map.keySet()){
+            Grass grass=Grass.builder()
+                    .day(key)
+                    .value(map.get(key))
+                    .build();
+            result.add(grass);
+        }
+        return result;
+    }
+
+
 }
