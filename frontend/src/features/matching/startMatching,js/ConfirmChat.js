@@ -39,8 +39,8 @@ const ConfirmChat = (props) => {
 
     const matchingHandler = () =>{
         history.push({
-           pathname: '/match',
-           state: {
+          pathname: '/match',
+          state: {
             sessionId: props.sessionId,
             MyInfo: MyInfo,
             youInfo: youInfo

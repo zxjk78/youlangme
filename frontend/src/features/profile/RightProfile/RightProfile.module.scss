@@ -140,3 +140,7 @@
   width: 70px;
   height: 70px;
 }
+
+.disabled {
+  filter: grayscale(100%);
+}
