@@ -1,6 +1,7 @@
 package com.a603.youlangme.service;
 
 import com.a603.youlangme.advice.exception.SessionNotFoundException;
+import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserLogNotFoundException;
 import com.a603.youlangme.cache.MeetingSession;
 import com.a603.youlangme.cache.MeetingSessionRepository;
@@ -49,6 +50,9 @@ public class MeetingService {
         }
         // 입장한 사람이 2명이면 startMeeting()을 수행
         else {
+            // 동일한 사람이 두번 입장 방지
+            if(sessionEntry.getFirstEnteredUserId().equals(userId)) throw new UnAllowedAccessException();
+
             // 엔트리를 캐시에서 삭제
             sessionEntryRepository.delete(sessionEntry);
             // 미팅 시작 로직 수행
@@ -62,6 +66,10 @@ public class MeetingService {
 
     // 미팅 시작 시 로직
     public void startMeeting(String sessionId, Long userId1, Long userId2, Language yourLanguage1, Language yourLanguage2) {
+        
+        // 이미 존재하는 세션이라면 오류
+        meetingSessionRepository.findById("MeetingSession:"+sessionId).orElseThrow(UnAllowedAccessException::new);
+        
         // redis에 Meeting:sessionId에 유저 리스트를 다시 저장 (유지기간 24시간)
         MeetingSession newMeetingSession = MeetingSession.builder()
                 .sessionId(sessionId)

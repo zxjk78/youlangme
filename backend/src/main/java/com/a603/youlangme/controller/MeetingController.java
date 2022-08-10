@@ -29,5 +29,13 @@ public class MeetingController {
         return responseService.getSuccessResult();
     }
 
+    @DeleteMapping("/end/{session_id}")
+    public CommonResult endMeeting(@PathVariable("session_id") String sessionId,
+                                     @ApiIgnore @LoginUser User loginUser){
+        meetingService.endMeeting(sessionId);
+
+        return responseService.getSuccessResult();
+    }
+
 
 }
