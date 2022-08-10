@@ -1,6 +1,7 @@
 package com.a603.youlangme.controller;
 
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.aop.LoginUser;
 import com.a603.youlangme.cache.Grass;
 import com.a603.youlangme.dto.badge.BadgeRequestDto;
 import com.a603.youlangme.dto.badge.BadgeResponseDto;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -148,10 +150,22 @@ public class UserController {
         return responseService.getSuccessResult();
     }
 
+    @GetMapping("/level-detail/{id}")
+    public CommonResult getUserLevelDetails(@PathVariable("id") Long id) {
+        return responseService.getOneResult(userService.readUserLevelDetails(id));
+    }
+
+    @GetMapping("/language-stat/{id}")
+    public CommonResult getUserLanguageStat(@PathVariable("id") Long id) {
+        return responseService.getOneResult(userService.readUserLanguageStat(id));
+    }
+
+
     // Profile End
     @GetMapping("/exp-level/{id}")
     public OneResult<UserExpLevelResponseDto> getExpAndLevelInfo(@PathVariable("id") Long id) {
         UserExpLevelResponseDto res = userExpService.getExpAndLevel(id);
+
         return responseService.getOneResult(res);
     }
 

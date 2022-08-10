@@ -222,7 +222,7 @@ INSERT INTO user_log VALUES(10,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20023,'2022-08-05 12:35:42.232051','END','ENGLISH',10012,1002);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20024,'2022-08-05 12:35:42.232051','END','KOREAN',10012,1001);
 
-    -- session   userbot1 & userbot2 (20분)
+    -- session   userbot1 & userbot2 (22분)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10013,'2022-08-07 14:30:22.232051','OPEN','testsessionabcdefgi7a603testsessionid7');
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10014,'2022-08-07 14:52:22.232051','CLOSE','testsessionabcdefgi7a603testsessionid7');
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20025,'2022-08-07 14:30:22.232051','START','ENGLISH',10013,1002);
