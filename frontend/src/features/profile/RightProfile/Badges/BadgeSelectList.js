@@ -1,10 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 
-import EachBadge from './EachBadge';
+import ActiveBadge from './ActiveBadge';
+import DisabledBadge from './DisabledBadge';
 
 // css
-import classes from './RightProfile.module.scss'
+import classes from '../RightProfile.module.scss'
 
 // mui
 import { IconButton, Stack, Typography } from '@mui/material';
@@ -32,8 +33,11 @@ const BadgeSelectList = (props) => {
   const badgeDesc= props.badgeDesc;
   const badgeCriteria = props.badgeCriteria;
   const badgeBeginId = props.badgeBeginId;
+  const activeBadgeEndIdx = props.activeBadgeEndIdx;
 
   const unit = name ==='인기' ? '명' : '회';
+  const badgeActive = true;
+
   // const [unit, setUnit] = useState('회');
   // if (name === '출석') {
   //   setUnit('일');
@@ -41,23 +45,17 @@ const BadgeSelectList = (props) => {
   //   setUnit('명')
   // }
   
-  // const range = (start, end) => {
-  //   let array = [];
-  //   for (let i = start; i < end; ++i) {
-  //     array.push(i);
-  //   }
-  //   return array;
-  // }
-  const range = (start, cnt) => {
-    let array = [];
-    while (cnt--) {
-      array.push(start++);
 
-    }
-    return array;
-  }
+//   const range = (start, cnt) => {
+//     let array = [];
+//     while (cnt--) {
+//       array.push(start++);
 
-  const badgeIdList = range(badgeBeginId, 5);
+//     }
+//     return array;
+//   }
+// // 
+//   const badgeIdList = range(badgeBeginId, 5);
   // const badgeIdList = range(badgeBeginId, badgeBeginId+5);
   // console.log(badgeIdList)
 
@@ -72,18 +70,22 @@ const BadgeSelectList = (props) => {
         {name}
       </Typography>
 
-          {/* <img src={'/badges/attend_15.png'} alt="" className={classes.badge_image} /> */}
-
-        {/* {[0, 1, 2, 3, 4].map( idx => {
-
-        <EachBadge 
-          key = {idx}
-          badgeId={badgeBeginId}/>
-        }
-      )} */}
-      
       <Stack direction="row" spacing={2} sx={{ml:4, mt:1}}>
-        <BadgeTooltip title={`${badgeDesc} ${badgeCriteria[0]}${unit} 이상`}
+        {[0, 1, 2, 3, 4].map((Idx) => (
+          Idx <= activeBadgeEndIdx ? 
+          <ActiveBadge badgeId={badgeBeginId+Idx} key={Idx} title={`${badgeDesc} ${badgeCriteria[Idx]}${unit} 이상`}/>
+          : <DisabledBadge badgeId={badgeBeginId+Idx} key={Idx} title={`${badgeDesc} ${badgeCriteria[Idx]}${unit} 이상`}/>
+
+          ))}
+
+        {/* <ActiveBadge badgeId={badgeBeginId} title={`${badgeDesc} ${badgeCriteria[0]}${unit} 이상`}/>
+        <ActiveBadge badgeId={badgeBeginId+1} title={`${badgeDesc} ${badgeCriteria[1]}${unit} 이상`}/>
+        <ActiveBadge badgeId={badgeBeginId+2} title={`${badgeDesc} ${badgeCriteria[2]}${unit} 이상`}/>
+        <ActiveBadge badgeId={badgeBeginId+3} title={`${badgeDesc} ${badgeCriteria[3]}${unit} 이상`}/>
+        <DisabledBadge badgeId={badgeBeginId+4} title={`${badgeDesc} ${badgeCriteria[4]}${unit} 이상`}/> */}
+
+
+        {/* <BadgeTooltip title={`${badgeDesc} ${badgeCriteria[0]}${unit} 이상`}
           placement="top"
           arrow
           >
@@ -119,21 +121,22 @@ const BadgeSelectList = (props) => {
             <img src={`/badges/${badgeBeginId+3}.png`} alt="" className={classes.modal_badge_image} />
           </IconButton>
         </BadgeTooltip>
-        
-        <BadgeTooltip title={`${badgeDesc} ${badgeCriteria[4]}${unit} 이상`}
+         */}
+
+        {/* <BadgeTooltip title={`${badgeDesc} ${badgeCriteria[4]}${unit} 이상`}
           placement="top"
           arrow
-          >
-          
-          <span>
+          > */}
+            
+          {/* disable일때 tooltip 띄우려면 span태그로 감싸줘야함. */}
+          {/* <span>
             <IconButton sx={{ height: 90, width: 90}}  disabled  >
               <img src={`/badges/${badgeBeginId+4}.png`} alt="" className={`${classes.modal_badge_image} ${classes.disabled}`} />
             </IconButton>
-          </span>
-        </BadgeTooltip>
+          </span> */}
+        {/* </BadgeTooltip> */}
         
       </Stack>
-      
     </div>
   );
 };
