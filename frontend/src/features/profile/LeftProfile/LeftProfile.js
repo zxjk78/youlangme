@@ -46,7 +46,7 @@ import {  createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { amber, blue, deepOrange, deepPurple, green, indigo, lightBlue, lime, orange, pink, 
   grey, purple, red, teal, yellow } from '@mui/material/colors';
 import { CompareArrows, GTranslate, Build} from '@mui/icons-material';
-
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 // image
 // import KoreaFlag from './images/KoreaFlag.png';
@@ -231,11 +231,11 @@ const LeftProfile = (props) => {
                         {profileInfo.mylanguage}{' '}
                       </span>
                       <span className={classes.greys}>me</span>
-                      <CompareArrows sx={{ fontSize: 18, mx: 1 }} />
+                      <SwapHorizIcon sx={{ fontSize: 18, mx: 1 }} />
                       <span className={classes.language}>
-                        {profileInfo.yourlanguage}
+                        {profileInfo.yourlanguage}{' '}
                       </span>
-                      <span className={classes.greys}> you</span>
+                      <span className={classes.greys}>you</span>
                     </div>
                   </div>
                   {/* <br /> */}

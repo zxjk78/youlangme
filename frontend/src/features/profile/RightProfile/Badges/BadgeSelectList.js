@@ -13,20 +13,20 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 
 
-const BadgeTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
+// const BadgeTooltip = styled(({ className, ...props }) => (
+//   <Tooltip {...props} classes={{ popper: className }} />
+//   ))(({ theme }) => ({
 
-    [`& .${tooltipClasses.tooltip}`]: {
+//     [`& .${tooltipClasses.tooltip}`]: {
 
-      // backgroundColor: theme.palette.common.black,
-      // color: 'rgba(0, 0, 0, 0.87)',
-      boxShadow: theme.shadows[5],
-      // borderRadius: 15,
-      fontSize: 13,
-      padding: '5px 13px 5px 13px',
-    },
-  }));
+//       // backgroundColor: theme.palette.common.black,
+//       // color: 'rgba(0, 0, 0, 0.87)',
+//       boxShadow: theme.shadows[5],
+//       // borderRadius: 15,
+//       fontSize: 13,
+//       padding: '5px 13px 5px 13px',
+//     },
+//   }));
 
 const BadgeSelectList = (props) => {
   const name = props.name;
@@ -36,7 +36,6 @@ const BadgeSelectList = (props) => {
   const activeBadgeEndIdx = props.activeBadgeEndIdx;
 
   const unit = name ==='인기' ? '명' : '회';
-  const badgeActive = true;
 
   // const [unit, setUnit] = useState('회');
   // if (name === '출석') {
