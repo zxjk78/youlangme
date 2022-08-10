@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 
 import BadgeSelectList from './BadgeSelectList';
 
+// data
+import { badgeDetailList } from './BadgeDetailData';
+
 // mui
 import { IconButton, Modal, Box, Typography, Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { Build } from '@mui/icons-material';
@@ -9,7 +12,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { grey } from '@mui/material/colors';
 
 // css
-import classes from './RightProfile.module.scss'
+import classes from '../RightProfile.module.scss'
 
 const BadgeEdit = (props) => {
   const [open, setOpen] = useState(false);
@@ -19,23 +22,9 @@ const BadgeEdit = (props) => {
     setOpen(true)
   }
 
-  const badgeDetailList = [
-    {'name' : '출석', 'imageBeginId' : 11, 'desc': '출석',
-      'criteria': ['1일', '3일', '10일', '30일', '365일']
-    },
-    {'name' : '게시글', 'imageBeginId' : 21, 'desc': '게시글 작성',
-      'criteria': ['1회', '5회', '10회', '30회', '100회']
-    },
-    {'name' : '댓글', 'imageBeginId' : 31, 'desc': '댓글 작성',
-      'criteria': ['1회', '10회', '50회', '100회', '200회']
-    },
-    {'name' : '언어교류', 'imageBeginId' : 41, 'desc': '언어 교류 매칭',
-      'criteria': ['1회', '3회', '10회', '30회', '50회']
-    },
-    {'name' : '인기', 'imageBeginId' : 51, 'desc': '팔로워 수',
-      'criteria': ['1명', '5명', '10명', '50명', '100명']
-    },
-  ]
+  const activeBadgeEndIdxList = props.activeBadgeEndIdxList;
+  // console.log(activeBadgeEndIdxList)
+
 
 
   const style = {
@@ -69,7 +58,8 @@ const BadgeEdit = (props) => {
           <div className={classes.modal_header}>
             <Typography variant="button"
               sx={{ fontSize: 22, fontWeight: 'bold', mb:1}} component="span">
-                프로필에 담을 배지를 선택해주세요.
+                {/* 프로필에 담을 배지를 선택해주세요. */}
+                내가 획득한 배지
                 {/* ({클릭개수?}/6) */}
               </Typography>
             <IconButton 
@@ -79,7 +69,7 @@ const BadgeEdit = (props) => {
             </IconButton>
           </div>
           <div className={classes.badge_select_box}>
-            {badgeDetailList.map(badge => {
+            {badgeDetailList.map((badge, idx, list) => {
               return (
                 <BadgeSelectList
                   key={badge.name}
@@ -87,6 +77,7 @@ const BadgeEdit = (props) => {
                   badgeBeginId={badge.imageBeginId}
                   badgeDesc={badge.desc}
                   badgeCriteria={badge.criteria}
+                  activeBadgeEndIdx={activeBadgeEndIdxList[idx]}
                 />
               )
             })}
