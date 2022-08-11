@@ -13,7 +13,8 @@ import MessageInputNormal from './components/MessageInputNormal';
 import MessageInputReply from './components/MessageInputReply';
 import MsgBoxNormal from './components/MsgBoxNormal';
 import MsgBoxReply from './components/MsgBoxReply';
-import { API_URL } from '../../../../common/api/http-config';
+import translate from 'translate-google-api';
+import { iso_code } from '../../../../common/utils/data/nationalityData';
 
 export default class ChatComponent extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class ChatComponent extends Component {
       messageList: [],
       message: '',
       // youlangmeCustum
-      // 메뉴 관련 state 4
+      // context 메뉴 관련 state 4
       isCMenuVisible: false,
       clX: null,
       clY: null,
@@ -31,6 +32,9 @@ export default class ChatComponent extends Component {
       originalMessage: '',
       originalMessageIdx: null,
       isReply: false,
+      // 번역 관련 state 1
+      myNationality: props.myNationality,
+      // myNationality: 'KOREA',
     };
     this.chatScroll = React.createRef();
 
@@ -154,14 +158,16 @@ export default class ChatComponent extends Component {
       targetMsgIdx: idx,
     });
   }
-  translateHandler(idx) {
+  async translateHandler(idx) {
     console.log(idx + '번 말풍선 번역작업');
-    const tanslateMsg = this.state.messageList[idx].message;
-    const isModify = this.state.messageList[idx].originalMessage.length > 0;
-
+    const originalMsg = this.state.messageList[idx].message;
     const target = this.msgBoxContentRef.current[idx];
     console.log(target);
-    target.innerText = '123';
+    // const translateMsg = await translate(originalMsg, {
+    //   to: iso_code[this.state.myNationality],
+    // });
+    // target.innerText = translateMsg;
+    target.innerText = '121212121';
   }
   async copyHandler(idx) {
     console.log(idx + '번 말풍선 복사작업');
@@ -219,13 +225,14 @@ export default class ChatComponent extends Component {
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
           <div id="chatToolbar">
-            <span>
-              {this.props.user.getStreamManager().stream.session.sessionId} -
-              CHAT
-            </span>
-            <IconButton id="closeButton" onClick={this.close}>
+            <div>
+              {/* {this.props.user.getStreamManager().stream.session.sessionId} -
+              CHAT */}
+              상대방과의 대화
+            </div>
+            <div id="closeButton" onClick={this.close}>
               <HighlightOff color="secondary" />
-            </IconButton>
+            </div>
           </div>
           <div className="message-wrap" ref={this.chatScroll}>
             {this.state.messageList.map((data, i) => (

@@ -704,6 +704,7 @@ class VideoRoomComponent extends Component {
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
                   messageReceived={this.checkNotification}
+                  myNationality={this.state.nationality}
                 />
               </div>
             )}

@@ -12,11 +12,16 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
-
+import styled from '@emotion/styled';
 // custom component
 
 // css
 import classes from './MessageInputNormal.module.scss';
+
+const MyButton = styled(Button)`
+  background-color: purple !important;
+  border-radius: 15px !important;
+`;
 
 const MessageInputNormal = (props) => {
   const messageValue = props.messageVal;
@@ -54,13 +59,13 @@ const MessageInputNormal = (props) => {
             onChange={handleChange}
             onKeyPress={handleKeyPress}
           />
-          <Button
+          <MyButton
             size="small"
             endIcon={<SendIcon />}
             onClick={handleSendBtnClick}
           >
             Send
-          </Button>
+          </MyButton>
         </Box>
       </div>
     </>

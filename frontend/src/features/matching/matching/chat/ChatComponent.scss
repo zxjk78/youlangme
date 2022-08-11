@@ -6,11 +6,13 @@
 }
 
 #chatToolbar {
-  height: 30px;
-  background-color: #3d3d3d;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  background-color: #b400c5;
   box-sizing: border-box;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 1.2rem;
   text-align: center;
   padding-top: 4px;
   border-top-left-radius: 6px;
@@ -19,9 +21,7 @@
 }
 
 #closeButton {
-  position: absolute;
-  right: 0;
-  top: -8px;
+  cursor: pointer;
 }
 
 #chatComponent {
@@ -115,12 +115,12 @@ span.triangle {
 }
 
 .message.left .msg-detail .msg-content {
-  background-color: #f0f0f0;
+  background-color: #c8ffe8;
   float: left;
 }
 
 .message.left .msg-detail .msg-content span.triangle {
-  background-color: #f0f0f0;
+  background-color: #c8ffe8;
   border-bottom-width: 0;
   border-left-width: 0;
   left: -5px;
