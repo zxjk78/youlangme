@@ -24,14 +24,12 @@ const NewsCardList = (props) => {
   const [articles, setArticles] = useState([]);
   // const [loadedArticles, setLoadedArticles] = useState([]);
   const [page, setPage] = useState(0);
-  // const myNationality = props.myNationality;
-  // const yourNationality = props.yourNationality;
-  const myNationality = 'JAPAN';
-  const yourNationality = 'CHINA';
+  const myNationality = props.myNationality;
+  const yourNationality = props.yourNationality;
+  // const myNationality = 'JAPAN';
+  // const yourNationality = 'CHINA';
   useEffect(() => {
     (async () => {
-      // const oppoNation = await fetchNationality(remoteUserId);
-      // setRemoteUserNationality(yourNationality);
       // 내 국가 언어, 상대 국가 뉴스 받는 api
       const data = await fetchNews2(myNationality, yourNationality);
       // console.log(data);
@@ -48,7 +46,6 @@ const NewsCardList = (props) => {
   };
   const openOriginHandler = (url) => {
     window.open(url, '', 'left=50,top=50,width=800,height=600');
-    // console.log(url);
   };
   return (
     <div className={classes.wrapper}>
@@ -72,7 +69,7 @@ const NewsCardList = (props) => {
                 ) : (
                   <div>Start</div>
                 )}
-                {page !== 9 ? (
+                {page * 4 <= articles.length ? (
                   <div>
                     <ArrowForwardIosIcon onClick={showNext} />
                   </div>
@@ -82,15 +79,20 @@ const NewsCardList = (props) => {
               </div>
             </div>
             <div className={classes.main}>
-              {articles.slice(page * 4, page * 4 + 4).map((article) => (
-                <NewsCard
-                  key={article.title}
-                  article={article}
-                  openOrigin={openOriginHandler}
-                />
-              ))}
+              {articles.length > 0 ? (
+                articles
+                  .slice(page * 4, page * 4 + 4)
+                  .map((article) => (
+                    <NewsCard
+                      key={article.title}
+                      article={article}
+                      openOrigin={openOriginHandler}
+                    />
+                  ))
+              ) : (
+                <div>검색 결과가 없습니다. </div>
+              )}
             </div>
-            <div className={classes.footer}></div>
           </div>
         </div>
       )}

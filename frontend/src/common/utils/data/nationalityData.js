@@ -19,8 +19,7 @@ export const nationalityNewsMapping = {
     KOREA: '韓国',
     USA: '米国',
     JAPAN: '日本',
-    // CHINA: '中国',
-    CHINA: 'ちゅうごく',
+    CHINA: '中国',
     SPAIN: 'スペイン',
   },
   CHINA: {

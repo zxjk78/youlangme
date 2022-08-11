@@ -46,6 +46,8 @@ export default class ChatComponent extends Component {
     this.translateHandler = this.translateHandler.bind(this);
     // 댓글 답글 컴포넌트 요청
     this.handleReply = this.handleReply.bind(this);
+    // 댓글 답글 컴포넌트 삭제
+    this.cancelReply = this.cancelReply.bind(this);
     // 스크롤 테스트
     this.scrollReplyTarget = this.scrollReplyTarget.bind(this);
     this.addToRefs = this.addToRefs.bind(this);
@@ -155,7 +157,7 @@ export default class ChatComponent extends Component {
     console.log(idx + '번 말풍선 복사작업');
   }
   modifyHandler(idx) {
-    // console.log(idx + '번 말풍선 교정작업');
+    console.log(idx + '번 말풍선 교정작업');
 
     this.setState({
       originalMessageIdx: idx,
@@ -185,6 +187,9 @@ export default class ChatComponent extends Component {
       block: 'end',
       inline: 'nearest',
     });
+  }
+  cancelReply() {
+    this.setState({ isReply: false });
   }
 
   render() {
@@ -269,6 +274,7 @@ export default class ChatComponent extends Component {
               handleChange={this.handleChange}
               handleKeyPress={this.handlePressKey}
               sendReplyBtnClick={this.handleReply}
+              cancelModify={this.cancelReply}
             />
           )}
           {/* 오른쪽 버튼 클릭 시 메뉴 */}

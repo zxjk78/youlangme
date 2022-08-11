@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Divider from '@mui/material/Divider';
-
+import CloseIcon from '@mui/icons-material/Close';
 // custom component
 
 // css
@@ -31,6 +31,9 @@ const MessageInputReply = (props) => {
   const handleSendReplyBtnClick = () => {
     props.sendReplyBtnClick();
   };
+  const cancelModifyHandler = () => {
+    props.cancelModify();
+  };
   return (
     <>
       <div className={classes.wrapper}>
@@ -46,7 +49,12 @@ const MessageInputReply = (props) => {
               }}
             >
               <div className={classes.grid1}>
-                <div>답장</div>
+                <div>
+                  <div>답장</div>
+                  <div onClick={cancelModifyHandler}>
+                    <CloseIcon />
+                  </div>
+                </div>
                 <div>{originalMessage.slice(0, 200)}</div>
                 <Divider />
               </div>
