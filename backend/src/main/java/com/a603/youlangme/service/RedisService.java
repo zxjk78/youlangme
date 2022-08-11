@@ -70,18 +70,17 @@ public class RedisService {
         return result;
     }
 
-    @Cacheable(value = "RankUser",key = "{#id}",cacheManager = "cacheRankManager")
-    public List<RankLogResponseDto>RankList(Long id,Long userId){
+    @Cacheable(value = "RankUser",key = "{#id}",cacheManager = "cacheRankManager") //각 id에 맞는 정보
+    public List<RankLogResponseDto>RankList(Long id){
         List<RankLogResponseDto>result=new ArrayList<>();
 
         List<UserExp>userExpList=userExpRepository.findAll();
 
         PriorityQueue<Rank>pq=new PriorityQueue<>();
 
-        User user=userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        User user=userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
         Long uid=user.getId(); //마이페이지 유저
-
 
 
         System.out.println(userExpList.size()+" 사이즈");
