@@ -1,4 +1,4 @@
-package com.a603.youlangme.repository;
+package com.a603.youlangme.repository.log;
 
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.log.MeetingLog;
@@ -17,4 +17,6 @@ public interface MeetingLogRepository extends JpaRepository<MeetingLog,Long> {
 
     Integer countByUser(User user);
 
+    @Query("select m from MeetingLog m join fetch m.chatRoomLog where m.chatRoomLog.id=:id and m.user != :loginUser")
+    MeetingLog findOpponentMeetingLog(Long id, User loginUser);
 }

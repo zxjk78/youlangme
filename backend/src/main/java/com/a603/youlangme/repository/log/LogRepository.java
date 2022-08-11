@@ -1,4 +1,4 @@
-package com.a603.youlangme.repository;
+package com.a603.youlangme.repository.log;
 
 import com.a603.youlangme.entity.log.Log;
 import org.springframework.data.jpa.repository.JpaRepository;

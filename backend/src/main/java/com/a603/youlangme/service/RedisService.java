@@ -7,6 +7,7 @@ import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.UserExp;
 import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.repository.*;
+import com.a603.youlangme.repository.log.MeetingLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

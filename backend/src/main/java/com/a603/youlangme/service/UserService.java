@@ -5,38 +5,32 @@ import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.cache.Grass;
 import com.a603.youlangme.dto.user.UserLevelDetailsResponseDto;
-import com.a603.youlangme.dto.grass.GrassResponseDto;
 import com.a603.youlangme.dto.user.UserProfileResponseDto;
 import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
 import com.a603.youlangme.entity.*;
 import com.a603.youlangme.entity.Favorite;
+import com.a603.youlangme.entity.log.AttendanceLog;
 import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
-import com.a603.youlangme.entity.log.MeetingLog;
-import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.repository.*;
+import com.a603.youlangme.repository.log.AttendanceLogRepository;
+import com.a603.youlangme.repository.log.MeetingLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
 import java.io.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.text.SimpleDateFormat;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +49,7 @@ public class UserService {
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
     private final MeetingLogRepository meetingLogRepository;
-
+    private final AttendanceLogRepository attendanceLogRepository;
 
     public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
@@ -177,15 +171,12 @@ public class UserService {
 
         // 총 대화 참여 횟수
         Integer meetingCnt = meetingLogRepository.countByUser(user) / 2;
-
         // 게시글 개수
         Integer boardCnt = boardRepository.countByAuthor(user);
-
         // 댓글 개수
         Integer replyCnt = replyRepository.countByUser(user);
-
         // 총 출석 일수
-        Integer attendanceCnt = 0;
+        Integer attendanceCnt = attendanceLogRepository.countByUser(user);
 
         UserLevelDetailsResponseDto res = UserLevelDetailsResponseDto.builder().
                 meetingTime(meetingTime).
@@ -197,6 +188,7 @@ public class UserService {
 
         return res;
     }
+
 
     public Map<Language, Integer> readUserLanguageStat(Long id) {
 
@@ -274,4 +266,18 @@ public class UserService {
     }
 
 
+    @Transactional
+    public void logAttendance(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        AttendanceLog lastLog = attendanceLogRepository.findTop1ByUserOrderByCreatedTimeDesc(user);
+
+        if(lastLog!=null) {
+            LocalDate lastLogDate = lastLog.getCreatedTime().toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+            // 하루 한번 출석으로 인정
+            if (lastLogDate.isEqual(currentDate)) return;
+        }
+
+        attendanceLogRepository.save(AttendanceLog.of(user));
+    }
 }

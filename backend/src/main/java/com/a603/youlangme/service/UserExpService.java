@@ -8,7 +8,9 @@ import com.a603.youlangme.entity.UserExp;
 import com.a603.youlangme.entity.log.ExpAcquisitionLog;
 import com.a603.youlangme.entity.meta.ExpActivity;
 import com.a603.youlangme.entity.meta.Level;
+import com.a603.youlangme.enums.ExpUpdateType;
 import com.a603.youlangme.repository.*;
+import com.a603.youlangme.repository.log.ExpLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,16 +29,24 @@ public class UserExpService {
     private final LevelRepository levelRepository;
 
     @Transactional
-    public void addExp(User loginUser, ExpActivity activity) {
+    public void addExp(ExpUpdateType expUpdateType, User loginUser, ExpActivity activity, Integer multiBase) {
 
         // 경험치 업데이트 (레벨도 같이 업데이트)
         UserExp userExpToUpdate = userExpRepository.findByUser(loginUser).orElseThrow(UserNotFoundException::new);
+        // 획득할 경험치
+        Integer expToAdd = 0;
+        // 경험치 계산 방식에 따라 획득 경험치 결정
+        if (expUpdateType.equals(ExpUpdateType.ADD)) {
+            expToAdd = activity.getExp();
+        } else if (expUpdateType.equals(ExpUpdateType.MULTI)) {
+            expToAdd = activity.getExp() * multiBase;
+        }
         // 경험치 업데이트 (기존 경험치에 더해준다.)
-        Integer newExp = userExpToUpdate.addExp(activity.getExp());
+        Integer newExp = userExpToUpdate.addExp(expToAdd);
         // 레벨 계산
         Level levelResult = levelRepository.findByMinExpLessThanEqualAndMaxExpGreaterThanEqual(newExp, newExp);
         // 레벨 업데이트
-        if(!userExpToUpdate.getLevel().equals(levelResult)) {
+        if (!userExpToUpdate.getLevel().equals(levelResult)) {
             userExpToUpdate.updateLevel(levelResult);
         }
 
@@ -54,16 +64,26 @@ public class UserExpService {
         List<ExpAcquisitionLog> expLogs = expLogRepository.findAllByUser(user);
 
         List<Integer> exps = expLogs.stream()
-                .map(expLog->expLog.getActivity().getExp())
-                .collect(Collectors.toList());
-
-        Integer totalExp = exps.stream().reduce((sum,exp) -> sum+exp).orElse(0);
+                .map(expLog -> {
+                    Integer expData = expLog.getActivity().getExp();
+                    ExpUpdateType expUpdateType = expLog.getActivity().getExpUpdateType();
+                    if(expUpdateType.equals(ExpUpdateType.ADD))
+                        return expData;
+                    else if(expUpdateType.equals(ExpUpdateType.MULTI))
+                        return expData * expLog.getMultiBase();
+                    else return 0;
+                }).collect(Collectors.toList());
+//        List<Integer> exps = expLogs.stream()
+//                .map(expLog -> expLog.getActivity().getExp())
+//                .collect(Collectors.toList());
+//
+        Integer totalExp = exps.stream().reduce((sum, exp) -> sum + exp).orElse(0);
 
         UserExp userExp = userExpRepository.findByUser(user)
                 .orElseThrow(DataNotFoundException::new);
 
         // 검증 결과 일치하지 않으면 재저장
-        if(!userExp.getExp().equals(totalExp)) {
+        if (!userExp.getExp().equals(totalExp)) {
             userExp.changeExp(totalExp);
             userExp.updateLevel(levelRepository.findByMinExpLessThanEqualAndMaxExpGreaterThanEqual(totalExp, totalExp));
         }

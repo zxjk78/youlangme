@@ -1,15 +1,20 @@
 package com.a603.youlangme.controller;
 
 
+import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.dto.token.TokenRequestDto;
 import com.a603.youlangme.dto.token.TokenResponseDto;
 import com.a603.youlangme.dto.user.UserLoginRequestDto;
 import com.a603.youlangme.dto.user.UserSignupRequestDto;
 import com.a603.youlangme.entity.User;
+import com.a603.youlangme.entity.log.AttendanceLog;
+import com.a603.youlangme.repository.UserRepository;
+import com.a603.youlangme.repository.log.AttendanceLogRepository;
 import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.ResponseService;
 import com.a603.youlangme.service.SignService;
+import com.a603.youlangme.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,12 +32,15 @@ import javax.mail.MessagingException;
 public class SignController {
     private final SignService signService;
     private final ResponseService responseService;
+    private final UserService userService;
 
     @ApiOperation(value = "로그인", notes = "이메일로 로그인 수행")
     @PostMapping("/login")
     public OneResult<TokenResponseDto> login (
             @ApiParam(value = "로그인 DTO", required = true) @RequestBody UserLoginRequestDto userLoginRequestDto) {
         TokenResponseDto tokenDto = signService.login(userLoginRequestDto);
+        // 출석 로그
+        userService.logAttendance(userLoginRequestDto.getEmail());
         return responseService.getOneResult(tokenDto);
     }
 

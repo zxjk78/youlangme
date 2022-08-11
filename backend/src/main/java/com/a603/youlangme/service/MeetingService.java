@@ -8,6 +8,7 @@ import com.a603.youlangme.cache.MeetingSession;
 import com.a603.youlangme.cache.MeetingSessionRepository;
 import com.a603.youlangme.cache.SessionEntry;
 import com.a603.youlangme.cache.SessionEntryRepository;
+import com.a603.youlangme.config.logging.ExpLogging;
 import com.a603.youlangme.entity.MatchingFeedback;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.log.ChatRoomLog;
@@ -16,9 +17,9 @@ import com.a603.youlangme.enums.ChatRoomLogType;
 import com.a603.youlangme.enums.Feedback;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
-import com.a603.youlangme.repository.ChatRoomLogRepository;
+import com.a603.youlangme.repository.log.ChatRoomLogRepository;
 import com.a603.youlangme.repository.MatchingFeedbackRepository;
-import com.a603.youlangme.repository.MeetingLogRepository;
+import com.a603.youlangme.repository.log.MeetingLogRepository;
 import com.a603.youlangme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,7 @@ public class MeetingService {
         meetingLogRepository.save(meetingLog1);
 
         // 미팅 로그를 생성2 (START)
-        User user2 = userRepository.findById(userId1).orElseThrow(UserLogNotFoundException::new);
+        User user2 = userRepository.findById(userId2).orElseThrow(UserLogNotFoundException::new);
         MeetingLog meetingLog2 = MeetingLog.builder()
                 .user(user2)
                 .chatRoomLog(chatRoomLog)
@@ -119,7 +120,8 @@ public class MeetingService {
     }
 
     // 미팅 종료 시 로직
-    public void endMeeting(String sessionId) {
+    @ExpLogging
+    public Long endMeeting(String sessionId) {
         // redis에서 Meeting Session 정보 확인 중
         MeetingSession meetingSession = meetingSessionRepository.findById(sessionId).orElseThrow(SessionNotFoundException::new);
 
@@ -161,6 +163,8 @@ public class MeetingService {
 
         // redis에서 Meeting Session을 삭제
         meetingSessionRepository.delete(meetingSession);
+
+        return chatRoomLog.getId();
     }
 
     public void saveMatchingFeedback(Long userId, Feedback feedback) {

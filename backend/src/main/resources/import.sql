@@ -16,10 +16,11 @@ INSERT INTO favorite(`id`,`name`) VALUES(13,'Party');
 INSERT INTO favorite(`id`,`name`) VALUES(14,'Collecting');
 
 -- 활동별 경험치 데이터 테이블
-INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (1,20,'WRITE_POST');
-INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (2,5,'WRITE_REPLY');
-INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (3,40,'MEETING');
-INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (4,10,'ATTENDANCE');
+INSERT INTO exp_activity(`id`,`exp`,`name`,`exp_update_type`) VALUES (1,20,'WRITE_POST','ADD');
+INSERT INTO exp_activity(`id`,`exp`,`name`,`exp_update_type`) VALUES (2,5,'WRITE_REPLY','ADD');
+-- 분당 경험치 2 획득
+INSERT INTO exp_activity(`id`,`exp`,`name`,`exp_update_type`) VALUES (3,2,'MEETING','MULTI');
+--INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (4,10,'ATTENDANCE');
 
 -- 경험치별 레벨 데이터 테이블
 INSERT INTO level (`id`, `name`, `min_exp`, `max_exp`) VALUES (1,'Bronze3',0,19);
@@ -111,13 +112,13 @@ INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (2008,0,1,2008);
 
 -- 상기 경험치 획득 활동에 해당하는 로그들 (레벨, 경험치 조회 시 아래 로그를 바탕으로 경험치를 계산해서 userExp 테이블이 갱신된다.)
     -- 1. 게시글 작성 로그
-    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`) VALUES (1,'2022-08-02 14:24:31.527767','2022-08-02 14:24:31.527767',1,1,1001)
-    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`) VALUES (2,'2022-08-02 14:25:12.031587','2022-08-02 14:25:12.031587',2,1,1001)
-    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`) VALUES (3,'2022-08-02 14:25:39.289487','2022-08-02 14:25:39.289487',3,1,1001)
-    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`) VALUES (4,'2022-08-02 14:31:42.125134','2022-08-02 14:31:42.125134',4,1,1002)
+    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (1,'2022-08-02 14:24:31.527767','2022-08-02 14:24:31.527767',1,1,1001,0)
+    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (2,'2022-08-02 14:25:12.031587','2022-08-02 14:25:12.031587',2,1,1001,0)
+    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3,'2022-08-02 14:25:39.289487','2022-08-02 14:25:39.289487',3,1,1001,0)
+    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (4,'2022-08-02 14:31:42.125134','2022-08-02 14:31:42.125134',4,1,1002,0)
     -- 2. 댓글 작성 로그
-    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`) VALUES (5,'2022-08-02 14:32:18.918093','2022-08-02 14:32:18.918093',1,2,1002)
-    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`) VALUES (6,'2022-08-02 14:36:30.399644','2022-08-02 14:36:30.399644',2,2,1001)
+    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5,'2022-08-02 14:32:18.918093','2022-08-02 14:32:18.918093',1,2,1002,0)
+    INSERT INTO exp_acquisition_log(`id`,`created_time`,`modified_time`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (6,'2022-08-02 14:36:30.399644','2022-08-02 14:36:30.399644',2,2,1001,0)
 
 
 -- User_Favorite
@@ -217,6 +218,18 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20026,'2022-08-07 14:30:22.232051','START','KOREAN',10013,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20027,'2022-08-07 14:52:22.232051','END','ENGLISH',10014,1002);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20028,'2022-08-07 14:52:22.232051','END','KOREAN',10014,1001);
+
+-- 출석 로그
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1234,'2022-08-01 14:30:22.232051',1001);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1235,'2022-08-02 14:35:22.232051',1001);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1236,'2022-08-04 14:33:22.232051',1001);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1237,'2022-08-07 14:31:22.232051',1001);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1238,'2022-08-10 14:32:22.232051',1001);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1239,'2022-04-01 14:30:22.232051',1002);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1240,'2022-08-14 14:30:22.232051',1002);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1241,'2022-08-08 14:30:22.232051',1003);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1242,'2022-08-07 14:30:22.232051',1004);
+INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1243,'2022-08-03 14:30:22.232051',1005);
 
 
 --    1월 달 부터 8월 까지 잔디밭 테스트

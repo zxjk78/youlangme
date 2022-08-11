@@ -1,6 +1,7 @@
 package com.a603.youlangme.entity.meta;
 
 import com.a603.youlangme.entity.BaseEntity;
+import com.a603.youlangme.enums.ExpUpdateType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Entity
 @Builder
@@ -19,4 +22,7 @@ public class ExpActivity extends BaseEntity {
     @Column(unique = true)
     private String name;
     private Integer exp;
+
+    @Enumerated(EnumType.STRING)
+    private ExpUpdateType expUpdateType;
 }

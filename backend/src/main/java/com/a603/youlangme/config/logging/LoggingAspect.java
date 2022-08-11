@@ -1,17 +1,23 @@
 package com.a603.youlangme.config.logging;
 
 
-import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.entity.Feed;
 import com.a603.youlangme.entity.Follow;
-import com.a603.youlangme.entity.UserExp;
+import com.a603.youlangme.entity.log.ChatRoomLog;
 import com.a603.youlangme.entity.log.ExpAcquisitionLog;
 import com.a603.youlangme.entity.log.Log;
 import com.a603.youlangme.entity.User;
+import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.entity.meta.ExpActivity;
+import com.a603.youlangme.enums.ExpUpdateType;
 import com.a603.youlangme.enums.LogType;
 import com.a603.youlangme.enums.Notification;
 import com.a603.youlangme.repository.*;
+import com.a603.youlangme.repository.log.ChatRoomLogRepository;
+import com.a603.youlangme.repository.log.ExpLogRepository;
+import com.a603.youlangme.repository.log.LogRepository;
+import com.a603.youlangme.repository.log.MeetingLogRepository;
 import com.a603.youlangme.service.UserExpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +35,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,8 +53,9 @@ public class LoggingAspect {
 
     private final ExpLogRepository expLogRepository;
     private final ExpActivityRepository expActivityRepository;
-//    private final UserExpRepository userExpRepository;
     private final UserExpService userExpService;
+    private final ChatRoomLogRepository chatRoomLogRepository;
+    private final MeetingLogRepository meetingLogRepository;
 
     @Around("@annotation(com.a603.youlangme.config.logging.Logging)")
     public Object logging(ProceedingJoinPoint pjp) throws Throwable {
@@ -97,28 +106,53 @@ public class LoggingAspect {
         // getOne을 이용? -> getReferenceById로 바뀜
         // 1.글쓰기 / 2.댓글쓰기 / 3.미팅 / 4.출석
 
-        Long activityId = null;
+        // 경험치 획득 유저 리스트
+        List<User> updateUserList = new ArrayList<>();
+        updateUserList.add(loginUser);
+
+        ExpUpdateType expUpdateType = null; // 획득 경험치 계산 방식
+        Long activityId = null; // 획득 활동
+        Integer multiBase = 0; // 경험치 multi 방식용 곱할 값
 
         if (action.equalsIgnoreCase("savePost")) {
             activityId = 1L;
+            expUpdateType = ExpUpdateType.ADD;
         } else if (action.equalsIgnoreCase("saveReply")) {
             activityId = 2L;
+            expUpdateType = ExpUpdateType.ADD;
+        } else if (action.equalsIgnoreCase("endMeeting")) {
+            activityId = 3L;
+            expUpdateType = ExpUpdateType.MULTI;
+            ChatRoomLog closeLog = chatRoomLogRepository.findById(targetId).orElseThrow(DataNotFoundException::new);
+            ChatRoomLog openLog = chatRoomLogRepository.findOpenLog(closeLog.getSessionId(), closeLog.getId());
+            // 종료 신호 보낸 사람이 아닌 사람의 경험치 획득
+            MeetingLog opponentLog = meetingLogRepository.findOpponentMeetingLog(openLog.getId(),loginUser);
+            User opponent = opponentLog.getUser();
+            updateUserList.add(opponent);
+            // 미팅 시간 (분)
+            int closeTime = (int)(closeLog.getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000);
+            int openTime = (int)(openLog.getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000);
+            System.out.println("CLOSE TIME = "+closeTime+" ##### OPEN TIME = "+openTime);
+            multiBase = (closeTime-openTime)/60;
+            System.out.println("@@@ multi-base : "+multiBase);
         }
-        // 경험치 획득 활동 지정
-        ExpActivity activity = expActivityRepository.getReferenceById(activityId);
 
-        ExpAcquisitionLog log = ExpAcquisitionLog.builder()
-                .user(loginUser)
-                .activity(activity)
-                .targetId(targetId)
-                .build();
-        // 경험치 획득 로그 저장
-        expLogRepository.save(log);
+        for(User userToUpdate : updateUserList) {
+            // 경험치 획득 활동 지정
+            ExpActivity activity = expActivityRepository.getReferenceById(activityId);
 
-        // 경험치 업데이트 (레벨도 업데이트)
-        userExpService.addExp(loginUser, activity);
+            ExpAcquisitionLog log = ExpAcquisitionLog.builder()
+                    .user(userToUpdate)
+                    .activity(activity)
+                    .targetId(targetId)
+                    .multiBase(multiBase)
+                    .build();
+            // 경험치 획득 로그 저장
+            expLogRepository.save(log);
 
-
+            // 경험치 업데이트 (레벨도 업데이트)
+            userExpService.addExp(expUpdateType, userToUpdate, activity, multiBase);
+        }
     }
 
 }
