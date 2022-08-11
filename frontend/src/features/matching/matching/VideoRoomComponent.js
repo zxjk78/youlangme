@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef, useEffect } from 'react';
 import axios from 'axios';
 import './VideoRoomComponent.css';
 import { OpenVidu } from 'openvidu-browser';
@@ -8,6 +8,17 @@ import ChatComponent from './chat/ChatComponent';
 import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
+import { API_URL, accessToken } from '../../../common/api/http-config';
+
+//youlangme-custom
+import { connect } from 'react-redux';
+import { resetMatching } from '../matchSlice';
+import HelpTemplate from '../youlangmeCustom/helps/HelpTemplate';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import EvaluationTemplate from '../youlangmeCustom/evaluations/EvaluationTemplate';
+import { withRouter } from 'react-router-dom';
+
+
 var localUser = new UserModel();
 
 class VideoRoomComponent extends Component {
@@ -15,18 +26,17 @@ class VideoRoomComponent extends Component {
     super(props);
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
-      : 'https://' + window.location.hostname + ':4443';
+      : 'https://' + window.location.hostname + ':8443';
+    // : 'https://' + window.location.hostname + ':4443';
+
     this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret
       ? this.props.openviduSecret
-      : 'MY_SECRET';
+      : 'YOULANGME';
+    // : 'MY_SECRET';
+
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
-    let sessionName = this.props.sessionName
-      ? this.props.sessionName
-      : 'SessionA';
-    let userName = this.props.user
-      ? this.props.user
-      : 'OpenVidu_User' + Math.floor(Math.random() * 100);
+    let sessionName = undefined;
     this.remotes = [];
     this.localUserAccessAllowed = false;
     this.state = {
@@ -37,8 +47,10 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: 'none',
       currentVideoDevice: undefined,
+      nationality: '',
+      yourNationality: '',
     };
-  
+
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
@@ -54,8 +66,21 @@ class VideoRoomComponent extends Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
+    this.nationality = createRef(null);
+    // youlangme custom
+    this.toggleHelpModal = this.toggleHelpModal.bind(this);
+    this.ExitHandler = this.ExitHandler.bind(this)
+    //this.toggleEvaluationModal = this.toggleEvaluationModal.bind(this)
   }
-  
+
+  checkSubscribers = () => {
+    if(this.state.subscribers.length){
+      return true
+    } else {
+      return false
+    }
+  }
+
   componentDidMount() {
     const openViduLayoutOptions = {
       maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
@@ -77,7 +102,43 @@ class VideoRoomComponent extends Component {
     window.addEventListener('beforeunload', this.onbeforeunload);
     window.addEventListener('resize', this.updateLayout);
     window.addEventListener('resize', this.checkSize);
-    this.joinSession();
+    // this.props.doResetMyPageInfo();
+    window.addEventListener('beforeunload', () => {
+      this.componentWillUnmount();
+    });
+    try {
+      const sessionId = this.props.location.state.sessionId;
+      setTimeout(() => {
+        const myName = this.props.location.state.MyInfo.name;
+        const myNationality = this.props.location.state.MyInfo.nationality;
+        const yourNationality = this.props.location.state.youInfo.nationality;
+
+        console.log('이름, 국적', myName, myNationality);
+        console.log('상대국적', yourNationality);
+        this.setState({
+          mySessionId: sessionId,
+          myUserName: myName,
+          nationality: myNationality,
+          yourNationality: yourNationality,
+        });
+
+        console.log('세션아이디', sessionId);
+        this.joinSession();
+      }, 500);
+    } catch {
+      this.abnormalExit()
+    }
+
+    setTimeout(() => {
+      console.log(this.checkSubscribers())
+      if(!this.checkSubscribers()){
+        alert('상대방이 입장하지 않았습니다.')
+        this.leaveSession()
+        this.abnormalExit()
+      } 
+    }, 15000);
+
+    // this.joinSession();
   }
 
   componentWillUnmount() {
@@ -238,14 +299,28 @@ class VideoRoomComponent extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: 'SessionA',
-      myUserName: 'OpenVidu_User' + Math.floor(Math.random() * 100),
+      mySessionId: undefined,
+      myUserName: undefined,
       localUser: undefined,
     });
+
     if (this.props.leaveSession) {
       this.props.leaveSession();
     }
+  
   }
+
+  normalExit(){
+    this.props.history.push(
+      '/main',
+      { props: {chattingExit: true}}
+    );
+  }
+
+  abnormalExit(){
+    this.props.history.push('/main');
+  }
+
   camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive());
     localUser.getStreamManager().publishVideo(localUser.isVideoActive());
@@ -314,8 +389,9 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
-      event.preventDefault();
-      this.updateLayout();
+      alert("상대방이 나가셨습니다.")
+      this.leaveSession()
+      this.normalExit()
     });
   }
 
@@ -543,9 +619,35 @@ class VideoRoomComponent extends Component {
     }
   }
 
+  // youlangme custom
+  toggleHelpModal(event) {
+    this.setState({ isHelpModalVisible: !this.state.isHelpModalVisible });
+  }
+
+  // toggleEvaluationModal(event){
+  //   this.setState({isEvaluationModalVisible: !this.state.isEvaluationModalVisible})
+  // }
+
+  ExitHandler(event){
+    axios.delete(API_URL + `meeting/end/${this.state.mySessionId}`, {headers: {
+      'X-AUTH-TOKEN': accessToken,
+    }})
+    .then((res)=> {
+      console.log(res.data)
+      this.leaveSession()
+      this.normalExit()
+    })
+    .catch((err) => {
+      console.log(err.message)
+    })
+  }
+ 
+
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
+    const name = this.state.myUserName;
+    const nationality = this.state.nationality;
     var chatDisplay = { display: this.state.chatDisplay };
 
     return (
@@ -606,6 +708,24 @@ class VideoRoomComponent extends Component {
               </div>
             )}
         </div>
+        <div>{name}</div>
+        <div>{nationality}</div>
+
+        {this.state.isHelpModalVisible ? (
+          <HelpTemplate
+            toggleModal={this.toggleHelpModal}
+            myNationality={this.state.nationality}
+            yourNationality={this.state.yourNationality}
+          />
+        ) : (
+          <div className="help-btn" onClick={this.toggleHelpModal}>
+            Help
+          </div>
+        )}
+        <div>
+        <ExitToAppIcon className="evaluation-btn" fontSize="large" onClick={this.ExitHandler}/>
+        </div>
+        
       </div>
     );
   }
@@ -631,6 +751,7 @@ class VideoRoomComponent extends Component {
   createSession(sessionId) {
     return new Promise((resolve, reject) => {
       var data = JSON.stringify({ customSessionId: sessionId });
+      console.log(data);
       axios
         .post(this.OPENVIDU_SERVER_URL + '/openvidu/api/sessions', data, {
           headers: {
@@ -699,8 +820,15 @@ class VideoRoomComponent extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   currentUser: state.auth.currentUser
-// });
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  match: state.match,
+});
 
-export default VideoRoomComponent;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    resetMatching: () => dispatch(resetMatching()),
+  };
+};
+
+export default withRouter(VideoRoomComponent);

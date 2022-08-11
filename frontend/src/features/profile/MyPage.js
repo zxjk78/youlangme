@@ -18,7 +18,8 @@ import ProfileBoardSummeryList from './RightProfile/profileBoardSummery/ProfileB
 
 
 // css
-import classes from './MyPage.module.scss';
+// import classes from './MyPage.module.scss';
+import '../../index.css';
 
 
 // mui
@@ -32,7 +33,8 @@ const MyPage = () => {
 
   return (
     <div>
-      <Card className={classes.profile_wrapper}>
+      {/* <Card className={classes.profile_wrapper}> */}
+      <Card class='main_wrapper'>
         <LeftProfile userId={params.userId}/>
         <RightProfile userId={params.userId}/>
       </Card>

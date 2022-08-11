@@ -1,9 +1,8 @@
 import { API_URL } from '../api/http-config';
-
+import boardDefaultImage from '../../assets/boardDefault.jpg';
 const BoardImageSrc = (props) => {
   const imgErrorHandler = (e) => {
-    e.target.src =
-      'https://protkd.com/wp-content/uploads/2017/04/default-image.jpg';
+    e.target.src = { boardDefaultImage };
   };
 
   return (

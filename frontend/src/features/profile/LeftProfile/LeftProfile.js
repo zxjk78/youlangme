@@ -46,7 +46,7 @@ import {  createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { amber, blue, deepOrange, deepPurple, green, indigo, lightBlue, lime, orange, pink, 
   grey, purple, red, teal, yellow } from '@mui/material/colors';
 import { CompareArrows, GTranslate, Build} from '@mui/icons-material';
-
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 // image
 // import KoreaFlag from './images/KoreaFlag.png';
@@ -159,16 +159,17 @@ const LeftProfile = (props) => {
           </Modal>
         )}
         <div>
-          <Typography
+          {/* <Typography
             sx={{
               color: 'rgba(0, 0, 0, 0.6)',
-              fontSize: 30,
+              fontSize: 35,
               fontWeight: 'bold',
+              mb:3
             }}
             className={classes.header}
           >
-            My Page
-          </Typography>
+            {profileInfo.name}
+          </Typography> */}
           <CardMedia className={classes.avatar}>
             <div className={classes.profile_img_add_icon}>
               {isCurrentUser && <ProfileImageEdit 
@@ -177,7 +178,8 @@ const LeftProfile = (props) => {
             </div>
             <Badge
               badgeContent={
-                <img className={classes.flag} alt="flag" src={`http://www.geonames.org/flags/x/${nationalityCode}.gif`} />
+                <img className={classes.flag} alt="flag" 
+                src={`http://www.geonames.org/flags/x/${nationalityCode}.gif`} />
               }
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               overlap="circular"
@@ -193,12 +195,12 @@ const LeftProfile = (props) => {
               <CardContent>
                 <Typography
                   className={classes.name}
-                  sx={{ fontWeight: 'bold', letterSpacing: 3, fontSize: 26 }}
+                  sx={{ fontWeight: 'bold', letterSpacing: 3, fontSize: 30 }}
                   gutterBottom
                   component="div"
                 >
                   {profileInfo.name}
-                  { isCurrentUser && <IconButton onClick={modifyModalHandler} size='small'>
+                  { isCurrentUser && <IconButton onClick={modifyModalHandler} sx={{ width: '35px', height: '35px'}}>
                   <Build
                       sx={{ fontSize: 20, color: grey[500] }}
                     /></IconButton>}
@@ -213,7 +215,7 @@ const LeftProfile = (props) => {
                     <Typography
                       variant="body1"
                       color="text.secondary"
-                      sx={{ fontWeight: 'light' }}
+                      sx={{ fontWeight: 'light', fontSize: 15 }}
                     >
                       {profileDescription}
                     </Typography>
@@ -229,11 +231,11 @@ const LeftProfile = (props) => {
                         {profileInfo.mylanguage}{' '}
                       </span>
                       <span className={classes.greys}>me</span>
-                      <CompareArrows sx={{ fontSize: 18, mx: 1 }} />
+                      <SwapHorizIcon sx={{ fontSize: 18, mx: 1 }} />
                       <span className={classes.language}>
-                        {profileInfo.yourlanguage}
+                        {profileInfo.yourlanguage}{' '}
                       </span>
-                      <span className={classes.greys}> you</span>
+                      <span className={classes.greys}>you</span>
                     </div>
                   </div>
                   {/* <br /> */}
