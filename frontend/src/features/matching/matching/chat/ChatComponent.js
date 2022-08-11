@@ -61,6 +61,7 @@ export default class ChatComponent extends Component {
           connectionId: event.from.connectionId,
           nickname: data.nickname,
           message: data.message,
+          // youlangme custom
           originalMessage: data.originalMessage,
           originalIdx: data.originalIdx,
         });
