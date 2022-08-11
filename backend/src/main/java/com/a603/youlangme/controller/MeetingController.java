@@ -1,6 +1,7 @@
 package com.a603.youlangme.controller;
 
 import com.a603.youlangme.aop.LoginUser;
+import com.a603.youlangme.dto.feedback.FeedbackRequestDto;
 import com.a603.youlangme.dto.meeting.MeetingEnterRequestDto;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.Language;
@@ -10,6 +11,8 @@ import com.a603.youlangme.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +40,12 @@ public class MeetingController {
         return responseService.getSuccessResult();
     }
 
+    @PostMapping("/feedback")
+    public CommonResult matchingFeedback(@RequestBody FeedbackRequestDto feedbackRequestDto, @ApiIgnore @LoginUser User loginUser) {
+
+        meetingService.saveMatchingFeedback(loginUser.getId(), feedbackRequestDto.getFeedback());
+
+        return responseService.getSuccessResult();
+    }
 
 }

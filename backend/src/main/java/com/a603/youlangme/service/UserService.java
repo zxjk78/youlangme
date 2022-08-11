@@ -4,8 +4,6 @@ import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.cache.Grass;
-import com.a603.youlangme.dto.badge.BadgeRequestDto;
-import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.UserLevelDetailsResponseDto;
 import com.a603.youlangme.dto.grass.GrassResponseDto;
 import com.a603.youlangme.dto.user.UserProfileResponseDto;
@@ -53,8 +51,6 @@ public class UserService {
     private final FavoriteRepository favoriteRepository;
     private final FollowRepository followRepository;
     private final UserFavoriteRepository userFavoriteRepository;
-    private final UserBadgeRepository userBadgeRepository;
-    private final BadgeRepository badgeRepository;
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
     private final MeetingLogRepository meetingLogRepository;
@@ -147,33 +143,6 @@ public class UserService {
             userProfileResponseDto.favorites.add(userFavorite.getFavorite().getId());
         }
         return userProfileResponseDto;
-    }
-
-    public List<BadgeResponseDto> readBadgeList(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        List<BadgeResponseDto> badgeResponseDtoList = new ArrayList<>();
-        for (UserBadge userBadge : user.getUserBadges()) {
-            Badge badge = userBadge.getBadge();
-            BadgeResponseDto badgeResponseDto = BadgeResponseDto.builder()
-                    .id(badge.getId())
-                    .name(badge.getName())
-                    .description(badge.getDescription())
-                    .build();
-            badgeResponseDto.setBadgeSelect(userBadge.getBadgeSelect());
-            badgeResponseDtoList.add(badgeResponseDto);
-        }
-        return badgeResponseDtoList;
-    }
-
-    @Transactional
-    public void updateBadgeList(Long userId, List<BadgeRequestDto> badgeRequestDtoList) {
-        User user = userRepository.findById(userId).orElse(null);
-        userBadgeRepository.deleteByUserId(user.getId());
-        List<UserBadge> userBadgeList = user.getUserBadges();
-        userBadgeList.clear();
-        for (BadgeRequestDto badgeRequestDto : badgeRequestDtoList) {
-            userBadgeRepository.save(new UserBadge(user, badgeRepository.findById(badgeRequestDto.getId()).orElse(null), badgeRequestDto.getBadgeSelect()));
-        }
     }
 
     // Profile end
