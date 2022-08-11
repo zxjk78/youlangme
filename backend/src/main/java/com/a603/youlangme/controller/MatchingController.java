@@ -3,6 +3,7 @@ package com.a603.youlangme.controller;
 import com.a603.youlangme.dto.matching.MatchingRequestDto;
 import com.a603.youlangme.dto.matching.MatchingResponseDto;
 import com.a603.youlangme.entity.User;
+import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.ResponseService;
 import com.a603.youlangme.service.UserService;
@@ -36,6 +37,7 @@ public class MatchingController {
 
     private final ResponseService responseService;
     private final UserService userService;
+
 
     @ResponseBody
     @PostMapping

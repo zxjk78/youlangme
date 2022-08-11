@@ -37,9 +37,7 @@ def one_hot_encoding(df, enc_col):
     ohe_df = pd.get_dummies(df[enc_col])
     ohe_df.reset_index(drop = True, inplace =True)
     return pd.concat([df, ohe_df], axis = 1)
-
-genderList = ["MALE", "FEMALE"]
-nationalityList = ["KOREA", "JAPAN", "CHINA", "AMERICA"]
+    
 MATCH_SCORE = 0.7
 
 #@background(schedule=3)
@@ -83,7 +81,6 @@ def matching():
             sim = cos_sim(vectorArray[0], vectorArray[i])
             score = sim + (float(user_count) * 0.1)
             if score >= MATCH_SCORE:
-                # 현재 검사하는 유저가 기준을 넘는 상대를 찾음 ( 수정 필요 )
                 target_count = countList[i]
                 target_score = sim + (float(target_count) * 0.1)
                 if target_score >= MATCH_SCORE:
