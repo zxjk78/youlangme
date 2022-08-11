@@ -89,7 +89,9 @@ const MyLevel = (props) => {
             open={open}
             onClose={handleClose}
           >
-            <LevelStatistic setModalOpen={setOpen} levelId={levelId} exp={exp} trophyColor={LevelCriteria[levelId][2]}/>
+            <LevelStatistic setModalOpen={setOpen} 
+              userId={userId}
+              levelId={levelId} exp={exp} trophyColor={LevelCriteria[levelId][2]}/>
           </Modal>
 
           <CardContent sx={{ height: 200, width: 320}} className={classes.level} >

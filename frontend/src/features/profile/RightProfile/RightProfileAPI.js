@@ -10,12 +10,13 @@ import { API_URL, user, accessToken, getConfig } from '../../../common/api/http-
 // const API_URL = 'http://127.0.0.1:8080/';
 // 리덕스랑 관련없는 서버 통신 API들 모음
 
+
 // 프로필 유저 레벨 불러오는 API
 export const fetchLevelExp =  async (userId) =>  {
     const user = JSON.parse(localStorage.getItem('user'));
     const accessToken = user ? user.accessToken : null;
     const getConfig = { headers: { 'X-Auth-Token': accessToken } };
-    console.log('fetch 레벨 & exp');
+    // console.log('fetch 레벨 & exp');
 
     try {
       const response = await axios.get(
@@ -32,6 +33,52 @@ export const fetchLevelExp =  async (userId) =>  {
       return err.response;
     }
   };
+
+// 레벨 디테일 불러오는 API
+export const fetchLevelDetail =  async (userId) =>  {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
+  console.log('fetch 레벨디테일');
+
+  try {
+    const response = await axios.get(
+      API_URL + `user/level-detail/${userId}`,
+      // 엑세스 토큰이 필요하다.
+      getConfig
+    );   
+    console.log(response.data.data)
+
+    return response.data.data
+
+  } catch (err) {
+    console.log('레벨 디테일 fetch 에러')
+    return err.response;
+  }
+};
+
+// 잔디 로그 불러오는 API
+export const fetchGrass =  async (userId) =>  {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
+  console.log('fetch 잔디');
+
+  try {
+    const response = await axios.get(
+      API_URL + `user/grass/${userId}`,
+      // 엑세스 토큰이 필요하다.
+      getConfig
+    );   
+    // console.log(response.data.data)
+
+    return response.data.data
+
+  } catch (err) {
+    console.log('잔디 fetch 에러')
+    return err.response;
+  }
+};
 
 
 
