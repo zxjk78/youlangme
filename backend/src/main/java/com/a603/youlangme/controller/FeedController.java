@@ -3,7 +3,7 @@ package com.a603.youlangme.controller;
 import com.a603.youlangme.dto.feed.FeedResponseDto;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.repository.FeedRepository;
-import com.a603.youlangme.repository.LogRepository;
+import com.a603.youlangme.repository.log.LogRepository;
 import com.a603.youlangme.repository.UserRepository;
 import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.ManyResult;

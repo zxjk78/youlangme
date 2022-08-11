@@ -9,6 +9,7 @@ import com.a603.youlangme.entity.log.ExpAcquisitionLog;
 import com.a603.youlangme.entity.meta.ExpActivity;
 import com.a603.youlangme.entity.meta.Level;
 import com.a603.youlangme.repository.*;
+import com.a603.youlangme.repository.log.ExpLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

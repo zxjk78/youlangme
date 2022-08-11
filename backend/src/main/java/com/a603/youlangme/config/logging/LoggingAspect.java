@@ -1,10 +1,8 @@
 package com.a603.youlangme.config.logging;
 
 
-import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.entity.Feed;
 import com.a603.youlangme.entity.Follow;
-import com.a603.youlangme.entity.UserExp;
 import com.a603.youlangme.entity.log.ExpAcquisitionLog;
 import com.a603.youlangme.entity.log.Log;
 import com.a603.youlangme.entity.User;
@@ -12,6 +10,8 @@ import com.a603.youlangme.entity.meta.ExpActivity;
 import com.a603.youlangme.enums.LogType;
 import com.a603.youlangme.enums.Notification;
 import com.a603.youlangme.repository.*;
+import com.a603.youlangme.repository.log.ExpLogRepository;
+import com.a603.youlangme.repository.log.LogRepository;
 import com.a603.youlangme.service.UserExpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +29,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
