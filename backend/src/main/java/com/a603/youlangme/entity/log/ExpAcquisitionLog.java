@@ -3,6 +3,7 @@ package com.a603.youlangme.entity.log;
 import com.a603.youlangme.entity.BaseEntity;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.meta.ExpActivity;
+import com.a603.youlangme.enums.ExpUpdateType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,5 +27,7 @@ public class ExpAcquisitionLog extends BaseEntity {
     private ExpActivity activity;
 
     private Long targetId;
+
+    private Integer multiBase;
 
 }

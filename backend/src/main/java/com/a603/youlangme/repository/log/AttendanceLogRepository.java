@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface AttendanceLogRepository extends JpaRepository<AttendanceLog, Long> {
 
     AttendanceLog findTop1ByUserOrderByCreatedTimeDesc(User user);
+    Integer countByUser(User user);
 }

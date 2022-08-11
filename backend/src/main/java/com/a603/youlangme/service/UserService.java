@@ -171,15 +171,12 @@ public class UserService {
 
         // 총 대화 참여 횟수
         Integer meetingCnt = meetingLogRepository.countByUser(user) / 2;
-
         // 게시글 개수
         Integer boardCnt = boardRepository.countByAuthor(user);
-
         // 댓글 개수
         Integer replyCnt = replyRepository.countByUser(user);
-
         // 총 출석 일수
-        Integer attendanceCnt = 0;
+        Integer attendanceCnt = attendanceLogRepository.countByUser(user);
 
         UserLevelDetailsResponseDto res = UserLevelDetailsResponseDto.builder().
                 meetingTime(meetingTime).

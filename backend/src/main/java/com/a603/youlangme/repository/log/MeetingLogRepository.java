@@ -17,4 +17,6 @@ public interface MeetingLogRepository extends JpaRepository<MeetingLog,Long> {
 
     Integer countByUser(User user);
 
+    @Query("select m from MeetingLog m join fetch m.chatRoomLog where m.chatRoomLog.id=:id and m.user != :loginUser")
+    MeetingLog findOpponentMeetingLog(Long id, User loginUser);
 }

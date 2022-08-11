@@ -35,7 +35,7 @@ public class UserServiceTest {
         Assertions.assertEquals(4, res.getMeetingCnt());
         Assertions.assertEquals(3, res.getBoardCnt());
         Assertions.assertEquals(1, res.getReplyCnt());
-        Assertions.assertEquals(0, res.getAttendanceCnt());
+        Assertions.assertEquals(5, res.getAttendanceCnt());
     }
 
     @Test
