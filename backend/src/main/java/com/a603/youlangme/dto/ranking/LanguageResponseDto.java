@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserLogResponseDto implements Serializable {
+public class LanguageResponseDto implements Serializable {
 
     private String Language;
 

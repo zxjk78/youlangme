@@ -1,7 +1,7 @@
 package com.a603.youlangme.controller;
 
+import com.a603.youlangme.dto.ranking.LanguageResponseDto;
 import com.a603.youlangme.dto.ranking.RankLogResponseDto;
-import com.a603.youlangme.dto.ranking.UserLogResponseDto;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.response.ManyResult;
 import com.a603.youlangme.service.RedisService;
@@ -23,10 +23,10 @@ public class RedisController {
     ResponseService responseService;
 
     @GetMapping("/langList")
-    public ManyResult<UserLogResponseDto> LanguageList(Long id){
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        Authentication authentication = context.getAuthentication();
-//        User user=((User)authentication.getPrincipal());
+    public ManyResult<LanguageResponseDto> LanguageList(Long id){
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
         return responseService.getManyResult(redisService.TopLanguage(id));
     }
 
@@ -35,7 +35,6 @@ public class RedisController {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User user=((User)authentication.getPrincipal());
-        //return responseService.getManyResult(redisService.RankList(id,1002L));  //로그인 했다 치고 실행했을 떄 결과 TEST
         return responseService.getManyResult(redisService.RankList(id,user.getId()));
 
     }

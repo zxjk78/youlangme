@@ -1,22 +1,17 @@
 package com.a603.youlangme.service;
 
-import com.a603.youlangme.advice.exception.BoardNotFoundException;
-import com.a603.youlangme.advice.exception.LevelNotFoundException;
-import com.a603.youlangme.advice.exception.UserLogNotFoundException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.dto.ranking.LanguageResponseDto;
 import com.a603.youlangme.dto.ranking.RankLogResponseDto;
-import com.a603.youlangme.dto.ranking.UserLogResponseDto;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.UserExp;
-import com.a603.youlangme.entity.log.UserLog;
-import com.a603.youlangme.entity.meta.Level;
+import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +30,7 @@ public class RedisService {
     UserRepository userRepository;
 
     @Autowired
-    UserLogRepository userLogRepository;
+    MeetingLogRepository meetingLogRepository;
 
     @Autowired
     UserExpRepository userExpRepository;
@@ -43,17 +38,16 @@ public class RedisService {
     @Autowired
     LevelRepository levelRepository;
 
-    @Cacheable(value = "userLogList",key = "{#id}",cacheManager = "cacheManager")
-    public List<UserLogResponseDto>TopLanguage(Long id){
+    @Cacheable(value = "Language",key = "{#id}",cacheManager = "cacheManager")
+    public List<LanguageResponseDto>TopLanguage(Long id){
 
-        List<UserLog>userLogList= (List<UserLog>) userLogRepository.findAll();
+        List<MeetingLog>meetingLogList=meetingLogRepository.findAll();
 
-        int total=userLogList.size();
-
+        int total=meetingLogList.size();
         HashMap<String,Integer>map=new HashMap<>();
 
-        for(UserLog userLog:userLogList){
-            String lang=userLog.getWantLanguage();
+        for(MeetingLog meetingLog:meetingLogList){
+            String lang=meetingLog.getYourLanguage().toString();
             map.put(lang,map.getOrDefault(lang,0)+1);
         }
 
@@ -63,15 +57,15 @@ public class RedisService {
             pq.add(new Lang(lang,map.get(lang)));
         }
 
-        List<UserLogResponseDto>result=new ArrayList<>();
+        List<LanguageResponseDto>result=new ArrayList<>();
         for(int i=0;i<3;i++){
             Lang lang=pq.poll();
             String l=lang.language;
             int p= lang.per;
-            UserLogResponseDto userLogResponseDto=new UserLogResponseDto();
-            userLogResponseDto.setLanguage(l);
-            userLogResponseDto.setPercent((p/(total*2.0))*100.0);
-            result.add(userLogResponseDto);
+            LanguageResponseDto languageResponseDto=new LanguageResponseDto();
+            languageResponseDto.setLanguage(l);
+            languageResponseDto.setPercent(Math.round(((double)p/total)*100.0));
+            result.add(languageResponseDto);
         }
         return result;
     }
@@ -87,6 +81,8 @@ public class RedisService {
         User user=userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
         Long uid=user.getId(); //마이페이지 유저
+
+
 
         System.out.println(userExpList.size()+" 사이즈");
         for(UserExp userExp:userExpList){
@@ -135,7 +131,7 @@ public class RedisService {
                             .rank(ranking)
                             .build();
                     result.add(rankLogResponseDto);
-                    return  result;
+                    return result;
                 }else{
                     ranking++;
                     continue;
