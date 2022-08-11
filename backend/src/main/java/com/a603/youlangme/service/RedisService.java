@@ -32,9 +32,6 @@ public class RedisService {
     RedisTemplate redisTemplate1;
 
     @Autowired
-    ChatRepository chatRepository;
-
-    @Autowired
     UserRepository userRepository;
 
     @Autowired

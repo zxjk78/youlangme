@@ -14,6 +14,7 @@ import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.entity.log.MeetingLog;
+import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -246,6 +247,12 @@ public class UserService {
         for(Reply reply:replyList){
             String parsedLocalDateTimeNow = reply.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+1);
+        }
+
+        List<MeetingLog>meetingLogList=userRepository.countMeeting(id, MeetingLogType.END);
+        for(MeetingLog meetingLog:meetingLogList){
+            String parsedLocalDateTimeNow = meetingLog.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+50);
         }
 
 //        for(String key:map.keySet()){
