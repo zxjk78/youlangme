@@ -1,23 +1,58 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Chip } from "@mui/material"
-import MuiSelect from "../../../common/UI/MuiSelect"
-import * as selectData from "../../auth/modify/data"
+
+import axios from "axios"
 import { fetchProfile } from "../../profile/LeftProfile/LeftProfileAPI"
 import { fetchHobbies } from "../../auth/modify/modifyAPI"
+
+import * as selectData from "../../auth/modify/data"
+import { chipColors } from "../../profile/ProfileColorPalette"
 import { startMatching } from "../matchSlice"
 import { API_URL, accessToken } from "../../../common/api/http-config";
-import axios from "axios"
+
+import { Button, Chip, Stack, Typography } from "@mui/material"
+import {  createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import MuiSelect from "../../../common/UI/MuiSelect"
+// import { CompareArrows } from "@material-ui/icons"
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+
+// css
+import classes from './StartMatch.module.scss'
+import { grey } from "@mui/material/colors"
+
+const ColorButton = styled(Button)(({ theme }) => ({
+  // color: theme.palette.getContrastText(yellow[500]),
+  fontSize: 34,
+  fontWeight: 1000,
+  lineHeight: 1.5,
+  padding: '10px 20px',
+  width: 320,
+
+  border: '1px solid #CAD6E2',
+  borderRadius: 16,
+  backgroundColor: '#F0C325',
+  '&:hover': {
+    backgroundColor: '#D4AC1C',
+  },
+}));
+
 const StartChat = (props) => {
+    const myTheme = createTheme({
+      palette: chipColors
+    });
+    const colors = [ 'primary', 'secondary', 'warning', 'success', 'info', 'error']
+    
     const { languageOptions } = selectData
     const currentUser = useSelector((state) => state.auth.currentUser)
     const userId = currentUser.id
-    const [isLoading, setIsLoading] = useState(true)
-    const [favorite, setFavorite] = useState([])
-    const [hobbies, setHobbies] = useState([]);
     const [myLanguage, setMyLanguage] = useState(currentUser.mylanguage);
     const [yourLanguage, setYourLanguage] = useState(currentUser.yourlanguage);
- 
+    const [isLoading, setIsLoading] = useState(true)
+
+    const [favorite, setFavorite] = useState([])
+    const [hobbies, setHobbies] = useState([]);
+    
+    
     useEffect(() => {
         (async () => {
           const profileDetail = await fetchProfile(userId);
@@ -25,6 +60,7 @@ const StartChat = (props) => {
             setFavorite(profileDetail.favorites);
           }
           setIsLoading(false);
+          console.log('채팅', favorite)
         })();
       }, [userId]);
 
@@ -43,13 +79,14 @@ const StartChat = (props) => {
       }, [favorite]);
 
     const changeTeachHandler = (event) => {
-        setMyLanguage(event.target.value);
+      console.log('내언어변경')
+      setMyLanguage(event.target.value);
     };
     const changeLearnHandler = (event) => {
+      console.log('상대언어변경')
         setYourLanguage(event.target.value);
     };
       
-   
 
     const header = {
         "Content-Type": "application/json",
@@ -68,73 +105,75 @@ const StartChat = (props) => {
             alert(err.message)
             props.setMatchLoading(false);
         })
-
-        
-        // dispatch(startMatching({mylanguage:myLanguage, yourlanguage:yourLanguage}))
-        //   .unwrap()
-        //   .then(() => {
-        //     props.setMatchLoading(false);
-        //     props.setMatchConfirm(true);
-        //   })
-        //   .catch(() => {
-        //     props.setMatchLoading(false);
-        //   });
       };
     
 
-    return  <div>
-    <div>
-      <div>
-        <div>
-          <div>
-            <h4>Me</h4>
-            <MuiSelect
-              labelId="myLanguage-label"
-              id="myLanguage"
-              value={myLanguage}
-              defaultValue={myLanguage}
-              onChange={changeTeachHandler}
-              optionList={languageOptions}
-            />
-          </div>
-          <div>
-            <h4>You</h4>
-            <MuiSelect
-              labelId="youLanguage-label"
-              id="youLanguage"
-              value={yourLanguage}
-              defaultValue={yourLanguage}
-              onChange={changeLearnHandler}
-              optionList={languageOptions}
-            />
-          </div>
-          <div>
-            <div>
-              {hobbies.map((obj) => {
+    return (
+      <div className={classes.match_wrapper}>
+        <div className={classes.match_start_container}>            
+          <div className={classes.match_start_left_container}>
+            <div className={classes.match_left_header}>
+              {/* <Typography gutterBottom component='span'
+                sx={{ fontSize: 40, fontWeight: 'bold'}}
+              >Me</Typography> */}
+              <div className={classes.header_word}>Me</div>
+              <SwapHorizIcon sx={{ fontSize: 60, mx: 5, mt:'4px', color: grey[500]}} />
+              <div className={classes.header_word}>You</div>
+            </div>
+            <ThemeProvider theme={myTheme}>
+              <div className={classes.hobbies_chips} >
+                  {hobbies.map((obj) => {
+                    return (
+                      <Chip
+                        key={obj.id}
+                        label={obj.name}
+                        data-value={obj.id}
+                        color =
+                            { colors[Math.floor(Math.random() * colors.length)]}
+                            sx={{ color:'#F9F3EE', fontWeight: 'bold'  }}
+                      />
+                    );
+                  })}
+              </div>
+            </ThemeProvider>  
+            
+            <div className={classes.select_lngs} >
+              {[myLanguage, yourLanguage].map((lng, idx, list) => {
                 return (
-                  <Chip
-                    key={obj.id}
-                    label={obj.name}
-                    data-value={obj.id}
-                    color={obj.isSelected ? "warning" : "default"}
+                  <MuiSelect
+                    labelId={lng}
+                    id={lng}
+                    value={lng}
+                    defaultValue={lng}
+                    onChange={idx ? changeLearnHandler : changeTeachHandler}
+                    optionList={languageOptions}
                   />
-                );
+                )
               })}
             </div>
           </div>
+
+          <div className={classes.match_start_right_container}>
+            <div className={classes.match_intro}>매칭을</div>
+            <div className={classes.match_intro}>시작하시겠습니까?</div>
+            <div className={classes.chosen_lngs}>
+              <div className={classes.lng_grey}>Me</div>
+              <div className={classes.lng_word}>{myLanguage}</div>
+              <SwapHorizIcon sx={{ fontSize: 40, mx: 2, color: "white"}} />
+              <div className={classes.lng_word}>{yourLanguage}</div>
+              <div className={classes.lng_grey}>You</div>
+
+            </div>
+            <ColorButton variant="contained" sx={{mt:6}} 
+              onClick={startMatchingHandler} >시작!
+            </ColorButton>
+
+          </div>
+
         </div>
       </div>
-    </div>
-    <div>
-      <h2>매칭을 시작하시겠습니까?</h2>
-      <div>
-        <p>{myLanguage}</p>
-        <p>{yourLanguage}</p>
-      </div>
-      <button onClick={startMatchingHandler}>시작!</button>
-    </div>
-  </div> 
+    );
 
-}
+};
 
 export default StartChat

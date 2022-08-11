@@ -33,26 +33,28 @@ import { API_URL } from '../../common/api/http-config';
 //   return response.data;
 // };
 
-export const fetchNews = async (myCountry, yourCountry) => {
-  const API_KEY = '413bec14dda64733a04b2f171e99917c';
-  const oppoCountry = nationalityNewsMapping[myCountry][yourCountry];
-  try {
-    const response = await axios.get(
-      `https://newsapi.org/v2/everything?q=${oppoCountry}&apiKey=${API_KEY}&searchIn=title&pageSize=40`
-    );
+// export const fetchNews = async (myCountry, yourCountry) => {
+//   const API_KEY = '413bec14dda64733a04b2f171e99917c';
+//   const oppoCountry = nationalityNewsMapping[myCountry][yourCountry];
+//   try {
+//     const response = await axios.get(
+//       `https://newsapi.org/v2/everything?q=${oppoCountry}&apiKey=${API_KEY}&searchIn=title&pageSize=40`
+//     );
 
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 export const fetchNews2 = async (myCountry, yourCountry) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // const API_KEY = '413bec14dda64733a04b2f171e99917c';
   const oppoCountry = nationalityNewsMapping[myCountry][yourCountry];
   try {
-    const response = await axios.get(`${API_URL}match/news?${oppoCountry}`);
-
+    const response = await axios.get(`${API_URL}meeting/news?${oppoCountry}`, {
+      headers: { 'X-Auth-Token': accessToken },
+    });
+    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
 import StartMatching from './features/matching/StartMatching';
+import IntroMatch from './features/matching/startMatching,js/IntroMatch';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
 import VideoRoomComponentLocal2 from './features/matching/matching/VideoRoomComponentLocal2';
@@ -46,7 +47,8 @@ function App() {
           ></PublicRoute>
           <PublicRoute path="/social" component={Social}></PublicRoute>
           <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>
-          <PrivateRoute path="/start" exact component={StartMatching} />
+          <PrivateRoute path="/start-intro" exact component={IntroMatch} />
+          <PrivateRoute path="/start-match" exact component={StartMatching} />
           <PrivateRoute path="/profile/:userId" exact component={MyPage} />
           {/* <PrivateRoute path="/profile/:userId/board" exact component={MyPageBoard}/> */}
 

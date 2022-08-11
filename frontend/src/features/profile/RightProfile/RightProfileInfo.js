@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import MyLanguages from './MyLanguages'
-import MyBadgeCollection from './MyBadgeCollection';
+import MyBadgeCollection from './Badges/MyBadgeCollection';
 import MyGrass from './MyGrass';
 import MyLevel from './MyLevel';
 
