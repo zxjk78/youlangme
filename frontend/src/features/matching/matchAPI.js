@@ -52,12 +52,12 @@ export const fetchNews2 = async (myCountry, yourCountry) => {
   const oppoCountry = nationalityNewsMapping[myCountry][yourCountry];
   try {
     const response = await axios.get(
-      `${API_URL}meeting/news?contryName=${oppoCountry}`,
+      `${API_URL}meeting/news?countryName=${oppoCountry}`,
       {
         headers: { 'X-Auth-Token': accessToken },
       }
     );
-    console.log(response);
+    // console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
