@@ -1,6 +1,7 @@
 package com.a603.youlangme.config;
 
 
+import com.a603.youlangme.cache.Grass;
 import com.a603.youlangme.dto.grass.GrassResponseDto;
 import com.a603.youlangme.dto.ranking.RankLogResponseDto;
 import com.a603.youlangme.dto.ranking.UserLogDto;
@@ -107,8 +108,8 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, GrassResponseDto> grassredisTemplate(){
-        RedisTemplate<String, GrassResponseDto> grassredisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Grass> grassredisTemplate(){
+        RedisTemplate<String, Grass> grassredisTemplate = new RedisTemplate<>();
         grassredisTemplate.setConnectionFactory(redisConnectionFactory());
         grassredisTemplate.setKeySerializer(new StringRedisSerializer());
         grassredisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(GrassResponseDto.class));
