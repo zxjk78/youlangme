@@ -59,13 +59,12 @@ function App() {
             component={VideoRoomComponent}
           ></PrivateRoute>
           {/* local 작업중 */}
-          {/* <PrivateRoute
+          <PrivateRoute
             exact
             path="/match2"
             s
-            // component={VideoRoomComponent}
             component={VideoRoomComponentLocal2}
-          ></PrivateRoute> */}
+          ></PrivateRoute>
           <PrivateRoute exact path="/main" component={Main}></PrivateRoute>
 
           {/* 게시판, 생성 및 수정 사용하는 PrivateRoute  */}

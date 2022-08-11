@@ -1,0 +1,23 @@
+.wrapper {
+}
+.container {
+}
+.header {
+}
+.main > div:first-child {
+  display: grid;
+  .grid1 {
+    grid-column-start: 1;
+    grid-column-end: 6;
+  }
+  .grid2 {
+    grid-column-start: 1;
+    grid-column-end: 5;
+  }
+  .grid3 {
+    grid-column-start: 5;
+    grid-column-end: 6;
+  }
+}
+.footer {
+}

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 // API
-import { fetchNationality, fetchNews } from '../../matchAPI';
+import { fetchNews, fetchNews2 } from '../../matchAPI';
 
 // external module
 
@@ -24,14 +24,16 @@ const NewsCardList = (props) => {
   const [articles, setArticles] = useState([]);
   // const [loadedArticles, setLoadedArticles] = useState([]);
   const [page, setPage] = useState(0);
-  const myNationality = props.myNationality;
-  const yourNationality = props.yourNationality;
+  // const myNationality = props.myNationality;
+  // const yourNationality = props.yourNationality;
+  const myNationality = 'JAPAN';
+  const yourNationality = 'CHINA';
   useEffect(() => {
     (async () => {
       // const oppoNation = await fetchNationality(remoteUserId);
       // setRemoteUserNationality(yourNationality);
       // 내 국가 언어, 상대 국가 뉴스 받는 api
-      const data = await fetchNews(myNationality, yourNationality);
+      const data = await fetchNews2(myNationality, yourNationality);
       // console.log(data);
       setArticles(data.articles);
       setLoading(false);

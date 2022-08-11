@@ -1,0 +1,14 @@
+.wrapper {
+}
+.container {
+}
+.header {
+}
+.main {
+  & > div:first-child {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+  }
+}
+.footer {
+}

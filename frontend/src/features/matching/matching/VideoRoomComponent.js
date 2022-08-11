@@ -14,10 +14,12 @@ import { API_URL, accessToken } from '../../../common/api/http-config';
 import { connect } from 'react-redux';
 import { resetMatching } from '../matchSlice';
 import HelpTemplate from '../youlangmeCustom/helps/HelpTemplate';
+import MenuSpeedDial from './components/MenuSpeedDial';
+import Box from '@mui/material/Box';
+
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import EvaluationTemplate from '../youlangmeCustom/evaluations/EvaluationTemplate';
 import { withRouter } from 'react-router-dom';
-
 
 var localUser = new UserModel();
 
@@ -69,17 +71,17 @@ class VideoRoomComponent extends Component {
     this.nationality = createRef(null);
     // youlangme custom
     this.toggleHelpModal = this.toggleHelpModal.bind(this);
-    this.ExitHandler = this.ExitHandler.bind(this)
+    this.ExitHandler = this.ExitHandler.bind(this);
     //this.toggleEvaluationModal = this.toggleEvaluationModal.bind(this)
   }
 
   checkSubscribers = () => {
-    if(this.state.subscribers.length){
-      return true
+    if (this.state.subscribers.length) {
+      return true;
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   componentDidMount() {
     const openViduLayoutOptions = {
@@ -126,16 +128,16 @@ class VideoRoomComponent extends Component {
         this.joinSession();
       }, 500);
     } catch {
-      this.abnormalExit()
+      this.abnormalExit();
     }
 
     setTimeout(() => {
-      console.log(this.checkSubscribers())
-      if(!this.checkSubscribers()){
-        alert('상대방이 입장하지 않았습니다.')
-        this.leaveSession()
-        this.abnormalExit()
-      } 
+      console.log(this.checkSubscribers());
+      if (!this.checkSubscribers()) {
+        alert('상대방이 입장하지 않았습니다.');
+        this.leaveSession();
+        this.abnormalExit();
+      }
     }, 15000);
 
     // this.joinSession();
@@ -307,17 +309,13 @@ class VideoRoomComponent extends Component {
     if (this.props.leaveSession) {
       this.props.leaveSession();
     }
-  
   }
 
-  normalExit(){
-    this.props.history.push(
-      '/main',
-      { props: {chattingExit: true}}
-    );
+  normalExit() {
+    this.props.history.push('/main', { props: { chattingExit: true } });
   }
 
-  abnormalExit(){
+  abnormalExit() {
     this.props.history.push('/main');
   }
 
@@ -389,9 +387,9 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
-      alert("상대방이 나가셨습니다.")
-      this.leaveSession()
-      this.normalExit()
+      alert('상대방이 나가셨습니다.');
+      this.leaveSession();
+      this.normalExit();
     });
   }
 
@@ -628,20 +626,22 @@ class VideoRoomComponent extends Component {
   //   this.setState({isEvaluationModalVisible: !this.state.isEvaluationModalVisible})
   // }
 
-  ExitHandler(event){
-    axios.delete(API_URL + `meeting/end/${this.state.mySessionId}`, {headers: {
-      'X-AUTH-TOKEN': accessToken,
-    }})
-    .then((res)=> {
-      console.log(res.data)
-      this.leaveSession()
-      this.normalExit()
-    })
-    .catch((err) => {
-      console.log(err.message)
-    })
+  ExitHandler(event) {
+    axios
+      .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+        headers: {
+          'X-AUTH-TOKEN': accessToken,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        this.leaveSession();
+        this.normalExit();
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
- 
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -696,7 +696,7 @@ class VideoRoomComponent extends Component {
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div
-                className="OT_root OT_publisher custom-class"
+                className="OT_root OT_publisher custom-class chat-container"
                 style={chatDisplay}
               >
                 <ChatComponent
@@ -718,14 +718,28 @@ class VideoRoomComponent extends Component {
             yourNationality={this.state.yourNationality}
           />
         ) : (
-          <div className="help-btn" onClick={this.toggleHelpModal}>
-            Help
-          </div>
+          <Box
+            sx={{
+              bgcolor: '#000',
+              color: '#fff',
+              position: 'fixed',
+              right: '20px',
+              bottom: '20px',
+            }}
+          >
+            <MenuSpeedDial
+              help={this.toggleHelpModal}
+              // quit={}
+            />
+          </Box>
         )}
         <div>
-        <ExitToAppIcon className="evaluation-btn" fontSize="large" onClick={this.ExitHandler}/>
+          <ExitToAppIcon
+            className="evaluation-btn"
+            fontSize="large"
+            onClick={this.ExitHandler}
+          />
         </div>
-        
       </div>
     );
   }
