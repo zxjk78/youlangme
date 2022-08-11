@@ -57,16 +57,11 @@ public class User extends BaseEntity implements UserDetails, Serializable {
     private Language yourlanguage;
 
 
-    // Profile start
-
     @Column(nullable = true, length = 50)
     private String description;
 
     @Column(nullable = true, length = 255)
     private String image;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserBadge> userBadges = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserBoardLike> userBoardLikes = new ArrayList<>();
@@ -78,10 +73,6 @@ public class User extends BaseEntity implements UserDetails, Serializable {
     public void updateImage(String image) {
         this.image = image;
     }
-
-    // Profile end
-
-
 
 
     @ElementCollection(fetch = FetchType.EAGER) // Proxy 객체가 반환되어 권한을 제대로 확인할 수 없는 경우를 방지
@@ -158,4 +149,7 @@ public class User extends BaseEntity implements UserDetails, Serializable {
     public int getAge() {
         return LocalDate.now().getYear() - this.birthDay.getYear();
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<MatchingFeedback> feedbacks = new ArrayList<>();
 }

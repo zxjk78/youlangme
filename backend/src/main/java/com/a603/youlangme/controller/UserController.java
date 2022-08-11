@@ -3,8 +3,6 @@ package com.a603.youlangme.controller;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.aop.LoginUser;
 import com.a603.youlangme.cache.Grass;
-import com.a603.youlangme.dto.badge.BadgeRequestDto;
-import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.*;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.repository.UserExpRepository;
@@ -132,22 +130,6 @@ public class UserController {
     public OneResult<UserProfileResponseDto> getUserProfile (@PathVariable(value ="id") Long id) {
         UserProfileResponseDto userProfileResponseDto = userService.readUserProfile(id);
         return responseService.getOneResult(userProfileResponseDto);
-    }
-
-
-    @GetMapping("/badge/{id}") // Read
-    public ManyResult<BadgeResponseDto> getUserBadgeList (@PathVariable(value ="id") Long userId) {
-        return responseService.getManyResult(userService.readBadgeList(userId));
-    }
-
-    @PutMapping("/badge") // Update
-    public CommonResult setUserBadgeList(@RequestBody List<BadgeRequestDto> badgeRequestDtoList) {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User loginUser = (User) authentication.getPrincipal();
-
-        userService.updateBadgeList(loginUser.getId(), badgeRequestDtoList);
-        return responseService.getSuccessResult();
     }
 
     @GetMapping("/level-detail/{id}")
