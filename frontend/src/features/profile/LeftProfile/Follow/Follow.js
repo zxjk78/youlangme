@@ -69,12 +69,15 @@ const Follow = (props) => {
 
 
 
-    const followHandler = () => {
-      sendFollow(setIsFollowed, profileId)
+    const followHandler = async () => {
+      const getFollow = await sendFollow(profileId);
+      setIsFollowed(getFollow)
       // getIsFollowed(true)
     }
-    const unfollowHandler = () => {
-        sendUnfollow(setIsFollowed, profileId)
+    const unfollowHandler = async () => {
+      const getUnfollow = await sendUnfollow(profileId);
+      setIsFollowed(getUnfollow)
+      
         // getIsFollowed(false)
     }
 
@@ -95,6 +98,29 @@ const Follow = (props) => {
 
 
     // // 해당 프로필 유저의 팔로워들 중에서 currentUser의 id가 있으면 unfollow 버튼을 만들어주고 없으면 팔로우 버튼을 보여줌.
+    useEffect(() => {
+      (
+        async () => {
+          const getFollowCnt = await fetchFollowCnt(profileId);
+          const getFollowers = await fetchFollowers(profileId);
+          const getFollowees = await fetchFollowees( profileId);
+          const getFollowOrNot = await fetchFollowOrNot(profileId, currentUser.id);
+          setFollowCnt(getFollowCnt);
+          setFollowers(getFollowers);
+          setFollowees(getFollowees);
+          setIsFollowed(getFollowOrNot);
+          
+          // console.log(levelAndExp[0], levelId)
+          // setTrophyColor(LevelCriteria[levelId][2])
+          setIsLoading(false);
+        })();
+  
+      return () => {
+        setIsLoading(true)
+      }
+    }, [profileId, isFollowed, currentUser]);
+
+
     useEffect(() => {
       fetchFollowCnt(setFollowCnt, profileId);
       fetchFollowers(setFollowers, profileId);
