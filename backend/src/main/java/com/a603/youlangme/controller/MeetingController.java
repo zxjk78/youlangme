@@ -64,7 +64,7 @@ public class MeetingController {
 
     @GetMapping("/news")
     @Transactional
-    public CommonResult requestMatching(@RequestParam("countryName") String country) throws JsonProcessingException, NoSuchAlgorithmException {
+    public CommonResult getNews(@RequestParam("countryName") String country) throws JsonProcessingException, NoSuchAlgorithmException {
 
         HashMap<String, Object> resultMap = new HashMap<>();
 
