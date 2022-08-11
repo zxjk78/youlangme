@@ -236,20 +236,20 @@ public class UserService {
     public  List<Grass>setGrassList(Long id) throws ParseException {
         List<Grass>result=new ArrayList<>();
         TreeMap<String,Integer>map=new TreeMap<>();
-        List<Board>boardList=userRepository.countBoard(id);
+        List<Board>boardList=userRepository.findBoard(id);
 
         for(Board board:boardList){
             String parsedLocalDateTimeNow = board.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+10);
         }
-        List<Reply>replyList=userRepository.countReply(id);
+        List<Reply>replyList=userRepository.findReply(id);
 
         for(Reply reply:replyList){
             String parsedLocalDateTimeNow = reply.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+1);
         }
 
-        List<MeetingLog>meetingLogList=userRepository.countMeeting(id, MeetingLogType.END);
+        List<MeetingLog>meetingLogList=userRepository.findMeeting(id, MeetingLogType.END);
         for(MeetingLog meetingLog:meetingLogList){
             String parsedLocalDateTimeNow = meetingLog.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+50);

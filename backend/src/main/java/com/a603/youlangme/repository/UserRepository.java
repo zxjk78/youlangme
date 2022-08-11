@@ -21,12 +21,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     @Query("select b from Board b where b.author.id =:id order by createdTime asc")
-    List<Board>countBoard(@Param("id") Long id);
+    List<Board>findBoard(@Param("id") Long id);
 
     @Query("select r from Reply r where r.user.id =:id order by createdTime asc")
-    List<Reply>countReply(@Param("id") Long id);
+    List<Reply>findReply(@Param("id") Long id);
 
     @Query("select m from MeetingLog m where m.user.id =:id and m.logType =:end order by createdTime asc")
-    List<MeetingLog>countMeeting(@Param("id") Long id,@Param("end") MeetingLogType end);
+    List<MeetingLog>findMeeting(@Param("id") Long id,@Param("end") MeetingLogType end);
 
 }
