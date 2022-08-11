@@ -69,42 +69,56 @@ const Follow = (props) => {
 
 
 
-    const followHandler = () => {
-      sendFollow(setIsFollowed, profileId)
+    const followHandler = async () => {
+      const getFollow = await sendFollow(profileId);
+      setIsFollowed(getFollow)
       // getIsFollowed(true)
     }
-    const unfollowHandler = () => {
-        sendUnfollow(setIsFollowed, profileId)
+    const unfollowHandler = async () => {
+      const getUnfollow = await sendUnfollow(profileId);
+      setIsFollowed(getUnfollow)
+      
         // getIsFollowed(false)
     }
 
-    const style = {
-      position: 'absolute',
-      top: '50%', left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 240,
-      height: 350,
-      fontWeight: 'bold',
-      backgroundColor: 'background.paper',
-      // border: '3px solid #9BA7AF',
-      borderRadius: 5,
-      boxShadow: 24,
-      // px: 3, py: 2,
-    };
+    // const style = {
+    //   position: 'absolute',
+    //   top: '50%', left: '50%',
+    //   transform: 'translate(-50%, -50%)',
+    //   width: 240,
+    //   height: 350,
+    //   fontWeight: 'bold',
+    //   backgroundColor: 'background.paper',
+    //   // border: '3px solid #9BA7AF',
+    //   borderRadius: 5,
+    //   boxShadow: 24,
+    //   // px: 3, py: 2,
+    // };
   
 
 
     // // 해당 프로필 유저의 팔로워들 중에서 currentUser의 id가 있으면 unfollow 버튼을 만들어주고 없으면 팔로우 버튼을 보여줌.
     useEffect(() => {
-      fetchFollowCnt(setFollowCnt, profileId);
-      fetchFollowers(setFollowers, profileId);
-      fetchFollowees(setFollowees, profileId);
-      fetchFollowOrNot(setIsFollowed, profileId, currentUser.id);
-      // if ( followers.find(follower=>follower.followerId === currentUser.id)) {setIsFollowed(true)}
-      setIsLoading(false);
-    }, [ profileId, isFollowed, currentUser])
+      (
+        async () => {
+          const getFollowCnt = await fetchFollowCnt(profileId);
+          const getFollowers = await fetchFollowers(profileId);
+          const getFollowees = await fetchFollowees( profileId);
+          const getFollowOrNot = await fetchFollowOrNot(profileId, currentUser.id);
+          setFollowCnt(getFollowCnt);
+          setFollowers(getFollowers);
+          setFollowees(getFollowees);
+          setIsFollowed(getFollowOrNot);
+          
+          setIsLoading(false);
+        })();
   
+      return () => {
+        setIsLoading(true)
+      }
+    }, [profileId, isFollowed, currentUser]);
 
+  
     return (
       <ThemeProvider theme={myColorTheme}>
           { isLoading ?  <CircularProgress />: 

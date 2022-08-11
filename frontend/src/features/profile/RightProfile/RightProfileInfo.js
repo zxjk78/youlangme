@@ -18,10 +18,10 @@ const RightProfileInfo = (props) => {
     <>
       <div className={classes.wrapper_level_activity}>
         <MyLevel userId={userId}/>
-        <MyLanguages />
+        <MyLanguages userId={userId} />
       </div>
       <MyBadgeCollection userId={userId}/>
-      <MyGrass/>
+      <MyGrass userId={userId}/>
     </>
   );
 };
