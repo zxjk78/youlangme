@@ -23,10 +23,10 @@ const NewsCardList = (props) => {
   // const [remoteUserNationality, setRemoteUserNationality] = useState(null);
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(0);
-  // const myNationality = props.myNationality;
-  // const yourNationality = props.yourNationality;
-  const myNationality = 'KOREA';
-  const yourNationality = 'CHINA';
+  const myNationality = props.myNationality;
+  const yourNationality = props.yourNationality;
+  // const myNationality = 'USA';
+  // const yourNationality = 'JAPAN';
   useEffect(() => {
     (async () => {
       // 내 국가 언어, 상대 국가 뉴스 받는 api
@@ -68,7 +68,7 @@ const NewsCardList = (props) => {
                 ) : (
                   <div>Start</div>
                 )}
-                {page * 4 < articles.length ? (
+                {(page + 1) * 4 < articles.length ? (
                   <div>
                     <ArrowForwardIosIcon onClick={showNext} />
                   </div>
@@ -77,15 +77,23 @@ const NewsCardList = (props) => {
                 )}
               </div>
             </div>
-            <div className={classes.main}>
-              {articles.slice(page * 4, page * 4 + 4).map((article, index) => (
-                <NewsCard
-                  key={article.url + index}
-                  article={article}
-                  openOrigin={openOriginHandler}
-                />
-              ))}
-            </div>
+            {articles.slice(page * 4, page * 4 + 4).length === 0 ? (
+              <div className={classes.main2}>
+                적합한 검색 결과가 없습니다.- 나중에 꾸미기
+              </div>
+            ) : (
+              <div className={classes.main}>
+                {articles
+                  .slice(page * 4, page * 4 + 4)
+                  .map((article, index) => (
+                    <NewsCard
+                      key={article.url + index}
+                      article={article}
+                      openOrigin={openOriginHandler}
+                    />
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       )}

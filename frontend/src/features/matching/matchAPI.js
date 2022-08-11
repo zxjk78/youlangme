@@ -9,7 +9,7 @@ export const fetchNews2 = async (myCountry, yourCountry) => {
     myCountry === 'CHINA' ||
     (myCountry === 'JAPAN' && yourCountry === 'CHINA')
   ) {
-    return [];
+    return { articles: [] };
   }
   const oppoCountry = nationalityNewsMapping[myCountry][yourCountry];
   try {
