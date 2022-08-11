@@ -29,6 +29,7 @@ import { useState } from 'react';
 const MyGrass = (props) => {
   
   const userId = props.userId;
+  console.log('잔디' , userId)
   const [grassData, setGrassData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true); 
