@@ -67,19 +67,19 @@ class VideoRoomComponent extends Component {
     this.closeDialogExtension = this.closeDialogExtension.bind(this);
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
-    this.checkSize = this.checkSize.bind(this);
+    this.checkSize = this.checkSize.bind(this);;
     this.nationality = createRef(null);
     // youlangme custom
     this.toggleHelpModal = this.toggleHelpModal.bind(this);
-    this.ExitHandler = this.ExitHandler.bind(this);
+    // this.ExitHandler = this.ExitHandler.bind(this);
     //this.toggleEvaluationModal = this.toggleEvaluationModal.bind(this)
   }
 
   checkSubscribers = () => {
     if (this.state.subscribers.length) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
   };
 
@@ -104,7 +104,6 @@ class VideoRoomComponent extends Component {
     window.addEventListener('beforeunload', this.onbeforeunload);
     window.addEventListener('resize', this.updateLayout);
     window.addEventListener('resize', this.checkSize);
-    // this.props.doResetMyPageInfo();
     window.addEventListener('beforeunload', () => {
       this.componentWillUnmount();
     });
@@ -131,28 +130,113 @@ class VideoRoomComponent extends Component {
       this.abnormalExit();
     }
 
-    setTimeout(() => {
-      console.log(this.checkSubscribers());
-      if (!this.checkSubscribers()) {
-        alert('상대방이 입장하지 않았습니다.');
-        this.leaveSession();
-        this.abnormalExit();
+    this.timerId = setTimeout(() => {
+      if (!this.checkSubscribers()){
+        alert('상대방이 들어오지 않았습니다.')
+        this.leaveSession()
+        this.abnormalExit()
       }
     }, 15000);
-
+    
+    
+    setTimeout(() => {
+      this.setState({timer : true})
+      console.log(this.state.timer)
+      
+    }, 60000);
+  
     // this.joinSession();
   }
 
+  
+   
   componentWillUnmount() {
+    clearTimeout(this.timerId)
     window.removeEventListener('beforeunload', this.onbeforeunload);
+    window.removeEventListener('beforeunload', this.openTimer);
     window.removeEventListener('resize', this.updateLayout);
     window.removeEventListener('resize', this.checkSize);
-    this.leaveSession();
+   
   }
 
   onbeforeunload(event) {
-    this.leaveSession();
-  }
+    event.preventDefault()
+
+    const checker = this.checkSubscribers()
+
+    if (checker && this.state.timer){
+      axios
+        .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+          headers: {
+            'X-AUTH-TOKEN': accessToken,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.leaveSession();
+          this.normalExit();
+        })
+        .catch((err) => {
+         console.log(err.message);
+        });
+    } else if (checker && !this.state.timer){
+        axios
+          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+            headers: {
+            'X-AUTH-TOKEN': accessToken,
+          },
+        })
+          .then((res) => {
+            console.log(res.data);
+            console.log(this.checkSubscribers())
+            this.leaveSession();
+            this.abnormalExit();
+          })
+        .catch((err) => {
+            console.log(err.message);
+        });
+      
+      }  else if(!checker && !this.state.timer){
+          this.leaveSession()
+          this.abnormalExit()
+      } else if(!checker && this.state.timer){
+          this.leaveSession()
+          this.normalExit()
+      } else {
+        if (this.state.timer){
+          axios
+          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+            headers: {
+              'X-AUTH-TOKEN': accessToken,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.leaveSession();
+            this.normalExit();
+          })
+          .catch((err) => {
+           console.log(err.message);
+          });
+        } else {
+          axios
+          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+            headers: {
+              'X-AUTH-TOKEN': accessToken,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.leaveSession();
+            this.abnormalExit();
+          })
+          .catch((err) => {
+           console.log(err.message);
+          });
+        }
+      }
+
+    }
 
   joinSession() {
     this.OV = new OpenVidu();
@@ -359,6 +443,7 @@ class VideoRoomComponent extends Component {
   subscribeToStreamCreated() {
     this.state.session.on('streamCreated', (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined);
+      console.log('subscriber', subscriber)
       // var subscribers = this.state.subscribers;
       subscriber.on('streamPlaying', (e) => {
         this.checkSomeoneShareScreen();
@@ -378,7 +463,7 @@ class VideoRoomComponent extends Component {
       }
     });
   }
-
+  
   subscribeToStreamDestroyed() {
     // On every Stream destroyed...
     this.state.session.on('streamDestroyed', (event) => {
@@ -387,9 +472,8 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
+      clearTimeout(this.timerId)
       alert('상대방이 나가셨습니다.');
-      this.leaveSession();
-      this.normalExit();
     });
   }
 
@@ -626,22 +710,22 @@ class VideoRoomComponent extends Component {
   //   this.setState({isEvaluationModalVisible: !this.state.isEvaluationModalVisible})
   // }
 
-  ExitHandler(event) {
-    axios
-      .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
-        headers: {
-          'X-AUTH-TOKEN': accessToken,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        this.leaveSession();
-        this.normalExit();
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }
+  // ExitHandler(event) {
+  //   axios
+  //     .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+  //       headers: {
+  //         'X-AUTH-TOKEN': accessToken,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       this.leaveSession();
+  //       this.normalExit();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //     });
+  // }
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -737,7 +821,7 @@ class VideoRoomComponent extends Component {
           <ExitToAppIcon
             className="evaluation-btn"
             fontSize="large"
-            onClick={this.ExitHandler}
+            onClick={this.onbeforeunload}
           />
         </div>
       </div>
