@@ -105,6 +105,40 @@ class VideoRoomComponent extends Component {
     window.addEventListener('resize', this.updateLayout);
     window.addEventListener('resize', this.checkSize);
     window.addEventListener('beforeunload', () => {
+      const checker = this.checkSubscribers()
+
+      if (checker && this.state.timer){
+        axios
+          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+            headers: {
+              'X-AUTH-TOKEN': accessToken,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.leaveSession();
+            this.normalExit();
+          })
+          .catch((err) => {
+           console.log(err.message);
+          });
+      } else if (checker && !this.state.timer){
+          axios
+            .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+              headers: {
+              'X-AUTH-TOKEN': accessToken,
+            },
+          })
+            .then((res) => {
+              console.log(res.data);
+              console.log(this.checkSubscribers())
+              this.leaveSession();
+              this.abnormalExit();
+            })
+          .catch((err) => {
+              console.log(err.message);
+          });
+        }
       this.componentWillUnmount();
     });
     try {
