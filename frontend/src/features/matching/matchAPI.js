@@ -57,8 +57,8 @@ export const fetchNews2 = async (myCountry, yourCountry) => {
         headers: { 'X-Auth-Token': accessToken },
       }
     );
-    // console.log(response);
-    return response.data;
+    console.log('뉴스정보 ', response);
+    // return response.data;
   } catch (error) {
     console.log(error);
   }
