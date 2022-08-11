@@ -70,7 +70,7 @@ public class RedisService {
         return result;
     }
 
-    @Cacheable(value = "RankUser",key = "{#id}",cacheManager = "cacheRankManager")
+    @Cacheable(value = "RankUser",key = "{#id}",cacheManager = "cacheRankManager") //각 id에 맞는 정보
     public List<RankLogResponseDto>RankList(Long id){
         List<RankLogResponseDto>result=new ArrayList<>();
 

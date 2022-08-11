@@ -30,7 +30,7 @@ public class RedisController {
         return responseService.getManyResult(redisService.TopLanguage(id));
     }
 
-    @GetMapping("/rankList/{id}")
+    @GetMapping("/rankList/{id}") //각 id 추가
     public ManyResult<RankLogResponseDto>RankingList(@PathVariable("id")Long id){
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
