@@ -57,6 +57,30 @@ export const fetchLevelDetail =  async (userId) =>  {
   }
 };
 
+// 언어 통계 도넛 API
+
+export const fetchLanguageStat =  async (userId) =>  {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const accessToken = user ? user.accessToken : null;
+  const getConfig = { headers: { 'X-Auth-Token': accessToken } };
+  console.log('fetch 언어 통계');
+
+  try {
+    const response = await axios.get(
+      API_URL + `user/language-stat/${userId}`,
+      // 엑세스 토큰이 필요하다.
+      getConfig
+    );   
+    console.log(response.data.data)
+
+    return response.data.data
+
+  } catch (err) {
+    console.log('언어 통계 fetch 에러')
+    return err.response;
+  }
+};
+
 // 잔디 로그 불러오는 API
 export const fetchGrass =  async (userId) =>  {
   const user = JSON.parse(localStorage.getItem('user'));
