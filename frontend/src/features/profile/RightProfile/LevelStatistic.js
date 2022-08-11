@@ -127,7 +127,7 @@ const LevelStatistic = (props) => {
   ]
   
   const barTooltip = (item) => {
-    console.log(item.indexValue);
+    // console.log(item.indexValue);
     let unit = '회';
     let eachValue = levelDetail.replyCnt;
     if (item.indexValue === '총 대화시간') {

@@ -81,19 +81,19 @@ const Follow = (props) => {
         // getIsFollowed(false)
     }
 
-    const style = {
-      position: 'absolute',
-      top: '50%', left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 240,
-      height: 350,
-      fontWeight: 'bold',
-      backgroundColor: 'background.paper',
-      // border: '3px solid #9BA7AF',
-      borderRadius: 5,
-      boxShadow: 24,
-      // px: 3, py: 2,
-    };
+    // const style = {
+    //   position: 'absolute',
+    //   top: '50%', left: '50%',
+    //   transform: 'translate(-50%, -50%)',
+    //   width: 240,
+    //   height: 350,
+    //   fontWeight: 'bold',
+    //   backgroundColor: 'background.paper',
+    //   // border: '3px solid #9BA7AF',
+    //   borderRadius: 5,
+    //   boxShadow: 24,
+    //   // px: 3, py: 2,
+    // };
   
 
 
@@ -110,8 +110,6 @@ const Follow = (props) => {
           setFollowees(getFollowees);
           setIsFollowed(getFollowOrNot);
           
-          // console.log(levelAndExp[0], levelId)
-          // setTrophyColor(LevelCriteria[levelId][2])
           setIsLoading(false);
         })();
   
@@ -120,17 +118,7 @@ const Follow = (props) => {
       }
     }, [profileId, isFollowed, currentUser]);
 
-
-    useEffect(() => {
-      fetchFollowCnt(setFollowCnt, profileId);
-      fetchFollowers(setFollowers, profileId);
-      fetchFollowees(setFollowees, profileId);
-      fetchFollowOrNot(setIsFollowed, profileId, currentUser.id);
-      // if ( followers.find(follower=>follower.followerId === currentUser.id)) {setIsFollowed(true)}
-      setIsLoading(false);
-    }, [ profileId, isFollowed, currentUser])
   
-
     return (
       <ThemeProvider theme={myColorTheme}>
           { isLoading ?  <CircularProgress />: 
