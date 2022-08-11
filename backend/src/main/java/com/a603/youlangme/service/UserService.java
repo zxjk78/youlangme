@@ -4,8 +4,6 @@ import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.cache.Grass;
-import com.a603.youlangme.dto.badge.BadgeRequestDto;
-import com.a603.youlangme.dto.badge.BadgeResponseDto;
 import com.a603.youlangme.dto.user.UserLevelDetailsResponseDto;
 import com.a603.youlangme.dto.grass.GrassResponseDto;
 import com.a603.youlangme.dto.user.UserProfileResponseDto;
@@ -16,6 +14,7 @@ import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.entity.log.MeetingLog;
+import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,8 +52,6 @@ public class UserService {
     private final FavoriteRepository favoriteRepository;
     private final FollowRepository followRepository;
     private final UserFavoriteRepository userFavoriteRepository;
-    private final UserBadgeRepository userBadgeRepository;
-    private final BadgeRepository badgeRepository;
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
     private final MeetingLogRepository meetingLogRepository;
@@ -149,33 +146,6 @@ public class UserService {
         return userProfileResponseDto;
     }
 
-    public List<BadgeResponseDto> readBadgeList(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        List<BadgeResponseDto> badgeResponseDtoList = new ArrayList<>();
-        for (UserBadge userBadge : user.getUserBadges()) {
-            Badge badge = userBadge.getBadge();
-            BadgeResponseDto badgeResponseDto = BadgeResponseDto.builder()
-                    .id(badge.getId())
-                    .name(badge.getName())
-                    .description(badge.getDescription())
-                    .build();
-            badgeResponseDto.setBadgeSelect(userBadge.getBadgeSelect());
-            badgeResponseDtoList.add(badgeResponseDto);
-        }
-        return badgeResponseDtoList;
-    }
-
-    @Transactional
-    public void updateBadgeList(Long userId, List<BadgeRequestDto> badgeRequestDtoList) {
-        User user = userRepository.findById(userId).orElse(null);
-        userBadgeRepository.deleteByUserId(user.getId());
-        List<UserBadge> userBadgeList = user.getUserBadges();
-        userBadgeList.clear();
-        for (BadgeRequestDto badgeRequestDto : badgeRequestDtoList) {
-            userBadgeRepository.save(new UserBadge(user, badgeRepository.findById(badgeRequestDto.getId()).orElse(null), badgeRequestDto.getBadgeSelect()));
-        }
-    }
-
     // Profile end
 
     public User findByUserAll(Long id) {
@@ -266,17 +236,23 @@ public class UserService {
     public  List<Grass>setGrassList(Long id) throws ParseException {
         List<Grass>result=new ArrayList<>();
         TreeMap<String,Integer>map=new TreeMap<>();
-        List<Board>boardList=userRepository.countBoard(id);
+        List<Board>boardList=userRepository.findBoard(id);
 
         for(Board board:boardList){
             String parsedLocalDateTimeNow = board.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+10);
         }
-        List<Reply>replyList=userRepository.countReply(id);
+        List<Reply>replyList=userRepository.findReply(id);
 
         for(Reply reply:replyList){
             String parsedLocalDateTimeNow = reply.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+1);
+        }
+
+        List<MeetingLog>meetingLogList=userRepository.findMeeting(id, MeetingLogType.END);
+        for(MeetingLog meetingLog:meetingLogList){
+            String parsedLocalDateTimeNow = meetingLog.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            map.put(parsedLocalDateTimeNow,map.getOrDefault(parsedLocalDateTimeNow,0)+50);
         }
 
 //        for(String key:map.keySet()){

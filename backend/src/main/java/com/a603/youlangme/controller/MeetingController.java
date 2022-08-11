@@ -3,6 +3,7 @@ package com.a603.youlangme.controller;
 import com.a603.youlangme.aop.LoginUser;
 import com.a603.youlangme.dto.matching.MatchingRequestDto;
 import com.a603.youlangme.dto.matching.MatchingResponseDto;
+import com.a603.youlangme.dto.feedback.FeedbackRequestDto;
 import com.a603.youlangme.dto.meeting.MeetingEnterRequestDto;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.Language;
@@ -28,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.Map;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -60,6 +63,13 @@ public class MeetingController {
         return responseService.getSuccessResult();
     }
 
+    @PostMapping("/feedback")
+    public CommonResult matchingFeedback(@RequestBody FeedbackRequestDto feedbackRequestDto, @ApiIgnore @LoginUser User loginUser) {
+
+        meetingService.saveMatchingFeedback(loginUser.getId(), feedbackRequestDto.getFeedback());
+
+        return responseService.getSuccessResult();
+    }
     // news test
 
     @GetMapping("/news")

@@ -40,7 +40,7 @@ def matchmakingApi(request):
         user_favorites = user['favorites']
 
         if con.hgetall(user_id):
-            return JsonResponse(responseData("Already exist", -1), safe=False)
+            return JsonResponse(responseData("Already exist", "-1", "-1"), safe=False)
 
         userInfo = {
             "id" : user_id,

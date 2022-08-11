@@ -3,17 +3,21 @@ package com.a603.youlangme.service;
 import com.a603.youlangme.advice.exception.SessionNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserLogNotFoundException;
+import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.cache.MeetingSession;
 import com.a603.youlangme.cache.MeetingSessionRepository;
 import com.a603.youlangme.cache.SessionEntry;
 import com.a603.youlangme.cache.SessionEntryRepository;
+import com.a603.youlangme.entity.MatchingFeedback;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.log.ChatRoomLog;
 import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.enums.ChatRoomLogType;
+import com.a603.youlangme.enums.Feedback;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.repository.ChatRoomLogRepository;
+import com.a603.youlangme.repository.MatchingFeedbackRepository;
 import com.a603.youlangme.repository.MeetingLogRepository;
 import com.a603.youlangme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +36,8 @@ public class MeetingService {
 
     private final ChatRoomLogRepository chatRoomLogRepository;
     private final MeetingLogRepository meetingLogRepository;
+
+    private final MatchingFeedbackRepository matchingFeedbackRepository;
 
     // 미팅 입장 시 로직
     public void enterMeeting(String sessionId, Long userId, Language yourLanguage) {
@@ -155,5 +161,10 @@ public class MeetingService {
 
         // redis에서 Meeting Session을 삭제
         meetingSessionRepository.delete(meetingSession);
+    }
+
+    public void saveMatchingFeedback(Long userId, Feedback feedback) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        matchingFeedbackRepository.save(new MatchingFeedback(feedback, user));
     }
 }
