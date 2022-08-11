@@ -10,13 +10,15 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { purple } from '@mui/material/colors';
 
 // custom component
 
 // css
-import classes from './MessageInput.module.scss';
+import classes from './MessageInputNormal.module.scss';
 
-const MessageInput = (props) => {
+const MessageInputNormal = (props) => {
   const messageValue = props.messageVal;
   const handleChange = (event) => {
     props.handleChange(event.target.value);
@@ -39,7 +41,7 @@ const MessageInput = (props) => {
                 width: 500,
                 maxWidth: '100%',
                 bgcolor: '#fff',
-                borderRadius: '10px',
+                borderRadius: '16px',
               }}
             >
               <TextField
@@ -55,9 +57,8 @@ const MessageInput = (props) => {
                 onKeyPress={handleKeyPress}
               />
               <Button
-                variant="contained"
+                size="small"
                 endIcon={<SendIcon />}
-                sx={{}}
                 onClick={handleSendBtnClick}
               >
                 Send
@@ -69,4 +70,4 @@ const MessageInput = (props) => {
     </>
   );
 };
-export default MessageInput;
+export default MessageInputNormal;

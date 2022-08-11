@@ -8,7 +8,8 @@ const MsgBoxReply = (props) => {
   return (
     <>
       <div className={classes.content}>
-        <div>원문은 {originalMessage}</div>
+        <div>교정</div>
+        <div>{originalMessage}</div>
         <span className="triangle" />
         <p className="text">{message}</p>
       </div>

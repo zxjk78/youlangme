@@ -13,6 +13,7 @@ import OpenViduLayout from '../matchingLayout/openvidu-layout';
 import { connect } from 'react-redux';
 import { resetMatching } from '../matchSlice';
 import HelpTemplate from '../youlangmeCustom/helps/HelpTemplate';
+import MenuSpeedDial from './components/MenuSpeedDial';
 
 var localUser = new UserModel();
 

@@ -9,11 +9,11 @@ import { Tooltip } from '@material-ui/core';
 
 // youlangme custom
 import ChatContextMenu from './components/ChatContextMenu';
-import MessageInput from './components/MessageInput';
-import ReplyMessageInput from './components/ReplyMessageInput';
+import MessageInputNormal from './components/MessageInputNormal';
+import MessageInputReply from './components/MessageInputReply';
 import MsgBoxNormal from './components/MsgBoxNormal';
 import MsgBoxReply from './components/MsgBoxReply';
-
+import { API_URL } from '../../../../common/api/http-config';
 export default class ChatComponent extends Component {
   constructor(props) {
     super(props);
@@ -26,8 +26,9 @@ export default class ChatComponent extends Component {
       clX: null,
       clY: null,
       targetMsgIdx: 0,
-      // 답글 관련 state 2
+      // 답글 관련 state 3
       originalMessage: '',
+      originalMessageIdx: null,
       isReply: false,
     };
     this.chatScroll = React.createRef();
@@ -45,6 +46,9 @@ export default class ChatComponent extends Component {
     this.translateHandler = this.translateHandler.bind(this);
     // 댓글 답글 컴포넌트 요청
     this.handleReply = this.handleReply.bind(this);
+    // 스크롤 테스트
+    this.scrollReplyTarget = this.scrollReplyTarget.bind(this);
+    this.addToRefs = this.addToRefs.bind(this);
   }
 
   componentDidMount() {
@@ -58,12 +62,16 @@ export default class ChatComponent extends Component {
           nickname: data.nickname,
           message: data.message,
           originalMessage: data.originalMessage,
+          originalIdx: data.originalIdx,
         });
         const document = window.document;
         setTimeout(() => {
           const userImg = document.getElementById(
             'userImg-' + (this.state.messageList.length - 1)
           );
+          // 71, 74번째 줄 유저 프사 담는 부분 : 매칭상황이 바뀌었기 때문에 확인해서 props로 유저값 넘겨주는거 어떻게되는지 알아보아야 함.
+          // const profileImage = new Image();
+          // profileImage.src = `${API_URL}image/profile/${this.props.user.id}.jpg`;
           const video = document.getElementById('video-' + data.streamId);
           const avatar = userImg.getContext('2d');
           avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
@@ -75,6 +83,9 @@ export default class ChatComponent extends Component {
     document.addEventListener('click', () => {
       this.setState({ isCMenuVisible: false });
     });
+    // -------------  youlangme custom
+    this.msgBoxRef = React.createRef();
+    this.msgBoxRef.current = [];
   }
 
   handleChange(val) {
@@ -86,14 +97,20 @@ export default class ChatComponent extends Component {
   }
 
   sendMessage() {
-    console.log(this.state.message);
+    const [originMsg, originIdx] = [
+      this.state.originalMessage,
+      this.state.originalMessageIdx,
+    ];
     if (this.props.user && this.state.message) {
       let message = this.state.message.replace(/ +(?= )/g, '');
-      let originalMessage = this.state.originalMessage.replace(/ +(?= )/g, '');
+      let originalMsg = originMsg.replace(/ +(?= )/g, '');
+      let originalMsgIdx = +originIdx;
+
       if (message !== '' && message !== ' ') {
         const data = {
           message: message,
-          originalMessage: originalMessage,
+          originalMessage: originalMsg,
+          originalIdx: originalMsgIdx,
           nickname: this.props.user.getNickname(),
           streamId: this.props.user.getStreamManager().stream.streamId,
         };
@@ -131,13 +148,16 @@ export default class ChatComponent extends Component {
     });
   }
   translateHandler(idx) {
-    console.log(idx + '번 말풍선 번역요청');
+    console.log(idx + '번 말풍선 번역작업');
   }
   copyHandler(idx) {
-    console.log(idx + '번 말풍선 복사요청');
+    console.log(idx + '번 말풍선 복사작업');
   }
   modifyHandler(idx) {
+    // console.log(idx + '번 말풍선 교정작업');
+
     this.setState({
+      originalMessageIdx: idx,
       originalMessage: this.state.messageList[idx].message,
       isReply: true,
     });
@@ -145,10 +165,27 @@ export default class ChatComponent extends Component {
   handleReply() {
     this.sendMessage();
     this.setState({
+      originalMessageIdx: null,
       originalMessage: '',
       isReply: false,
     });
   }
+  addToRefs(el) {
+    if (el && !this.msgBoxRef.current.includes(el)) {
+      this.msgBoxRef.current.push(el);
+    }
+  }
+
+  scrollReplyTarget(event) {
+    const parentIdx = event.currentTarget.dataset.origin;
+    const target = this.msgBoxRef.current[parentIdx];
+    target.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+      inline: 'nearest',
+    });
+  }
+
   render() {
     const styleChat = { display: this.props.chatDisplay };
     return (
@@ -168,13 +205,14 @@ export default class ChatComponent extends Component {
               <>
                 <div
                   key={i}
-                  id="remoteUsers"
+                  id={'remoteUsers' + i}
                   className={
                     'message' +
                     (data.connectionId !== this.props.user.getConnectionId()
                       ? ' left'
                       : ' right')
                   }
+                  ref={this.addToRefs}
                 >
                   <canvas
                     id={'userImg-' + i}
@@ -193,12 +231,22 @@ export default class ChatComponent extends Component {
                     <div className="msg-content">
                       <span className="triangle" />
                       {data.originalMessage.length > 0 ? (
-                        <MsgBoxReply
-                          message={data.message}
-                          originalMessage={data.originalMessage}
-                        />
+                        <div
+                          data-origin={data.originalIdx}
+                          onClick={this.scrollReplyTarget}
+                        >
+                          <MsgBoxReply
+                            message={data.message}
+                            originalMessage={data.originalMessage}
+                          />
+                        </div>
                       ) : (
-                        <MsgBoxNormal className="text" message={data.message} />
+                        <div data-msgidx={i}>
+                          <MsgBoxNormal
+                            className="text"
+                            message={data.message}
+                          />
+                        </div>
                       )}
                     </div>
                   </div>
@@ -207,14 +255,14 @@ export default class ChatComponent extends Component {
             ))}
           </div>
           {!this.state.isReply ? (
-            <MessageInput
+            <MessageInputNormal
               messageVal={this.state.message}
               handleChange={this.handleChange}
               handleKeyPress={this.handlePressKey}
               sendBtnClick={this.sendMessage}
             />
           ) : (
-            <ReplyMessageInput
+            <MessageInputReply
               originalMessage={this.state.originalMessage}
               messageVal={this.state.message}
               handleChange={this.handleChange}
@@ -222,20 +270,7 @@ export default class ChatComponent extends Component {
               sendReplyBtnClick={this.handleReply}
             />
           )}
-          {/* <div id="messageInput">
-            <input
-              placeholder="Send a messge"
-              id="chatInput"
-              value={this.state.message}
-              onChange={this.handleChange}
-              onKeyPress={this.handlePressKey}
-            />
-            <Tooltip title="Send message">
-              <Fab size="small" id="sendButton" onClick={this.sendMessage}>
-                <Send />
-              </Fab>
-            </Tooltip>
-          </div> */}
+          {/* 오른쪽 버튼 클릭 시 메뉴 */}
           {this.state.isCMenuVisible && (
             <ChatContextMenu
               clientX={this.state.clX}

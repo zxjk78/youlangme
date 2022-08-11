@@ -12,6 +12,8 @@ import OpenViduLayout from '../matchingLayout/openvidu-layout';
 import { connect } from 'react-redux';
 import { resetMatching } from '../matchSlice';
 import HelpTemplate from '../youlangmeCustom/helps/HelpTemplate';
+import MenuSpeedDial from './components/MenuSpeedDial';
+import Box from '@mui/material/Box';
 
 var localUser = new UserModel();
 
@@ -651,9 +653,20 @@ class VideoRoomComponent extends Component {
         {this.state.isHelpModalVisible ? (
           <HelpTemplate toggleModal={this.toggleHelpModal} />
         ) : (
-          <div className="help-btn" onClick={this.toggleHelpModal}>
-            Help
-          </div>
+          <Box
+            sx={{
+              bgcolor: '#000',
+              color: '#fff',
+              position: 'fixed',
+              right: '20px',
+              bottom: '20px',
+            }}
+          >
+            <MenuSpeedDial
+              help={this.toggleHelpModal}
+              // quit={}
+            />
+          </Box>
         )}
       </div>
     );

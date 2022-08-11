@@ -931,7 +931,7 @@
   align-items: center;
   background-color: #c52afe;
   border-radius: 70%;
-  color: #fff;
+  /* color: #fff; */
   font-weight: bold;
   z-index: 500;
 }

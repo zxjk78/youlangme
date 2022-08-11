@@ -15,9 +15,9 @@ import Divider from '@mui/material/Divider';
 // custom component
 
 // css
-import classes from './ReplyMessageInput.module.scss';
+import classes from './MessageInputReply.module.scss';
 
-const ReplyMessageInput = (props) => {
+const MessageInputReply = (props) => {
   const messageValue = props.messageVal;
   const originalMessage = props.originalMessage;
   const handleChange = (event) => {
@@ -25,7 +25,7 @@ const ReplyMessageInput = (props) => {
   };
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      props.handleKeyPress();
+      props.sendReplyBtnClick();
     }
   };
   const handleSendReplyBtnClick = () => {
@@ -81,4 +81,4 @@ const ReplyMessageInput = (props) => {
     </>
   );
 };
-export default ReplyMessageInput;
+export default MessageInputReply;

@@ -87,3 +87,12 @@ export const imgResizing = async (oldFile) => {
 
   return loadToCanvas(convertedImg, oldFile.size);
 };
+
+// DOM 상 요소의 브라우저 x, y 좌표 구하는 함수
+export const getOffset = (el) => {
+  const rect = el.getBoundingClientRect();
+  return {
+    left: rect.left + window.scrollX,
+    top: rect.top + window.scrollY,
+  };
+};
