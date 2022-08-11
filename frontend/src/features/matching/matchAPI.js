@@ -49,7 +49,15 @@ import { API_URL } from '../../common/api/http-config';
 export const fetchNews2 = async (myCountry, yourCountry) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
   // const API_KEY = '413bec14dda64733a04b2f171e99917c';
+  // 그냥 중국은 버림
+  if (
+    myCountry === 'CHINA' ||
+    (myCountry === 'JAPAN' && yourCountry === 'CHINA')
+  ) {
+    return [];
+  }
   const oppoCountry = nationalityNewsMapping[myCountry][yourCountry];
+  console.log('상대방국가명', oppoCountry);
   try {
     const response = await axios.get(
       `${API_URL}meeting/news?countryName=${oppoCountry}`,
@@ -58,7 +66,7 @@ export const fetchNews2 = async (myCountry, yourCountry) => {
       }
     );
     console.log('뉴스정보 ', response);
-    // return response.data;
+    return response.data;
   } catch (error) {
     console.log(error);
   }

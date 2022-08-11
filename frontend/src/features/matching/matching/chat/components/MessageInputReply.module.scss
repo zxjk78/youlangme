@@ -9,6 +9,9 @@
   .grid1 {
     grid-column-start: 1;
     grid-column-end: 6;
+    & > div:nth-of-type(1) {
+      display: flex;
+    }
   }
   .grid2 {
     grid-column-start: 1;
