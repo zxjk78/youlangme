@@ -14,6 +14,7 @@ import MessageInputReply from './components/MessageInputReply';
 import MsgBoxNormal from './components/MsgBoxNormal';
 import MsgBoxReply from './components/MsgBoxReply';
 import { API_URL } from '../../../../common/api/http-config';
+
 export default class ChatComponent extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +51,8 @@ export default class ChatComponent extends Component {
     this.cancelReply = this.cancelReply.bind(this);
     // 스크롤 테스트
     this.scrollReplyTarget = this.scrollReplyTarget.bind(this);
-    this.addToRefs = this.addToRefs.bind(this);
+    this.addToMsgBoxRefs = this.addToMsgBoxRefs.bind(this);
+    this.addToMsgBoxContentRefs = this.addToMsgBoxContentRefs.bind(this);
   }
 
   componentDidMount() {
@@ -89,6 +91,8 @@ export default class ChatComponent extends Component {
     // -------------  youlangme custom
     this.msgBoxRef = React.createRef();
     this.msgBoxRef.current = [];
+    this.msgBoxContentRef = React.createRef();
+    this.msgBoxContentRef.current = [];
   }
 
   handleChange(val) {
@@ -152,9 +156,17 @@ export default class ChatComponent extends Component {
   }
   translateHandler(idx) {
     console.log(idx + '번 말풍선 번역작업');
+    const tanslateMsg = this.state.messageList[idx].message;
+    const isModify = this.state.messageList[idx].originalMessage.length > 0;
+
+    const target = this.msgBoxContentRef.current[idx];
+    console.log(target);
+    target.innerText = '123';
   }
-  copyHandler(idx) {
+  async copyHandler(idx) {
     console.log(idx + '번 말풍선 복사작업');
+    const copyMsg = this.state.messageList[idx].message;
+    await navigator.clipboard.writeText(copyMsg);
   }
   modifyHandler(idx) {
     console.log(idx + '번 말풍선 교정작업');
@@ -173,9 +185,14 @@ export default class ChatComponent extends Component {
       isReply: false,
     });
   }
-  addToRefs(el) {
+  addToMsgBoxRefs(el) {
     if (el && !this.msgBoxRef.current.includes(el)) {
       this.msgBoxRef.current.push(el);
+    }
+  }
+  addToMsgBoxContentRefs(el) {
+    if (el && !this.msgBoxContentRef.current.includes(el)) {
+      this.msgBoxContentRef.current.push(el);
     }
   }
 
@@ -189,7 +206,11 @@ export default class ChatComponent extends Component {
     });
   }
   cancelReply() {
-    this.setState({ isReply: false });
+    this.setState({
+      originalMessageIdx: null,
+      originalMessage: '',
+      isReply: false,
+    });
   }
 
   render() {
@@ -218,7 +239,7 @@ export default class ChatComponent extends Component {
                       ? ' left'
                       : ' right')
                   }
-                  ref={this.addToRefs}
+                  ref={this.addToMsgBoxRefs}
                 >
                   <canvas
                     id={'userImg-' + i}
@@ -242,8 +263,10 @@ export default class ChatComponent extends Component {
                           onClick={this.scrollReplyTarget}
                         >
                           <MsgBoxReply
+                            className="text"
                             message={data.message}
                             originalMessage={data.originalMessage}
+                            ref={this.addToMsgBoxContentRefs}
                           />
                         </div>
                       ) : (
@@ -251,6 +274,7 @@ export default class ChatComponent extends Component {
                           <MsgBoxNormal
                             className="text"
                             message={data.message}
+                            ref={this.addToMsgBoxContentRefs}
                           />
                         </div>
                       )}

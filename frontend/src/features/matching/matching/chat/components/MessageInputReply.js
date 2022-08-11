@@ -36,55 +36,51 @@ const MessageInputReply = (props) => {
   };
   return (
     <>
-      <div className={classes.wrapper}>
-        <div className={classes.container}>
-          <div className={classes.main}>
-            <Box
-              sx={{
-                width: 500,
-                maxWidth: '100%',
-                bgcolor: '#fff',
-                borderRadius: '10px',
-                padding: '8px',
-              }}
-            >
-              <div className={classes.grid1}>
-                <div>
-                  <div>답장</div>
-                  <div onClick={cancelModifyHandler}>
-                    <CloseIcon />
-                  </div>
-                </div>
-                <div>{originalMessage.slice(0, 200)}</div>
-                <Divider />
+      <div className={classes.main}>
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '100%',
+            bgcolor: '#fff',
+            borderRadius: '10px',
+            padding: '8px',
+          }}
+        >
+          <div className={classes.grid1}>
+            <div>
+              <div>답장</div>
+              <div onClick={cancelModifyHandler}>
+                <CloseIcon />
               </div>
-              <div className={classes.grid2}>
-                <TextField
-                  fullWidth
-                  id="fullWidth"
-                  sx={{
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      border: '0 none',
-                    },
-                  }}
-                  value={messageValue}
-                  onChange={handleChange}
-                  onKeyPress={handleKeyPress}
-                />
-              </div>
-              <div className={classes.grid3}>
-                <Button
-                  variant="contained"
-                  endIcon={<SendIcon />}
-                  sx={{}}
-                  onClick={handleSendReplyBtnClick}
-                >
-                  Send
-                </Button>
-              </div>
-            </Box>
+            </div>
+            <div>{originalMessage.slice(0, 200)}</div>
+            <Divider />
           </div>
-        </div>
+          <div className={classes.grid2}>
+            <TextField
+              fullWidth
+              id="fullWidth"
+              sx={{
+                '& .MuiOutlinedInput-notchedOutline': {
+                  border: '0 none',
+                },
+              }}
+              value={messageValue}
+              onChange={handleChange}
+              onKeyPress={handleKeyPress}
+            />
+          </div>
+          <div className={classes.grid3}>
+            <Button
+              variant="contained"
+              endIcon={<SendIcon />}
+              sx={{}}
+              onClick={handleSendReplyBtnClick}
+            >
+              Send
+            </Button>
+          </div>
+        </Box>
       </div>
     </>
   );

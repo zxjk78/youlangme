@@ -33,39 +33,35 @@ const MessageInputNormal = (props) => {
   };
   return (
     <>
-      <div className={classes.wrapper}>
-        <div className={classes.container}>
-          <div className={classes.main}>
-            <Box
-              sx={{
-                width: 500,
-                maxWidth: '100%',
-                bgcolor: '#fff',
-                borderRadius: '16px',
-              }}
-            >
-              <TextField
-                fullWidth
-                id="fullWidth"
-                sx={{
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    border: '0 none',
-                  },
-                }}
-                value={messageValue}
-                onChange={handleChange}
-                onKeyPress={handleKeyPress}
-              />
-              <Button
-                size="small"
-                endIcon={<SendIcon />}
-                onClick={handleSendBtnClick}
-              >
-                Send
-              </Button>
-            </Box>
-          </div>
-        </div>
+      <div className={classes.main}>
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '100%',
+            bgcolor: '#fff',
+            borderRadius: '16px',
+          }}
+        >
+          <TextField
+            fullWidth
+            id="fullWidth"
+            sx={{
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: '0 none',
+              },
+            }}
+            value={messageValue}
+            onChange={handleChange}
+            onKeyPress={handleKeyPress}
+          />
+          <Button
+            size="small"
+            endIcon={<SendIcon />}
+            onClick={handleSendBtnClick}
+          >
+            Send
+          </Button>
+        </Box>
       </div>
     </>
   );
