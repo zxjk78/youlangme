@@ -51,9 +51,12 @@ export const fetchNews2 = async (myCountry, yourCountry) => {
   // const API_KEY = '413bec14dda64733a04b2f171e99917c';
   const oppoCountry = nationalityNewsMapping[myCountry][yourCountry];
   try {
-    const response = await axios.get(`${API_URL}meeting/news?${oppoCountry}`, {
-      headers: { 'X-Auth-Token': accessToken },
-    });
+    const response = await axios.get(
+      `${API_URL}meeting/news?contryName=${oppoCountry}`,
+      {
+        headers: { 'X-Auth-Token': accessToken },
+      }
+    );
     console.log(response);
     return response.data;
   } catch (error) {
