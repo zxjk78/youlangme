@@ -162,12 +162,13 @@ export default class ChatComponent extends Component {
     console.log(idx + '번 말풍선 번역작업');
     const originalMsg = this.state.messageList[idx].message;
     const target = this.msgBoxContentRef.current[idx];
+    const isoCode = iso_code[this.state.myNationality];
     console.log(target);
-    // const translateMsg = await translate(originalMsg, {
-    //   to: iso_code[this.state.myNationality],
-    // });
-    // target.innerText = translateMsg;
-    target.innerText = '121212121';
+    const translateMsg = await translate(originalMsg, {
+      to: isoCode,
+    });
+    target.innerText = translateMsg;
+    // target.innerText = '121212121';
   }
   async copyHandler(idx) {
     console.log(idx + '번 말풍선 복사작업');
