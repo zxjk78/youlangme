@@ -5,12 +5,15 @@ import com.a603.youlangme.dto.matching.MatchingRequestDto;
 import com.a603.youlangme.dto.matching.MatchingResponseDto;
 import com.a603.youlangme.dto.feedback.FeedbackRequestDto;
 import com.a603.youlangme.dto.meeting.MeetingEnterRequestDto;
+import com.a603.youlangme.dto.meeting.TranslateRequestDto;
+import com.a603.youlangme.dto.meeting.TranslateResponseDto;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.response.CommonResult;
 import com.a603.youlangme.response.OneResult;
 import com.a603.youlangme.service.MeetingService;
 import com.a603.youlangme.service.ResponseService;
+import com.a603.youlangme.service.UserService;
 import com.a603.youlangme.util.SHA256;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +33,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import java.security.NoSuchAlgorithmException;
@@ -44,6 +49,8 @@ public class MeetingController {
 
     private final MeetingService meetingService;
     private final ResponseService responseService;
+
+    private final UserService userService;
 
     @PostMapping("/enter/{session_id}")
     public CommonResult enterMeeting(@PathVariable("session_id") String sessionId,
@@ -101,6 +108,36 @@ public class MeetingController {
 
 
         return responseService.getOneResult(map);
+    }
+
+    @PostMapping("/translate")
+    public OneResult<TranslateResponseDto>getTranslate(@RequestBody TranslateRequestDto translateRequestDto){
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        String clientId = "daX_iDO_hwyxJ7HnaOg_";//애플리케이션 클라이언트 아이디값";
+        String clientSecret = "m2chYsXQVb";//애플리케이션 클라이언트 시크릿값";
+
+        String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
+
+        String text;
+        try {
+            text = URLEncoder.encode(translateRequestDto.getContent(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("인코딩 실패", e);
+        }
+
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("X-Naver-Client-Id", clientId);
+        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+
+        String responseBody = userService.postTranslate(apiURL, requestHeaders, text,translateRequestDto.getMyLanguage().toString(),translateRequestDto.getYourLanguage().toString());
+        String[]json=responseBody.split(",");
+        String[]result=json[2].split(":");
+        TranslateResponseDto translateResponseDto= TranslateResponseDto.builder()
+                .translate(result[1])
+                .build();
+        return responseService.getOneResult(translateResponseDto);
     }
 
 }
