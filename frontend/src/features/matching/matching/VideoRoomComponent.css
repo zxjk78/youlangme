@@ -36,20 +36,7 @@
   padding: 0;
 }
 
-/* 그냥 화면에 보여지는 컴포넌트들 올라오는 바운더리 */
-.bounds {
-  background-color: #737373;
-  overflow: hidden;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 100px;
-  height: inherit;
-  /* min-width: 400px !important; */
-  min-width: 400px !important;
-  width: inherit;
-}
+
 
 /*  스크린 추가 */
 /* .screens {
@@ -908,9 +895,6 @@
   z-index: 100;
 } */
 
-.chat-container {
-  margin-right: 100px;
-}
 
 .help-btn {
   width: 70px;
@@ -943,4 +927,50 @@
   /* color: #fff; */
   font-weight: bold;
   z-index: 500;
+}
+
+/* youlanme custom */
+
+#room-container {
+  width: 90vw;
+}
+
+#room-container-chat {
+  width: 80vw;
+}
+
+/* 컴포넌트들 올라오는 바운더리*/
+.bounds {
+  background-color: #737373;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100px;
+  bottom: 100px;
+  height: inherit;
+  /* min-width: 400px !important; */
+  min-width: 400px !important;
+  width: inherit;
+  margin: 0px auto;
+}
+
+.bounds-chat {
+  background-color: #737373;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100px;
+  bottom: 100px;
+  height: inherit;
+  /* min-width: 400px !important; */
+  min-width: 400px !important;
+  width: inherit;
+}
+
+.chat-container {
+  margin-right: 100px;
+  width: 300px;
+  height: 700px;
 }

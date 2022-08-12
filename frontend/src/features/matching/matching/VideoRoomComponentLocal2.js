@@ -17,6 +17,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
+import VideoRoomHeader from './UI/VideoRoomHeader';
 
 var localUser = new UserModel();
 
@@ -594,7 +595,13 @@ class VideoRoomComponent extends Component {
     var chatDisplay = { display: this.state.chatDisplay };
 
     return (
-      <div className="container" id="container">
+      <div
+        className="container"
+        id={`room-container${
+          this.state.chatDisplay === 'block' ? '-chat' : ''
+        }`}
+      >
+        <VideoRoomHeader />
         <ToolbarComponent
           sessionId={mySessionId}
           user={localUser}
@@ -614,7 +621,12 @@ class VideoRoomComponent extends Component {
           cancelClicked={this.closeDialogExtension}
         />
 
-        <div id="layout" className="bounds">
+        <div
+          id="layout"
+          className={`bounds${
+            this.state.chatDisplay === 'block' ? '-chat' : ''
+          }`}
+        >
           <div>임시유저 레이아웃</div>
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
@@ -640,21 +652,20 @@ class VideoRoomComponent extends Component {
               />
             </div>
           ))}
-          {localUser !== undefined &&
-            localUser.getStreamManager() !== undefined && (
-              <div
-                className="OT_root OT_publisher custom-class chat-container"
-                style={chatDisplay}
-              >
-                <ChatComponent
-                  user={localUser}
-                  chatDisplay={this.state.chatDisplay}
-                  close={this.toggleChat}
-                  messageReceived={this.checkNotification}
-                />
-              </div>
-            )}
         </div>
+        {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+          <div
+            className="OT_root OT_publisher custom-class chat-container"
+            style={chatDisplay}
+          >
+            <ChatComponent
+              user={localUser}
+              chatDisplay={this.state.chatDisplay}
+              close={this.toggleChat}
+              messageReceived={this.checkNotification}
+            />
+          </div>
+        )}
         <div>{name}</div>
         <div>{nationality}</div>
 
