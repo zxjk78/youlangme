@@ -13,10 +13,12 @@ import com.a603.youlangme.entity.*;
 import com.a603.youlangme.entity.Favorite;
 import com.a603.youlangme.entity.log.AttendanceLog;
 import com.a603.youlangme.entity.log.MeetingLog;
+import com.a603.youlangme.entity.meta.ExpActivity;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.repository.*;
 import com.a603.youlangme.repository.log.AttendanceLogRepository;
+import com.a603.youlangme.repository.log.ExpLogRepository;
 import com.a603.youlangme.repository.log.MeetingLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +54,8 @@ public class UserService {
     private final ReplyRepository replyRepository;
     private final MeetingLogRepository meetingLogRepository;
     private final AttendanceLogRepository attendanceLogRepository;
+    private final ExpLogRepository expLogRepository;
+    private final ExpActivityRepository expActivityRepository;
 
     private final UserExpRepository userExpRepository;
 
@@ -154,31 +158,41 @@ public class UserService {
 
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
+
         // 총 미팅 시간(초)
-        int meetingTime = 0;
+//        int meetingTime = 0;
 
         // dateTime을 milliseconds로 바꿔 차이를 계산
-        Map<String, Integer> startLog = new HashMap<>();
-        List<MeetingLog> meetingLogs = meetingLogRepository.findAllByUserWithChatRoomLog(user);
-        for (MeetingLog log : meetingLogs) {
-            String sessionId = log.getChatRoomLog().getSessionId();
-            int time = (int)(log.getChatRoomLog().getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000);
-            if (log.getLogType().equals(MeetingLogType.START)) {
-                startLog.put(sessionId, time);
-            } else {
-                // end 로그 시간 - start 로그 시간을 더해준다.
-                if (!startLog.containsKey(sessionId)) continue;
-                meetingTime += time - startLog.get(sessionId);
-                startLog.remove(sessionId);
-            }
-        }
+//        Map<String, Integer> startLog = new HashMap<>();
+//        List<MeetingLog> meetingLogs = meetingLogRepository.findAllByUserWithChatRoomLog(user);
+//        for (MeetingLog log : meetingLogs) {
+//            String sessionId = log.getChatRoomLog().getSessionId();
+//            int time = (int)(log.getChatRoomLog().getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000);
+//            if (log.getLogType().equals(MeetingLogType.START)) {
+//                startLog.put(sessionId, time);
+//            } else {
+//                // end 로그 시간 - start 로그 시간을 더해준다.
+//                if (!startLog.containsKey(sessionId)) continue;
+//                meetingTime += time - startLog.get(sessionId);
+//                startLog.remove(sessionId);
+//            }
+//        }
+
+        // 총 미팅 시간 (분)
+        int meetingTime = expLogRepository.findAllByUserAndActivity(user, expActivityRepository.getReferenceById(3L))
+                .stream()
+                .map(log->log.getMultiBase())
+                .reduce((sum, time)->sum+time).orElse(0);
 
         // 총 대화 참여 횟수
-        Integer meetingCnt = meetingLogRepository.countByUser(user) / 2;
+//        Integer meetingCnt = meetingLogRepository.countByUser(user) / 2;
+        Integer meetingCnt = expLogRepository.countByUserAndActivity(user, expActivityRepository.getReferenceById(3L));
         // 게시글 개수
-        Integer boardCnt = boardRepository.countByAuthor(user);
+//        Integer boardCnt = boardRepository.countByAuthor(user);
+        Integer boardCnt = expLogRepository.countByUserAndActivity(user, expActivityRepository.getReferenceById(1L));
         // 댓글 개수
-        Integer replyCnt = replyRepository.countByUser(user);
+//        Integer replyCnt = replyRepository.countByUser(user);
+        Integer replyCnt = expLogRepository.countByUserAndActivity(user, expActivityRepository.getReferenceById(2L));
         // 총 출석 일수
         Integer attendanceCnt = attendanceLogRepository.countByUser(user);
 
