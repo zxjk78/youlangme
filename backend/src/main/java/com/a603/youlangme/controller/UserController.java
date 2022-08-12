@@ -3,6 +3,8 @@ package com.a603.youlangme.controller;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.aop.LoginUser;
 import com.a603.youlangme.cache.Grass;
+import com.a603.youlangme.dto.ranking.LanguageResponseDto;
+import com.a603.youlangme.dto.ranking.RankLogResponseDto;
 import com.a603.youlangme.dto.user.*;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.repository.UserExpRepository;
@@ -156,6 +158,23 @@ public class UserController {
     public ManyResult<Grass> setGrass(@PathVariable(value = "id") Long id) throws ParseException {
         List<Grass>grassList=userService.setGrassList(id);
         return responseService.getManyResult(grassList);
+    }
+
+    @GetMapping("/langlist")
+    public ManyResult<LanguageResponseDto> LanguageList(Long id){
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        return responseService.getManyResult(userService.TopLanguage(id));
+    }
+
+    @GetMapping("/ranklist/{id}") //각 id 추가
+    public ManyResult<RankLogResponseDto>RankingList(@PathVariable("id")Long id){
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User user=((User)authentication.getPrincipal());
+        return responseService.getManyResult(userService.RankList(id));
+
     }
 
 }
