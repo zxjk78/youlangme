@@ -399,7 +399,7 @@ public class UserService {
 
     public String postTranslate(String apiUrl,Map<String,String> requestHeaders,String text,String my,String you){
         HttpURLConnection con = connect(apiUrl);
-        String postParams = "source="+my+"&target="+you+"&text=" + text; //원본언어: 한국어 (ko) -> 목적언어: 영어 (en)
+        String postParams = "source="+you+"&target="+my+"&text=" + text; //원본언어: 한국어 (ko) -> 목적언어: 영어 (en)
         try {
             con.setRequestMethod("POST");
             for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
