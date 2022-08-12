@@ -619,6 +619,8 @@ class VideoRoomComponent extends Component {
                 <StreamComponent
                   user={localUser}
                   handleNickname={this.nicknameChanged}
+                  // youlangme Custom
+                  camStatusChanged={this.camStatusChanged}
                 />
               </div>
             )}

@@ -13,6 +13,9 @@ import IconButton from '@material-ui/core/IconButton';
 import HighlightOff from '@material-ui/icons/HighlightOff';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
+//----------------- youlangme custom -----------------
+import Videocam from '@material-ui/icons/Videocam';
+
 // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 // const nationality = currentUser.nationality;
 
@@ -29,6 +32,8 @@ export default class StreamComponent extends Component {
     this.handlePressKey = this.handlePressKey.bind(this);
     this.toggleNicknameForm = this.toggleNicknameForm.bind(this);
     this.toggleSound = this.toggleSound.bind(this);
+    //----------------- youlangme custom -----------------
+    this.camStatusChanged = this.camStatusChanged.bind(this);
   }
 
   handleChange(event) {
@@ -57,6 +62,10 @@ export default class StreamComponent extends Component {
         this.setState({ isFormValid: false });
       }
     }
+  }
+  //----------------- youlangme custom -----------------
+  camStatusChanged() {
+    this.props.camStatusChanged();
   }
 
   render() {
@@ -110,11 +119,25 @@ export default class StreamComponent extends Component {
               mutedSound={this.state.mutedSound}
             />
             <div id="statusIcons">
-              {!this.props.user.isVideoActive() ? (
+              {/* {!this.props.user.isVideoActive() ? (
                 <div id="camIcon">
                   <VideocamOff id="statusCam" />
                 </div>
-              ) : null}
+              ) : null} */}
+
+              <IconButton
+                color="inherit"
+                className="navButton"
+                id="navCamButton"
+                onClick={this.camStatusChanged}
+              >
+                {this.props.user !== undefined &&
+                this.props.user.isVideoActive() ? (
+                  <Videocam />
+                ) : (
+                  <VideocamOff color="secondary" />
+                )}
+              </IconButton>
 
               {!this.props.user.isAudioActive() ? (
                 <div id="micIcon">
