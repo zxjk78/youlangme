@@ -9,19 +9,39 @@ import { accessToken, API_URL } from '../../../../common/api/http-config';
 // css
 import classes from './EvaluationTemplate.module.scss';
 
+const header = {
+  "Content-Type": "application/json",
+  "X-Auth-Token": accessToken,
+};
 const EvaluationTemplate = (props) => {
     const closeModal = () => {
         props.toggleModal();
     };
 
-  const [isEvaluation, setIsEvaluation] = useState(null)
+  
 
   const closeSessionTrue = (event) => {
-    closeModal()
+    axios.post(API_URL+"meeting/feedback", {feedback : 1}, {
+      headers: header,
+    }).then((response)=>{
+      console.log(response.data)
+      closeModal()
+    }).catch((err)=>{
+      alert(err.message)
+      closeModal()
+     })
   }
 
   const closeSessionFalse = (event) => {
-    closeModal()
+    axios.post(API_URL+"meeting/feedback", {feedback : 0}, {
+      headers: header,
+    }).then((response)=>{
+      console.log(response.data)
+      closeModal()
+    }).catch((err)=>{
+      alert(err.message)
+      closeModal()
+     })
   }
 
 
