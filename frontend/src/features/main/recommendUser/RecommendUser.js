@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 //component
 import RecommendUserInfo from './RecommendUserInfo';
-import RecommentModal from './RecommentModal';
+import RecommendModal from './RecommendModal';
 //API
 import { fetchRecommendUser } from '../mainAPI';
 //css
@@ -19,8 +19,8 @@ const RecommendUser = (props) => {
   useEffect(() => {
     (async () => {
       const data = await fetchRecommendUser();
-      // setRecommendUser(data);
-      setRecommendUser(data.slice(0,3));
+      setRecommendUser(data);
+      // setRecommendUser(data.slice(0,3));
     })();
 
     setisLoading(false);
@@ -38,7 +38,7 @@ const RecommendUser = (props) => {
       ) : (
         <>
           {recoModalVisible && (
-            <RecommentModal
+            <RecommendModal
               recommendList={recommendUser}
               close={closeRecommendModal}
             />
@@ -63,7 +63,7 @@ const RecommendUser = (props) => {
                 </Button>
               </div>
               <div className={classes.main}>
-                {recommendUser.map((reco) => (
+                {recommendUser.slice(0,3).map((reco) => (
                   <RecommendUserInfo
                     id={reco.followerId}
                     name={reco.name}
