@@ -4,14 +4,15 @@
   padding-top: 10px;
   border: none;
   border-radius: 25px;
-  width: 80%;
+  width: 85%;
   margin: 0px auto;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  cursor: pointer;
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     box-shadow: 5px 5px 5px #d3d3d3;
   }
 
@@ -28,15 +29,24 @@
       .author {
         width: 200px;
         display: flex;
+        margin-bottom: 5px;
 
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 70%;
-          overflow: hidden;
+        &:hover {
+          background:#e9aad944;
+          border-radius: 15px;
+          padding: 5px;
+          // transform: translateY(-5px);
+          // box-shadow: 5px 5px 5px #d3d3d3;
         }
+
+        // img {
+        //   width: 50px;
+        //   height: 50px;
+        //   border-radius: 70%;
+        //   overflow: hidden;
+        // }
         div {
-          font-size: 1.2rem;
+          font-size: 1.3rem;
           font-weight: bold;
         }
       }
@@ -46,7 +56,7 @@
     }
     .content {
       width: 80%;
-      margin: 0px auto;
+      margin: 15px 20px 3px 50px;
       /* 여러 줄 줄이기 위한 코드 3줄 */
       display: -webkit-box;
       -webkit-line-clamp: 3;
@@ -59,11 +69,15 @@
       display: flex;
       justify-content: flex-end;
       .footer {
-        width: 200px;
+        width: 120px;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+
+        .cnt {
+          font-weight: 700;
+        }
       }
     }
   }

@@ -16,8 +16,9 @@ export const fetchUserRanking = async () => {
 export const fetchLanguageRanking = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const accessToken = user ? user.accessToken : null;
+
   try {
-    const response = await axios.get(API_URL + `redis/langList`, {
+    const response = await axios.get(API_URL + `user/langlist`, {
       headers: { 'X-Auth-Token': accessToken },
     });
     return response.data.data;
