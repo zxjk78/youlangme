@@ -11,41 +11,65 @@ from sklearn.preprocessing import LabelEncoder
 from numpy import dot
 from numpy.linalg import norm
 import time
+import pymysql
 
 FAVOIRTE_NUM = 15
+MAX_SCORE = 0.8
+MIN_SCORE = 0.5
+MIN_RATIO = 0.2
+STANDARD_RATIO = 0.8
 
-def vectorize(user):
-    favoriteFlags = [0 for i in range(FAVOIRTE_NUM)]
-    for favoriteId in user["favorites"]:
-        favoriteFlags[favoriteId] = 1
-
-    return favoriteFlags
+def calculate():
+    print("background calculating...")
+    conn = pymysql.connect(host="localhost", user="a603", password="youlangme", db="youlangme")
+    curs = conn.cursor()
+    query = "CREATE TABLE IF NOT EXISTS matching_score_log (id bigint auto_increment primary key, score double)"
+    curs.execute(query)
+    query = "SELECT score FROM matching_score_log ORDER BY id DESC LIMIT 1"
+    curs.execute(query)
+    recent_value = curs.fetchall()
+    renewal_score = 0.7
+    if len(recent_value) != 0:
+        current_score = recent_value[0][0]
+        curs.execute("SELECT feedback FROM matching_feedback ORDER BY id DESC LIMIT 100")
+        data = curs.fetchall()
+        if len(data) != 0:
+            like = 0
+            for row in data:
+                like += int(row[0])
+            ratio = like / len(data)
+            if ratio < STANDARD_RATIO:
+                ratio = min(MIN_RATIO, STANDARD_RATIO - ratio)
+                score = current_score + ((MAX_SCORE - current_score) * ratio)
+                score = min(score, MAX_SCORE)
+            else:
+                ratio = min(MIN_RATIO, ratio - STANDARD_RATIO)
+                score = current_score - ((current_score - MIN_SCORE) * ratio)
+                score = max(score, MIN_SCORE)
+            renewal_score = round(score, 3)
+    query = "INSERT INTO matching_score_log (score) VALUES (%s)"
+    curs.execute(query, renewal_score)
+    curs.close()
+    conn.commit()
+    con = redis.StrictRedis(host="localhost", port=6379, charset="utf-8", decode_responses=True)
+    con.set("match_score", renewal_score)
 
 def cos_sim(A, B):
   return dot(A, B)/(norm(A)*norm(B))
-
-def normalize(data):
-    # 0~1값으로 normalize
-    min_val = min(data)
-    if min_val < 0:
-        data = [x + abs(min_val) for x in data]
-    max_val = max(data)
-    return [x/max_val for x in data]
-
-def one_hot_encoding(df, enc_col):
-    # String to one hot encode
-    ohe_df = pd.get_dummies(df[enc_col])
-    ohe_df.reset_index(drop = True, inplace =True)
-    return pd.concat([df, ohe_df], axis = 1)
     
 MATCH_SCORE = 0.7
 
 #@background(schedule=3)
 def matching():
-    print("background processing....")
     con = redis.StrictRedis(host="localhost", port=6379, charset="utf-8", decode_responses=True)
+    current_score = con.get("match_score")
+    print("background processing....", current_score)
+    correction_score = con.get("score")
+    if correction_score is None:
+        correction_score = 0
+    else:
+        correction_score = int(correction_score)
     visited = set()
-
     matchingOrder = con.lrange("matchingOrder", 0, -1)
     for userId in matchingOrder:
         userInfo = con.hgetall(userId)
@@ -79,10 +103,10 @@ def matching():
         opponentId = -1
         for i in range(1, len(vectorArray)):
             sim = cos_sim(vectorArray[0], vectorArray[i])
-            score = sim + (float(user_count) * 0.1)
+            score = sim + (float(user_count) * 0.05)
             if score >= MATCH_SCORE:
                 target_count = countList[i]
-                target_score = sim + (float(target_count) * 0.1)
+                target_score = sim + (float(target_count) * 0.05)
                 if target_score >= MATCH_SCORE:
                     isMatched = True
                     print(score, target_score)

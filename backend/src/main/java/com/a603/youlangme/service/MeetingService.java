@@ -14,7 +14,6 @@ import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.log.ChatRoomLog;
 import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.enums.ChatRoomLogType;
-import com.a603.youlangme.enums.Feedback;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.MeetingLogType;
 import com.a603.youlangme.repository.log.ChatRoomLogRepository;
@@ -167,7 +166,7 @@ public class MeetingService {
         return chatRoomLog.getId();
     }
 
-    public void saveMatchingFeedback(Long userId, Feedback feedback) {
+    public void saveMatchingFeedback(Long userId, int feedback) {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         matchingFeedbackRepository.save(new MatchingFeedback(feedback, user));
     }
