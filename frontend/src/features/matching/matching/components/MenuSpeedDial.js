@@ -6,6 +6,15 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
+import styled from '@emotion/styled';
+
+const MyBox = styled(Box)`
+  background-color: purple !important;
+  font-size: 100px;
+
+  transform: translateZ(0px);
+`;
+
 const actions = [
   { icon: <HelpIcon />, name: 'Help' },
   { icon: <LogoutIcon />, name: 'Quit' },
@@ -26,14 +35,7 @@ export default function MenuSpeedDial(props) {
     }
   };
   return (
-    <Box
-      sx={{
-        height: 320,
-        transform: 'translateZ(0px)',
-        flexGrow: 1,
-        bgcolor: '#000',
-      }}
-    >
+    <MyBox>
       <SpeedDial
         ariaLabel="SpeedDial basic example"
         sx={{ position: 'absolute', bottom: 16, right: 16 }}
@@ -48,6 +50,6 @@ export default function MenuSpeedDial(props) {
           />
         ))}
       </SpeedDial>
-    </Box>
+    </MyBox>
   );
 }

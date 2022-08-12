@@ -1,17 +1,18 @@
-// left right 는 위에서 받는걸로....
+import React from 'react';
 
 import classes from './MsgBoxNormal.module.scss';
 
-const MsgBoxNormal = (props) => {
+const MsgBoxNormal = React.forwardRef((props, ref) => {
   const message = props.message;
-
   return (
     <>
       <div className={classes.content}>
         <span className="triangle" />
-        <p className="text">{message}</p>
+        <p className="text" ref={ref}>
+          {message}
+        </p>
       </div>
     </>
   );
-};
+});
 export default MsgBoxNormal;

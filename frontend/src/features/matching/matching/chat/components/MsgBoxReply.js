@@ -1,8 +1,8 @@
-// left right 는 위에서 받는걸로....
+import React from 'react';
 
 import classes from './MsgBoxNormal.module.scss';
 
-const MsgBoxReply = (props) => {
+const MsgBoxReply = React.forwardRef((props, ref) => {
   const message = props.message;
   const originalMessage = props.originalMessage;
   return (
@@ -11,9 +11,11 @@ const MsgBoxReply = (props) => {
         <div>교정</div>
         <div>{originalMessage}</div>
         <span className="triangle" />
-        <p className="text">{message}</p>
+        <p className="text" ref={ref}>
+          {message}
+        </p>
       </div>
     </>
   );
-};
+});
 export default MsgBoxReply;

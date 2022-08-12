@@ -38,12 +38,12 @@ export default function MenuListComposition(props) {
             <GTranslateIcon />
             <div className={classes.option}>번역</div>
           </MenuItem>
-          <MenuItem>
-            <ContentCopyIcon onClick={copyHandler} />
+          <MenuItem onClick={copyHandler}>
+            <ContentCopyIcon />
             <div className={classes.option}>복사</div>
           </MenuItem>
-          <MenuItem>
-            <SpellcheckIcon onClick={modifyHandler} />
+          <MenuItem onClick={modifyHandler}>
+            <SpellcheckIcon />
             <div className={classes.option}>교정</div>
           </MenuItem>
         </MenuList>

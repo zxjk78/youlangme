@@ -12,11 +12,16 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
-
+import styled from '@emotion/styled';
 // custom component
 
 // css
 import classes from './MessageInputNormal.module.scss';
+
+const MyButton = styled(Button)`
+  background-color: purple !important;
+  border-radius: 15px !important;
+`;
 
 const MessageInputNormal = (props) => {
   const messageValue = props.messageVal;
@@ -33,39 +38,35 @@ const MessageInputNormal = (props) => {
   };
   return (
     <>
-      <div className={classes.wrapper}>
-        <div className={classes.container}>
-          <div className={classes.main}>
-            <Box
-              sx={{
-                width: 500,
-                maxWidth: '100%',
-                bgcolor: '#fff',
-                borderRadius: '16px',
-              }}
-            >
-              <TextField
-                fullWidth
-                id="fullWidth"
-                sx={{
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    border: '0 none',
-                  },
-                }}
-                value={messageValue}
-                onChange={handleChange}
-                onKeyPress={handleKeyPress}
-              />
-              <Button
-                size="small"
-                endIcon={<SendIcon />}
-                onClick={handleSendBtnClick}
-              >
-                Send
-              </Button>
-            </Box>
-          </div>
-        </div>
+      <div className={classes.main}>
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '100%',
+            bgcolor: '#fff',
+            borderRadius: '16px',
+          }}
+        >
+          <TextField
+            fullWidth
+            id="fullWidth"
+            sx={{
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: '0 none',
+              },
+            }}
+            value={messageValue}
+            onChange={handleChange}
+            onKeyPress={handleKeyPress}
+          />
+          <MyButton
+            size="small"
+            endIcon={<SendIcon />}
+            onClick={handleSendBtnClick}
+          >
+            Send
+          </MyButton>
+        </Box>
       </div>
     </>
   );
