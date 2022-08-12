@@ -1,21 +1,44 @@
 .wrapper {
   width: 100%;
-  height: 28%;
-  background-color: bisque;
+  height: 33%;
+  // background-color: bisque;
+  border: 1px solid #CAD6E2;
   padding: 8px;
   border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .container {
 }
 .header {
   display: flex;
-  justify-content: space-around;
-  font-weight: bold;
-  font-size: 1.2rem;
+  justify-content: space-between;
+  // font-weight: bold;
+  // font-size: 1.2rem;
+
+  .follow_recom {
+    display: flex;
+    margin-left: 20px;
+
+    div {
+      font-size: 1.3rem;
+      font-weight: 700;
+
+      // color: #302c30;
+      color: #676b6e;
+      line-height: 36px;
+      // text-shadow: 2px 2px #d3d3d3;
+    }
+
+  }
+  .more_follow {
+    line-height: 30px;
+  }
 }
 .main {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
+  
 }
 .footer {
 }
