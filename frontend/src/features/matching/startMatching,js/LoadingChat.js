@@ -42,16 +42,20 @@ const LoadingChat = () => {
   }, []);
 
   return (
-    <div className={classes.match_wrapper}>
+    <div className={`${classes.match_wrapper} ${classes.intro_bg}`}>
       <div className={classes.loading_box}>
         <div className={classes.loading_ment}>최적의 상대를</div>
-        <div className={classes.loading_ment}>찾고 있어요!</div>
+        <div className={classes.loading_ment}>찾고 있어요...!</div>
+        <div className={classes.ring}>
+          Loading
+          <span className={classes.ring_side}></span>
+        </div>
       </div>
-    <Box sx={{ width: '70%', height:'50px', mb: 5}}>
-      <BorderLinearProgress color="secondary" 
-        // value={progress} 
-      />
-    </Box>
+      {/* <Box sx={{ width: '70%', height:'50px', mb: 5}}>
+        <BorderLinearProgress color="secondary" 
+          // value={progress} 
+        />
+      </Box> */}
     </div>
 
   );

@@ -95,7 +95,8 @@ const MyLanguages = (props) => {
       languageStatData.push(
         {
           "id": lng,
-          "value": parseInt(languageStat[lng] / 60),
+          // "value": parseInt(languageStat[lng] / 60),
+          "value": languageStat[lng],
         }
       )
     }
