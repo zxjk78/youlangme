@@ -1,4 +1,14 @@
+// 번역 언어코드
+export const iso_code = {
+  KOREA: 'ko',
+  USA: 'en',
+  SPAIN: 'es',
+  JAPAN: 'jp',
+  CHINA: 'cn',
+};
+
 // 내 국적 - 상대방의국적, 뉴스 검색 텍스트를 다르게
+
 export const nationalityNewsMapping = {
   KOREA: {
     KOREA: '한국',

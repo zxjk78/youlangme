@@ -67,7 +67,7 @@ class VideoRoomComponent extends Component {
     this.closeDialogExtension = this.closeDialogExtension.bind(this);
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
-    this.checkSize = this.checkSize.bind(this);;
+    this.checkSize = this.checkSize.bind(this);
     this.nationality = createRef(null);
     // youlangme custom
     this.toggleHelpModal = this.toggleHelpModal.bind(this);
@@ -77,9 +77,9 @@ class VideoRoomComponent extends Component {
 
   checkSubscribers = () => {
     if (this.state.subscribers.length) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   };
 
@@ -165,40 +165,35 @@ class VideoRoomComponent extends Component {
     }
 
     this.timerId = setTimeout(() => {
-      if (!this.checkSubscribers()){
-        alert('상대방이 들어오지 않았습니다.')
-        this.leaveSession()
-        this.abnormalExit()
+      if (!this.checkSubscribers()) {
+        alert('상대방이 들어오지 않았습니다.');
+        this.leaveSession();
+        this.abnormalExit();
       }
     }, 15000);
-    
-    
+
     setTimeout(() => {
-      this.setState({timer : true})
-      console.log(this.state.timer)
-      
+      this.setState({ timer: true });
+      console.log(this.state.timer);
     }, 60000);
-  
+
     // this.joinSession();
   }
 
-  
-   
   componentWillUnmount() {
-    clearTimeout(this.timerId)
+    clearTimeout(this.timerId);
     window.removeEventListener('beforeunload', this.onbeforeunload);
     window.removeEventListener('beforeunload', this.openTimer);
     window.removeEventListener('resize', this.updateLayout);
     window.removeEventListener('resize', this.checkSize);
-   
   }
 
   onbeforeunload(event) {
-    event.preventDefault()
+    event.preventDefault();
 
-    const checker = this.checkSubscribers()
+    const checker = this.checkSubscribers();
 
-    if (checker && this.state.timer){
+    if (checker && this.state.timer) {
       axios
         .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
           headers: {
@@ -211,34 +206,33 @@ class VideoRoomComponent extends Component {
           this.normalExit();
         })
         .catch((err) => {
-         console.log(err.message);
+          console.log(err.message);
         });
-    } else if (checker && !this.state.timer){
-        axios
-          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
-            headers: {
+    } else if (checker && !this.state.timer) {
+      axios
+        .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+          headers: {
             'X-AUTH-TOKEN': accessToken,
           },
         })
-          .then((res) => {
-            console.log(res.data);
-            console.log(this.checkSubscribers())
-            this.leaveSession();
-            this.abnormalExit();
-          })
+        .then((res) => {
+          console.log(res.data);
+          console.log(this.checkSubscribers());
+          this.leaveSession();
+          this.abnormalExit();
+        })
         .catch((err) => {
-            console.log(err.message);
+          console.log(err.message);
         });
-      
-      }  else if(!checker && !this.state.timer){
-          this.leaveSession()
-          this.abnormalExit()
-      } else if(!checker && this.state.timer){
-          this.leaveSession()
-          this.normalExit()
-      } else {
-        if (this.state.timer){
-          axios
+    } else if (!checker && !this.state.timer) {
+      this.leaveSession();
+      this.abnormalExit();
+    } else if (!checker && this.state.timer) {
+      this.leaveSession();
+      this.normalExit();
+    } else {
+      if (this.state.timer) {
+        axios
           .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
             headers: {
               'X-AUTH-TOKEN': accessToken,
@@ -250,10 +244,10 @@ class VideoRoomComponent extends Component {
             this.normalExit();
           })
           .catch((err) => {
-           console.log(err.message);
+            console.log(err.message);
           });
-        } else {
-          axios
+      } else {
+        axios
           .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
             headers: {
               'X-AUTH-TOKEN': accessToken,
@@ -265,12 +259,11 @@ class VideoRoomComponent extends Component {
             this.abnormalExit();
           })
           .catch((err) => {
-           console.log(err.message);
+            console.log(err.message);
           });
-        }
       }
-
     }
+  }
 
   joinSession() {
     this.OV = new OpenVidu();
@@ -477,7 +470,7 @@ class VideoRoomComponent extends Component {
   subscribeToStreamCreated() {
     this.state.session.on('streamCreated', (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined);
-      console.log('subscriber', subscriber)
+      console.log('subscriber', subscriber);
       // var subscribers = this.state.subscribers;
       subscriber.on('streamPlaying', (e) => {
         this.checkSomeoneShareScreen();
@@ -497,7 +490,7 @@ class VideoRoomComponent extends Component {
       }
     });
   }
-  
+
   subscribeToStreamDestroyed() {
     // On every Stream destroyed...
     this.state.session.on('streamDestroyed', (event) => {
@@ -506,7 +499,7 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
-      clearTimeout(this.timerId)
+      clearTimeout(this.timerId);
       alert('상대방이 나가셨습니다.');
     });
   }
@@ -822,6 +815,7 @@ class VideoRoomComponent extends Component {
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
                   messageReceived={this.checkNotification}
+                  myNationality={this.state.nationality}
                 />
               </div>
             )}
@@ -847,17 +841,17 @@ class VideoRoomComponent extends Component {
           >
             <MenuSpeedDial
               help={this.toggleHelpModal}
-              // quit={}
+              quit={this.onbeforeunload}
             />
           </Box>
         )}
-        <div>
+        {/* <div>
           <ExitToAppIcon
             className="evaluation-btn"
             fontSize="large"
             onClick={this.onbeforeunload}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

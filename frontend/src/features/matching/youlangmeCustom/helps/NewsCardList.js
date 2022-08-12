@@ -22,19 +22,18 @@ const NewsCardList = (props) => {
   const [loading, setLoading] = useState(true);
   // const [remoteUserNationality, setRemoteUserNationality] = useState(null);
   const [articles, setArticles] = useState([]);
-  // const [loadedArticles, setLoadedArticles] = useState([]);
   const [page, setPage] = useState(0);
   const myNationality = props.myNationality;
   const yourNationality = props.yourNationality;
-  // const myNationality = 'JAPAN';
-  // const yourNationality = 'CHINA';
+  // const myNationality = 'USA';
+  // const yourNationality = 'JAPAN';
   useEffect(() => {
     (async () => {
       // 내 국가 언어, 상대 국가 뉴스 받는 api
       const data = await fetchNews2(myNationality, yourNationality);
-      // console.log(data);
-      setArticles(data.articles);
-      setLoading(false);
+      setArticles(() => data.articles);
+
+      setLoading(() => false);
     })();
   }, []);
 
@@ -69,7 +68,7 @@ const NewsCardList = (props) => {
                 ) : (
                   <div>Start</div>
                 )}
-                {page * 4 <= articles.length ? (
+                {(page + 1) * 4 < articles.length ? (
                   <div>
                     <ArrowForwardIosIcon onClick={showNext} />
                   </div>
@@ -78,21 +77,23 @@ const NewsCardList = (props) => {
                 )}
               </div>
             </div>
-            <div className={classes.main}>
-              {articles.length > 0 ? (
-                articles
+            {articles.slice(page * 4, page * 4 + 4).length === 0 ? (
+              <div className={classes.main2}>
+                적합한 검색 결과가 없습니다.- 나중에 꾸미기
+              </div>
+            ) : (
+              <div className={classes.main}>
+                {articles
                   .slice(page * 4, page * 4 + 4)
-                  .map((article) => (
+                  .map((article, index) => (
                     <NewsCard
-                      key={article.title}
+                      key={article.url + index}
                       article={article}
                       openOrigin={openOriginHandler}
                     />
-                  ))
-              ) : (
-                <div>검색 결과가 없습니다. </div>
-              )}
-            </div>
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       )}

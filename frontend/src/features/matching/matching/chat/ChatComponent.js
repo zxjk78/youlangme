@@ -13,7 +13,9 @@ import MessageInputNormal from './components/MessageInputNormal';
 import MessageInputReply from './components/MessageInputReply';
 import MsgBoxNormal from './components/MsgBoxNormal';
 import MsgBoxReply from './components/MsgBoxReply';
-import { API_URL } from '../../../../common/api/http-config';
+import translate from 'translate-google-api';
+import { iso_code } from '../../../../common/utils/data/nationalityData';
+
 export default class ChatComponent extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,7 @@ export default class ChatComponent extends Component {
       messageList: [],
       message: '',
       // youlangmeCustum
-      // 메뉴 관련 state 4
+      // context 메뉴 관련 state 4
       isCMenuVisible: false,
       clX: null,
       clY: null,
@@ -30,6 +32,9 @@ export default class ChatComponent extends Component {
       originalMessage: '',
       originalMessageIdx: null,
       isReply: false,
+      // 번역 관련 state 1
+      myNationality: props.myNationality,
+      // myNationality: 'KOREA',
     };
     this.chatScroll = React.createRef();
 
@@ -50,7 +55,8 @@ export default class ChatComponent extends Component {
     this.cancelReply = this.cancelReply.bind(this);
     // 스크롤 테스트
     this.scrollReplyTarget = this.scrollReplyTarget.bind(this);
-    this.addToRefs = this.addToRefs.bind(this);
+    this.addToMsgBoxRefs = this.addToMsgBoxRefs.bind(this);
+    this.addToMsgBoxContentRefs = this.addToMsgBoxContentRefs.bind(this);
   }
 
   componentDidMount() {
@@ -89,6 +95,8 @@ export default class ChatComponent extends Component {
     // -------------  youlangme custom
     this.msgBoxRef = React.createRef();
     this.msgBoxRef.current = [];
+    this.msgBoxContentRef = React.createRef();
+    this.msgBoxContentRef.current = [];
   }
 
   handleChange(val) {
@@ -150,11 +158,21 @@ export default class ChatComponent extends Component {
       targetMsgIdx: idx,
     });
   }
-  translateHandler(idx) {
+  async translateHandler(idx) {
     console.log(idx + '번 말풍선 번역작업');
+    const originalMsg = this.state.messageList[idx].message;
+    const target = this.msgBoxContentRef.current[idx];
+    console.log(target);
+    // const translateMsg = await translate(originalMsg, {
+    //   to: iso_code[this.state.myNationality],
+    // });
+    // target.innerText = translateMsg;
+    target.innerText = '121212121';
   }
-  copyHandler(idx) {
+  async copyHandler(idx) {
     console.log(idx + '번 말풍선 복사작업');
+    const copyMsg = this.state.messageList[idx].message;
+    await navigator.clipboard.writeText(copyMsg);
   }
   modifyHandler(idx) {
     console.log(idx + '번 말풍선 교정작업');
@@ -173,9 +191,14 @@ export default class ChatComponent extends Component {
       isReply: false,
     });
   }
-  addToRefs(el) {
+  addToMsgBoxRefs(el) {
     if (el && !this.msgBoxRef.current.includes(el)) {
       this.msgBoxRef.current.push(el);
+    }
+  }
+  addToMsgBoxContentRefs(el) {
+    if (el && !this.msgBoxContentRef.current.includes(el)) {
+      this.msgBoxContentRef.current.push(el);
     }
   }
 
@@ -189,7 +212,11 @@ export default class ChatComponent extends Component {
     });
   }
   cancelReply() {
-    this.setState({ isReply: false });
+    this.setState({
+      originalMessageIdx: null,
+      originalMessage: '',
+      isReply: false,
+    });
   }
 
   render() {
@@ -198,13 +225,14 @@ export default class ChatComponent extends Component {
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
           <div id="chatToolbar">
-            <span>
-              {this.props.user.getStreamManager().stream.session.sessionId} -
-              CHAT
-            </span>
-            <IconButton id="closeButton" onClick={this.close}>
+            <div>
+              {/* {this.props.user.getStreamManager().stream.session.sessionId} -
+              CHAT */}
+              상대방과의 대화
+            </div>
+            <div id="closeButton" onClick={this.close}>
               <HighlightOff color="secondary" />
-            </IconButton>
+            </div>
           </div>
           <div className="message-wrap" ref={this.chatScroll}>
             {this.state.messageList.map((data, i) => (
@@ -218,7 +246,7 @@ export default class ChatComponent extends Component {
                       ? ' left'
                       : ' right')
                   }
-                  ref={this.addToRefs}
+                  ref={this.addToMsgBoxRefs}
                 >
                   <canvas
                     id={'userImg-' + i}
@@ -242,8 +270,10 @@ export default class ChatComponent extends Component {
                           onClick={this.scrollReplyTarget}
                         >
                           <MsgBoxReply
+                            className="text"
                             message={data.message}
                             originalMessage={data.originalMessage}
+                            ref={this.addToMsgBoxContentRefs}
                           />
                         </div>
                       ) : (
@@ -251,6 +281,7 @@ export default class ChatComponent extends Component {
                           <MsgBoxNormal
                             className="text"
                             message={data.message}
+                            ref={this.addToMsgBoxContentRefs}
                           />
                         </div>
                       )}
