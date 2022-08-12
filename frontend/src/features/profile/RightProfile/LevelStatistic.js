@@ -101,7 +101,7 @@ const LevelStatistic = (props) => {
     }
   }, [userId]);
 
-  const meetingTime = parseInt(levelDetail.meetingTime / 60);
+  // const meetingTime = parseInt(levelDetail.meetingTime / 60);
 
   const levelDetailData = [
     {
@@ -121,7 +121,7 @@ const LevelStatistic = (props) => {
     },
     {
       "detail": "총 대화시간",
-      "exp": meetingTime * 2,
+      "exp": levelDetail.meetingTime * 2,
       "expColor": "hsl(62, 70%, 50%)"
     },
   ]
@@ -132,7 +132,7 @@ const LevelStatistic = (props) => {
     let eachValue = levelDetail.replyCnt;
     if (item.indexValue === '총 대화시간') {
       unit = '분';
-      eachValue = meetingTime ;
+      eachValue = levelDetail.meetingTime;
     } else if (item.indexValue === '출석 일수' ) {
       unit = '일';
       eachValue = levelDetail.attendanceCnt;

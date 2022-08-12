@@ -95,7 +95,8 @@ const MyLanguages = (props) => {
       languageStatData.push(
         {
           "id": lng,
-          "value": parseInt(languageStat[lng] / 60),
+          // "value": parseInt(languageStat[lng] / 60),
+          "value": languageStat[lng],
         }
       )
     }
@@ -122,7 +123,7 @@ const MyLanguages = (props) => {
           >
             <ResponsivePie
               data={languageStatData}
-              margin={{ top: 10, right: 20, bottom: 10, left: 0 }}
+              margin={{ top: 15, right: 30, bottom: 20, left: 0 }}
               startAngle={-20}
               innerRadius={0.5}
               cornerRadius={3} 
@@ -165,7 +166,7 @@ const MyLanguages = (props) => {
                       direction: 'column',
                       justify: false,
                       translateX: -30,
-                      translateY: 40,
+                      translateY: 50,
                       itemsSpacing: 18,
                       itemWidth: 68,
                       itemHeight: 10,
