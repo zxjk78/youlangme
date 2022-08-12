@@ -170,6 +170,9 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20002,'2022-08-01 12:21:22.232051','START','KOREAN',10001,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20003,'2022-08-01 12:30:52.232051','END','ENGLISH',10002,1003);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20004,'2022-08-01 12:30:52.232051','END','KOREAN',10002,1001);
+    -- 경험치 획득 로그
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3001,10002,3,1001,9);
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3002,10002,3,1003,9);
 
     -- session   userbot1 & userbot4 (12분)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10003,'2022-08-02 14:30:22.232051','OPEN','testsessionabcdefgi7a603testsessionid2');
@@ -178,6 +181,9 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20006,'2022-08-02 14:30:22.232051','START','KOREAN',10003,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20007,'2022-08-02 14:42:22.232051','END','ENGLISH',10004,1004);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20008,'2022-08-02 14:42:22.232051','END','KOREAN',10004,1001);
+    -- 경험치 획득 로그
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3003,10004,3,1001,12);
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3004,10004,3,1004,12);
 
     -- session   userbot2 & userbot5 (8분 10초)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10005,'2022-08-02 14:31:22.232051','OPEN','testsessionabcdefgi7a603testsessionid3');
@@ -186,6 +192,9 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20010,'2022-08-02 14:31:22.232051','START','KOREAN',10005,1002);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20011,'2022-08-02 14:39:32.232051','END','CHINESE',10006,1005);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20012,'2022-08-02 14:39:32.232051','END','KOREAN',10006,1002);
+    -- 경험치 획득 로그
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3005,10006,3,1002,8);
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3006,10006,3,1005,8);
 
     -- session   userbot4 & userbot6 (1분 30초)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10007,'2022-08-03 09:31:22.232051','OPEN','testsessionabcdefgi7a603testsessionid4');
@@ -194,6 +203,9 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20014,'2022-08-03 09:31:22.232051','START','ENGLISH',10007,1004);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20015,'2022-08-03 09:32:52.232051','END','SPANISH',10008,1006);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20016,'2022-08-03 09:32:52.232051','END','ENGLISH',10008,1004);
+    -- 경험치 획득 로그
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3007,10008,3,1004,1);
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3008,10008,3,1006,1);
 
     -- session   userbot5 & userbot6 (2분)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10009,'2022-08-03 09:35:22.232051','OPEN','testsessionabcdefgi7a603testsessionid5');
@@ -202,6 +214,9 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20018,'2022-08-03 09:35:22.232051','START','JAPANESE',10009,1005);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20019,'2022-08-03 09:37:22.232051','END','ENGLISH',10010,1006);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20020,'2022-08-03 09:37:22.232051','END','JAPANESE',10010,1005);
+    -- 경험치 획득 로그
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3009,10010,3,1005,2);
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3010,10010,3,1006,2);
 
     -- session   userbot1 & userbot2 (35분 20초)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10011,'2022-08-05 12:00:22.232051','OPEN','testsessionabcdefgi7a603testsessionid6');
@@ -210,6 +225,9 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20022,'2022-08-05 12:00:22.232051','START','KOREAN',10011,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20023,'2022-08-05 12:35:42.232051','END','ENGLISH',10012,1002);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20024,'2022-08-05 12:35:42.232051','END','KOREAN',10012,1001);
+    -- 경험치 획득 로그
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3011,10012,3,1001,35);
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3012,10012,3,1002,35);
 
     -- session   userbot1 & userbot2 (22분)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10013,'2022-08-07 14:30:22.232051','OPEN','testsessionabcdefgi7a603testsessionid7');
@@ -218,6 +236,9 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20026,'2022-08-07 14:30:22.232051','START','KOREAN',10013,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20027,'2022-08-07 14:52:22.232051','END','ENGLISH',10014,1002);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20028,'2022-08-07 14:52:22.232051','END','KOREAN',10014,1001);
+    -- 경험치 획득 로그
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3013,10014,3,1001,22);
+    INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (3014,10014,3,1002,22);
 
 -- 출석 로그
 INSERT INTO attendance_log (`id`,`created_time`,`user_id`) VALUES (1234,'2022-08-01 14:30:22.232051',1001);
