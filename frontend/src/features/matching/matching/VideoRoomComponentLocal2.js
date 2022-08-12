@@ -14,6 +14,9 @@ import { resetMatching } from '../matchSlice';
 import HelpTemplate from '../youlangmeCustom/helps/HelpTemplate';
 import MenuSpeedDial from './components/MenuSpeedDial';
 import Box from '@mui/material/Box';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
 
 var localUser = new UserModel();
 
@@ -621,6 +624,7 @@ class VideoRoomComponent extends Component {
                   handleNickname={this.nicknameChanged}
                   // youlangme Custom
                   camStatusChanged={this.camStatusChanged}
+                  micStatusChanged={this.micStatusChanged}
                 />
               </div>
             )}
@@ -672,6 +676,17 @@ class VideoRoomComponent extends Component {
             />
           </Box>
         )}
+
+        {/* <IconButton
+          color="secondary"
+          onClick={this.toggleChat}
+          id="navChatButton"
+        >
+          {this.showNotification && <div id="point" className="" />}
+          <Tooltip title="Chat">
+            <QuestionAnswer />
+          </Tooltip>
+        </IconButton> */}
       </div>
     );
   }

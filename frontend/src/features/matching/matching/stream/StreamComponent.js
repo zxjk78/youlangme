@@ -15,6 +15,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 
 //----------------- youlangme custom -----------------
 import Videocam from '@material-ui/icons/Videocam';
+import Mic from '@material-ui/icons/Mic';
 
 // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 // const nationality = currentUser.nationality;
@@ -34,6 +35,7 @@ export default class StreamComponent extends Component {
     this.toggleSound = this.toggleSound.bind(this);
     //----------------- youlangme custom -----------------
     this.camStatusChanged = this.camStatusChanged.bind(this);
+    this.micStatusChanged = this.micStatusChanged.bind(this);
   }
 
   handleChange(event) {
@@ -67,7 +69,9 @@ export default class StreamComponent extends Component {
   camStatusChanged() {
     this.props.camStatusChanged();
   }
-
+  micStatusChanged() {
+    this.props.micStatusChanged();
+  }
   render() {
     return (
       <div className="OT_widget-container">
@@ -139,11 +143,25 @@ export default class StreamComponent extends Component {
                 )}
               </IconButton>
 
-              {!this.props.user.isAudioActive() ? (
+              {/* {!this.props.user.isAudioActive() ? (
                 <div id="micIcon">
                   <MicOff id="statusMic" />
                 </div>
-              ) : null}
+              ) : null} */}
+
+              <IconButton
+                color="inherit"
+                className="navButton"
+                id="navMicButton"
+                onClick={this.micStatusChanged}
+              >
+                {this.props.user !== undefined &&
+                this.props.user.isAudioActive() ? (
+                  <Mic />
+                ) : (
+                  <MicOff color="secondary" />
+                )}
+              </IconButton>
             </div>
             {/* <div>
               {!this.props.user.isLocal() && (

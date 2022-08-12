@@ -43,8 +43,8 @@ export const translate = async (myLangCode, yourLangCode, content) => {
         },
       }
     );
-    console.log(response);
-    // return response.data.data
+    // console.log(response);
+    return response.data.data.translate;
   } catch (error) {
     console.log(error);
   }
