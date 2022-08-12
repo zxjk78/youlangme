@@ -5,7 +5,7 @@ import ConfirmChat from "./startMatching,js/ConfirmChat";
 
 const StartMatching = () => {
   const [matchLoading, setMatchLoading] = useState(false);
-  const [matchConfirm, setMatchConfirm] = useState(true);
+  const [matchConfirm, setMatchConfirm] = useState(false);
   const [matching, setMatching] = useState(false);
   const [sessionId, setSessionId] = useState('')
   const [opponentId, setOpponentId] = useState(null)

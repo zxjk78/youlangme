@@ -44,30 +44,30 @@ const ConfirmChat = (props) => {
     const [youInfo, setYouInfo] = useState(null)
     const [myImage, setMyImage] = useState(null)
     const [yourImage, setYourImage] = useState(null) 
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [loading, setLoading] = useState(false)
     
-    // useEffect(()=>{
-    //   if(props.matchConfirm){
-    //     setTimeout(() => {
-    //       props.setOpponentId(null)
-    //       props.setSessionId('')
-    //       props.setMyData(null)
-    //       props.setYourData(null)
-    //       props.setMyProfile(null)
-    //       props.setYourProfile(null)
-    //       props.setMatchConfirm(false)
-    //     }, 25000);
+    useEffect(()=>{
+      if(props.matchConfirm){
+        setTimeout(() => {
+          props.setOpponentId(null)
+          props.setSessionId('')
+          props.setMyData(null)
+          props.setYourData(null)
+          props.setMyProfile(null)
+          props.setYourProfile(null)
+          props.setMatchConfirm(false)
+        }, 25000);
     
-    //   }
-    //   return ()=>{
-      //     setMyInfo(null)
-      //     setMyImage(null)
-      //     setYouInfo(null)
-      //     setYourImage(null)
+      }
+      return ()=>{
+          setMyInfo(null)
+          setMyImage(null)
+          setYouInfo(null)
+          setYourImage(null)
       
-      //   }
-      // }, [props.matchConfirm, loading])
+        }
+      }, [props.matchConfirm])
       
 
       const matchingHandler = () =>{
@@ -116,8 +116,8 @@ const ConfirmChat = (props) => {
     (async () => {
       if(props.matchConfirm){
         setIsLoading(true)
-        const data1 = await fetchProfile(1002);
-        const data1Image = await fetchProfileImg(1002);
+        const data1 = await fetchProfile(props.opponentId);
+        const data1Image = await fetchProfileImg(props.opponentId);
         setYouInfo(data1)
         setYourImage(data1Image)
         props.setYourData(data1)
@@ -125,9 +125,7 @@ const ConfirmChat = (props) => {
         setIsLoading(false)
       }
     })()
-  }, [props.matchConfirm, 
-      // props.opponentId
-    ])
+  }, [props.matchConfirm, props.opponentId])
     
     
     const myNationalityCode = MyInfo ? iso_code[MyInfo.nationality] : null
