@@ -1,22 +1,23 @@
 import django
 django.setup()
 from matchmaking_app.tasks import matching
+from matchmaking_app.tasks import calculate
 import threading
 class AsyncTask:
     def init(self):
         pass
-    def TaskA(self):
+    def MatchingTask(self):
         matching()
-        threading.Timer(1,self.TaskB).start()
-    def TaskB(self):
-        threading.Timer(2,self.TaskA).start()
-
+        threading.Timer(3, self.MatchingTask).start()
+    def MatchingScoreCalculateTask(self):
+        calculate()
+        threading.Timer(5, self.MatchingScoreCalculateTask).start()
 
 
 def startup():
     at = AsyncTask()
-    at.TaskB()
-    # matching(repeat=3)
+    at.MatchingTask()
+    at.MatchingScoreCalculateTask()
     pass
 
 startup()
