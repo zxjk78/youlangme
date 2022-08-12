@@ -1,6 +1,20 @@
 .recommendUser {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  .recom_user_profile {
+    margin-left: 10px;
+    width: 50%;
+    // height: 20px;
+
+    &:hover {
+      background:rgba(197, 169, 136, 0.286);
+      border-radius: 15px;
+      padding: 3px;
+    }
+
+  }
+  
 }
-button {
-  width: 100px;
-}
+

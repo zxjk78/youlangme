@@ -8,6 +8,10 @@ import { fetchRecommendUser } from '../mainAPI';
 //css
 import classes from './RecommendUser.module.scss';
 
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import { grey } from '@mui/material/colors';
+import { Button } from '@mui/material';
+
 const RecommendUser = (props) => {
   const [isLoading, setisLoading] = useState(true);
   const [recommendUser, setRecommendUser] = useState([]);
@@ -15,7 +19,8 @@ const RecommendUser = (props) => {
   useEffect(() => {
     (async () => {
       const data = await fetchRecommendUser();
-      setRecommendUser(data);
+      // setRecommendUser(data);
+      setRecommendUser(data.slice(0,3));
     })();
 
     setisLoading(false);
@@ -41,8 +46,21 @@ const RecommendUser = (props) => {
           <div className={classes.wrapper}>
             <div className={classes.container}>
               <div className={classes.header}>
-                <div>팔로우 추천</div>
-                <div onClick={showRecommendModal}>더보기</div>
+                <div className={classes.follow_recom}>
+                  <PersonAddAltIcon sx={{  fontSize: 40,  mr: 2, color: grey[500]}} />
+  
+                  <div>
+                    팔로우 추천
+                  </div> 
+
+                </div>
+                <Button onClick={showRecommendModal}
+                  className={classes.more_follow}
+                  size="small"
+                  color="inherit"
+                  sx={{ width: '20px', height:'30px'}}>
+                  더보기
+                </Button>
               </div>
               <div className={classes.main}>
                 {recommendUser.map((reco) => (
