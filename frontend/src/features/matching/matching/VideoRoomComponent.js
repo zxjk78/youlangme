@@ -189,8 +189,6 @@ class VideoRoomComponent extends Component {
   }
 
   onbeforeunload(event) {
-    event.preventDefault();
-
     const checker = this.checkSubscribers();
 
     if (checker && this.state.timer) {
