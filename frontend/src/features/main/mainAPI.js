@@ -44,36 +44,36 @@ export const fetchRecommendUser = async () => {
   }
 };
 
-export const sendFollow = async (userId) => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const accessToken = user.accessToken;
-  try {
-    const response = await axios.post(
-      API_URL + `follow/${userId}`,
-      {},
-      {
-        headers: {
-          'X-AUTH-TOKEN': accessToken,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// export const sendFollow = async (userId) => {
+//   const user = JSON.parse(localStorage.getItem('user'));
+//   const accessToken = user.accessToken;
+//   try {
+//     const response = await axios.post(
+//       API_URL + `follow/${userId}`,
+//       {},
+//       {
+//         headers: {
+//           'X-AUTH-TOKEN': accessToken,
+//         },
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
-export const sendUnFollow = async (userId) => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const accessToken = user.accessToken;
-  try {
-    const response = await axios.delete(API_URL + `follow/${userId}`, {
-      headers: {
-        'X-AUTH-TOKEN': accessToken,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// export const sendUnFollow = async (userId) => {
+//   const user = JSON.parse(localStorage.getItem('user'));
+//   const accessToken = user.accessToken;
+//   try {
+//     const response = await axios.delete(API_URL + `follow/${userId}`, {
+//       headers: {
+//         'X-AUTH-TOKEN': accessToken,
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

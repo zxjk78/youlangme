@@ -5,6 +5,7 @@ import classes from './RecommendModal.module.scss';
 import { IconButton} from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { grey } from '@mui/material/colors';
+import { useState } from 'react';
 
 
 const style = {
@@ -21,9 +22,28 @@ const style = {
 };
 
 const RecommendModal = (props) => {
+  // const [isFollowBtnTouched, setIsFollowBtnTouched] = useState(false);
+  
   const closeModal = () => {
     props.close();
+    window.location.reload();
+    // 팔로우 언팔로우 변경하면 모달 닫고 나서 오른쪽 아래에
+    // 팔로우 추천 화면이 변화를 따라가지 못함.
+    // 그리고 팔로우 취소했을때 피드에 내가 이제 팔로우 안하는 사람 글이 안떠야되는데
+    // 그러려면 그냥 새로고침으로!
+
+    // if (isFollowBtnTouched) {
+    // }
   };
+
+  // const getFollowChangeOrNot = (isChanged) => {
+  //   if (isChanged) {
+  //     return setIsFollowBtnTouched(true); 
+      
+  //   } else {
+  //     setIsFollowBtnTouched(false)
+  //   } 
+  // }
 
   return (
     <>
@@ -44,7 +64,8 @@ const RecommendModal = (props) => {
               {props.recommendList.map((reco) => (
                 <div  className={classes.follow_user}>
                   <RecommendUserInfo
-                    id={reco.followerId}
+                    // onFollowChangeHandler={getFollowChangeOrNot}
+                    userId={reco.followerId}
                     name={reco.name}
                     nationality={reco.nationality}
                     key={reco.followerId}
@@ -61,4 +82,5 @@ const RecommendModal = (props) => {
     </>
   );
 };
+
 export default RecommendModal;
