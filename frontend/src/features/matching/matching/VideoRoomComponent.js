@@ -105,9 +105,9 @@ class VideoRoomComponent extends Component {
     window.addEventListener('resize', this.updateLayout);
     window.addEventListener('resize', this.checkSize);
     window.addEventListener('beforeunload', () => {
-      const checker = this.checkSubscribers()
+      const checker = this.checkSubscribers();
 
-      if (checker && this.state.timer){
+      if (checker && this.state.timer) {
         axios
           .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
             headers: {
@@ -120,25 +120,25 @@ class VideoRoomComponent extends Component {
             this.normalExit();
           })
           .catch((err) => {
-           console.log(err.message);
+            console.log(err.message);
           });
-      } else if (checker && !this.state.timer){
-          axios
-            .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
-              headers: {
+      } else if (checker && !this.state.timer) {
+        axios
+          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+            headers: {
               'X-AUTH-TOKEN': accessToken,
             },
           })
-            .then((res) => {
-              console.log(res.data);
-              console.log(this.checkSubscribers())
-              this.leaveSession();
-              this.abnormalExit();
-            })
+          .then((res) => {
+            console.log(res.data);
+            console.log(this.checkSubscribers());
+            this.leaveSession();
+            this.abnormalExit();
+          })
           .catch((err) => {
-              console.log(err.message);
+            console.log(err.message);
           });
-        }
+      }
       this.componentWillUnmount();
     });
     try {
@@ -147,14 +147,19 @@ class VideoRoomComponent extends Component {
         const myName = this.props.location.state.MyInfo.name;
         const myNationality = this.props.location.state.MyInfo.nationality;
         const yourNationality = this.props.location.state.youInfo.nationality;
+        const myLanguage = this.props.location.state.MyInfo.mylanguage;
+        const yourLanguage = this.props.location.state.MyInfo.yourlanguage;
 
-        console.log('이름, 국적', myName, myNationality);
-        console.log('상대국적', yourNationality);
+        console.log(
+          `이름:  ${myName}, 내 국적: ${myNationality}, 상대국적: ${yourNationality}, 내 언어: ${myLanguage}, 상대 언어: ${yourLanguage}`
+        );
         this.setState({
           mySessionId: sessionId,
           myUserName: myName,
           nationality: myNationality,
           yourNationality: yourNationality,
+          mylanguage: myLanguage,
+          yourlanguage: yourLanguage,
         });
 
         console.log('세션아이디', sessionId);
@@ -816,6 +821,8 @@ class VideoRoomComponent extends Component {
                   close={this.toggleChat}
                   messageReceived={this.checkNotification}
                   myNationality={this.state.nationality}
+                  myLanguage={this.state.mylanguage}
+                  yourLanguage={this.state.yourlanguage}
                 />
               </div>
             )}

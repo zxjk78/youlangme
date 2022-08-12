@@ -100,6 +100,7 @@ class VideoRoomComponent extends Component {
         nationality: nationality,
         mySessionId: sessionId,
       });
+
       console.log('이름, 국적', name, nationality);
       console.log('세션아이디', sessionId);
       this.joinSession();
@@ -611,6 +612,7 @@ class VideoRoomComponent extends Component {
         />
 
         <div id="layout" className="bounds">
+          <div>임시유저 레이아웃</div>
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div className="OT_root OT_publisher custom-class" id="localUser">

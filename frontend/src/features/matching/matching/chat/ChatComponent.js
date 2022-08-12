@@ -13,7 +13,8 @@ import MessageInputNormal from './components/MessageInputNormal';
 import MessageInputReply from './components/MessageInputReply';
 import MsgBoxNormal from './components/MsgBoxNormal';
 import MsgBoxReply from './components/MsgBoxReply';
-import translate from 'translate-google-api';
+import { translate } from '../../matchAPI';
+
 import { iso_code } from '../../../../common/utils/data/nationalityData';
 
 export default class ChatComponent extends Component {
@@ -32,9 +33,9 @@ export default class ChatComponent extends Component {
       originalMessage: '',
       originalMessageIdx: null,
       isReply: false,
-      // 번역 관련 state 1
-      myNationality: props.myNationality,
-      // myNationality: 'KOREA',
+      // 번역 관련 state 2
+      myLanguage: props.myLanguage,
+      yourLanguage: props.yourLanguage,
     };
     this.chatScroll = React.createRef();
 
@@ -162,11 +163,10 @@ export default class ChatComponent extends Component {
     console.log(idx + '번 말풍선 번역작업');
     const originalMsg = this.state.messageList[idx].message;
     const target = this.msgBoxContentRef.current[idx];
-    const isoCode = iso_code[this.state.myNationality];
-    console.log(target);
-    const translateMsg = await translate(originalMsg, {
-      to: isoCode,
-    });
+    const myISOCode = iso_code[this.state.myLanguage];
+    const yourISOCode = iso_code[this.state.yourLanguage];
+    // console.log(target);
+    const translateMsg = await translate(myISOCode, yourISOCode, originalMsg);
     target.innerText = translateMsg;
     // target.innerText = '121212121';
   }
