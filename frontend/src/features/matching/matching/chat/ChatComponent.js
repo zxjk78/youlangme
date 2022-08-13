@@ -160,23 +160,23 @@ export default class ChatComponent extends Component {
     });
   }
   async translateHandler(idx) {
-    console.log(idx + '번 말풍선 번역작업');
+    // console.log(idx + '번 말풍선 번역작업');
     const originalMsg = this.state.messageList[idx].message;
     const target = this.msgBoxContentRef.current[idx];
     const myISOCode = iso_code[this.state.myLanguage];
     const yourISOCode = iso_code[this.state.yourLanguage];
-    // console.log(target);
+    // const myISOCode = iso_code['KOREAN'];
+    // const yourISOCode = iso_code['ENGLISH'];
     const translateMsg = await translate(myISOCode, yourISOCode, originalMsg);
-    target.innerText = translateMsg;
-    // target.innerText = '121212121';
+    target.innerText = translateMsg.slice(1, translateMsg.length - 1);
   }
   async copyHandler(idx) {
-    console.log(idx + '번 말풍선 복사작업');
+    // console.log(idx + '번 말풍선 복사작업');
     const copyMsg = this.state.messageList[idx].message;
     await navigator.clipboard.writeText(copyMsg);
   }
   modifyHandler(idx) {
-    console.log(idx + '번 말풍선 교정작업');
+    // console.log(idx + '번 말풍선 교정작업');
 
     this.setState({
       originalMessageIdx: idx,

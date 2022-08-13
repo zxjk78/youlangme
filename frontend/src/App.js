@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import Board from './features/board/Board';
 import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
 import StartMatching from './features/matching/StartMatching';
-import IntroMatch from './features/matching/startMatching,js/IntroMatch';
+import IntroMatch from './features/matching/startMatching/IntroMatch';
 import ModifyPage from './features/auth/modify/ModifyPage';
 import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
 import VideoRoomComponentLocal2 from './features/matching/matching/VideoRoomComponentLocal2';

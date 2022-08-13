@@ -1,14 +1,36 @@
 #header {
   color: #ffffff;
+  width: auto;
   height: 40px;
   background-color: #d5d5d5;
   padding: 0 14px 0 0;
   position: absolute;
   top: 0;
   left: 0;
-  /* bottom: 0; */
-  z-index: 999999;
-  min-width: 400px !important;
+  // min-width: 400px !important;
+}
+
+#navChatButton {
+  // position: absolute;
+  /* right: 0; */
+  /* background-color: red;
+  margin-top: 50px;
+  z-index: 1000000; */
+}
+
+.buttonsContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100px !important;
+  text-align: center;
+  margin: auto;
+  // position: fixed;
+  bottom: 0;
+
+  background-color: rgb(143, 0, 162);
+  z-index: 0;
 }
 
 .toolbar {
@@ -29,12 +51,6 @@
   left: 0;
   right: 0;
   min-width: 400px;
-}
-
-#navChatButton {
-  position: absolute;
-  right: 10px;
-  top: 0;
 }
 
 #titleContent {
@@ -61,7 +77,7 @@
 }
 
 #session-title {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 #point {
@@ -80,10 +96,9 @@
   border: 1px solid #ffffff !important;
 }
 
-@media only screen and (max-width: 700px) {
-
-  #titleContent,
-  #navChatButton {
-    display: none;
-  }
-}
+// @media only screen and (max-width: 700px) {
+//   #titleContent,
+//   #navChatButton {
+//     display: none;
+//   }
+// }

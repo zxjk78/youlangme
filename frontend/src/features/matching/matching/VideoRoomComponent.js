@@ -1,6 +1,6 @@
 import React, { Component, createRef, useEffect } from 'react';
 import axios from 'axios';
-import './VideoRoomComponent.css';
+import './VideoRoomComponent.scss';
 import { OpenVidu } from 'openvidu-browser';
 import StreamComponent from './stream/StreamComponent';
 import DialogExtensionComponent from './dialog-extension/DialogExtension';
@@ -101,13 +101,12 @@ class VideoRoomComponent extends Component {
       document.getElementById('layout'),
       openViduLayoutOptions
     );
-    window.addEventListener('beforeunload', this.onbeforeunload);
+    // window.addEventListener('beforeunload', this.onbeforeunload);
     window.addEventListener('resize', this.updateLayout);
     window.addEventListener('resize', this.checkSize);
-    window.addEventListener('beforeunload', () => {
-      const checker = this.checkSubscribers();
 
-      if (checker && this.state.timer) {
+    window.addEventListener('beforeunload', (event) => {
+      if (this.checkSubscribers()) {
         axios
           .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
             headers: {
@@ -116,31 +115,35 @@ class VideoRoomComponent extends Component {
           })
           .then((res) => {
             console.log(res.data);
-            this.leaveSession();
-            this.normalExit();
           })
           .catch((err) => {
             console.log(err.message);
           });
-      } else if (checker && !this.state.timer) {
-        axios
-          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
-            headers: {
-              'X-AUTH-TOKEN': accessToken,
-            },
-          })
-          .then((res) => {
-            console.log(res.data);
-            console.log(this.checkSubscribers());
-            this.leaveSession();
-            this.abnormalExit();
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
+
+        this.leaveSession();
+        this.abnormalExit();
+        this.componentWillUnmount();
+      } else if (!this.checkSubscribers()) {
+        //   axios
+        //     .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+        //       headers: {
+        //       'X-AUTH-TOKEN': accessToken,
+        //     },
+        //   })
+        //     .then((res) => {
+        //       console.log(res.data);
+        //       console.log(this.checkSubscribers())
+        //     })
+        //   .catch((err) => {
+        //       console.log(err.message);
+        //   });
+        // }
+        this.leaveSession();
+        this.abnormalExit();
+        this.componentWillUnmount();
       }
-      this.componentWillUnmount();
     });
+
     try {
       const sessionId = this.props.location.state.sessionId;
       setTimeout(() => {
@@ -194,8 +197,6 @@ class VideoRoomComponent extends Component {
   }
 
   onbeforeunload(event) {
-    event.preventDefault();
-
     const checker = this.checkSubscribers();
 
     if (checker && this.state.timer) {

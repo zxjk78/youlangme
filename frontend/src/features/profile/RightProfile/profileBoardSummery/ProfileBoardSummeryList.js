@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 // API
 import { fetchUserBoardList } from '../../../board/boardAPI';
 //custom-component
@@ -17,6 +18,8 @@ const ProfileBoardSummeryList = (props) => {
   const [isBoardOver, setIsBoardOver] = useState(false);
   const params = useParams();
   const authorId = params?.userId || props.userId;
+  const { currentUser } = useSelector((state) => state.auth);
+  const isCurrentUser = currentUser.id === Number(authorId);
 
   useEffect(() => {
     (async () => {
@@ -45,9 +48,11 @@ const ProfileBoardSummeryList = (props) => {
         <>
           <div className={classes.wrapper}>
             <div className={classes.container}>
-              <div className={classes.header}>
-                <CreateNewBoardLink />
-              </div>
+              {isCurrentUser && 
+                <div className={classes.header}>
+                  <CreateNewBoardLink />
+                </div>
+              }
               <div className={classes.main}>
                 {userBoardList.map((board) => (
                   <ProfileBoardSummeryItem
