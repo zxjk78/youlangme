@@ -215,6 +215,11 @@ public class UserService {
             }
         }
 
+        // 초 -> 분 변환
+        for(Language lang : langTimeMap.keySet()) {
+            langTimeMap.put(lang,langTimeMap.get(lang)/60);
+        }
+
         return langTimeMap;
     }
 
