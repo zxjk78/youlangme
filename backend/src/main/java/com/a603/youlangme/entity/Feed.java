@@ -1,7 +1,7 @@
 package com.a603.youlangme.entity;
 
 
-import com.a603.youlangme.entity.log.Log;
+import com.a603.youlangme.entity.log.FeedLog;
 import com.a603.youlangme.enums.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,8 +20,8 @@ public class Feed extends BaseEntity{
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "log_id")
-    private Log log;
+    @JoinColumn(name = "feed_log_id")
+    private FeedLog feedLog;
 
     @Column(name = "notification")
     @Enumerated(EnumType.STRING)

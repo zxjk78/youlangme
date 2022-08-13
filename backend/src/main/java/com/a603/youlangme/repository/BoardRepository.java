@@ -34,4 +34,6 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
     List<Board> findAllByFolloweeIdOrderByIdDesc2(@Param("userId") Long userId, @Param("boardId") Long id, Pageable pageable);
 
     Integer countByAuthor(User author);
+
+    Board findBoardById(Long id);
 }
