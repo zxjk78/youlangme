@@ -11,7 +11,7 @@ class AsyncTask:
         threading.Timer(3, self.MatchingTask).start()
     def MatchingScoreCalculateTask(self):
         calculate()
-        threading.Timer(5, self.MatchingScoreCalculateTask).start()
+        threading.Timer(3600, self.MatchingScoreCalculateTask).start()
 
 
 def startup():

@@ -56,19 +56,14 @@ def calculate():
 
 def cos_sim(A, B):
   return dot(A, B)/(norm(A)*norm(B))
-    
-MATCH_SCORE = 0.7
 
-#@background(schedule=3)
 def matching():
     con = redis.StrictRedis(host="localhost", port=6379, charset="utf-8", decode_responses=True)
     current_score = con.get("match_score")
+    if current_score is None:
+        current_score = 0.7
+    current_score = float(current_score)
     print("background processing....", current_score)
-    correction_score = con.get("score")
-    if correction_score is None:
-        correction_score = 0
-    else:
-        correction_score = int(correction_score)
     visited = set()
     matchingOrder = con.lrange("matchingOrder", 0, -1)
     for userId in matchingOrder:
@@ -104,10 +99,10 @@ def matching():
         for i in range(1, len(vectorArray)):
             sim = cos_sim(vectorArray[0], vectorArray[i])
             score = sim + (float(user_count) * 0.05)
-            if score >= MATCH_SCORE:
+            if score >= current_score:
                 target_count = countList[i]
                 target_score = sim + (float(target_count) * 0.05)
-                if target_score >= MATCH_SCORE:
+                if target_score >= current_score:
                     isMatched = True
                     print(score, target_score)
                     opponentId = idList[i]
