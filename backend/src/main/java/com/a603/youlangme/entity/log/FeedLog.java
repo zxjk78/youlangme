@@ -3,12 +3,9 @@ package com.a603.youlangme.entity.log;
 import com.a603.youlangme.entity.BaseEntity;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.enums.LogType;
-import com.a603.youlangme.enums.Notification;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -16,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Log extends BaseEntity {
+public class FeedLog extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "actor_id")

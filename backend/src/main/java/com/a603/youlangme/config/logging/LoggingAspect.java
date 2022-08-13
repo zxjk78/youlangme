@@ -1,12 +1,13 @@
 package com.a603.youlangme.config.logging;
 
 
+
 import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.entity.Feed;
 import com.a603.youlangme.entity.Follow;
 import com.a603.youlangme.entity.log.ChatRoomLog;
 import com.a603.youlangme.entity.log.ExpAcquisitionLog;
-import com.a603.youlangme.entity.log.Log;
+import com.a603.youlangme.entity.log.FeedLog;
 import com.a603.youlangme.entity.User;
 import com.a603.youlangme.entity.log.MeetingLog;
 import com.a603.youlangme.entity.meta.ExpActivity;
@@ -76,18 +77,18 @@ public class LoggingAspect {
 
         long endAt = System.currentTimeMillis();
         if (action.equalsIgnoreCase("savePost")) {
-            Log log = logRepository.save(new Log(loginUser, LogType.WRITE_POST, (Long) result));
+            FeedLog feedLog = logRepository.save(new FeedLog(loginUser, LogType.WRITE_POST, (Long) result));
             User user = userRepository.findById(loginUser.getId()).orElse(null);
             for (Follow follow : user.getFollowers()) {
                 //logRepository.save(new Log(follow.getFollower(), LogType.WRITE_POST, loginUser, Notification.ON, (Long)result));
-                feedRepository.save(new Feed(follow.getFollower(), log, Notification.ON));
+                feedRepository.save(new Feed(follow.getFollower(), feedLog, Notification.ON));
             }
 
         } else if (action.equalsIgnoreCase("saveFollow")) {
-            Log log = logRepository.save(new Log(loginUser, LogType.FOLLOWED, (Long) result));
+            FeedLog feedLog = logRepository.save(new FeedLog(loginUser, LogType.FOLLOWED, (Long) result));
             User followee = userRepository.findById((Long)result).orElse(null);
             //logRepository.save(new Log(followee, LogType.FOLLOWED, loginUser, Notification.ON, null));
-            feedRepository.save(new Feed(followee, log, Notification.ON));
+            feedRepository.save(new Feed(followee, feedLog, Notification.ON));
         }
 
         return result;

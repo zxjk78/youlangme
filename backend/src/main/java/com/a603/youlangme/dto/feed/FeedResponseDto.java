@@ -6,18 +6,29 @@ import com.a603.youlangme.enums.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @Getter
 public class FeedResponseDto {
 
-    String userName;
+    private LocalDateTime createdTime;
 
-    Long userId;
+    private LocalDateTime modifiedTime;
 
-    LogType logType;
+    private String userName;
 
-    Long detail;
+    private Long userId;
 
-    Notification notification;
+    private LogType logType;
 
+    private Long detail;
+
+    private String contents;
+
+    private Notification notification;
+
+    private List<String> imgList = new ArrayList<>();
 }
