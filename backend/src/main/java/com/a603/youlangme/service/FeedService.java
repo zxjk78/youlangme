@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FeedService {
-    private final LogRepository logRepository;
     private final ResponseService responseService;
     private final UserRepository userRepository;
     private final FeedRepository feedRepository;
