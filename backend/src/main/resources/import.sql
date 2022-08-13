@@ -165,7 +165,7 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
 -- ChatRoomLog (userbot1 위주, userbot6은 어뷰징 유저, 대화 시간이 짧다.)
     -- session   userbot1 & userbot3 (9분 30초)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10001,'2022-08-01 12:21:22.232051','OPEN','testsessionabcdefgi7a603testsessionid1');
-    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10002,'2022-08-01 12:30:52.232051','CLOSE','testsessionabcdefgi7a603testsessionid1');
+    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`,`open_log_id`) VALUES (10002,'2022-08-01 12:30:52.232051','CLOSE','testsessionabcdefgi7a603testsessionid1',10001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20001,'2022-08-01 12:21:22.232051','START','ENGLISH',10001,1003);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20002,'2022-08-01 12:21:22.232051','START','KOREAN',10001,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20003,'2022-08-01 12:30:52.232051','END','ENGLISH',10002,1003);
@@ -176,7 +176,7 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
 
     -- session   userbot1 & userbot4 (12분)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10003,'2022-08-02 14:30:22.232051','OPEN','testsessionabcdefgi7a603testsessionid2');
-    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10004,'2022-08-02 14:42:22.232051','CLOSE','testsessionabcdefgi7a603testsessionid2');
+    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`,`open_log_id`) VALUES (10004,'2022-08-02 14:42:22.232051','CLOSE','testsessionabcdefgi7a603testsessionid2',10003);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20005,'2022-08-02 14:30:22.232051','START','ENGLISH',10003,1004);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20006,'2022-08-02 14:30:22.232051','START','KOREAN',10003,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20007,'2022-08-02 14:42:22.232051','END','ENGLISH',10004,1004);
@@ -187,7 +187,7 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
 
     -- session   userbot2 & userbot5 (8분 10초)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10005,'2022-08-02 14:31:22.232051','OPEN','testsessionabcdefgi7a603testsessionid3');
-    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10006,'2022-08-02 14:39:32.232051','CLOSE','testsessionabcdefgi7a603testsessionid3');
+    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`,`open_log_id`) VALUES (10006,'2022-08-02 14:39:32.232051','CLOSE','testsessionabcdefgi7a603testsessionid3',10005);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20009,'2022-08-02 14:31:22.232051','START','CHINESE',10005,1005);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20010,'2022-08-02 14:31:22.232051','START','KOREAN',10005,1002);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20011,'2022-08-02 14:39:32.232051','END','CHINESE',10006,1005);
@@ -198,7 +198,7 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
 
     -- session   userbot4 & userbot6 (1분 30초)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10007,'2022-08-03 09:31:22.232051','OPEN','testsessionabcdefgi7a603testsessionid4');
-    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10008,'2022-08-03 09:32:52.232051','CLOSE','testsessionabcdefgi7a603testsessionid4');
+    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`,`open_log_id`) VALUES (10008,'2022-08-03 09:32:52.232051','CLOSE','testsessionabcdefgi7a603testsessionid4',10007);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20013,'2022-08-03 09:31:22.232051','START','SPANISH',10007,1006);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20014,'2022-08-03 09:31:22.232051','START','ENGLISH',10007,1004);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20015,'2022-08-03 09:32:52.232051','END','SPANISH',10008,1006);
@@ -209,7 +209,7 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
 
     -- session   userbot5 & userbot6 (2분)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10009,'2022-08-03 09:35:22.232051','OPEN','testsessionabcdefgi7a603testsessionid5');
-    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10010,'2022-08-03 09:37:22.232051','CLOSE','testsessionabcdefgi7a603testsessionid5');
+    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`,`open_log_id`) VALUES (10010,'2022-08-03 09:37:22.232051','CLOSE','testsessionabcdefgi7a603testsessionid5',10009);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20017,'2022-08-03 09:35:22.232051','START','ENGLISH',10009,1006);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20018,'2022-08-03 09:35:22.232051','START','JAPANESE',10009,1005);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20019,'2022-08-03 09:37:22.232051','END','ENGLISH',10010,1006);
@@ -220,7 +220,7 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
 
     -- session   userbot1 & userbot2 (35분 20초)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10011,'2022-08-05 12:00:22.232051','OPEN','testsessionabcdefgi7a603testsessionid6');
-    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10012,'2022-08-05 12:35:42.232051','CLOSE','testsessionabcdefgi7a603testsessionid6');
+    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`,`open_log_id`) VALUES (10012,'2022-08-05 12:35:42.232051','CLOSE','testsessionabcdefgi7a603testsessionid6',10011);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20021,'2022-08-05 12:00:22.232051','START','ENGLISH',10011,1002);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20022,'2022-08-05 12:00:22.232051','START','KOREAN',10011,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20023,'2022-08-05 12:35:42.232051','END','ENGLISH',10012,1002);
@@ -231,7 +231,7 @@ INSERT INTO follow VALUES(3007,'2022-07-21 16:30:22.232051','2022-07-21 16:30:22
 
     -- session   userbot1 & userbot2 (22분)
     INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10013,'2022-08-07 14:30:22.232051','OPEN','testsessionabcdefgi7a603testsessionid7');
-    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`) VALUES (10014,'2022-08-07 14:52:22.232051','CLOSE','testsessionabcdefgi7a603testsessionid7');
+    INSERT INTO chat_room_log (`id`,`created_time`,`log_type`,`session_id`,`open_log_id`) VALUES (10014,'2022-08-07 14:52:22.232051','CLOSE','testsessionabcdefgi7a603testsessionid7',10013);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20025,'2022-08-07 14:30:22.232051','START','ENGLISH',10013,1002);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20026,'2022-08-07 14:30:22.232051','START','KOREAN',10013,1001);
     INSERT INTO meeting_log (`id`,`created_time`,`log_type`,`your_language`,`chat_room_log_id`,`user_id`) VALUES (20027,'2022-08-07 14:52:22.232051','END','ENGLISH',10014,1002);

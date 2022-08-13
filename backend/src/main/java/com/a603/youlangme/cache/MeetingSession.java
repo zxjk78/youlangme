@@ -24,12 +24,15 @@ public class MeetingSession implements Serializable {
     @TimeToLive
     private Long expirationTime = 60*60*24L; // 24 hours
 
+    private Long openLogId;
+
     @Builder
-    public MeetingSession(String sessionId, Long userId1, Long userId2, Language yourLanguage1, Language yourLanguage2){
+    public MeetingSession(String sessionId, Long userId1, Long userId2, Language yourLanguage1, Language yourLanguage2, Long openLogId){
         this.sessionId=sessionId;
         this.userId1=userId1;
         this.userId2=userId2;
         this.yourLanguage1 = yourLanguage1;
         this.yourLanguage2 = yourLanguage2;
+        this.openLogId = openLogId;
     }
 }
