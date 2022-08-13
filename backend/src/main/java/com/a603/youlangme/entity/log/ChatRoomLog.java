@@ -26,4 +26,6 @@ public class ChatRoomLog extends BaseEntity {
     @OneToMany(mappedBy = "chatRoomLog", cascade = CascadeType.ALL)
     List<MeetingLog> meetingLogs = new ArrayList<>();
 
+    private Long openLogId;
+
 }

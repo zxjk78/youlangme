@@ -125,23 +125,21 @@ public class LoggingAspect {
             activityId = 3L;
             expUpdateType = ExpUpdateType.MULTI;
             ChatRoomLog closeLog = chatRoomLogRepository.findById(targetId).orElseThrow(DataNotFoundException::new);
-            ChatRoomLog openLog = chatRoomLogRepository.findOpenLog(closeLog.getSessionId(), closeLog.getId());
-            // 종료 신호 보낸 사람이 아닌 사람의 경험치 획득
+            ChatRoomLog openLog = chatRoomLogRepository.findById(closeLog.getOpenLogId()).orElseThrow(DataNotFoundException::new);
+            // 종료 신호 보낸 사람이 아닌 사람의 경험치 획득도 함께 처리
             MeetingLog opponentLog = meetingLogRepository.findOpponentMeetingLog(openLog.getId(),loginUser);
-            User opponent = opponentLog.getUser();
-            updateUserList.add(opponent);
+            updateUserList.add(opponentLog.getUser());
             // 미팅 시간 (분)
             int closeTime = (int)(closeLog.getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000);
             int openTime = (int)(openLog.getCreatedTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()/1000);
-            System.out.println("CLOSE TIME = "+closeTime+" ##### OPEN TIME = "+openTime);
             multiBase = (closeTime-openTime)/60;
-            System.out.println("@@@ multi-base : "+multiBase);
+            // 대화 시간 n분 미만이면 경험치 획득 불가
+            if(multiBase < 1) return;
         }
 
         for(User userToUpdate : updateUserList) {
             // 경험치 획득 활동 지정
             ExpActivity activity = expActivityRepository.getReferenceById(activityId);
-
             ExpAcquisitionLog log = ExpAcquisitionLog.builder()
                     .user(userToUpdate)
                     .activity(activity)
@@ -150,7 +148,6 @@ public class LoggingAspect {
                     .build();
             // 경험치 획득 로그 저장
             expLogRepository.save(log);
-
             // 경험치 업데이트 (레벨도 업데이트)
             userExpService.addExp(expUpdateType, userToUpdate, activity, multiBase);
         }

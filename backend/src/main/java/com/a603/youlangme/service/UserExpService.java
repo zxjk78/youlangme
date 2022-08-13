@@ -73,10 +73,7 @@ public class UserExpService {
                         return expData * expLog.getMultiBase();
                     else return 0;
                 }).collect(Collectors.toList());
-//        List<Integer> exps = expLogs.stream()
-//                .map(expLog -> expLog.getActivity().getExp())
-//                .collect(Collectors.toList());
-//
+
         Integer totalExp = exps.stream().reduce((sum, exp) -> sum + exp).orElse(0);
 
         UserExp userExp = userExpRepository.findByUser(user)

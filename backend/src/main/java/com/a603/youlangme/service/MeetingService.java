@@ -75,17 +75,6 @@ public class MeetingService {
         
         // 이미 존재하는 세션이라면 오류
         if (meetingSessionRepository.findById(sessionId).orElse(null)!=null) throw new UnAllowedAccessException();
-        
-        // redis에 Meeting:sessionId에 유저 리스트를 다시 저장 (유지기간 24시간)
-        MeetingSession newMeetingSession = MeetingSession.builder()
-                .sessionId(sessionId)
-                .userId1(userId1)
-                .yourLanguage1(yourLanguage1)
-                .userId2(userId2)
-                .yourLanguage2(yourLanguage2)
-                .build();
-
-        meetingSessionRepository.save(newMeetingSession);
 
         // 챗룸 로그를 생성 (OPEN)
         ChatRoomLog chatRoomLog = ChatRoomLog.builder()
@@ -94,6 +83,18 @@ public class MeetingService {
                 .build();
 
         chatRoomLogRepository.save(chatRoomLog);
+
+        // redis에 Meeting:sessionId에 유저 리스트를 다시 저장 (유지기간 24시간)
+        MeetingSession newMeetingSession = MeetingSession.builder()
+                .sessionId(sessionId)
+                .userId1(userId1)
+                .yourLanguage1(yourLanguage1)
+                .userId2(userId2)
+                .yourLanguage2(yourLanguage2)
+                .openLogId(chatRoomLog.getId())
+                .build();
+
+        meetingSessionRepository.save(newMeetingSession);
 
         // 미팅 로그를 생성1 (START)
         User user1 = userRepository.findById(userId1).orElseThrow(UserLogNotFoundException::new);
@@ -128,12 +129,14 @@ public class MeetingService {
         Long userId2 = meetingSession.getUserId2();
         Language yourLanguage1 = meetingSession.getYourLanguage1();
         Language yourLanguage2 = meetingSession.getYourLanguage2();
+        Long openLogId = meetingSession.getOpenLogId();
 
 
         // 챗룸 로그를 생성 (CLOSE)
         ChatRoomLog chatRoomLog = ChatRoomLog.builder()
                 .sessionId(sessionId)
                 .logType(ChatRoomLogType.CLOSE)
+                .openLogId(openLogId)
                 .build();
 
         chatRoomLogRepository.save(chatRoomLog);
