@@ -23,6 +23,7 @@ import IconButton from '@material-ui/core/IconButton';
 import styled from '@emotion/styled';
 import LowerToolBarMenuItem from './components/LowerToolBarMenuItem';
 import MenuSpeedDial from '../components/MenuSpeedDial';
+import ExtraMenuButton from '../UI/ExtraMenuButton';
 
 export default class ToolbarComponent extends Component {
   constructor(props) {
@@ -75,9 +76,11 @@ export default class ToolbarComponent extends Component {
     this.props.toggleChat();
   }
   toggleHelpModal() {
+    // console.log('news 이벤트 전달');
     this.props.toggleHelpModal();
   }
   onbeforeunload() {
+    // console.log('채팅종료 이벤트 전달');
     this.props.onbeforeunload();
   }
 
@@ -146,8 +149,11 @@ export default class ToolbarComponent extends Component {
             activateFn={this.toggleChat}
             deactivateFn={this.toggleChat}
           />
+          <ExtraMenuButton
+            news={this.toggleHelpModal}
+            quit={this.onbeforeunload}
+          />
         </div>
-        <MenuSpeedDial help={this.toggleHelpModal} quit={this.onbeforeunload} />
       </div>
     );
   }
