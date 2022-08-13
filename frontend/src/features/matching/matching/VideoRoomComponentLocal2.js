@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import axios from 'axios';
-import './VideoRoomComponent.css';
+import './VideoRoomComponent.scss';
 import { OpenVidu } from 'openvidu-browser';
 import StreamComponent from './stream/StreamComponent';
 import DialogExtensionComponent from './dialog-extension/DialogExtension';
@@ -591,73 +591,55 @@ class VideoRoomComponent extends Component {
     const localUser = this.state.localUser;
     const name = this.state.myUserName;
     const nationality = this.state.nationality;
-
+    console.log('로컬유저', localUser);
     var chatDisplay = { display: this.state.chatDisplay };
 
     return (
       <div
-        className="container"
-        id={`room-container${
+        className={`videoroom-wrapper${
           this.state.chatDisplay === 'block' ? '-chat' : ''
         }`}
       >
-        <VideoRoomHeader />
-        <ToolbarComponent
-          sessionId={mySessionId}
-          user={localUser}
-          showNotification={this.state.messageReceived}
-          camStatusChanged={this.camStatusChanged}
-          micStatusChanged={this.micStatusChanged}
-          screenShare={this.screenShare}
-          stopScreenShare={this.stopScreenShare}
-          toggleFullscreen={this.toggleFullscreen}
-          switchCamera={this.switchCamera}
-          leaveSession={this.leaveSession}
-          toggleChat={this.toggleChat}
-        />
+        <div className="videoroom-header">
+          <VideoRoomHeader oppoInfo={123} />
+        </div>
 
-        <DialogExtensionComponent
-          showDialog={this.state.showExtensionDialog}
-          cancelClicked={this.closeDialogExtension}
-        />
-
-        <div
-          id="layout"
-          className={`bounds${
-            this.state.chatDisplay === 'block' ? '-chat' : ''
-          }`}
-        >
-          <div>임시유저 레이아웃</div>
-          {localUser !== undefined &&
-            localUser.getStreamManager() !== undefined && (
-              <div className="OT_root OT_publisher custom-class" id="localUser">
+        <div className="videoroom-main">
+          <div id="layout" className="bounds">
+            <div>임시유저 레이아웃</div>
+            {localUser !== undefined &&
+              localUser.getStreamManager() !== undefined && (
+                <div
+                  // className="OT_root OT_publisher custom-class"
+                  id="localUser"
+                >
+                  <StreamComponent
+                    user={localUser}
+                    handleNickname={this.nicknameChanged}
+                    // youlangme Custom
+                    camStatusChanged={this.camStatusChanged}
+                    micStatusChanged={this.micStatusChanged}
+                    // isVideoActive={localUser.isVideoActive}
+                    // isAudioActive={localUser.isAudioActive}
+                  />
+                </div>
+              )}
+            {this.state.subscribers.map((sub, i) => (
+              <div
+                key={i}
+                // className="OT_root OT_publisher custom-class"
+                id="remoteUsers"
+              >
                 <StreamComponent
-                  user={localUser}
-                  handleNickname={this.nicknameChanged}
-                  // youlangme Custom
-                  camStatusChanged={this.camStatusChanged}
-                  micStatusChanged={this.micStatusChanged}
+                  user={sub}
+                  streamId={sub.streamManager.stream.streamId}
                 />
               </div>
-            )}
-          {this.state.subscribers.map((sub, i) => (
-            <div
-              key={i}
-              className="OT_root OT_publisher custom-class"
-              id="remoteUsers"
-            >
-              <StreamComponent
-                user={sub}
-                streamId={sub.streamManager.stream.streamId}
-              />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-          <div
-            className="OT_root OT_publisher custom-class chat-container"
-            style={chatDisplay}
-          >
+          <div className="videoroom-chat" style={chatDisplay}>
             <ChatComponent
               user={localUser}
               chatDisplay={this.state.chatDisplay}
@@ -666,26 +648,31 @@ class VideoRoomComponent extends Component {
             />
           </div>
         )}
-        <div>{name}</div>
-        <div>{nationality}</div>
 
-        {this.state.isHelpModalVisible ? (
+        <div className="videoroom-footer">
+          <ToolbarComponent
+            sessionId={mySessionId}
+            user={localUser}
+            showNotification={this.state.messageReceived}
+            camStatusChanged={this.camStatusChanged}
+            micStatusChanged={this.micStatusChanged}
+            screenShare={this.screenShare}
+            stopScreenShare={this.stopScreenShare}
+            toggleFullscreen={this.toggleFullscreen}
+            switchCamera={this.switchCamera}
+            leaveSession={this.leaveSession}
+            toggleChat={this.toggleChat}
+            toggleHelpModal={this.toggleHelpModal}
+            onbeforeunload={this.onbeforeunload}
+          />
+          <DialogExtensionComponent
+            showDialog={this.state.showExtensionDialog}
+            cancelClicked={this.closeDialogExtension}
+          />
+        </div>
+
+        {this.state.isHelpModalVisible && (
           <HelpTemplate toggleModal={this.toggleHelpModal} />
-        ) : (
-          <Box
-            sx={{
-              bgcolor: '#000',
-              color: '#fff',
-              position: 'fixed',
-              right: '20px',
-              bottom: '20px',
-            }}
-          >
-            <MenuSpeedDial
-              help={this.toggleHelpModal}
-              // quit={}
-            />
-          </Box>
         )}
 
         {/* <IconButton

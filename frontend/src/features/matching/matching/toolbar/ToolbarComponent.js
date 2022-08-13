@@ -18,13 +18,18 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
 
+// youlangme custom
 import IconButton from '@material-ui/core/IconButton';
 import styled from '@emotion/styled';
+import LowerToolBarMenuItem from './components/LowerToolBarMenuItem';
+import MenuSpeedDial from '../components/MenuSpeedDial';
 
 export default class ToolbarComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { fullscreen: false };
+    this.state = {
+      fullscreen: false,
+    };
     this.camStatusChanged = this.camStatusChanged.bind(this);
     this.micStatusChanged = this.micStatusChanged.bind(this);
     this.screenShare = this.screenShare.bind(this);
@@ -33,6 +38,8 @@ export default class ToolbarComponent extends Component {
     this.switchCamera = this.switchCamera.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.toggleChat = this.toggleChat.bind(this);
+    this.toggleHelpModal = this.toggleHelpModal.bind(this);
+    this.onbeforeunload = this.onbeforeunload.bind(this);
   }
 
   micStatusChanged() {
@@ -67,10 +74,17 @@ export default class ToolbarComponent extends Component {
   toggleChat() {
     this.props.toggleChat();
   }
+  toggleHelpModal() {
+    this.props.toggleHelpModal();
+  }
+  onbeforeunload() {
+    this.props.onbeforeunload();
+  }
 
   render() {
     const mySessionId = this.props.sessionId;
     const localUser = this.props.user;
+    console.log(localUser);
     return (
       <div className="header">
         <div id="navSessionInfo">
@@ -82,79 +96,58 @@ export default class ToolbarComponent extends Component {
         </div>
 
         <div className="buttonsContent">
-          <div>
-            <div>
-              마이크{' '}
-              {localUser !== undefined && localUser.isAudioActive()
-                ? '끄기'
-                : '켜기'}
-            </div>
-
-            <IconButton
-              className="navButton"
-              id="navMicButton"
-              onClick={this.micStatusChanged}
-            >
-              {localUser !== undefined && localUser.isAudioActive() ? (
-                <Mic />
-              ) : (
-                <MicOff color="secondary" />
-              )}
-            </IconButton>
-          </div>
-          <div>
-            <div>
-              카메라{' '}
-              {localUser !== undefined && localUser.isVideoActive()
-                ? '끄기'
-                : '켜기'}
-            </div>
-
-            <IconButton
-              color="inherit"
-              className="navButton"
-              id="navCamButton"
-              onClick={this.camStatusChanged}
-            >
-              {localUser !== undefined && localUser.isVideoActive() ? (
-                <Videocam />
-              ) : (
-                <VideocamOff color="secondary" />
-              )}
-            </IconButton>
-          </div>
-          <div>
-            <div>
-              화면 공유{' '}
-              {localUser !== undefined && localUser.isScreenShareActive()
-                ? '끄기'
-                : '켜기'}
-            </div>
-            <IconButton
-              color="inherit"
-              className="navButton"
-              onClick={this.screenShare}
-            >
-              {localUser !== undefined && !localUser.isScreenShareActive() && (
-                <ScreenShare />
-              )}
-            </IconButton>
-            {localUser !== undefined && localUser.isScreenShareActive() && (
-              <IconButton onClick={this.stopScreenShare} id="navScreenButton">
-                <StopScreenShare color="secondary" />
-              </IconButton>
-            )}
-          </div>
-
-          <IconButton
-            color="inherit"
-            onClick={this.toggleChat}
-            className="navButton"
-          >
-            {this.props.showNotification && <div id="point" className="" />}
-            <QuestionAnswer />
-          </IconButton>
+          <LowerToolBarMenuItem
+            activate={{
+              text: '비디오 켜기',
+              icon: <VideocamOff color="secondary" />,
+            }}
+            deactivate={{
+              text: '비디오 끄기',
+              icon: <Videocam />,
+            }}
+            activateFn={this.camStatusChanged}
+            deactivateFn={this.camStatusChanged}
+            // activateStatus={this.props.user.isVideoActive()}
+          />
+          <LowerToolBarMenuItem
+            activate={{
+              text: '마이크 켜기',
+              icon: <MicOff color="secondary" />,
+            }}
+            deactivate={{
+              text: '마이크 끄기',
+              icon: <Mic />,
+            }}
+            activateFn={this.micStatusChanged}
+            deactivateFn={this.micStatusChanged}
+            // activateStatus={this.props.user.isAudioActive()}
+          />
+          <LowerToolBarMenuItem
+            activate={{
+              text: '화면공유 켜기',
+              icon: <ScreenShare />,
+            }}
+            deactivate={{
+              text: '화면공유 끄기',
+              icon: <ScreenShare />,
+            }}
+            activateFn={this.screenShare}
+            deactivateFn={this.stopScreenShare}
+          />
+          <LowerToolBarMenuItem
+            activate={{
+              text: '채팅 켜기',
+              icon: <QuestionAnswer />,
+            }}
+            deactivate={{
+              text: '채팅 끄기',
+              icon: <QuestionAnswer />,
+            }}
+            activateFn={this.toggleChat}
+            deactivateFn={this.toggleChat}
+          />
         </div>
+        <MenuSpeedDial help={this.toggleHelpModal} quit={this.onbeforeunload} />
       </div>
     );
   }

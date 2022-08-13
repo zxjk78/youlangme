@@ -28,6 +28,8 @@ export default class StreamComponent extends Component {
       showForm: false,
       mutedSound: false,
       isFormValid: true,
+      // isVideoActive: props.isVideoActive,
+      // isAudioActive: props.isAudioActive,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handlePressKey = this.handlePressKey.bind(this);

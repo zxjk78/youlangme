@@ -1,6 +1,6 @@
 import React, { Component, createRef, useEffect } from 'react';
 import axios from 'axios';
-import './VideoRoomComponent.css';
+import './VideoRoomComponent.scss';
 import { OpenVidu } from 'openvidu-browser';
 import StreamComponent from './stream/StreamComponent';
 import DialogExtensionComponent from './dialog-extension/DialogExtension';

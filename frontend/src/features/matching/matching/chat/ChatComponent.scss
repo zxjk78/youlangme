@@ -1,5 +1,5 @@
 #chatContainer {
-  position: absolute;
+  // position: absolute;
   z-index: 0;
   width: 100%;
   height: 90%;
@@ -26,8 +26,8 @@
 
 #chatComponent {
   background-color: #b8b8b8;
-  position: absolute;
-  z-index: 99997;
+  // position: absolute;
+  // z-index: 99997;
   top: 0;
   left: 0;
   right: 0;
@@ -204,3 +204,9 @@ span.triangle {
 }
 
 /* youlangme custom */
+.more {
+  position: relative;
+  display: flex;
+  // flex-direction: column;
+  flex-direction: column-reverse;
+}
