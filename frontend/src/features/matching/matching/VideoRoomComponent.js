@@ -14,10 +14,12 @@ import { API_URL, accessToken } from '../../../common/api/http-config';
 import { connect } from 'react-redux';
 import { resetMatching } from '../matchSlice';
 import HelpTemplate from '../youlangmeCustom/helps/HelpTemplate';
+import MenuSpeedDial from './components/MenuSpeedDial';
+import Box from '@mui/material/Box';
+
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import EvaluationTemplate from '../youlangmeCustom/evaluations/EvaluationTemplate';
 import { withRouter } from 'react-router-dom';
-
 
 var localUser = new UserModel();
 
@@ -69,17 +71,17 @@ class VideoRoomComponent extends Component {
     this.nationality = createRef(null);
     // youlangme custom
     this.toggleHelpModal = this.toggleHelpModal.bind(this);
-    this.ExitHandler = this.ExitHandler.bind(this)
+    // this.ExitHandler = this.ExitHandler.bind(this);
     //this.toggleEvaluationModal = this.toggleEvaluationModal.bind(this)
   }
 
   checkSubscribers = () => {
-    if(this.state.subscribers.length){
-      return true
+    if (this.state.subscribers.length) {
+      return true;
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   componentDidMount() {
     const openViduLayoutOptions = {
@@ -99,13 +101,48 @@ class VideoRoomComponent extends Component {
       document.getElementById('layout'),
       openViduLayoutOptions
     );
-    window.addEventListener('beforeunload', this.onbeforeunload);
+    // window.addEventListener('beforeunload', this.onbeforeunload);
     window.addEventListener('resize', this.updateLayout);
     window.addEventListener('resize', this.checkSize);
-    // this.props.doResetMyPageInfo();
-    window.addEventListener('beforeunload', () => {
-      this.componentWillUnmount();
+    window.addEventListener('beforeunload', (event) => {
+      if (this.checkSubscribers()){
+        axios
+          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+            headers: {
+              'X-AUTH-TOKEN': accessToken,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+           console.log(err.message);
+          });
+          this.leaveSession();
+          this.abnormalExit();
+          this.componentWillUnmount();
+      } else if (!this.checkSubscribers()){
+        //   axios
+        //     .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+        //       headers: {
+        //       'X-AUTH-TOKEN': accessToken,
+        //     },
+        //   })
+        //     .then((res) => {
+        //       console.log(res.data);
+        //       console.log(this.checkSubscribers())
+        //     })
+        //   .catch((err) => {
+        //       console.log(err.message);
+        //   });
+        // }
+        this.leaveSession();
+        this.abnormalExit();
+        this.componentWillUnmount();
+      }
     });
+
+  
     try {
       const sessionId = this.props.location.state.sessionId;
       setTimeout(() => {
@@ -126,30 +163,106 @@ class VideoRoomComponent extends Component {
         this.joinSession();
       }, 500);
     } catch {
-      this.abnormalExit()
+      this.abnormalExit();
     }
 
-    setTimeout(() => {
-      console.log(this.checkSubscribers())
-      if(!this.checkSubscribers()){
-        alert('상대방이 입장하지 않았습니다.')
-        this.leaveSession()
-        this.abnormalExit()
-      } 
+    this.timerId = setTimeout(() => {
+      if (!this.checkSubscribers()) {
+        alert('상대방이 들어오지 않았습니다.');
+        this.leaveSession();
+        this.abnormalExit();
+      }
     }, 15000);
+
+    setTimeout(() => {
+      this.setState({ timer: true });
+      console.log(this.state.timer);
+    }, 60000);
 
     // this.joinSession();
   }
 
   componentWillUnmount() {
+    clearTimeout(this.timerId);
     window.removeEventListener('beforeunload', this.onbeforeunload);
+    window.removeEventListener('beforeunload', this.openTimer);
     window.removeEventListener('resize', this.updateLayout);
     window.removeEventListener('resize', this.checkSize);
-    this.leaveSession();
   }
 
   onbeforeunload(event) {
-    this.leaveSession();
+    const checker = this.checkSubscribers();
+
+    if (checker && this.state.timer) {
+      axios
+        .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+          headers: {
+            'X-AUTH-TOKEN': accessToken,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.leaveSession();
+          this.normalExit();
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    } else if (checker && !this.state.timer) {
+      axios
+        .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+          headers: {
+            'X-AUTH-TOKEN': accessToken,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          console.log(this.checkSubscribers());
+          this.leaveSession();
+          this.abnormalExit();
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    } else if (!checker && !this.state.timer) {
+      this.leaveSession();
+      this.abnormalExit();
+    } else if (!checker && this.state.timer) {
+      this.leaveSession();
+      this.normalExit();
+    } else {
+      if (this.state.timer) {
+        axios
+          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+            headers: {
+              'X-AUTH-TOKEN': accessToken,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.leaveSession();
+            this.normalExit();
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      } else {
+        axios
+          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+            headers: {
+              'X-AUTH-TOKEN': accessToken,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.leaveSession();
+            this.abnormalExit();
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      }
+    }
   }
 
   joinSession() {
@@ -307,17 +420,13 @@ class VideoRoomComponent extends Component {
     if (this.props.leaveSession) {
       this.props.leaveSession();
     }
-  
   }
 
-  normalExit(){
-    this.props.history.push(
-      '/main',
-      { props: {chattingExit: true}}
-    );
+  normalExit() {
+    this.props.history.push('/main', { props: { chattingExit: true } });
   }
 
-  abnormalExit(){
+  abnormalExit() {
     this.props.history.push('/main');
   }
 
@@ -361,6 +470,7 @@ class VideoRoomComponent extends Component {
   subscribeToStreamCreated() {
     this.state.session.on('streamCreated', (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined);
+      console.log('subscriber', subscriber);
       // var subscribers = this.state.subscribers;
       subscriber.on('streamPlaying', (e) => {
         this.checkSomeoneShareScreen();
@@ -389,9 +499,8 @@ class VideoRoomComponent extends Component {
       setTimeout(() => {
         this.checkSomeoneShareScreen();
       }, 20);
-      alert("상대방이 나가셨습니다.")
-      this.leaveSession()
-      this.normalExit()
+      clearTimeout(this.timerId);
+      alert('상대방이 나가셨습니다.');
     });
   }
 
@@ -628,20 +737,22 @@ class VideoRoomComponent extends Component {
   //   this.setState({isEvaluationModalVisible: !this.state.isEvaluationModalVisible})
   // }
 
-  ExitHandler(event){
-    axios.delete(API_URL + `meeting/end/${this.state.mySessionId}`, {headers: {
-      'X-AUTH-TOKEN': accessToken,
-    }})
-    .then((res)=> {
-      console.log(res.data)
-      this.leaveSession()
-      this.normalExit()
-    })
-    .catch((err) => {
-      console.log(err.message)
-    })
-  }
- 
+  // ExitHandler(event) {
+  //   axios
+  //     .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+  //       headers: {
+  //         'X-AUTH-TOKEN': accessToken,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       this.leaveSession();
+  //       this.normalExit();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //     });
+  // }
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -696,7 +807,7 @@ class VideoRoomComponent extends Component {
           {localUser !== undefined &&
             localUser.getStreamManager() !== undefined && (
               <div
-                className="OT_root OT_publisher custom-class"
+                className="OT_root OT_publisher custom-class chat-container"
                 style={chatDisplay}
               >
                 <ChatComponent
@@ -704,6 +815,7 @@ class VideoRoomComponent extends Component {
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
                   messageReceived={this.checkNotification}
+                  myNationality={this.state.nationality}
                 />
               </div>
             )}
@@ -718,14 +830,28 @@ class VideoRoomComponent extends Component {
             yourNationality={this.state.yourNationality}
           />
         ) : (
-          <div className="help-btn" onClick={this.toggleHelpModal}>
-            Help
-          </div>
+          <Box
+            sx={{
+              bgcolor: '#000',
+              color: '#fff',
+              position: 'fixed',
+              right: '20px',
+              bottom: '20px',
+            }}
+          >
+            <MenuSpeedDial
+              help={this.toggleHelpModal}
+              quit={this.onbeforeunload}
+            />
+          </Box>
         )}
-        <div>
-        <ExitToAppIcon className="evaluation-btn" fontSize="large" onClick={this.ExitHandler}/>
-        </div>
-        
+        {/* <div>
+          <ExitToAppIcon
+            className="evaluation-btn"
+            fontSize="large"
+            onClick={this.onbeforeunload}
+          />
+        </div> */}
       </div>
     );
   }

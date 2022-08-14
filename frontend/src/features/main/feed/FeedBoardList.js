@@ -15,6 +15,8 @@ const Feed = (props) => {
   const [lastBoardId, setLastBoardId] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isBoardOver, serIsBoardOver] = useState(false);
+
+
   useEffect(() => {
     setIsLoading(() => true);
     (async () => {
@@ -25,7 +27,8 @@ const Feed = (props) => {
       setFolloweeBoardList((prevState) => [...prevState, ...data]);
     })();
     setIsLoading(() => false);
-  }, [lastBoardId]);
+  }, [ lastBoardId]);
+
   const fetchBoardPageHandler = async () => {
     setLastBoardId(() => followeeBoardList.at(-1).boardId);
   };

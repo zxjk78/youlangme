@@ -28,7 +28,11 @@ class CardBody extends React.Component {
   render() {
     return (
       <div className="card-body">
-        <h5>{this.props.title}</h5>
+        <h5>
+          {this.props.title.length > 58
+            ? this.props.title.slice(0, 55) + '...'
+            : this.props.title}
+        </h5>
 
         <p className="body-content">{this.props.text}</p>
 
