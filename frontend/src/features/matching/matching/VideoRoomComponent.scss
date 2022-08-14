@@ -925,15 +925,15 @@
 
 .videoroom-wrapper {
   display: grid;
-  grid-template-rows: 1fr 4fr 1fr;
+  grid-template-rows: 4fr 1fr;
   padding: 12px;
 
-  .videoroom-header {
-    grid-area: 1/1/2/4;
-  }
+  // .videoroom-header {
+  //   grid-area: 1/1/2/4;
+  // }
 
   .videoroom-main {
-    grid-area: 2/1/4/4;
+    grid-area: 1/1/4/4;
   }
 
   .videoroom-footer {
@@ -943,19 +943,19 @@
 .videoroom-wrapper-chat {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 400px;
-  grid-template-rows: 1fr 4fr 1fr;
+  grid-template-rows: 4fr 1fr;
   padding: 12px;
   gap: 10px;
 
-  .videoroom-header {
-    grid-area: 1/1/2/7;
-  }
+  // .videoroom-header {
+  //   grid-area: 1/1/2/7;
+  // }
 
   .videoroom-main {
-    grid-area: 2/1/4/6;
+    grid-area: 1/1/4/6;
   }
   .videoroom-chat {
-    grid-area: 2/6/4/7;
+    grid-area: 1/6/4/7;
   }
 
   .videoroom-footer {

@@ -66,7 +66,9 @@ const MessageInputReply = (props) => {
               </div>
             </div>
             <div className={classes.originalMessage}>
-              {originalMessage.slice(0, 200)}
+              {originalMessage.length > 20
+                ? originalMessage.slice(0, 20) + '...'
+                : originalMessage}
             </div>
             <Divider />
           </div>

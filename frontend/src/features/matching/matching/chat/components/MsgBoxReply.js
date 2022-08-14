@@ -10,7 +10,11 @@ const MsgBoxReply = React.forwardRef((props, ref) => {
       <div className={classes.content}>
         <div className={classes.originMsgInfo}>
           <div>답장</div>
-          <div>{originalMessage}</div>
+          <div>
+            {originalMessage.length > 100
+              ? originalMessage.slice(0, 100) + '...'
+              : originalMessage}
+          </div>
         </div>
         <span className="triangle" />
         <p className={classes.text} ref={ref}>

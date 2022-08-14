@@ -600,9 +600,9 @@ class VideoRoomComponent extends Component {
           this.state.chatDisplay === 'block' ? '-chat' : ''
         }`}
       >
-        <div className="videoroom-header">
+        {/* <div className="videoroom-header">
           <VideoRoomHeader oppoInfo={123} />
-        </div>
+        </div> */}
 
         <div className="videoroom-main">
           <div id="layout" className="bounds">

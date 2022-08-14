@@ -219,7 +219,7 @@ export default class ChatComponent extends Component {
     target.classList.add('move');
     setTimeout(() => {
       target.classList.remove('move');
-    }, 3000);
+    }, 2000);
   }
   cancelReply() {
     this.setState({
@@ -233,7 +233,10 @@ export default class ChatComponent extends Component {
     const styleChat = { display: this.props.chatDisplay };
     return (
       <div id="chatContainer">
-        <div id="chatComponent" style={styleChat}>
+        <div
+          class={`chatComponent ${this.state.isReply && 'reply'}`}
+          style={styleChat}
+        >
           <div id="chatToolbar">
             <div>
               {/* {this.props.user.getStreamManager().stream.session.sessionId} -

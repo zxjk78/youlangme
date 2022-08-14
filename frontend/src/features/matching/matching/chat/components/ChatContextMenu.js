@@ -7,6 +7,8 @@ import GTranslateIcon from '@mui/icons-material/GTranslate';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SpellcheckIcon from '@mui/icons-material/Spellcheck';
 import classes from './ChatContextMenu.module.scss';
+import styled from '@emotion/styled';
+
 export default function MenuListComposition(props) {
   const style = {
     zIndex: 99999,
@@ -44,7 +46,7 @@ export default function MenuListComposition(props) {
           </MenuItem>
           <MenuItem onClick={modifyHandler}>
             <SpellcheckIcon />
-            <div className={classes.option}>교정</div>
+            <div className={classes.option}>답장</div>
           </MenuItem>
         </MenuList>
       </Paper>

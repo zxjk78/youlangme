@@ -28,6 +28,7 @@ export default class StreamComponent extends Component {
       showForm: false,
       mutedSound: false,
       isFormValid: true,
+
       // isVideoActive: props.isVideoActive,
       // isAudioActive: props.isAudioActive,
     };

@@ -8,6 +8,7 @@ const CustomButton = styled(Button)`
   color: #fff !important;
   width: 90px;
   height: 40px;
+  line-height: 10px;
 `;
 
 const SendButton = (props) => {

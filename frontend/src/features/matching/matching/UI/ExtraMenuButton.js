@@ -34,7 +34,7 @@ const ButtonCustom = styled(Button)`
   display: flex;
   flex-direction: column;
   .text {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     color: aliceblue;
     font-weight: bold;
   }
@@ -79,7 +79,7 @@ export default function ExtraMenuButton(props) {
         <BoxCustom component={'div'}>
           <MoreVertIcon />
         </BoxCustom>
-        <div className="text">Etc</div>
+        {/* <div className="text">Etc</div> */}
       </ButtonCustom>
       <MenuCustom
         id="basic-menu"

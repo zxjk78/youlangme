@@ -3,10 +3,24 @@
 
 .main {
   display: flex;
+  min-width: 100px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  .textArea {
+    display: none;
+  }
+  transition: all 0.5s;
+}
+
+.main:hover {
+  .iconArea {
+    margin-top: -10px;
+  }
+  .textArea {
+    display: block;
+  }
 }
 
 .iconArea {
@@ -15,12 +29,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: aqua;
+  background-color: #fff;
   border-radius: 70%;
 }
 
 .textArea {
-  color: #d3d3d3;
-  font-size: 1.1rem;
+  color: #fff;
+  font-size: 0.9rem;
   font-weight: bold;
 }
