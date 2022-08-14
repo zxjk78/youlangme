@@ -37,8 +37,7 @@ const FeedLIst = (props) => {
 
   const fetchFeedMoreHandler = async () => {
     const data = await fetchFeedMore(nextFeedId);
-    console.log(data.feedResponseDtoList);
-    console.log(data.nextId);
+
     setFolloweeFeedList((prevState) => [
       ...prevState,
       ...data.feedResponseDtoList,
@@ -61,7 +60,54 @@ const FeedLIst = (props) => {
               </div>
             ) : (
               <>
-                {followeeFeedList.map((item) => {
+                <div className={classes.feedArea1}>
+                  {followeeFeedList.map((item, index) => {
+                    if (index % 2 === 0) {
+                      let tmp;
+                      if (item.logType === 'WRITE_POST') {
+                        tmp = (
+                          <FeedBoardItem
+                            key={item.detail + 'W'}
+                            boardInfo={item}
+                          />
+                        );
+                      } else if (item.logType === 'FOLLOWED') {
+                        tmp = (
+                          <FeedFollowItem
+                            key={item.detail + 'F'}
+                            followInfo={item}
+                          />
+                        );
+                      }
+                      return tmp;
+                    }
+                  })}
+                </div>
+                <div className={classes.feedArea2}>
+                  {followeeFeedList.map((item, index) => {
+                    if (index % 2 === 1) {
+                      let tmp;
+                      if (item.logType === 'WRITE_POST') {
+                        tmp = (
+                          <FeedBoardItem
+                            key={item.detail + 'W'}
+                            boardInfo={item}
+                          />
+                        );
+                      } else if (item.logType === 'FOLLOWED') {
+                        tmp = (
+                          <FeedFollowItem
+                            key={item.detail + 'F'}
+                            followInfo={item}
+                          />
+                        );
+                      }
+                      return tmp;
+                    }
+                  })}
+                </div>
+
+                {/* {followeeFeedList.map((item) => {
                   let tmp;
                   if (item.logType === 'WRITE_POST') {
                     tmp = (
@@ -76,19 +122,16 @@ const FeedLIst = (props) => {
                     );
                   }
                   return tmp;
-                })}
-                <div className={classes.footer}>
-                  {nextFeedId !== -1 && (
-                    <div
-                      className={classes.more}
-                      onClick={fetchFeedMoreHandler}
-                    >
-                      <div>더보기</div>
-                      <ExpandMoreIcon />
-                    </div>
-                  )}
-                </div>
+                })} */}
               </>
+            )}
+          </div>
+          <div className={classes.footer}>
+            {nextFeedId !== -1 && (
+              <div className={classes.more} onClick={fetchFeedMoreHandler}>
+                <div>더보기</div>
+                <ExpandMoreIcon />
+              </div>
             )}
           </div>
         </div>

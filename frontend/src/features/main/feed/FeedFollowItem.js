@@ -25,7 +25,8 @@ const FeedFollowItem = (props) => {
             >
               <span>{props.followInfo.userName}</span>
             </Link>
-            님이 회원님을 팔로우하기 시작했습니다.
+            님이 회원님을 <br />
+            팔로우하기 시작했습니다.
           </div>
           <div>{createdDateCal(props.followInfo.createdTime, false)}</div>
         </div>
