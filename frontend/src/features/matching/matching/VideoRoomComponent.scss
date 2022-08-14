@@ -942,23 +942,24 @@
 }
 .videoroom-wrapper-chat {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 400px;
   grid-template-rows: 1fr 4fr 1fr;
   padding: 12px;
+  gap: 10px;
 
   .videoroom-header {
-    grid-area: 1/1/2/4;
+    grid-area: 1/1/2/7;
   }
 
   .videoroom-main {
-    grid-area: 2/1/4/3;
+    grid-area: 2/1/4/6;
   }
   .videoroom-chat {
-    grid-area: 2/3/4/4;
+    grid-area: 2/6/4/7;
   }
 
   .videoroom-footer {
-    grid-area: 4/1/5/4;
+    grid-area: 4/1/5/7;
   }
 }
 
@@ -974,14 +975,13 @@
   /* bottom: 100px; */
   height: calc(100vh - 200px);
   /* min-width: 400px !important; */
-  min-width: 400px !important;
-  width: 90%;
+  min-width: 300px !important;
   margin: 0px auto;
 }
 
-.chat-container {
-  top: 100px;
-  right: 10px;
-  width: 25%;
-  height: 80%;
-}
+// .chat-container {
+//   top: 100px;
+//   right: 10px;
+//   width: 25%;
+//   height: 80%;
+// }

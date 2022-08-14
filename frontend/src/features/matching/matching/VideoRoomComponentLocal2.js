@@ -642,6 +642,7 @@ class VideoRoomComponent extends Component {
           <div className="videoroom-chat" style={chatDisplay}>
             <ChatComponent
               user={localUser}
+              userId={`1005`}
               chatDisplay={this.state.chatDisplay}
               close={this.toggleChat}
               messageReceived={this.checkNotification}

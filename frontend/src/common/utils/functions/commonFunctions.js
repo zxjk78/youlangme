@@ -39,7 +39,7 @@ const imgRatioCalculate = (imgObj, size) => {
 // 리사이징하고 싶은 canvas에 담고 파일화하는 작업
 const loadToCanvas = (imgObj, size) => {
   const [width, height] = imgRatioCalculate(imgObj, size);
-  console.log(width, height);
+  // console.log(width, height);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = width;
@@ -86,13 +86,4 @@ export const imgResizing = async (oldFile) => {
   const convertedImg = await fileToImg(oldFile);
 
   return loadToCanvas(convertedImg, oldFile.size);
-};
-
-// DOM 상 요소의 브라우저 x, y 좌표 구하는 함수
-export const getOffset = (el) => {
-  const rect = el.getBoundingClientRect();
-  return {
-    left: rect.left + window.scrollX,
-    top: rect.top + window.scrollY,
-  };
 };

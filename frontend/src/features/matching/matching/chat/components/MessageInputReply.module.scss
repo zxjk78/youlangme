@@ -4,6 +4,8 @@
     grid-column-start: 1;
     grid-column-end: 6;
     & > div:nth-of-type(1) {
+      font-size: 0.9rem;
+      font-weight: bold;
       display: flex;
       justify-content: space-between;
       & > * {
@@ -11,6 +13,9 @@
         margin-left: 10px;
       }
     }
+  }
+  .originalMessage {
+    margin-left: 10px;
   }
   .grid2 {
     grid-column-start: 1;

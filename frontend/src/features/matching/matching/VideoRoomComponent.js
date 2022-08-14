@@ -152,6 +152,7 @@ class VideoRoomComponent extends Component {
         const yourNationality = this.props.location.state.youInfo.nationality;
         const myLanguage = this.props.location.state.MyInfo.mylanguage;
         const yourLanguage = this.props.location.state.MyInfo.yourlanguage;
+        const myId = this.props.location.state.MyInfo.id;
 
         console.log(
           `이름:  ${myName}, 내 국적: ${myNationality}, 상대국적: ${yourNationality}, 내 언어: ${myLanguage}, 상대 언어: ${yourLanguage}`
@@ -824,6 +825,8 @@ class VideoRoomComponent extends Component {
                   myNationality={this.state.nationality}
                   myLanguage={this.state.mylanguage}
                   yourLanguage={this.state.yourlanguage}
+                  // id값 보내서 img src에 사용
+                  userId={this.state.myId}
                 />
               </div>
             )}
