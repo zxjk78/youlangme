@@ -64,6 +64,7 @@ const RecommendUser = (props) => {
               </div>
               <div className={classes.main}>
                 {recommendUser.slice(0,3).map((reco) => (
+                // {recommendUser.map((reco) => (
                   <RecommendUserInfo
                     userId={reco.followerId}
                     name={reco.name}

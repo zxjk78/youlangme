@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import classes from './UserActiveMsg.module.scss';
+import classes from './UserActivityMsg.module.scss';
+
 // type에 따라서 다른 글을 렌더링하는 유저 활동 나열 컴포넌트
-const UserActivitiMsg = (props) => {
+const UserActivityMsg = (props) => {
   const type = props.type;
   let component;
   if (type === 2) {
@@ -29,4 +30,4 @@ const UserActivitiMsg = (props) => {
   );
 };
 
-export default UserActivitiMsg;
+export default UserActivityMsg;
