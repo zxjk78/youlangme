@@ -14,19 +14,17 @@ import classes from './FeedBoardItem.module.scss';
 
 // etc
 import { createdDateCal } from '../../../common/utils/functions/commonFunctions';
-import { API_URL } from '../../../common/api/http-config';
 import { useEffect } from 'react';
 import { fetchProfile } from '../../profile/LeftProfile/LeftProfileAPI';
 
-const FeedBoardItem = (props) => {
+const FeedLIstItem = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const boardInfo = props.boardInfo;
   const contents = boardInfo?.contents;
   const username = boardInfo?.userName;
   const userId = boardInfo?.userId;
-  const boardId = boardInfo?.boardId;
-  console.log(boardInfo, '여기 피드')
+  const boardId = boardInfo?.detail;
   const createdAt = createdDateCal(boardInfo.createdTime, false);
   const [boardUserNationality, setBoardUserNationality] = useState('');
   const [replyCnt, setReplyCnt] = useState(boardInfo?.replyCnt || 0);
@@ -51,8 +49,7 @@ const FeedBoardItem = (props) => {
       setBoardUserNationality(profileDetail.nationality);
     })();
 
-    return () => {
-    };
+    return () => {};
   }, [userId]);
 
   return (
@@ -69,7 +66,13 @@ const FeedBoardItem = (props) => {
         <div className={classes.container}>
           <div className={classes.header}>
             <div className={classes.author}>
-              <UserInfo user={{ id: userId, name: username, nationality: boardUserNationality }} />
+              <UserInfo
+                user={{
+                  id: userId,
+                  name: username,
+                  nationality: boardUserNationality,
+                }}
+              />
             </div>
             <div className={classes.createdAt}>{createdAt}</div>
           </div>
@@ -77,16 +80,12 @@ const FeedBoardItem = (props) => {
           <div className={classes.footerWrapper}>
             <div className={classes.footer}>
               <div>
-                <FavoriteBorderIcon sx={{ mr: 1, color: '#5c5a5a'}}/>
-                <span className={classes.cnt}>
-                  {likeCnt}
-                </span>
+                <FavoriteBorderIcon sx={{ mr: 1, color: '#5c5a5a' }} />
+                <span className={classes.cnt}>{likeCnt}</span>
               </div>
               <div>
-                <ChatBubbleOutlineIcon sx={{ mr: 1, color: '#5c5a5a'}} />
-                <span className={classes.cnt}>
-                  {replyCnt}
-                </span>
+                <ChatBubbleOutlineIcon sx={{ mr: 1, color: '#5c5a5a' }} />
+                <span className={classes.cnt}>{replyCnt}</span>
               </div>
             </div>
           </div>
@@ -96,4 +95,4 @@ const FeedBoardItem = (props) => {
   );
 };
 
-export default FeedBoardItem;
+export default FeedLIstItem;
