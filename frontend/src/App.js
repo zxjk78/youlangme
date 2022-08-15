@@ -9,7 +9,7 @@ import MyPage from "./features/profile/MyPage";
 import PrivateRoute from "./common/routes/PrivateRoute";
 import PublicRoute from "./common/routes/PublicRoute";
 import Social from "./features/auth/social/Social";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Board from "./features/board/Board";
 import BoardDetailModal from "./features/board/detail/components/BoardDetailModal";
 import StartMatching from "./features/matching/StartMatching";
@@ -24,6 +24,7 @@ import ProfileBoardSummeryList from "./features/profile/RightProfile/profileBoar
 import Header from "./common/UI/Header/Header";
 import axios from "axios";
 import { API_URL } from "./common/api/http-config";
+import { logout } from "./features/auth/authSlice";
 // import RightProfile from './features/profile/RightProfile/RightProfile';
 // import MyPageBoard from './features/profile/MyPageBoard';
 
@@ -31,6 +32,7 @@ function App() {
   // const { currentUser } = useSelector((state) => state.auth);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const history = useHistory();
+  const dispatch = useDispatch()
   const { currentUser } = useSelector((state) => state.auth);
   const name = Object.keys(currentUser).length != 0 ? currentUser.name : null;
   const reissueToken = () => {
@@ -56,7 +58,7 @@ function App() {
         console.log(response.data.data);
       })
       .catch((err) => {
-        alert(err.message);
+        dispatch(logout())
       });
   };
 
@@ -85,7 +87,7 @@ function App() {
             console.log(response.data.data);
           })
           .catch((err) => {
-            alert(err.message);
+            
           });
       }
     }, 150000);

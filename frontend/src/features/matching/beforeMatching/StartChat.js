@@ -8,7 +8,7 @@ import { fetchHobbies } from "../../auth/modify/modifyAPI";
 import * as selectData from "../../auth/modify/data";
 import { chipColors } from "../../profile/ProfileColorPalette";
 import { startMatching } from "../matchSlice";
-import { API_URL, accessToken } from "../../../common/api/http-config";
+import { API_URL } from "../../../common/api/http-config";
 
 import { Button, Chip, Stack, Typography } from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
@@ -93,14 +93,17 @@ const StartChat = (props) => {
     setYourLanguage(event.target.value);
   };
 
-  const header = {
-    "Content-Type": "application/json",
-    "X-Auth-Token": accessToken,
-  };
+
   const startMatchingHandler = (event) => {
     props.setMatchLoading(true);
     props.setMyLanguage(myLanguage);
     props.setYourLanguage(yourLanguage);
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user ? user.accessToken : null;
+    const header = {
+      "Content-Type": "application/json",
+      "X-Auth-Token": accessToken,
+    };
     axios
       .post(
         API_URL + "match",

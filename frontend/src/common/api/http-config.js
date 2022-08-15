@@ -1,7 +1,6 @@
 
 export const API_URL = "http://localhost:8080/";
 
-
 export const user = JSON.parse(localStorage.getItem("user"));
 
 export let accessToken = user ? user.accessToken : null;

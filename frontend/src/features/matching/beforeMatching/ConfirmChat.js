@@ -9,7 +9,7 @@ import {
 } from "../../profile/LeftProfile/LeftProfileAPI";
 
 // data import
-import { API_URL, accessToken } from "../../../common/api/http-config";
+import { API_URL } from "../../../common/api/http-config";
 import { iso_code } from "../../profile/LeftProfile/UserInfo/flagData";
 
 // mui
@@ -69,6 +69,8 @@ const ConfirmChat = (props) => {
   }, [props.matchConfirm]);
 
   const matchingHandler = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const accessToken = user ? user.accessToken : null;
     axios
       .post(
         API_URL + `meeting/enter/${props.sessionId}`,
