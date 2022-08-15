@@ -81,6 +81,18 @@ public class RedisConfig {
     }
 
     @Bean
+    public CacheManager expLevelCacheManager() {
+        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory());
+        RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
+//                .prefixKeysWith("ExpLevel:") // Cacheable의 value값을 덮어 써버린다.
+//                .prefixCacheNameWith("ExpLevel")
+                .entryTtl(Duration.ofHours(2)); // 캐시 수명 2시간
+        builder.cacheDefaults(configuration);
+        return builder.build();
+    }
+
+    @Bean
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
@@ -115,6 +127,8 @@ public class RedisConfig {
         grassredisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(GrassResponseDto.class));
         return grassredisTemplate;
     }
+
+
 
     private ObjectMapper objectMapper() {
         PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator

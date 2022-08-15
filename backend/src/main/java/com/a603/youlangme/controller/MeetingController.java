@@ -63,8 +63,7 @@ public class MeetingController {
     }
 
     @DeleteMapping("/end/{session_id}")
-    public CommonResult endMeeting(@PathVariable("session_id") String sessionId,
-                                     @ApiIgnore @LoginUser User loginUser){
+    public CommonResult endMeeting(@PathVariable("session_id") String sessionId){
         meetingService.endMeeting(sessionId);
 
         return responseService.getSuccessResult();
