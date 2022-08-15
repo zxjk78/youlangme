@@ -60,6 +60,9 @@ INSERT INTO user VALUES(2006,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.2
 INSERT INTO user VALUES(2007,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2007@gmail.com','MALE',null,'JAPANESE','userbot2007','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
 INSERT INTO user VALUES(2008,'2022-07-22 16:34:22.232051','2022-07-22 16:34:22.232051','1997-11-02','hello!!!','2008@gmail.com','MALE',null,'JAPANESE','userbot2008','JAPAN','{bcrypt}$2a$10$MBmYHjIMbwXWBX2YZsZrLOexUQabMCexGf8AvznT97DRbppdAfimO','ENGLISH');
 
+-- url.server.mathcing = http://172.17.0.4:8000
+--consultant123@test.com / ssafyA603
+--coach123@test.com / ssafyA603
 
 
 -- User Roles

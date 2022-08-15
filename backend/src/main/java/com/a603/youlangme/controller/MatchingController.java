@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,8 @@ public class MatchingController {
     private final ResponseService responseService;
     private final UserService userService;
 
+    @Value("${url.server.matching}")
+    private String MATCHING_SERVER_URL;
 
     @ResponseBody
     @PostMapping
@@ -75,7 +78,7 @@ public class MatchingController {
                     userFavorite -> userFavorite.getFavorite().getId()
             ).collect(Collectors.toList()));
 
-            ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8000/matchmaking", bodyJson, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(MATCHING_SERVER_URL+"/matchmaking", bodyJson, String.class);
 
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> map = mapper.readValue(response.getBody(), Map.class);
