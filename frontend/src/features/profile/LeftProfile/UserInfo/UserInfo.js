@@ -15,7 +15,7 @@ const UserInfo = (props) => {
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_RlT-ytB9A_TQFLKMqVYpdJiiRbckTCThmw&usqp=CAU';
   };
   const user = props.user;
-  // console.log(user);
+
   useEffect(() => {
     (async () => {
       const profileImage = await fetchProfileImg(user.id);
@@ -32,7 +32,7 @@ const UserInfo = (props) => {
 
   return (
     <>
-      <div className={classes.wrapper}>
+      <div className={classes[!props.small ? `wrapper` : `wrapper-small`]}>
         <Link
           to={`/profile/${user.id}`}
           style={{ textDecoration: 'none', color: 'black' }}

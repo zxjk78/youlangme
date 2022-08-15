@@ -24,8 +24,8 @@ const FeedLIst = (props) => {
     setIsLoading(() => true);
     (async () => {
       const data = await fetchFeed();
-      console.log(data.feedResponseDtoList);
-      console.log(data.nextId);
+      // console.log(data.feedResponseDtoList);
+      // console.log(data.nextId);
       setFolloweeFeedList((prevState) => [
         ...prevState,
         ...data.feedResponseDtoList,
