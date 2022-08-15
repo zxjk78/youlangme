@@ -20,7 +20,7 @@ import VideoRoomComponentLocal2 from "./features/matching/matching/VideoRoomComp
 import NotFound from "./features/other/NotFound/NotFound";
 //test
 import Maintmp from "./features/main/Maintmp";
-import ProfileBoardSummeryList from "./features/profile/RightProfile/profileBoardSummery/ProfileBoardSummeryList";
+import ProfileBoardSummaryList from "./features/profile/RightProfile/profileBoardSummary/ProfileBoardSummaryList";
 import Header from "./common/UI/Header/Header";
 import axios from "axios";
 import { API_URL } from "./common/api/http-config";
@@ -155,7 +155,7 @@ function App() {
           <PrivateRoute path="/test" component={Maintmp}></PrivateRoute>
           <PrivateRoute
             path="/test2/:userId"
-            component={ProfileBoardSummeryList}
+            component={ProfileBoardSummaryList}
           ></PrivateRoute>
           {/* 404 route */}
           <PrivateRoute path="*" component={NotFound}></PrivateRoute>
