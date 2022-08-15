@@ -8,7 +8,7 @@ import { fetchHobbies } from "../../auth/modify/modifyAPI";
 import * as selectData from "../../auth/modify/data";
 import { chipColors } from "../../profile/ProfileColorPalette";
 import { startMatching } from "../matchSlice";
-import { API_URL, accessToken } from "../../../common/api/http-config";
+import { API_URL } from "../../../common/api/http-config";
 
 import { Button, Chip, Stack, Typography } from "@mui/material";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
@@ -93,11 +93,14 @@ const StartChat = (props) => {
     setYourLanguage(event.target.value);
   };
 
-  const header = {
-    "Content-Type": "application/json",
-    "X-Auth-Token": accessToken,
-  };
+  
   const startMatchingHandler = (event) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = user ? user.accessToken : null;
+    const header = {
+      "Content-Type": "application/json",
+      "X-Auth-Token": accessToken,
+    };
     props.setMatchLoading(true);
     props.setMyLanguage(myLanguage);
     props.setYourLanguage(yourLanguage);
@@ -110,10 +113,18 @@ const StartChat = (props) => {
         }
       )
       .then((response) => {
-        props.setSessionId(response.data.data.sessionId);
-        props.setOpponentId(response.data.data.opponentId);
-        props.setMatchLoading(false);
-        props.setMatchConfirm(true);
+        if (response.data.data.opponentId === -1){
+          alert("매칭 상대가 잡히지 않았습니다.")
+          props.setMatchLoading(false)
+          props.setMyLanguage(null);
+          props.setYourLanguage(null);
+        }
+        else {
+          props.setSessionId(response.data.data.sessionId);
+          props.setOpponentId(response.data.data.opponentId);
+          props.setMatchLoading(false);
+          props.setMatchConfirm(true);
+        }
       })
       .catch((err) => {
         alert(err.message);

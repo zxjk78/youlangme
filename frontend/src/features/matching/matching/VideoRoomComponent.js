@@ -8,7 +8,7 @@ import ChatComponent from './chat/ChatComponent';
 import UserModel from '../matchModel/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import OpenViduLayout from '../matchingLayout/openvidu-layout';
-import { API_URL, accessToken } from '../../../common/api/http-config';
+import { API_URL } from '../../../common/api/http-config';
 
 //youlangme-custom
 import { connect } from 'react-redux';
@@ -107,6 +107,8 @@ class VideoRoomComponent extends Component {
 
     window.addEventListener('beforeunload', (event) => {
       if (this.checkSubscribers()) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const accessToken = user ? user.accessToken : null;
         axios
           .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
             headers: {
@@ -201,7 +203,9 @@ class VideoRoomComponent extends Component {
 
   onbeforeunload(event) {
     const checker = this.checkSubscribers();
-
+    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = user ? user.accessToken : null;
+   
     if (checker && this.state.timer) {
       axios
         .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
@@ -239,39 +243,39 @@ class VideoRoomComponent extends Component {
     } else if (!checker && this.state.timer) {
       this.leaveSession();
       this.normalExit();
-    } else {
-      if (this.state.timer) {
-        axios
-          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
-            headers: {
-              'X-AUTH-TOKEN': accessToken,
-            },
-          })
-          .then((res) => {
-            console.log(res.data);
-            this.leaveSession();
-            this.normalExit();
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
-      } else {
-        axios
-          .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
-            headers: {
-              'X-AUTH-TOKEN': accessToken,
-            },
-          })
-          .then((res) => {
-            console.log(res.data);
-            this.leaveSession();
-            this.abnormalExit();
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
-      }
-    }
+    } //else {
+    //   if (this.state.timer) {
+    //     axios
+    //       .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+    //         headers: {
+    //           'X-AUTH-TOKEN': accessToken,
+    //         },
+    //       })
+    //       .then((res) => {
+    //         console.log(res.data);
+    //         this.leaveSession();
+    //         this.normalExit();
+    //       })
+    //       .catch((err) => {
+    //         console.log(err.message);
+    //       });
+    //   } else {
+    //     axios
+    //       .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
+    //         headers: {
+    //           'X-AUTH-TOKEN': accessToken,
+    //         },
+    //       })
+    //       .then((res) => {
+    //         console.log(res.data);
+    //         this.leaveSession();
+    //         this.abnormalExit();
+    //       })
+    //       .catch((err) => {
+    //         console.log(err.message);
+    //       });
+      
+    
   }
 
   joinSession() {
