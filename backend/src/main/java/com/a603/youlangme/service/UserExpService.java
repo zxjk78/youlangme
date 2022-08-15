@@ -12,6 +12,8 @@ import com.a603.youlangme.enums.ExpUpdateType;
 import com.a603.youlangme.repository.*;
 import com.a603.youlangme.repository.log.ExpLogRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +30,11 @@ public class UserExpService {
     private final ExpLogRepository expLogRepository;
     private final LevelRepository levelRepository;
 
+    //CachePut은 캐시 데이터가 존재해도 항상 메서드 로직을 수행한다.
+    // 경험치, 레벨 검증에 필요한 "로그기반 재계산 연산을 줄이기 위해" 캐싱된 경험치-레벨 캐시에 추가된 경험치를 더해서 저장한다.
     @Transactional
-    public void addExp(ExpUpdateType expUpdateType, User loginUser, ExpActivity activity, Integer multiBase) {
+    @CachePut(value="ExpLevel", key="#loginUser.getId()" , cacheManager = "expLevelCacheManager")
+    public UserExpLevelResponseDto addExp(ExpUpdateType expUpdateType, User loginUser, ExpActivity activity, Integer multiBase) {
 
         // 경험치 업데이트 (레벨도 같이 업데이트)
         UserExp userExpToUpdate = userExpRepository.findByUser(loginUser).orElseThrow(UserNotFoundException::new);
@@ -41,6 +46,8 @@ public class UserExpService {
         } else if (expUpdateType.equals(ExpUpdateType.MULTI)) {
             expToAdd = activity.getExp() * multiBase;
         }
+
+        // DB UserExp 업데이트
         // 경험치 업데이트 (기존 경험치에 더해준다.)
         Integer newExp = userExpToUpdate.addExp(expToAdd);
         // 레벨 계산
@@ -50,9 +57,19 @@ public class UserExpService {
             userExpToUpdate.updateLevel(levelResult);
         }
 
+        // Redis 캐시 업데이트
+
+        // 캐시 업데이트에 사용
+        return UserExpLevelResponseDto.builder()
+                .exp(userExpToUpdate.getExp())
+                .levelId(userExpToUpdate.getLevel().getId())
+                .levelName(userExpToUpdate.getLevel().getName())
+                .build();
     }
 
+    // 경험치 조회 시 로그 기반 검증에 연산이 많이 필요하므로 캐싱 처리를 한다.
     @Transactional
+    @Cacheable(value="ExpLevel", key="{#userId}", cacheManager = "expLevelCacheManager")
     public UserExpLevelResponseDto getExpAndLevel(Long userId) {
 
         // User를 JOIN 하지 않고 로직 수행하기
@@ -86,7 +103,7 @@ public class UserExpService {
         }
 
         return UserExpLevelResponseDto.builder()
-                .exp(userExp.getExp())
+                .exp(totalExp)
                 .levelId(userExp.getLevel().getId())
                 .levelName(userExp.getLevel().getName())
                 .build();
