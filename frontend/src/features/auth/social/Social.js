@@ -36,9 +36,10 @@ const Social = () => {
     if (getCookieValue("accessToken")) {
       localStorage.setItem("user", JSON.stringify(data));
       dispatch(socialLogin());
+      history.push("/main");
     }
   }, [dispatch]);
-  document.location.href = "/main";
+
   return <div></div>;
 };
 

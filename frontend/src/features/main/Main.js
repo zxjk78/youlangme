@@ -1,36 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import Header from '../../common/UI/Header/Header';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import Header from "../../common/UI/Header/Header";
 
-import { logout } from '../auth/authSlice';
-import EvaluationTemplate from '../matching/youlangmeCustom/evaluations/EvaluationTemplate';
+import { getUser, logout } from "../auth/authSlice";
+import EvaluationTemplate from "../matching/youlangmeCustom/evaluations/EvaluationTemplate";
 
-import UserInfo from '../profile/LeftProfile/UserInfo/UserInfo';
+import UserInfo from "../profile/LeftProfile/UserInfo/UserInfo";
 
-const Main = () => {
-  const location = useLocation()
+const Main = (props) => {
+  const location = useLocation();
   const { currentUser } = useSelector((state) => state.auth);
-  const chattingExit = location.state ? location.state.props.chattingExit : false
-  const [isEvaluationModalVisible, setIsEvaluationModalVisble] = useState(chattingExit)
+  const chattingExit = location.state
+    ? location.state.props.chattingExit
+    : false;
+  const [isEvaluationModalVisible, setIsEvaluationModalVisble] =
+    useState(chattingExit);
   const dispatch = useDispatch();
   const history = useHistory();
+
   const logoutHandler = () => {
     dispatch(logout())
       .unwrap()
-      .then(() => {
-        document.location.href = '/';
+      .then((response) => {
+        history.push("/");
       });
   };
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
 
   const toggleEvaluationModal = (event) => {
-    setIsEvaluationModalVisble(!isEvaluationModalVisible)
-  }
-  
- 
+    setIsEvaluationModalVisble(!isEvaluationModalVisible);
+  };
+
   // console.log(currentUser.name);
   if (currentUser.name === null) {
-    history.push('/modify');
+    history.push("/modify");
   }
   // const { user } = useSelector((state) => state.auth);
   // console.log(user);
@@ -40,11 +46,8 @@ const Main = () => {
       <h2>이곳은 임시 홈페이지</h2>
 
       {isEvaluationModalVisible && (
-          <EvaluationTemplate
-            toggleModal={toggleEvaluationModal}
-          />
-        )}
-
+        <EvaluationTemplate toggleModal={toggleEvaluationModal} />
+      )}
 
       <div>
         <Link to="/board/detail">게시판 작업, 뒤에 /게시글번호</Link>
