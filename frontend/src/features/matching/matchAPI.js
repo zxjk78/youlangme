@@ -24,3 +24,28 @@ export const fetchNews2 = async (myCountry, yourCountry) => {
     console.log(error);
   }
 };
+
+export const translate = async (myLangCode, yourLangCode, content) => {
+  const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
+
+  try {
+    const response = await axios.post(
+      `${API_URL}meeting/translate`,
+      {
+        myLanguage: myLangCode,
+        yourLanguage: yourLangCode,
+        content: content,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Auth-Token': accessToken,
+        },
+      }
+    );
+    // console.log(response);
+    return response.data.data.translate;
+  } catch (error) {
+    console.log(error);
+  }
+};

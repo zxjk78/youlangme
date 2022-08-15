@@ -1,29 +1,30 @@
-import "./App.css";
-import React, { useEffect, useRef, useState } from "react";
-import { Switch, BrowserRouter, useHistory, Redirect } from "react-router-dom";
-import Login from "./features/auth/login/Login";
+import './App.css';
+import React, { useEffect, useRef, useState } from 'react';
+import { Switch, BrowserRouter, useHistory, Redirect } from 'react-router-dom';
+import Login from './features/auth/login/Login';
 // import { useSelector } from "react-redux";
-import SignUp from "./features/auth/signup/SignUp";
-import Main from "./features/main/Main";
-import MyPage from "./features/profile/MyPage";
-import PrivateRoute from "./common/routes/PrivateRoute";
-import PublicRoute from "./common/routes/PublicRoute";
-import Social from "./features/auth/social/Social";
-import { useSelector } from "react-redux";
-import Board from "./features/board/Board";
-import BoardDetailModal from "./features/board/detail/components/BoardDetailModal";
-import StartMatching from "./features/matching/StartMatching";
-import IntroMatch from "./features/matching/beforeMatching/IntroMatch";
-import ModifyPage from "./features/auth/modify/ModifyPage";
-import VideoRoomComponent from "./features/matching/matching/VideoRoomComponent";
-import VideoRoomComponentLocal2 from "./features/matching/matching/VideoRoomComponentLocal2";
-import NotFound from "./features/other/NotFound/NotFound";
+
+import SignUp from './features/auth/signup/SignUp';
+import Main from './features/main/Main';
+import MyPage from './features/profile/MyPage';
+import PrivateRoute from './common/routes/PrivateRoute';
+import PublicRoute from './common/routes/PublicRoute';
+import Social from './features/auth/social/Social';
+import { useSelector } from 'react-redux';
+import Board from './features/board/Board';
+import BoardDetailModal from './features/board/detail/components/BoardDetailModal';
+import StartMatching from './features/matching/StartMatching';
+import IntroMatch from './features/matching/beforeMatching/IntroMatch';
+import ModifyPage from './features/auth/modify/ModifyPage';
+import VideoRoomComponent from './features/matching/matching/VideoRoomComponent';
+import VideoRoomComponentLocal2 from './features/matching/matching/VideoRoomComponentLocal2';
+import NotFound from './features/other/NotFound/NotFound';
 //test
-import Maintmp from "./features/main/Maintmp";
-import ProfileBoardSummeryList from "./features/profile/RightProfile/profileBoardSummery/ProfileBoardSummeryList";
-import Header from "./common/UI/Header/Header";
-import axios from "axios";
-import { API_URL } from "./common/api/http-config";
+import Maintmp from './features/main/Maintmp';
+import ProfileBoardSummeryList from './features/profile/RightProfile/profileBoardSummery/ProfileBoardSummeryList';
+import Header from './common/UI/Header/Header';
+import axios from 'axios';
+import { API_URL } from './common/api/http-config';
 // import RightProfile from './features/profile/RightProfile/RightProfile';
 // import MyPageBoard from './features/profile/MyPageBoard';
 
@@ -34,25 +35,25 @@ function App() {
   const { currentUser } = useSelector((state) => state.auth);
   const name = Object.keys(currentUser).length != 0 ? currentUser.name : null;
   const reissueToken = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem('user'));
     const accessToken = user ? user.accessToken : null;
     const refreshToken = user ? user.refreshToken : null;
     axios
       .post(
-        API_URL + "reissue",
+        API_URL + 'reissue',
         {
           accessToken: accessToken,
           refreshToken: refreshToken,
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         }
       )
       .then((response) => {
-        localStorage.removeItem("user");
-        localStorage.setItem("user", JSON.stringify(response.data.data));
+        localStorage.removeItem('user');
+        localStorage.setItem('user', JSON.stringify(response.data.data));
         console.log(response.data.data);
       })
       .catch((err) => {
@@ -62,26 +63,26 @@ function App() {
 
   useEffect(() => {
     let timer1Id = setInterval(() => {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem('user'));
       const accessToken = user ? user.accessToken : null;
       const refreshToken = user ? user.refreshToken : null;
       if (isLoggedIn) {
         axios
           .post(
-            API_URL + "reissue",
+            API_URL + 'reissue',
             {
               accessToken: accessToken,
               refreshToken: refreshToken,
             },
             {
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
             }
           )
           .then((response) => {
-            localStorage.removeItem("user");
-            localStorage.setItem("user", JSON.stringify(response.data.data));
+            localStorage.removeItem('user');
+            localStorage.setItem('user', JSON.stringify(response.data.data));
             console.log(response.data.data);
           })
           .catch((err) => {

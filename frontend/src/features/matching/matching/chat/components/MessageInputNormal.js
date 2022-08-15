@@ -10,17 +10,19 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
+import SendButton from './UI/SendButton';
 import styled from '@emotion/styled';
 // custom component
 
 // css
 import classes from './MessageInputNormal.module.scss';
 
-const MyButton = styled(Button)`
-  background-color: purple !important;
-  border-radius: 15px !important;
+const CustomBox = styled(Box)`
+  width: 100%;
+  background-color: #fff;
+  border-radius: 0px 0px 16px 16px;
+  display: flex;
+  align-items: center;
 `;
 
 const MessageInputNormal = (props) => {
@@ -39,14 +41,7 @@ const MessageInputNormal = (props) => {
   return (
     <>
       <div className={classes.main}>
-        <Box
-          sx={{
-            width: '100%',
-            maxWidth: '100%',
-            bgcolor: '#fff',
-            borderRadius: '16px',
-          }}
-        >
+        <CustomBox component="div">
           <TextField
             fullWidth
             id="fullWidth"
@@ -59,14 +54,8 @@ const MessageInputNormal = (props) => {
             onChange={handleChange}
             onKeyPress={handleKeyPress}
           />
-          <MyButton
-            size="small"
-            endIcon={<SendIcon />}
-            onClick={handleSendBtnClick}
-          >
-            Send
-          </MyButton>
-        </Box>
+          <SendButton btnClick={handleSendBtnClick} />
+        </CustomBox>
       </div>
     </>
   );

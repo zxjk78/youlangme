@@ -1,13 +1,14 @@
-import { useState } from "react";
-import StartChat from "./beforeMatching/StartChat";
-import LoadingChat from "./beforeMatching/LoadingChat";
-import ConfirmChat from "./beforeMatching/ConfirmChat";
+import { useState } from 'react';
+import StartChat from './beforeMatching/StartChat';
+import LoadingChat from './beforeMatching/LoadingChat';
+import ConfirmChat from './beforeMatching/ConfirmChat';
 
 const StartMatching = () => {
   const [matchLoading, setMatchLoading] = useState(false);
   const [matchConfirm, setMatchConfirm] = useState(false);
   const [matching, setMatching] = useState(false);
-  const [sessionId, setSessionId] = useState("");
+
+  const [sessionId, setSessionId] = useState('');
   const [opponentId, setOpponentId] = useState(null);
   const [myLanguage, setMyLanguage] = useState(null);
   const [yourLanguage, setYourLanguage] = useState(null);
