@@ -114,7 +114,7 @@ export default class ChatComponent extends Component {
   // 뉴스 채팅창에 띄우기
   componentDidUpdate(prevProps) {
     if (this.props.newsInfo !== prevProps.newsInfo) {
-      console.log('뉴스URL 업데이트 감지', this.props.newsInfo);
+      // console.log('뉴스URL 업데이트 감지', this.props.newsInfo);
       // DidUpdate에서 setState 호출시 무한루프 가능하니까 예의주시
       this.setState({ newsInfo: this.props.newsInfo });
       this.sendMessage(3, { message: '뉴스', newsInfo: this.props.newsInfo });
@@ -137,7 +137,7 @@ export default class ChatComponent extends Component {
   // }
   // messageType: 1 :normal, 2: reply, 3: news
   sendMessage(msgType, data) {
-    console.log('메세지 보낼때 데이터', msgType, data);
+    // console.log('메세지 보낼때 데이터', msgType, data);
     let message = data.message.replace(/ +(?= )/g, '');
     let originalMsg = '';
     let originalMsgIdx = '';
@@ -151,7 +151,7 @@ export default class ChatComponent extends Component {
         originalMsgIdx = +data.originIdx;
       } else if (msgType === 3) {
         newsInfo = data.newsInfo;
-        console.log('뉴스 들어옴');
+        // console.log('뉴스 들어옴');
       }
       if ((message !== '' && message !== ' ') || msgType === 3) {
         const msgData = {
@@ -198,15 +198,15 @@ export default class ChatComponent extends Component {
     });
   }
   async translateHandler(idx) {
-    console.log(idx + '번 말풍선 번역작업');
+    // console.log(idx + '번 말풍선 번역작업');
     const originalMsg = this.state.messageList[idx].message;
-    console.log('ref랑 연결된 msgBox들', this.msgBoxContentRef.current);
+    // console.log('ref랑 연결된 msgBox들', this.msgBoxContentRef.current);
     const target = this.msgBoxContentRef.current[idx];
-    console.log(target);
-    // const myISOCode = iso_code[this.state.myLanguage];
-    // const yourISOCode = iso_code[this.state.yourLanguage];
-    const myISOCode = iso_code['KOREAN'];
-    const yourISOCode = iso_code['ENGLISH'];
+    // console.log(target);
+    const myISOCode = iso_code[this.state.myLanguage];
+    const yourISOCode = iso_code[this.state.yourLanguage];
+    // const myISOCode = iso_code['KOREAN'];
+    // const yourISOCode = iso_code['ENGLISH'];
     const translateMsg = await translate(myISOCode, yourISOCode, originalMsg);
     target.innerText = translateMsg.slice(1, translateMsg.length - 1);
   }
@@ -269,10 +269,10 @@ export default class ChatComponent extends Component {
   }
 
   async msgTranslate() {
-    const myISOCode = iso_code['KOREAN'];
-    const yourISOCode = iso_code['ENGLISH'];
-    // const myISOCode = iso_code[this.state.myLanguage];
-    // const yourISOCode = iso_code[this.state.yourLanguage];
+    // const myISOCode = iso_code['KOREAN'];
+    // const yourISOCode = iso_code['ENGLISH'];
+    const myISOCode = iso_code[this.state.myLanguage];
+    const yourISOCode = iso_code[this.state.yourLanguage];
     const originContent = this.state.message.trim();
     if (originContent.length === 0) {
       return;
@@ -294,19 +294,12 @@ export default class ChatComponent extends Component {
           style={styleChat}
         >
           <div id="chatToolbar">
-            <div>
-              {/* {this.props.user.getStreamManager().stream.session.sessionId} -
-              CHAT */}
-              상대방과의 대화
-            </div>
+            <div>상대방과의 대화</div>
             <div id="chat-closeButton" onClick={this.close}>
               <HighlightOff />
             </div>
           </div>
           <div className="message-wrap" ref={this.chatScroll}>
-            {/* {this.state.messageList.map((data) => {
-              console.log('메세지데이터', data);
-            })} */}
             {this.state.messageList.map((data, i) => (
               <>
                 <div
