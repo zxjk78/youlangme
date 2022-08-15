@@ -1,11 +1,12 @@
 .container {
-  background-color: #f5e6f1;
+  margin: 0px auto;
+  width: 95%;
+  height: 100px;
   padding: 15px;
   padding-top: 10px;
   border: none;
-  border-radius: 25px;
-  width: 85%;
-  margin: 10px auto;
+  border-radius: 10px;
+  background-color: #fff;
 }
 .main {
   width: 95%;
@@ -19,7 +20,9 @@
       cursor: pointer;
     }
   }
-  & > div:nth-of-type(2) {
-    color: #9ba7af;
-  }
+}
+
+.createdAt {
+  font-size: 0.9rem;
+  color: #9ba7af;
 }
