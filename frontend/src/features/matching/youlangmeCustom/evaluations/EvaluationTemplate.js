@@ -4,23 +4,26 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import axios from 'axios';
 import { useState } from 'react';
-import { accessToken, API_URL } from '../../../../common/api/http-config';
+import { API_URL } from '../../../../common/api/http-config';
 
 // css
 import classes from './EvaluationTemplate.module.scss';
 
-const header = {
-  "Content-Type": "application/json",
-  "X-Auth-Token": accessToken,
-};
+
 const EvaluationTemplate = (props) => {
     const closeModal = () => {
         props.toggleModal();
     };
-
+  
   
 
   const closeSessionTrue = (event) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = user ? user.accessToken : null;
+    const header = {
+      "Content-Type": "application/json",
+      "X-Auth-Token": accessToken,
+    };
     axios.post(API_URL+"meeting/feedback", {"feedback": 1}, {
       headers: header,
     }).then((response)=>{
@@ -33,6 +36,12 @@ const EvaluationTemplate = (props) => {
   }
 
   const closeSessionFalse = (event) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = user ? user.accessToken : null;
+    const header = {
+      "Content-Type": "application/json",
+      "X-Auth-Token": accessToken,
+    };
     axios.post(API_URL+"meeting/feedback", {"feedback": 0}, {
       headers: header,
     }).then((response)=>{

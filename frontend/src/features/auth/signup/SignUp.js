@@ -22,7 +22,7 @@ const SignUp = () => {
     email: Yup.string()
       .test(
         "len",
-        "The email must be between 3 and 20 characters.",
+        "이메일 형식을 맞춰주세요.",
         (val) =>
           val && val.toString().length >= 3 && val.toString().length <= 20
       )

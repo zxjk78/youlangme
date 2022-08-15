@@ -71,6 +71,11 @@ const authSlice = createSlice({
     modifyUser(state, action) {
       state.currentUser = { ...action.payload.data };
     },
+    resetLogin(state){
+      state.isLoggedIn = false
+      state.accessToken = ""
+      state.currentUser = {}
+    }
   },
   extraReducers: {
     [signup.fulfilled]: (state, action) => {
@@ -102,4 +107,5 @@ const authSlice = createSlice({
 });
 export let { socialLogin } = authSlice.actions;
 export let { modifyUser } = authSlice.actions;
+export let {resetLogin} = authSlice.actions;
 export default authSlice;
