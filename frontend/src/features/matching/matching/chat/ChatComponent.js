@@ -38,7 +38,7 @@ export default class ChatComponent extends Component {
       myLanguage: props.myLanguage,
       yourLanguage: props.yourLanguage,
       // 뉴스 관련 state 1
-      newsURL: props.newsURL,
+      newsInfo: props.newsInfo,
     };
     this.chatScroll = React.createRef();
 
@@ -55,6 +55,7 @@ export default class ChatComponent extends Component {
     this.translateHandler = this.translateHandler.bind(this);
     // 댓글 답글 컴포넌트 요청
     this.handleReply = this.handleReply.bind(this);
+    // this.handleReplyPressKey = this.handleReplyPressKey.bind(this);
     // 댓글 답글 컴포넌트 삭제
     this.cancelReply = this.cancelReply.bind(this);
     // 스크롤 테스트
@@ -76,6 +77,8 @@ export default class ChatComponent extends Component {
           // youlangme custom
           originalMessage: data.originalMessage,
           originalIdx: data.originalIdx,
+          type: data.type,
+          newsInfo: data.newsInfo,
         });
         const document = window.document;
         setTimeout(() => {
@@ -107,12 +110,13 @@ export default class ChatComponent extends Component {
     this.msgBoxContentRef = React.createRef();
     this.msgBoxContentRef.current = [];
   }
-
+  // 뉴스 채팅창에 띄우기
   componentDidUpdate(prevProps) {
-    if (this.props.newsURL !== prevProps.newsURL) {
-      console.log('뉴스URL 업데이트 감지', this.props.newsURL);
-      // didUpdate에서 setState 호출시 무한루프 가능하니까 예의주시
-      this.setState({ newsURL: this.props.newsURL });
+    if (this.props.newsInfo !== prevProps.newsInfo) {
+      console.log('뉴스URL 업데이트 감지', this.props.newsInfo);
+      // DidUpdate에서 setState 호출시 무한루프 가능하니까 예의주시
+      this.setState({ newsInfo: this.props.newsInfo });
+      this.sendMessage(3, { message: '뉴스', newsInfo: this.props.newsInfo });
     }
   }
 
@@ -121,33 +125,50 @@ export default class ChatComponent extends Component {
   }
 
   handlePressKey(event) {
-    this.sendMessage();
+    this.sendMessage(1, { message: this.state.message });
   }
-
-  sendMessage() {
-    const [originMsg, originIdx] = [
-      this.state.originalMessage,
-      this.state.originalMessageIdx,
-    ];
-    if (this.props.user && this.state.message) {
-      let message = this.state.message.replace(/ +(?= )/g, '');
-      let originalMsg = originMsg.replace(/ +(?= )/g, '');
-      let originalMsgIdx = +originIdx;
-
-      if (message !== '' && message !== ' ') {
-        const data = {
+  // handleReplyPressKey(event) {
+  //   this.sendMessage(2, {
+  //     message: this.state.message,
+  //     originMsg: this.state.originalMessage,
+  //     originIdx: this.state.originalMessageIdx,
+  //   });
+  // }
+  // messageType: 1 :normal, 2: reply, 3: news
+  sendMessage(msgType, data) {
+    console.log('메세지 보낼때 데이터', msgType, data);
+    let message = data.message.replace(/ +(?= )/g, '');
+    let originalMsg = '';
+    let originalMsgIdx = '';
+    let newsInfo = null;
+    if (this.props.user && message) {
+      if (msgType === 1) {
+        message = data.message.replace(/ +(?= )/g, '');
+      } else if (msgType === 2) {
+        message = data.message.replace(/ +(?= )/g, '');
+        originalMsg = data.originMsg.replace(/ +(?= )/g, '');
+        originalMsgIdx = +data.originIdx;
+      } else if (msgType === 3) {
+        newsInfo = data.newsInfo;
+        console.log('뉴스 들어옴');
+      }
+      if ((message !== '' && message !== ' ') || msgType === 3) {
+        const msgData = {
+          type: msgType,
           message: message,
           originalMessage: originalMsg,
           originalIdx: originalMsgIdx,
+          newsInfo: newsInfo,
           nickname: this.props.user.getNickname(),
           streamId: this.props.user.getStreamManager().stream.streamId,
         };
         this.props.user.getStreamManager().stream.session.signal({
-          data: JSON.stringify(data),
+          data: JSON.stringify(msgData),
           type: 'chat',
         });
       }
     }
+
     this.setState({ message: '' });
   }
 
@@ -201,7 +222,11 @@ export default class ChatComponent extends Component {
     });
   }
   handleReply() {
-    this.sendMessage();
+    this.sendMessage(2, {
+      message: this.state.message,
+      originMsg: this.state.originalMessage,
+      originIdx: this.state.originalMessageIdx,
+    });
     this.setState({
       originalMessageIdx: null,
       originalMessage: '',
@@ -260,6 +285,9 @@ export default class ChatComponent extends Component {
             </div>
           </div>
           <div className="message-wrap" ref={this.chatScroll}>
+            {/* {this.state.messageList.map((data) => {
+              console.log('메세지데이터', data);
+            })} */}
             {this.state.messageList.map((data, i) => (
               <>
                 <div
@@ -289,7 +317,7 @@ export default class ChatComponent extends Component {
                     </div>
                     <div className="msg-content">
                       <span className="triangle" />
-                      {data.originalMessage.length > 0 ? (
+                      {data.type === 2 ? (
                         <div
                           data-origin={data.originalIdx}
                           onClick={this.scrollReplyTarget}
@@ -301,11 +329,19 @@ export default class ChatComponent extends Component {
                             ref={this.addToMsgBoxContentRefs}
                           />
                         </div>
-                      ) : (
+                      ) : data.type === 1 ? (
                         <div data-msgidx={i}>
                           <MsgBoxNormal
                             className="text"
                             message={data.message}
+                            ref={this.addToMsgBoxContentRefs}
+                          />
+                        </div>
+                      ) : (
+                        <div data-msgidx={i}>
+                          <MsgBoxNews
+                            className="text"
+                            newsInfo={data.newsInfo}
                             ref={this.addToMsgBoxContentRefs}
                           />
                         </div>
@@ -330,10 +366,11 @@ export default class ChatComponent extends Component {
               <div className="message-input-reply">
                 <MessageInputReply
                   originalMessage={this.state.originalMessage}
+                  originalMessageIdx={this.state.originalMessageIdx}
                   messageVal={this.state.message}
                   handleChange={this.handleChange}
-                  handleKeyPress={this.handlePressKey}
-                  sendReplyBtnClick={this.handleReply}
+                  handleKeyPress={this.handleReplyPressKey}
+                  sendReplyBtnClick={this.sendMessage}
                   cancelModify={this.cancelReply}
                 />
               </div>

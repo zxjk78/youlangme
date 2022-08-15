@@ -46,8 +46,8 @@ const NewsCardList = (props) => {
   const openOriginHandler = (url) => {
     window.open(url, '', 'left=50,top=50,width=800,height=600');
   };
-  const shareNewsHandler = (url) => {
-    props.shareNews(url);
+  const shareNewsHandler = (newsInfo) => {
+    props.shareNews(newsInfo);
   };
   return (
     <div className={classes.wrapper}>

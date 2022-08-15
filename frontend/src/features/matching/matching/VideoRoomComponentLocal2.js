@@ -47,7 +47,7 @@ class VideoRoomComponent extends Component {
       chatDisplay: 'none',
       currentVideoDevice: undefined,
       nationality: '',
-      newsUrlToShare: '',
+      newsInfoToShare: '',
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -588,8 +588,8 @@ class VideoRoomComponent extends Component {
     this.setState({ isHelpModalVisible: !this.state.isHelpModalVisible });
   }
 
-  shareNewsHandler(url) {
-    this.setState({ newsUrlToShare: url });
+  shareNewsHandler(newsInfo) {
+    this.setState({ newsInfoToShare: newsInfo });
   }
   render() {
     const mySessionId = this.state.mySessionId;
@@ -652,7 +652,7 @@ class VideoRoomComponent extends Component {
               chatDisplay={this.state.chatDisplay}
               close={this.toggleChat}
               messageReceived={this.checkNotification}
-              newsURL={this.state.newsUrlToShare}
+              newsInfo={this.state.newsInfoToShare}
             />
           </div>
         )}

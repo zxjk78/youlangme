@@ -31,6 +31,7 @@ const MyButton = styled(Button)`
 const MessageInputReply = (props) => {
   const messageValue = props.messageVal;
   const originalMessage = props.originalMessage;
+  const originalMessageIdx = props.originalMessageIdx;
   const handleChange = (event) => {
     props.handleChange(event.target.value);
   };
@@ -40,7 +41,11 @@ const MessageInputReply = (props) => {
     }
   };
   const handleSendReplyBtnClick = () => {
-    props.sendReplyBtnClick();
+    props.sendReplyBtnClick(2, {
+      message: messageValue,
+      originMsg: originalMessage,
+      originIdx: originalMessageIdx,
+    });
   };
   const cancelModifyHandler = () => {
     props.cancelModify();

@@ -19,8 +19,8 @@ const HelpTemplate = (props) => {
   const closeModal = () => {
     props.toggleModal();
   };
-  const shareNewsHandler = (url) => {
-    props.shareNews(url);
+  const shareNewsHandler = (newsInfo) => {
+    props.shareNews(newsInfo);
   };
   return (
     <>

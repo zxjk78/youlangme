@@ -61,7 +61,12 @@ const Card = (props) => {
   };
   const shareNewsHandler = (event) => {
     // dispatch(newsActions.shareNews(article.url));
-    props.shareNews(article.url);
+    props.shareNews([
+      article.url,
+      article.urlToImage,
+      article.title,
+      article.description,
+    ]);
   };
 
   return (

@@ -36,7 +36,7 @@ const MessageInputNormal = (props) => {
     }
   };
   const handleSendBtnClick = () => {
-    props.sendBtnClick();
+    props.sendBtnClick(1, { message: messageValue });
   };
   return (
     <>
