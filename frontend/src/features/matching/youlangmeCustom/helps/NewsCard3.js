@@ -1,4 +1,9 @@
 import React from 'react';
+// redux
+import { useDispatch } from 'react-redux';
+import { newsActions } from './newsSlice';
+
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import './NewsCard.scss';
 
 class CardHeader extends React.Component {
@@ -14,51 +19,66 @@ class CardHeader extends React.Component {
   }
 }
 
-class Button extends React.Component {
-  render() {
-    return (
-      <button className="button button-primary">
-        <i className="fa fa-chevron-right"></i> Find out more
-      </button>
-    );
-  }
-}
+const Button = (props) => {
+  const shareNews = () => {
+    props.shareNews();
+  };
 
-class CardBody extends React.Component {
-  render() {
-    return (
-      <div className="card-body">
-        <h5>
-          {this.props.title.length > 58
-            ? this.props.title.slice(0, 55) + '...'
-            : this.props.title}
-        </h5>
+  return (
+    <button className="button button-primary" onClick={shareNews}>
+      <PostAddIcon /> share
+    </button>
+  );
+};
 
-        <p className="body-content">{this.props.text}</p>
+const CardBody = (props) => {
+  const shareNews = () => {
+    props.shareNews();
+  };
+  return (
+    <div className="card-body">
+      <h5>
+        {props.title.length > 58
+          ? props.title.slice(0, 55) + '...'
+          : props.title}
+      </h5>
 
-        {/* <Button /> */}
-      </div>
-    );
-  }
-}
+      <p className="body-content">{props.text}</p>
 
-export default class Card extends React.Component {
-  constructor(props) {
-    super(props);
-    this.article = props.article;
-    // constructor에서 바인딩 해줘야 this로 사용가능
-    this.openOrigin = this.openOrigin.bind(this);
-  }
+      <Button shareNews={shareNews} />
+    </div>
+  );
+};
 
-  openOrigin() {
-    this.props.openOrigin(this.article.url);
-  }
-  render() {
-    return (
-      <article className="card" onClick={this.openOrigin}>
-        <CardHeader image={this.article.urlToImage} />
-        <CardBody title={this.article.title} text={this.article.description} />
-      </article>
-    );
-  }
-}
+const Card = (props) => {
+  const article = props.article;
+  const dispatch = useDispatch();
+  const openOrigin = (event) => {
+    if (event.target.tagName === 'BUTTON') {
+      return;
+    }
+    props.openOrigin(article.url);
+  };
+  const shareNewsHandler = (event) => {
+    // dispatch(newsActions.shareNews(article.url));
+    props.shareNews([
+      article.url,
+      article.urlToImage,
+      article.title,
+      article.description,
+    ]);
+  };
+
+  return (
+    <article className="card" onClick={openOrigin}>
+      <CardHeader image={article.urlToImage} />
+      <CardBody
+        title={article.title}
+        text={article.description}
+        shareNews={shareNewsHandler}
+      />
+    </article>
+  );
+};
+
+export default Card;

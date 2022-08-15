@@ -8,9 +8,9 @@ import * as React from 'react';
 // external component
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
+
 import SendButton from './UI/SendButton';
+import TranslateButton from './UI/TranslateButton';
 import styled from '@emotion/styled';
 // custom component
 
@@ -22,6 +22,7 @@ const CustomBox = styled(Box)`
   background-color: #fff;
   border-radius: 0px 0px 16px 16px;
   display: flex;
+
   align-items: center;
 `;
 
@@ -36,7 +37,10 @@ const MessageInputNormal = (props) => {
     }
   };
   const handleSendBtnClick = () => {
-    props.sendBtnClick();
+    props.sendBtnClick(1, { message: messageValue });
+  };
+  const handleTranslateBtnClick = () => {
+    props.msgTranslate();
   };
   return (
     <>
@@ -54,6 +58,7 @@ const MessageInputNormal = (props) => {
             onChange={handleChange}
             onKeyPress={handleKeyPress}
           />
+          <TranslateButton btnClick={handleTranslateBtnClick} />
           <SendButton btnClick={handleSendBtnClick} />
         </CustomBox>
       </div>

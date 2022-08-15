@@ -6,7 +6,7 @@ const CustomButton = styled(Button)`
   background-color: purple !important;
   border-radius: 15px !important;
   color: #fff !important;
-  width: 90px;
+  width: 80px;
   height: 40px;
   line-height: 10px;
 `;

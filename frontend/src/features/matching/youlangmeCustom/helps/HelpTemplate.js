@@ -19,7 +19,9 @@ const HelpTemplate = (props) => {
   const closeModal = () => {
     props.toggleModal();
   };
-
+  const shareNewsHandler = (newsInfo) => {
+    props.shareNews(newsInfo);
+  };
   return (
     <>
       <div className={classes.wrapper}>
@@ -34,6 +36,7 @@ const HelpTemplate = (props) => {
             <NewsCardList
               myNationality={props.myNationality}
               yourNationality={props.yourNationality}
+              shareNews={shareNewsHandler}
             />
           </div>
           <div className={classes.footer}></div>

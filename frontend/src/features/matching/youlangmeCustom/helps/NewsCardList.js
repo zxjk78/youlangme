@@ -23,10 +23,10 @@ const NewsCardList = (props) => {
   // const [remoteUserNationality, setRemoteUserNationality] = useState(null);
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(0);
-  const myNationality = props.myNationality;
-  const yourNationality = props.yourNationality;
-  // const myNationality = 'USA';
-  // const yourNationality = 'JAPAN';
+  // const myNationality = props.myNationality;
+  // const yourNationality = props.yourNationality;
+  const myNationality = 'USA';
+  const yourNationality = 'JAPAN';
   useEffect(() => {
     (async () => {
       // 내 국가 언어, 상대 국가 뉴스 받는 api
@@ -45,6 +45,9 @@ const NewsCardList = (props) => {
   };
   const openOriginHandler = (url) => {
     window.open(url, '', 'left=50,top=50,width=800,height=600');
+  };
+  const shareNewsHandler = (newsInfo) => {
+    props.shareNews(newsInfo);
   };
   return (
     <div className={classes.wrapper}>
@@ -90,6 +93,7 @@ const NewsCardList = (props) => {
                       key={article.url + index}
                       article={article}
                       openOrigin={openOriginHandler}
+                      shareNews={shareNewsHandler}
                     />
                   ))}
               </div>
