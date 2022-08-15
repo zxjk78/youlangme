@@ -69,6 +69,9 @@ const ConfirmChat = (props) => {
   }, [props.matchConfirm]);
 
   const matchingHandler = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = user ? user.accessToken : null;
+  
     axios
       .post(
         API_URL + `meeting/enter/${props.sessionId}`,

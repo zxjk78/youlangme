@@ -44,7 +44,14 @@ const Login = (props) => {
     setLoading(true);
     const { email, password } = formValue;
 
-    dispatch(login({ email, password }));
+    dispatch(login({ email, password }))
+      .unwrap()
+      .then((res)=>{
+        console.log(res.response)
+      })
+      .catch((err)=>{
+        alert(err)
+      })
   };
 
   const googleLogin = () => {
@@ -54,7 +61,7 @@ const Login = (props) => {
     //   .catch(() => {
     //     setLoading(false);
     //   });
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    window.location.href = API_URL + "oauth2/authorization/google";
   };
   const closeModal = () => {
     setIsModalVisible(() => false);

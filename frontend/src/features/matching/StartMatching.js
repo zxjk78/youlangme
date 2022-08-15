@@ -16,7 +16,7 @@ const StartMatching = () => {
   const [yourData, setYourData] = useState(null);
   const [myProfile, setMyProfile] = useState(null);
   const [yourProfile, setYourProfile] = useState(null);
-  console.log(sessionId);
+  
 
   if (!matchLoading && !matchConfirm) {
     return (

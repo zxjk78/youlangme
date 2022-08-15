@@ -14,7 +14,7 @@ export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
     localStorage.setItem("user", JSON.stringify(response.data.data));
     return response.data;
   } catch (err) {
-    return thunkAPI.rejectWithValue();
+    return thunkAPI.rejectWithValue(err.message);
   }
 });
 
@@ -68,6 +68,11 @@ const authSlice = createSlice({
       return { ...state, isLoggedIn: true };
     },
     getUser,
+    resetLogin(state){
+      state.isLoggedIn = false
+      state.currentUser = {}
+      state.accessToken = ""
+    },
     modifyUser(state, action) {
       state.currentUser = { ...action.payload.data };
     },
@@ -102,4 +107,5 @@ const authSlice = createSlice({
 });
 export let { socialLogin } = authSlice.actions;
 export let { modifyUser } = authSlice.actions;
+export let {resetLogin} = authSlice.actions
 export default authSlice;
