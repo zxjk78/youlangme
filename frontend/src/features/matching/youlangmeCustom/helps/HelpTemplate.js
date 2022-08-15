@@ -25,7 +25,7 @@ const HelpTemplate = (props) => {
       <div className={classes.wrapper}>
         <div className={classes.container}>
           <div className={classes.header}>
-            <div>Help</div>
+            <div>News</div>
             <div onClick={closeModal}>
               <CancelIcon />
             </div>

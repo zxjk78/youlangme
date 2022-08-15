@@ -1,5 +1,5 @@
 // custom component
-import FeedBoardList from './feed/FeedBoardList';
+import FeedLIst from './feed/FeedList';
 import UserRanking from './ranking/UserRanking';
 import RecommendUser from './recommendUser/RecommendUser';
 import LanguageRanking from './ranking/LanguageRanking';
@@ -11,16 +11,19 @@ import classes from './Main.module.scss';
 const Maintmp = (props) => {
   return (
     <>
-      <div className={classes.main}>
-        {/* <div> */}
-        <div className={classes.column1}>
-          <FeedBoardList />
+      <div className={classes.main_container}>
+        <div className={classes['feed-container']}>
+          <FeedLIst />
         </div>
 
-        <div className={classes.column2}>
-        {/* <div> */}
+        <div className={classes['userRanking-container']}>
           <UserRanking />
+        </div>
+
+        <div className={classes['languageRanking-container']}>
           <LanguageRanking />
+        </div>
+        <div className={classes['followRecommand-container']}>
           <RecommendUser />
         </div>
       </div>

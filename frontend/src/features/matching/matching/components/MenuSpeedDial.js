@@ -9,10 +9,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import styled from '@emotion/styled';
 
 const MyBox = styled(Box)`
-  background-color: purple !important;
+  background-color: red !important;
   font-size: 100px;
-
-  transform: translateZ(0px);
+  & > div > button:first-child {
+    background-color: red;
+    border-radius: 70%;
+  }
 `;
 
 const actions = [
@@ -35,9 +37,9 @@ export default function MenuSpeedDial(props) {
     }
   };
   return (
-    <MyBox>
+    <MyBox component={`div`}>
       <SpeedDial
-        ariaLabel="SpeedDial basic example"
+        ariaLabel=""
         sx={{ position: 'absolute', bottom: 16, right: 16 }}
         icon={<SpeedDialIcon />}
       >

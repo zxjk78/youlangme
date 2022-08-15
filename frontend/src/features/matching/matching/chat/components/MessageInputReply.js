@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
+import SendButton from './UI/SendButton';
+
 import styled from '@emotion/styled';
 
 // custom component
@@ -22,6 +24,9 @@ import classes from './MessageInputReply.module.scss';
 const MyButton = styled(Button)`
   background-color: purple !important;
   border-radius: 15px !important;
+  color: #fff !important;
+  width: 100%;
+  height: 70%;
 `;
 const MessageInputReply = (props) => {
   const messageValue = props.messageVal;
@@ -45,21 +50,26 @@ const MessageInputReply = (props) => {
       <div className={classes.main}>
         <Box
           sx={{
-            width: '100%',
-            maxWidth: '100%',
+            // width: '100%',
+            // maxWidth: '100%',
             bgcolor: '#fff',
             borderRadius: '10px',
             padding: '8px',
           }}
+          component="div"
         >
           <div className={classes.grid1}>
             <div>
-              <div>수정</div>
+              <div>답장</div>
               <div onClick={cancelModifyHandler}>
                 <CloseIcon />
               </div>
             </div>
-            <div>{originalMessage.slice(0, 200)}</div>
+            <div className={classes.originalMessage}>
+              {originalMessage.length > 20
+                ? originalMessage.slice(0, 20) + '...'
+                : originalMessage}
+            </div>
             <Divider />
           </div>
           <div className={classes.grid2}>
@@ -77,13 +87,7 @@ const MessageInputReply = (props) => {
             />
           </div>
           <div className={classes.grid3}>
-            <MyButton
-              variant="contained"
-              endIcon={<SendIcon />}
-              onClick={handleSendReplyBtnClick}
-            >
-              Send
-            </MyButton>
+            <SendButton btnClick={handleSendReplyBtnClick} />
           </div>
         </Box>
       </div>

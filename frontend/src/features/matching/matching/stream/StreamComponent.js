@@ -13,6 +13,10 @@ import IconButton from '@material-ui/core/IconButton';
 import HighlightOff from '@material-ui/icons/HighlightOff';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
+//----------------- youlangme custom -----------------
+import Videocam from '@material-ui/icons/Videocam';
+import Mic from '@material-ui/icons/Mic';
+
 // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 // const nationality = currentUser.nationality;
 
@@ -24,11 +28,17 @@ export default class StreamComponent extends Component {
       showForm: false,
       mutedSound: false,
       isFormValid: true,
+
+      // isVideoActive: props.isVideoActive,
+      // isAudioActive: props.isAudioActive,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handlePressKey = this.handlePressKey.bind(this);
     this.toggleNicknameForm = this.toggleNicknameForm.bind(this);
     this.toggleSound = this.toggleSound.bind(this);
+    //----------------- youlangme custom -----------------
+    this.camStatusChanged = this.camStatusChanged.bind(this);
+    this.micStatusChanged = this.micStatusChanged.bind(this);
   }
 
   handleChange(event) {
@@ -58,7 +68,13 @@ export default class StreamComponent extends Component {
       }
     }
   }
-
+  //----------------- youlangme custom -----------------
+  camStatusChanged() {
+    this.props.camStatusChanged();
+  }
+  micStatusChanged() {
+    this.props.micStatusChanged();
+  }
   render() {
     return (
       <div className="OT_widget-container">
@@ -110,17 +126,45 @@ export default class StreamComponent extends Component {
               mutedSound={this.state.mutedSound}
             />
             <div id="statusIcons">
-              {!this.props.user.isVideoActive() ? (
+              {/* {!this.props.user.isVideoActive() ? (
                 <div id="camIcon">
                   <VideocamOff id="statusCam" />
                 </div>
-              ) : null}
+              ) : null} */}
 
-              {!this.props.user.isAudioActive() ? (
+              <IconButton
+                color="inherit"
+                className="navButton"
+                id="navCamButton"
+                onClick={this.camStatusChanged}
+              >
+                {this.props.user !== undefined &&
+                this.props.user.isVideoActive() ? (
+                  <Videocam />
+                ) : (
+                  <VideocamOff color="secondary" />
+                )}
+              </IconButton>
+
+              {/* {!this.props.user.isAudioActive() ? (
                 <div id="micIcon">
                   <MicOff id="statusMic" />
                 </div>
-              ) : null}
+              ) : null} */}
+
+              <IconButton
+                color="inherit"
+                className="navButton"
+                id="navMicButton"
+                onClick={this.micStatusChanged}
+              >
+                {this.props.user !== undefined &&
+                this.props.user.isAudioActive() ? (
+                  <Mic />
+                ) : (
+                  <MicOff color="secondary" />
+                )}
+              </IconButton>
             </div>
             {/* <div>
               {!this.props.user.isLocal() && (
