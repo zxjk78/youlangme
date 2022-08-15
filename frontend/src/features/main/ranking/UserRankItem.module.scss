@@ -1,0 +1,33 @@
+.wrapper {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px 6px;
+  // scss의 중첩 클래스 표현은 이렇게 가능
+  &.myRank {
+    background-color: #ffdb59;
+  }
+}
+.container {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  .rank {
+    color: #000;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .detail {
+    display: grid;
+
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.me {
+  font-weight: bold;
+  margin-right: 10px;
+}

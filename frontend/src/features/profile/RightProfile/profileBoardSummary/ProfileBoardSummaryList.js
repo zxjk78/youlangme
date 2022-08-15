@@ -4,15 +4,15 @@ import { useSelector } from 'react-redux';
 // API
 import { fetchUserBoardList } from '../../../board/boardAPI';
 //custom-component
-import ProfileBoardSummeryItem from './ProfileBoardSummeryItem';
+import ProfileBoardSummaryItem from './ProfileBoardSummaryItem';
 import CreateNewBoardLink from '../../../board/create/component/CreateNewBoardLink';
 // mui
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 // css
-import classes from './ProfileBoardSummeryList.module.scss';
+import classes from './ProfileBoardSummaryList.module.scss';
 
-const ProfileBoardSummeryList = (props) => {
+const ProfileBoardSummaryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);
   const [isBoardOver, setIsBoardOver] = useState(false);
@@ -55,7 +55,7 @@ const ProfileBoardSummeryList = (props) => {
               }
               <div className={classes.main}>
                 {userBoardList.map((board) => (
-                  <ProfileBoardSummeryItem
+                  <ProfileBoardSummaryItem
                     key={board.boardId}
                     boardInfo={board}
                   />
@@ -80,4 +80,4 @@ const ProfileBoardSummeryList = (props) => {
     </>
   );
 };
-export default ProfileBoardSummeryList;
+export default ProfileBoardSummaryList;

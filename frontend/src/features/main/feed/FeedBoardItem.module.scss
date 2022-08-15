@@ -1,40 +1,41 @@
 .wrapper {
-  background-color: #f5e6f1;
-  padding: 15px;
-  padding-top: 10px;
+  background-color: #fff;
+  padding-top: 15px;
   border: none;
-  border-radius: 25px;
-  width: 85%;
+  border-radius: 10px;
+  width: 95%;
   margin: 0px auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
   cursor: pointer;
   &:hover {
     transform: translateY(-2px);
     box-shadow: 5px 5px 5px #d3d3d3;
+    transition: 0.3s;
   }
 
   .container {
     width: 100%;
+
     .header {
-      width: 100%;
-      margin: 0px auto;
+      width: 90%;
+      margin: 5px auto;
       display: flex;
 
       justify-content: space-between;
       align-items: center;
-      border-bottom: solid 1px #d3d3d3;
+      // border-bottom: solid 1px #d3d3d3;
       .author {
         width: 200px;
-        display: flex;
+        // display: flex;
         margin-bottom: 5px;
 
         &:hover {
-          background:#e9aad944;
+          background: #e9aad944;
           border-radius: 15px;
-          padding: 5px;
+          transition: 0.5s;
+          padding: 3px 0px;
           // transform: translateY(-5px);
           // box-shadow: 5px 5px 5px #d3d3d3;
         }
@@ -45,35 +46,52 @@
         //   border-radius: 70%;
         //   overflow: hidden;
         // }
-        div {
-          font-size: 1.3rem;
-          font-weight: bold;
-        }
       }
       .createdAt {
+        font-size: 0.9rem;
         color: #9ba7af;
       }
     }
     .content {
-      width: 80%;
-      margin: 15px 20px 3px 50px;
-      /* 여러 줄 줄이기 위한 코드 3줄 */
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      width: 100%;
+      margin: 15px 0px 3px 0px;
+
+      .text {
+        width: 90%;
+        margin-left: 8%;
+        /* 여러 줄 줄이기 위한 코드 3줄 */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .noPic {
+        min-height: 100px;
+      }
+      .image {
+        margin-top: 5px;
+        width: 100%;
+        max-height: 290px;
+        overflow: hidden;
+      }
     }
     .footerWrapper {
       margin-top: 10px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       .footer {
-        width: 120px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
+        width: 300px;
+        padding: 10px;
+        margin-left: 20px;
+        display: grid;
+        grid-template-columns: 90px 90px 90px;
+        gap: -10px;
+        & > div {
+          display: flex;
+          align-items: center;
+        }
+        gap: 15px;
 
         .cnt {
           font-weight: 700;
@@ -82,3 +100,5 @@
     }
   }
 }
+
+// override userInfo

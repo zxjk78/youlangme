@@ -13,7 +13,8 @@ import MessageInputNormal from './components/MessageInputNormal';
 import MessageInputReply from './components/MessageInputReply';
 import MsgBoxNormal from './components/MsgBoxNormal';
 import MsgBoxReply from './components/MsgBoxReply';
-import translate from 'translate-google-api';
+import { API_URL } from '../../../../common/api/http-config';
+import { translate } from '../../matchAPI';
 import { iso_code } from '../../../../common/utils/data/nationalityData';
 
 export default class ChatComponent extends Component {
@@ -32,9 +33,9 @@ export default class ChatComponent extends Component {
       originalMessage: '',
       originalMessageIdx: null,
       isReply: false,
-      // 번역 관련 state 1
-      myNationality: props.myNationality,
-      // myNationality: 'KOREA',
+      // 번역 관련 state 2
+      myLanguage: props.myLanguage,
+      yourLanguage: props.yourLanguage,
     };
     this.chatScroll = React.createRef();
 
@@ -79,11 +80,16 @@ export default class ChatComponent extends Component {
             'userImg-' + (this.state.messageList.length - 1)
           );
           // 71, 74번째 줄 유저 프사 담는 부분 : 매칭상황이 바뀌었기 때문에 확인해서 props로 유저값 넘겨주는거 어떻게되는지 알아보아야 함.
-          // const profileImage = new Image();
-          // profileImage.src = `${API_URL}image/profile/${this.props.user.id}.jpg`;
-          const video = document.getElementById('video-' + data.streamId);
+          console.log('채팅창 유저정보:', this.props.user);
+          // const video = document.getElementById('video-' + data.streamId);
           const avatar = userImg.getContext('2d');
-          avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
+          const profileImage = new Image();
+          profileImage.onload = () => {
+            avatar.drawImage(profileImage, 0, 0, 60, 60);
+          };
+          profileImage.src = `${API_URL}image/profile/${this.props.userId}.jpg`;
+          // avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
+
           this.props.messageReceived();
         }, 50);
         this.setState({ messageList: messageList });
@@ -159,24 +165,23 @@ export default class ChatComponent extends Component {
     });
   }
   async translateHandler(idx) {
-    console.log(idx + '번 말풍선 번역작업');
+    // console.log(idx + '번 말풍선 번역작업');
     const originalMsg = this.state.messageList[idx].message;
     const target = this.msgBoxContentRef.current[idx];
-    const isoCode = iso_code[this.state.myNationality];
-    console.log(target);
-    const translateMsg = await translate(originalMsg, {
-      to: isoCode,
-    });
-    target.innerText = translateMsg;
-    // target.innerText = '121212121';
+    const myISOCode = iso_code[this.state.myLanguage];
+    const yourISOCode = iso_code[this.state.yourLanguage];
+    // const myISOCode = iso_code['KOREAN'];
+    // const yourISOCode = iso_code['ENGLISH'];
+    const translateMsg = await translate(myISOCode, yourISOCode, originalMsg);
+    target.innerText = translateMsg.slice(1, translateMsg.length - 1);
   }
   async copyHandler(idx) {
-    console.log(idx + '번 말풍선 복사작업');
+    // console.log(idx + '번 말풍선 복사작업');
     const copyMsg = this.state.messageList[idx].message;
     await navigator.clipboard.writeText(copyMsg);
   }
   modifyHandler(idx) {
-    console.log(idx + '번 말풍선 교정작업');
+    // console.log(idx + '번 말풍선 교정작업');
 
     this.setState({
       originalMessageIdx: idx,
@@ -211,6 +216,10 @@ export default class ChatComponent extends Component {
       block: 'end',
       inline: 'nearest',
     });
+    target.classList.add('move');
+    setTimeout(() => {
+      target.classList.remove('move');
+    }, 2000);
   }
   cancelReply() {
     this.setState({
@@ -224,15 +233,18 @@ export default class ChatComponent extends Component {
     const styleChat = { display: this.props.chatDisplay };
     return (
       <div id="chatContainer">
-        <div id="chatComponent" style={styleChat}>
+        <div
+          class={`chatComponent ${this.state.isReply && 'reply'}`}
+          style={styleChat}
+        >
           <div id="chatToolbar">
             <div>
               {/* {this.props.user.getStreamManager().stream.session.sessionId} -
               CHAT */}
               상대방과의 대화
             </div>
-            <div id="closeButton" onClick={this.close}>
-              <HighlightOff color="secondary" />
+            <div id="chat-closeButton" onClick={this.close}>
+              <HighlightOff />
             </div>
           </div>
           <div className="message-wrap" ref={this.chatScroll}>
@@ -292,23 +304,29 @@ export default class ChatComponent extends Component {
               </>
             ))}
           </div>
-          {!this.state.isReply ? (
-            <MessageInputNormal
-              messageVal={this.state.message}
-              handleChange={this.handleChange}
-              handleKeyPress={this.handlePressKey}
-              sendBtnClick={this.sendMessage}
-            />
-          ) : (
-            <MessageInputReply
-              originalMessage={this.state.originalMessage}
-              messageVal={this.state.message}
-              handleChange={this.handleChange}
-              handleKeyPress={this.handlePressKey}
-              sendReplyBtnClick={this.handleReply}
-              cancelModify={this.cancelReply}
-            />
-          )}
+          <div className="msgInput">
+            {!this.state.isReply ? (
+              <div className="message-input-normal">
+                <MessageInputNormal
+                  messageVal={this.state.message}
+                  handleChange={this.handleChange}
+                  handleKeyPress={this.handlePressKey}
+                  sendBtnClick={this.sendMessage}
+                />
+              </div>
+            ) : (
+              <div className="message-input-reply">
+                <MessageInputReply
+                  originalMessage={this.state.originalMessage}
+                  messageVal={this.state.message}
+                  handleChange={this.handleChange}
+                  handleKeyPress={this.handlePressKey}
+                  sendReplyBtnClick={this.handleReply}
+                  cancelModify={this.cancelReply}
+                />
+              </div>
+            )}
+          </div>
           {/* 오른쪽 버튼 클릭 시 메뉴 */}
           {this.state.isCMenuVisible && (
             <ChatContextMenu

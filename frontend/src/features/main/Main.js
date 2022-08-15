@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import Header from "../../common/UI/Header/Header";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import Header from '../../common/UI/Header/Header';
 
-import { getUser, logout } from "../auth/authSlice";
-import EvaluationTemplate from "../matching/youlangmeCustom/evaluations/EvaluationTemplate";
+import { getUser, logout } from '../auth/authSlice';
+import EvaluationTemplate from '../matching/youlangmeCustom/evaluations/EvaluationTemplate';
 
-import UserInfo from "../profile/LeftProfile/UserInfo/UserInfo";
+import UserInfo from '../profile/LeftProfile/UserInfo/UserInfo';
 
 const Main = (props) => {
   const location = useLocation();
@@ -23,7 +23,7 @@ const Main = (props) => {
     dispatch(logout())
       .unwrap()
       .then((response) => {
-        history.push("/");
+        history.push('/');
       });
   };
   useEffect(() => {
@@ -36,7 +36,7 @@ const Main = (props) => {
 
   // console.log(currentUser.name);
   if (currentUser.name === null) {
-    history.push("/modify");
+    history.push('/modify');
   }
   // const { user } = useSelector((state) => state.auth);
   // console.log(user);
@@ -50,9 +50,6 @@ const Main = (props) => {
       )}
 
       <div>
-        <Link to="/board/detail">게시판 작업, 뒤에 /게시글번호</Link>
-      </div>
-      <div>
         <Link to="/board/create">게시판 생성작업</Link>
       </div>
       <div>
@@ -65,9 +62,7 @@ const Main = (props) => {
       <div>
         <Link to="/modify">수정</Link>
       </div>
-      <div>
-        <Link to="/match">매칭</Link>
-      </div>
+
       <button onClick={logoutHandler}>로그아웃</button>
     </div>
   );

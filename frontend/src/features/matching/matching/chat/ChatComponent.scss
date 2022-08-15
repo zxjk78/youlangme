@@ -1,52 +1,60 @@
 #chatContainer {
-  position: absolute;
   z-index: 0;
   width: 100%;
-  height: 90%;
+  height: 95%;
+  max-height: 80vh;
 }
 
 #chatToolbar {
+  position: relative;
   height: 50px;
-  display: flex;
+  padding: 15px;
+  display: flex !important;
+  justify-content: space-between;
   align-items: center;
   background-color: #b400c5;
   box-sizing: border-box;
   font-weight: bold;
   font-size: 1.2rem;
   text-align: center;
-  padding-top: 4px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   color: #ffffff;
+  #chat-closeButton {
+    cursor: pointer;
+    margin-top: 5px;
+  }
 }
 
-#closeButton {
-  cursor: pointer;
-}
-
-#chatComponent {
-  background-color: #b8b8b8;
-  position: absolute;
-  z-index: 99997;
+// toolbar wrap msgInput
+.chatComponent {
+  display: grid !important;
+  grid-template-rows: 50px 7fr 100px;
+  background-color: #f5e7ff;
+  // position: absolute;
+  // z-index: 99997;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  margin: auto;
-  height: calc(100% - 30px);
-  width: calc(100% - 30px);
+  // margin: auto;
+  height: calc(100%);
+  // width: calc(100% - 30px);
   border-radius: 20px;
+  &.reply {
+    grid-template-rows: 50px 7fr 125px;
+  }
 }
 
 .message-wrap {
   padding: 0 15px;
-  height: calc(100% - 80px);
-  overflow: auto;
+  overflow: scroll;
 }
 
 .message {
   position: relative;
   padding: 7px 0;
+  margin-bottom: 10px;
 }
 
 .user-img {
@@ -99,7 +107,7 @@ span.triangle {
   color: #000000;
 }
 
-/* Start message from other user */
+/* 상대 유저 채팅 */
 
 .message > .left .msg-detail .msg-info {
   text-align: left;
@@ -111,16 +119,16 @@ span.triangle {
 
 .message.left .user-img {
   left: -5px;
-  border: 1px solid #f0f0f094;
+  // border: 1px solid #f0f0f094;
 }
 
 .message.left .msg-detail .msg-content {
-  background-color: #c8ffe8;
+  background-color: #ffffff;
   float: left;
 }
 
 .message.left .msg-detail .msg-content span.triangle {
-  background-color: #c8ffe8;
+  background-color: #ffffff;
   border-bottom-width: 0;
   border-left-width: 0;
   left: -5px;
@@ -128,7 +136,7 @@ span.triangle {
 
 /* End message from other user */
 
-/* Start my messages */
+/* Start 내 채팅 */
 
 .message.right .msg-detail .msg-info {
   text-align: right;
@@ -136,16 +144,16 @@ span.triangle {
 
 .message.right .user-img {
   right: -5px;
-  border: 1px solid #c8ffe8ab;
+  // border: 1px solid #c8ffe8ab;
 }
 
 .message.right .msg-detail .msg-content {
-  background-color: #c8ffe8;
+  background-color: #ffdb59;
   float: right;
 }
 
 .message.right .msg-detail .msg-content span.triangle {
-  background-color: #c8ffe8;
+  background-color: #ffdb59;
   border-bottom-width: 0;
   border-left-width: 0;
   right: -5px;
@@ -175,16 +183,16 @@ span.triangle {
   color: #000000;
 }
 
-#sendButton {
-  background-color: #81e9b0;
-  position: absolute;
-  right: 10px;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  border: 1px solid #7ae2a9;
-  box-shadow: none !important;
-}
+// #sendButton {
+//   background-color: #81e9b0;
+//   position: absolute;
+//   right: 10px;
+//   top: 0;
+//   bottom: 0;
+//   margin: auto;
+//   border: 1px solid #7ae2a9;
+//   box-shadow: none !important;
+// }
 
 #sendButton {
   margin-left: 3px !important;
@@ -192,7 +200,7 @@ span.triangle {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -204,3 +212,19 @@ span.triangle {
 }
 
 /* youlangme custom */
+
+.msgInput {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.move {
+  animation: pop1 0.5s linear infinite;
+}
+
+@keyframes pop1 {
+  50% {
+    transform: scale(1.05);
+  }
+}

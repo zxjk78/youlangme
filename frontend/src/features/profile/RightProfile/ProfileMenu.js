@@ -2,7 +2,7 @@ import { Box, Tab, Tabs } from '@mui/material'
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import PrivateRoute from '../../../common/routes/PrivateRoute'
-import ProfileBoardSummeryList from './profileBoardSummery/ProfileBoardSummeryList'
+import ProfileBoardSummaryList from './profileBoardSummary/ProfileBoardSummaryList'
 import RightProfile from './RightProfile'
 
 // const activeStyle = {

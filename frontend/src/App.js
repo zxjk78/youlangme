@@ -1,7 +1,7 @@
-import "./App.css";
-import React, { useEffect, useRef, useState } from "react";
-import { Switch, BrowserRouter, useHistory, Redirect } from "react-router-dom";
-import Login from "./features/auth/login/Login";
+import './App.css';
+import React, { useEffect, useRef, useState } from 'react';
+import { Switch, BrowserRouter, useHistory, Redirect } from 'react-router-dom';
+import Login from './features/auth/login/Login';
 // import { useSelector } from "react-redux";
 import SignUp from "./features/auth/signup/SignUp";
 import Main from "./features/main/Main";
@@ -9,7 +9,7 @@ import MyPage from "./features/profile/MyPage";
 import PrivateRoute from "./common/routes/PrivateRoute";
 import PublicRoute from "./common/routes/PublicRoute";
 import Social from "./features/auth/social/Social";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Board from "./features/board/Board";
 import BoardDetailModal from "./features/board/detail/components/BoardDetailModal";
 import StartMatching from "./features/matching/StartMatching";
@@ -20,7 +20,7 @@ import VideoRoomComponentLocal2 from "./features/matching/matching/VideoRoomComp
 import NotFound from "./features/other/NotFound/NotFound";
 //test
 import Maintmp from "./features/main/Maintmp";
-import ProfileBoardSummeryList from "./features/profile/RightProfile/profileBoardSummery/ProfileBoardSummeryList";
+import ProfileBoardSummaryList from "./features/profile/RightProfile/profileBoardSummary/ProfileBoardSummaryList";
 import Header from "./common/UI/Header/Header";
 import axios from "axios";
 import { API_URL } from "./common/api/http-config";
@@ -36,25 +36,25 @@ function App() {
   const { currentUser } = useSelector((state) => state.auth);
   const name = Object.keys(currentUser).length != 0 ? currentUser.name : null;
   const reissueToken = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem('user'));
     const accessToken = user ? user.accessToken : null;
     const refreshToken = user ? user.refreshToken : null;
     axios
       .post(
-        API_URL + "reissue",
+        API_URL + 'reissue',
         {
           accessToken: accessToken,
           refreshToken: refreshToken,
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         }
       )
       .then((response) => {
-        localStorage.removeItem("user");
-        localStorage.setItem("user", JSON.stringify(response.data.data));
+        localStorage.removeItem('user');
+        localStorage.setItem('user', JSON.stringify(response.data.data));
         console.log(response.data.data);
       })
       .catch((err) => {
@@ -64,26 +64,26 @@ function App() {
 
   useEffect(() => {
     let timer1Id = setInterval(() => {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem('user'));
       const accessToken = user ? user.accessToken : null;
       const refreshToken = user ? user.refreshToken : null;
       if (isLoggedIn) {
         axios
           .post(
-            API_URL + "reissue",
+            API_URL + 'reissue',
             {
               accessToken: accessToken,
               refreshToken: refreshToken,
             },
             {
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
             }
           )
           .then((response) => {
-            localStorage.removeItem("user");
-            localStorage.setItem("user", JSON.stringify(response.data.data));
+            localStorage.removeItem('user');
+            localStorage.setItem('user', JSON.stringify(response.data.data));
             console.log(response.data.data);
           })
           .catch((err) => {
@@ -157,7 +157,7 @@ function App() {
           <PrivateRoute path="/test" component={Maintmp}></PrivateRoute>
           <PrivateRoute
             path="/test2/:userId"
-            component={ProfileBoardSummeryList}
+            component={ProfileBoardSummaryList}
           ></PrivateRoute>
           {/* 404 route */}
           <PrivateRoute path="*" component={NotFound}></PrivateRoute>
