@@ -47,6 +47,7 @@ class VideoRoomComponent extends Component {
       chatDisplay: 'none',
       currentVideoDevice: undefined,
       nationality: '',
+      newsUrlToShare: '',
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -67,6 +68,7 @@ class VideoRoomComponent extends Component {
     this.nationality = createRef(null);
     // youlangme custom
     this.toggleHelpModal = this.toggleHelpModal.bind(this);
+    this.shareNewsHandler = this.shareNewsHandler.bind(this);
   }
 
   componentDidMount() {
@@ -586,12 +588,16 @@ class VideoRoomComponent extends Component {
     this.setState({ isHelpModalVisible: !this.state.isHelpModalVisible });
   }
 
+  shareNewsHandler(url) {
+    this.setState({ newsUrlToShare: url });
+  }
   render() {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
     const name = this.state.myUserName;
     const nationality = this.state.nationality;
     console.log('로컬유저', localUser);
+
     var chatDisplay = { display: this.state.chatDisplay };
 
     return (
@@ -646,6 +652,7 @@ class VideoRoomComponent extends Component {
               chatDisplay={this.state.chatDisplay}
               close={this.toggleChat}
               messageReceived={this.checkNotification}
+              newsURL={this.state.newsUrlToShare}
             />
           </div>
         )}
@@ -673,7 +680,10 @@ class VideoRoomComponent extends Component {
         </div>
 
         {this.state.isHelpModalVisible && (
-          <HelpTemplate toggleModal={this.toggleHelpModal} />
+          <HelpTemplate
+            toggleModal={this.toggleHelpModal}
+            shareNews={this.shareNewsHandler}
+          />
         )}
 
         {/* <IconButton

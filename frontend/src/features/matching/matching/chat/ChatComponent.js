@@ -13,6 +13,7 @@ import MessageInputNormal from './components/MessageInputNormal';
 import MessageInputReply from './components/MessageInputReply';
 import MsgBoxNormal from './components/MsgBoxNormal';
 import MsgBoxReply from './components/MsgBoxReply';
+import MsgBoxNews from './components/MsgBoxNews';
 import { API_URL } from '../../../../common/api/http-config';
 import { translate } from '../../matchAPI';
 import { iso_code } from '../../../../common/utils/data/nationalityData';
@@ -36,6 +37,8 @@ export default class ChatComponent extends Component {
       // 번역 관련 state 2
       myLanguage: props.myLanguage,
       yourLanguage: props.yourLanguage,
+      // 뉴스 관련 state 1
+      newsURL: props.newsURL,
     };
     this.chatScroll = React.createRef();
 
@@ -103,6 +106,14 @@ export default class ChatComponent extends Component {
     this.msgBoxRef.current = [];
     this.msgBoxContentRef = React.createRef();
     this.msgBoxContentRef.current = [];
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.newsURL !== prevProps.newsURL) {
+      console.log('뉴스URL 업데이트 감지', this.props.newsURL);
+      // didUpdate에서 setState 호출시 무한루프 가능하니까 예의주시
+      this.setState({ newsURL: this.props.newsURL });
+    }
   }
 
   handleChange(val) {
@@ -231,6 +242,7 @@ export default class ChatComponent extends Component {
 
   render() {
     const styleChat = { display: this.props.chatDisplay };
+
     return (
       <div id="chatContainer">
         <div
