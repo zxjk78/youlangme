@@ -21,7 +21,7 @@ const EvaluationTemplate = (props) => {
   
 
   const closeSessionTrue = (event) => {
-    axios.post(API_URL+"meeting/feedback", {feedback : 1}, {
+    axios.post(API_URL+"meeting/feedback", {"feedback": 1}, {
       headers: header,
     }).then((response)=>{
       console.log(response.data)
@@ -33,7 +33,7 @@ const EvaluationTemplate = (props) => {
   }
 
   const closeSessionFalse = (event) => {
-    axios.post(API_URL+"meeting/feedback", {feedback : 0}, {
+    axios.post(API_URL+"meeting/feedback", {"feedback": 0}, {
       headers: header,
     }).then((response)=>{
       console.log(response.data)

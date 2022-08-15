@@ -58,7 +58,7 @@ const Login = (props) => {
     //   .catch(() => {
     //     setLoading(false);
     //   });
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = 'https://i7a603.p.ssafy.io/api/oauth2/authorization/google';
   };
   const closeModal = () => {
     setIsModalVisible(() => false);
