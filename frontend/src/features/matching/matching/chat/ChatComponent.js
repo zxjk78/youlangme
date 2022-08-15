@@ -62,6 +62,7 @@ export default class ChatComponent extends Component {
     this.scrollReplyTarget = this.scrollReplyTarget.bind(this);
     this.addToMsgBoxRefs = this.addToMsgBoxRefs.bind(this);
     this.addToMsgBoxContentRefs = this.addToMsgBoxContentRefs.bind(this);
+    this.msgTranslate = this.msgTranslate.bind(this);
   }
 
   componentDidMount() {
@@ -197,13 +198,15 @@ export default class ChatComponent extends Component {
     });
   }
   async translateHandler(idx) {
-    // console.log(idx + '번 말풍선 번역작업');
+    console.log(idx + '번 말풍선 번역작업');
     const originalMsg = this.state.messageList[idx].message;
+    console.log('ref랑 연결된 msgBox들', this.msgBoxContentRef.current);
     const target = this.msgBoxContentRef.current[idx];
-    const myISOCode = iso_code[this.state.myLanguage];
-    const yourISOCode = iso_code[this.state.yourLanguage];
-    // const myISOCode = iso_code['KOREAN'];
-    // const yourISOCode = iso_code['ENGLISH'];
+    console.log(target);
+    // const myISOCode = iso_code[this.state.myLanguage];
+    // const yourISOCode = iso_code[this.state.yourLanguage];
+    const myISOCode = iso_code['KOREAN'];
+    const yourISOCode = iso_code['ENGLISH'];
     const translateMsg = await translate(myISOCode, yourISOCode, originalMsg);
     target.innerText = translateMsg.slice(1, translateMsg.length - 1);
   }
@@ -262,6 +265,22 @@ export default class ChatComponent extends Component {
       originalMessageIdx: null,
       originalMessage: '',
       isReply: false,
+    });
+  }
+
+  async msgTranslate() {
+    const myISOCode = iso_code['KOREAN'];
+    const yourISOCode = iso_code['ENGLISH'];
+    // const myISOCode = iso_code[this.state.myLanguage];
+    // const yourISOCode = iso_code[this.state.yourLanguage];
+    const originContent = this.state.message.trim();
+    if (originContent.length === 0) {
+      return;
+    }
+    console.log(yourISOCode, myISOCode, originContent);
+    const translateMsg = await translate(yourISOCode, myISOCode, originContent);
+    this.setState({
+      message: translateMsg.slice(1, translateMsg.length - 1),
     });
   }
 
@@ -360,6 +379,7 @@ export default class ChatComponent extends Component {
                   handleChange={this.handleChange}
                   handleKeyPress={this.handlePressKey}
                   sendBtnClick={this.sendMessage}
+                  msgTranslate={this.msgTranslate}
                 />
               </div>
             ) : (

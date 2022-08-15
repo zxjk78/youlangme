@@ -589,6 +589,9 @@ class VideoRoomComponent extends Component {
   }
 
   shareNewsHandler(newsInfo) {
+    // chatComponent 렌더링을 먼저 시키고
+    this.setState({ chatDisplay: 'block' });
+    // props에 들어갈 state 변경으로 데이터를 보냄
     this.setState({ newsInfoToShare: newsInfo });
   }
   render() {
