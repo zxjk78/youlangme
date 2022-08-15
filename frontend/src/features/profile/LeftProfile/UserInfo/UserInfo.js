@@ -6,6 +6,8 @@ import { API_URL } from '../../../../common/api/http-config';
 import { fetchProfileImg } from '../LeftProfileAPI';
 
 import classes from './UserInfo.module.scss';
+
+// 유저 id, name을 props로 받는 컴포넌트
 const UserInfo = (props) => {
   const { isProfileImgUpdated } = useSelector((state) => state.profile);
   const [profileImg, setProfileImg] = useState(null);
