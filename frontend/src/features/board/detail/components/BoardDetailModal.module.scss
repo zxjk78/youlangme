@@ -19,6 +19,13 @@
   display: flex;
   justify-content: space-between;
   gap: 0px 20px;
+  .boardHeaderUserProfile {
+    &:hover {
+      background:rgba(237, 231, 223, 0);
+      // border-radius: 15px;
+      padding: 3px;
+    }
+  }
   & > div:first-child {
     width: 60%;
   }

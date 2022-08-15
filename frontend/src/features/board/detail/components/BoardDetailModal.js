@@ -29,6 +29,7 @@ import classes from './BoardDetailModal.module.scss';
 // etc
 import { API_URL } from '../../../../common/api/http-config';
 
+
 const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
   const [replyList, setReplyList] = useState([]);
@@ -38,6 +39,8 @@ const BoardDetailModal = (props) => {
   const [likeUserVisible, setLikeUserVisible] = useState(false);
   const [likeCnt, setLikeCnt] = useState(0);
   const [replyCnt, setReplyCnt] = useState(0);
+
+  
   const params = useParams();
   const boardId = props?.boardId || params.boardId;
   const replyRef = useRef();
@@ -70,6 +73,7 @@ const BoardDetailModal = (props) => {
       setReplyCnt(replyList.length);
       setLikeUsers(likeUsers);
       setLikeCnt(likeUsers.length);
+      
 
       setIsLoading(false);
     })();
@@ -99,7 +103,7 @@ const BoardDetailModal = (props) => {
 
     if (result.success) {
       // 부모에게 전달
-      props.likeChangeHandler(result.data.likeCnt);
+      props.likeChangeHandler(result.data.likeCnt, true);
       setLikeCnt(result.data.likeCnt);
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       const addedUser = { id: currentUser.id, name: currentUser.name };
@@ -112,7 +116,7 @@ const BoardDetailModal = (props) => {
     if (result.success) {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       // 부모에게 전달
-      props.likeChangeHandler(result.data.likeCnt);
+      props.likeChangeHandler(result.data.likeCnt, false);
       setLikeCnt(result.data.likeCnt);
       setIsliked(false);
       setLikeUsers((prevState) =>
@@ -166,12 +170,15 @@ const BoardDetailModal = (props) => {
 
             <div className={classes.wrapper}>
               <div className={classes.boardHeader}>
-                <UserInfo
-                  user={{
-                    id: boardDetail.userId,
-                    name: boardDetail.userName,
-                  }}
-                />
+                <div className={classes.boardHeaderUserProfile}>
+                  <UserInfo
+                    user={{
+                      id: boardDetail.userId,
+                      name: props.boardUserName,
+                      nationality: props.boardUserNationality
+                    }}
+                  />
+                </div>
 
                 <div className={classes.createdAt}>
                   {createdDateCal(boardDetail.createdTime)}
