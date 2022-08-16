@@ -78,11 +78,19 @@ public class FollowService {
         List<FollowCandidate> followCandidates = getFollowRecommendationAPI(loginUser);
 
         List<FollowRecommendResponseDto> res = new ArrayList<>();
-        // 이미 팔로우한 유저 제외 3명
+
+        List<Follow> follows = searchFollowByFollower(loginUser);
+        Set<Long> followSet = new HashSet<>();
+        for(Follow follow : follows) {
+            followSet.add(follow.getFollowee().getId());
+        }
+
+        // 이미 팔로우한 유저 제외 N명
+        int N = Math.min(10, followCandidates.size());
         int cnt=0;
         for(FollowCandidate fc : followCandidates) {
             // 이미 팔로우한 유저인지 검사
-            boolean alreadyFollowed = isAlreadyFollowed(loginUser, userRepository.getReferenceById(fc.getId()));
+            boolean alreadyFollowed = followSet.contains(fc.getId());
             if(alreadyFollowed) continue;
             User candidate = userRepository.findById(fc.getId()).orElse(null);
             if(candidate==null) continue;
@@ -90,7 +98,7 @@ public class FollowService {
                     userId(candidate.getId()).
                     userName(candidate.getName()).
                     build());
-            if(++cnt==3) break;
+            if(++cnt==N) break;
         }
 
         return res;
