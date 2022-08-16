@@ -609,10 +609,6 @@ class VideoRoomComponent extends Component {
           this.state.chatDisplay === 'block' ? '-chat' : ''
         }`}
       >
-        {/* <div className="videoroom-header">
-          <VideoRoomHeader oppoInfo={123} />
-        </div> */}
-
         <div className="videoroom-main">
           <div id="layout" className="bounds">
             <div>임시유저 레이아웃</div>
@@ -688,17 +684,6 @@ class VideoRoomComponent extends Component {
             shareNews={this.shareNewsHandler}
           />
         )}
-
-        {/* <IconButton
-          color="secondary"
-          onClick={this.toggleChat}
-          id="navChatButton"
-        >
-          {this.showNotification && <div id="point" className="" />}
-          <Tooltip title="Chat">
-            <QuestionAnswer />
-          </Tooltip>
-        </IconButton> */}
       </div>
     );
   }
