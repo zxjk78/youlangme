@@ -105,7 +105,6 @@ const Header = () => {
 
 
 
-  // Mui AppBar 참고해서 만들기!!!!!!!!
   return (
     // <nav className={classes.navbar}>
     //     <Link to="/main">
@@ -132,8 +131,13 @@ const Header = () => {
               <Link to="/main">
                 <img src={youlangme} className={classes.navbar__logo}/>
               </Link>
-              <Link to="/start">
-                <StartIcon sx={{ fontSize: '50px', color: '#FFC700',  ml: 3}}/>
+              <Link to="/start-intro">
+                <Tooltip title='match'>
+                  <img src={`/match_icon.png`} alt=""
+                    className={classes.match_icon}
+                    />
+                </Tooltip>
+                {/* <StartIcon sx={{ fontSize: '50px', color: '#FFC700',  ml: 3}}/> */}
               </Link>
           </div>
         

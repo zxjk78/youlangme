@@ -1,32 +1,33 @@
 // custom component
-import FeedBoardList from './feed/FeedBoardList';
+import FeedLIst from './feed/FeedList';
 import UserRanking from './ranking/UserRanking';
 import RecommendUser from './recommendUser/RecommendUser';
-import LanguageRank from './ranking/LanguageRanking';
+import LanguageRanking from './ranking/LanguageRanking';
 // external component
 
 // css
-import classes from './Maintmp.module.scss';
+import classes from './Main.module.scss';
+
 const Maintmp = (props) => {
   return (
     <>
-      <div className={classes.wrapper}>
-        <div className={classes.container}>
-          <div className={classes.header}></div>
-          <div className={classes.main}>
-            <div className={classes.column1}>
-              <FeedBoardList />
-            </div>
+      <div className={classes.main_container}>
+        <div className={classes['feed-container']}>
+          <FeedLIst />
+        </div>
 
-            <div className={classes.column2}>
-              <UserRanking />
-              <LanguageRank />
-              <RecommendUser />
-            </div>
-          </div>
-          <div className={classes.footer}></div>
+        <div className={classes['userRanking-container']}>
+          <UserRanking />
+        </div>
+
+        <div className={classes['languageRanking-container']}>
+          <LanguageRanking />
+        </div>
+        <div className={classes['followRecommand-container']}>
+          <RecommendUser />
         </div>
       </div>
+      <div className={classes.footer}></div>
     </>
   );
 };

@@ -1,23 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import Header from '../../common/UI/Header/Header';
 
-import { logout } from '../auth/authSlice';
+import { getUser, logout } from '../auth/authSlice';
+import EvaluationTemplate from '../matching/youlangmeCustom/evaluations/EvaluationTemplate';
 
 import UserInfo from '../profile/LeftProfile/UserInfo/UserInfo';
 
-const Main = () => {
+const Main = (props) => {
+  const location = useLocation();
   const { currentUser } = useSelector((state) => state.auth);
+  const chattingExit = location.state
+    ? location.state.props.chattingExit
+    : false;
+  const [isEvaluationModalVisible, setIsEvaluationModalVisble] =
+    useState(chattingExit);
   const dispatch = useDispatch();
   const history = useHistory();
+
   const logoutHandler = () => {
     dispatch(logout())
       .unwrap()
-      .then(() => {
-        document.location.href = '/';
+      .then((response) => {
+        history.push('/');
       });
   };
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
+
+  const toggleEvaluationModal = (event) => {
+    setIsEvaluationModalVisble(!isEvaluationModalVisible);
+  };
+
   // console.log(currentUser.name);
   if (currentUser.name === null) {
     history.push('/modify');
@@ -28,9 +44,12 @@ const Main = () => {
     <div>
       {/* {currentUser.name && <Header/>} */}
       <h2>이곳은 임시 홈페이지</h2>
-      <div>
-        <Link to="/board/detail">게시판 작업, 뒤에 /게시글번호</Link>
-      </div>
+
+      {isEvaluationModalVisible && (
+        <EvaluationTemplate toggleModal={toggleEvaluationModal} />
+      )}
+      {/* {true && <EvaluationTemplate toggleModal={toggleEvaluationModal} />} */}
+
       <div>
         <Link to="/board/create">게시판 생성작업</Link>
       </div>
@@ -44,9 +63,7 @@ const Main = () => {
       <div>
         <Link to="/modify">수정</Link>
       </div>
-      <div>
-        <Link to="/match">매칭</Link>
-      </div>
+
       <button onClick={logoutHandler}>로그아웃</button>
     </div>
   );

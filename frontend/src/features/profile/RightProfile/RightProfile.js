@@ -7,7 +7,7 @@ import classes from './RightProfile.module.scss';
 
 import ProfileMenu from './ProfileMenu'
 import RightProfileInfo from './RightProfileInfo';
-import ProfileBoardSummeryList from './profileBoardSummery/ProfileBoardSummeryList';
+import ProfileBoardSummaryList from './profileBoardSummary/ProfileBoardSummaryList';
 
 // const activeStyle = {
 //   fontWeight:'900',
@@ -29,7 +29,7 @@ const RightProfile = (props) => {
         <ProfileMenu userId={userId} onChangeTab={tabChangeHandler}/>
         { tabValue === 'profile' ?
           <RightProfileInfo userId={userId}/> :
-          <ProfileBoardSummeryList userId={userId}/>
+          <ProfileBoardSummaryList userId={userId}/>
         }
       </div>    
     )

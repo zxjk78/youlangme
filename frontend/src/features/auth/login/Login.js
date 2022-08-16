@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+// redux
+import { getUser, login } from '../authSlice';
+// external module
+import axios from 'axios';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { login } from '../authSlice';
 import { API_URL } from '../../../common/api/http-config';
-
-import classes from './Login.module.scss';
-import { Link, useHistory } from 'react-router-dom';
+// custom component
 import ChangePassword from './ChangePassword';
 import Modal from '../../../common/UI/Modal/Modal';
+// css
+import classes from './Login.module.scss';
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { currentUser } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
 
   // const { message } = useSelector((state) => state.message);
   const history = useHistory();
@@ -43,11 +48,11 @@ const Login = (props) => {
 
     dispatch(login({ email, password }))
       .unwrap()
-      .then(() => {
-        document.location.href = '/main';
+      .then((res) => {
+        console.log(res.response);
       })
-      .catch(() => {
-        setLoading(false);
+      .catch((err) => {
+        alert(err);
       });
   };
 
@@ -58,7 +63,7 @@ const Login = (props) => {
     //   .catch(() => {
     //     setLoading(false);
     //   });
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = API_URL + 'oauth2/authorization/google';
   };
   const closeModal = () => {
     setIsModalVisible(() => false);

@@ -8,10 +8,15 @@
   display: flex;
   margin-top: 10px;
 
+
   .follow_greys {
     color: #9BA7AF;
     font-size: small;
     cursor: pointer;
+    &:hover {
+      font-weight: bold;
+      color:black
+    }
   }
 
   .cnt {

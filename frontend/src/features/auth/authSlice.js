@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import axios from "axios";
-import { API_URL, user, accessToken, getConfig } from "../../common/api/http-config";
+
+import { API_URL, getConfig } from "../../common/api/http-config";
 
 // const config = {
 //   headers: { "Content-Type": "application/json" },
@@ -10,9 +12,9 @@ export const login = createAsyncThunk("LOGIN", async (userInfo, thunkAPI) => {
   try {
     const response = await axios.post(API_URL + "login", userInfo);
     localStorage.setItem("user", JSON.stringify(response.data.data));
-    return response;
+    return response.data;
   } catch (err) {
-    return thunkAPI.rejectWithValue();
+    return thunkAPI.rejectWithValue(err.message);
   }
 });
 
@@ -26,8 +28,12 @@ export const signup = createAsyncThunk("SIGNUP", async (userInfo, thunkAPI) => {
 });
 
 export const logout = createAsyncThunk("LOGOUT", async (thunkAPI) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  let accessToken = user ? user.accessToken : null;
   try {
-    const response = await axios.delete(API_URL + "log-out", getConfig);
+    const response = await axios.delete(API_URL + "log-out", {
+      headers: { "X-Auth-Token": accessToken },
+    });
     window.localStorage.clear();
     return response.data;
   } catch (err) {
@@ -36,8 +42,12 @@ export const logout = createAsyncThunk("LOGOUT", async (thunkAPI) => {
 });
 
 export const getUser = createAsyncThunk("GETUSER", async (thunkAPI) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  let accessToken = user ? user.accessToken : null;
   try {
-    const response = await axios.get(API_URL + "user/login-user", getConfig);
+    const response = await axios.get(API_URL + "user/login-user", {
+      headers: { "X-Auth-Token": accessToken },
+    });
     localStorage.setItem("currentUser", JSON.stringify(response.data.data));
     return response.data;
   } catch (err) {
@@ -45,7 +55,7 @@ export const getUser = createAsyncThunk("GETUSER", async (thunkAPI) => {
   }
 });
 
-const initialState = { isLoggedIn: false, currentUser: {} };
+const initialState = { isLoggedIn: false, accessToken: "", currentUser: {} };
 
 const authSlice = createSlice({
   name: "auth",
@@ -58,6 +68,11 @@ const authSlice = createSlice({
       return { ...state, isLoggedIn: true };
     },
     getUser,
+    resetLogin(state){
+      state.isLoggedIn = false
+      state.currentUser = {}
+      state.accessToken = ""
+    },
     modifyUser(state, action) {
       state.currentUser = { ...action.payload.data };
     },
@@ -71,6 +86,7 @@ const authSlice = createSlice({
     },
     [login.fulfilled]: (state, action) => {
       state.isLoggedIn = true;
+      state.accessToken = action.payload.data.accessToken;
     },
     [login.rejected]: (state, action) => {
       state.isLoggedIn = false;
@@ -78,6 +94,7 @@ const authSlice = createSlice({
     [logout.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
       state.currentUser = {};
+      state.accessToken = "";
     },
     [getUser.fulfilled]: (state, action) => {
       state.currentUser = { ...action.payload.data };
@@ -90,4 +107,5 @@ const authSlice = createSlice({
 });
 export let { socialLogin } = authSlice.actions;
 export let { modifyUser } = authSlice.actions;
+export let {resetLogin} = authSlice.actions
 export default authSlice;

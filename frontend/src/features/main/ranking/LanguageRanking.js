@@ -2,16 +2,21 @@
 import { useState, useEffect } from 'react';
 // API
 import { fetchLanguageRanking } from '../mainAPI';
+// custom component
+import LanguagePieChart from './LanguagePieChart';
 // external component
-import TranslateIcon from '@mui/icons-material/Translate';
+// import TranslateIcon from '@mui/icons-material/Translate';
+import LanguageIcon from '@mui/icons-material/Language';
 // css
 import classes from './LanguageRanking.module.scss';
+import { grey } from '@mui/material/colors';
 
 const LanguageRanking = (props) => {
   const [loading, setLoading] = useState(true);
   const [langRanking, setLangRanking] = useState([]);
+
   useEffect(() => {
-    setLoading(true);
+    setLoading(() => true);
     (async () => {
       const data = await fetchLanguageRanking();
       setLangRanking(() => data);
@@ -25,22 +30,13 @@ const LanguageRanking = (props) => {
         <div>is loading...</div>
       ) : (
         <div className={classes.wrapper}>
-          <div className={classes.container}>
-            <div className={classes.header}>
-              <div>
-                <TranslateIcon fontSize="large" />
-              </div>
-              <div>많이 이용되는 언어</div>
+          <div className={classes.header}>
+            <div>
+              <LanguageIcon />
             </div>
-            <div className={classes.main}>
-              {langRanking.map((lang, index) => (
-                <div key={lang.language}>
-                  {index + 1}. {lang.language.toUpperCase()} {lang.percent}%
-                </div>
-              ))}
-            </div>
-            <div className={classes.footer}></div>
+            <div>인기 매칭 언어</div>
           </div>
+          <LanguagePieChart languageRanking={langRanking} />
         </div>
       )}
     </>

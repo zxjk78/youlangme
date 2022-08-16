@@ -39,7 +39,7 @@ const imgRatioCalculate = (imgObj, size) => {
 // 리사이징하고 싶은 canvas에 담고 파일화하는 작업
 const loadToCanvas = (imgObj, size) => {
   const [width, height] = imgRatioCalculate(imgObj, size);
-  console.log(width, height);
+  // console.log(width, height);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = width;

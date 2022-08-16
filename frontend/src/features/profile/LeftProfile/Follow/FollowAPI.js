@@ -12,7 +12,7 @@ import { API_URL } from '../../../../common/api/http-config';
 
 
 
-export const fetchFollowCnt =  async (setFollowCount, userId) =>  {
+export const fetchFollowCnt =  async (userId) =>  {
   const user = JSON.parse(localStorage.getItem('user'));
   const accessToken = user ? user.accessToken : null;
   const getConfig = { headers: { 'X-Auth-Token': accessToken } };
@@ -22,9 +22,9 @@ export const fetchFollowCnt =  async (setFollowCount, userId) =>  {
       // 엑세스 토큰이 필요하다.
       getConfig
     );
-    setFollowCount(
-      response.data.data
-    );
+
+    return response.data.data
+
 
 
   } catch (err) {
@@ -35,7 +35,7 @@ export const fetchFollowCnt =  async (setFollowCount, userId) =>  {
 
 
 // followers 배열 받아오기
-export const fetchFollowers =  async (setFlwers, userId) =>  {
+export const fetchFollowers =  async (userId) =>  {
   const user = JSON.parse(localStorage.getItem('user'));
   const accessToken = user ? user.accessToken : null;
   const getConfig = { headers: { 'X-Auth-Token': accessToken } };
@@ -45,7 +45,7 @@ export const fetchFollowers =  async (setFlwers, userId) =>  {
       // 엑세스 토큰이 필요하다.
       getConfig
       );
-      setFlwers(response.data.data);
+      return response.data.data;
 
       // if (response.data.data.find(flwer=>flwer.followerId == currentUserId)){ 
       //   console.log('dddddddddd')
@@ -62,7 +62,7 @@ export const fetchFollowers =  async (setFlwers, userId) =>  {
 };
 
 // followees 배열 받아오기
-export const fetchFollowees = async (setFlwees, userId) =>  {
+export const fetchFollowees = async (userId) =>  {
     const user = JSON.parse(localStorage.getItem('user'));
     const accessToken = user ? user.accessToken : null;
     const getConfig = { headers: { 'X-Auth-Token': accessToken } };
@@ -73,9 +73,8 @@ export const fetchFollowees = async (setFlwees, userId) =>  {
         getConfig
       );
       // console.log(response.data.data)
-      setFlwees(
-        response.data.data
-      );
+      
+      return response.data.data;
   
   
     } catch (err) {
@@ -86,7 +85,7 @@ export const fetchFollowees = async (setFlwees, userId) =>  {
 
 
 
-export const fetchFollowOrNot = async (setIsFlw, userId, currentUserId) =>  {
+export const fetchFollowOrNot = async (userId, currentUserId) =>  {
   const user = JSON.parse(localStorage.getItem('user'));
   const accessToken = user ? user.accessToken : null;
   const getConfig = { headers: { 'X-Auth-Token': accessToken } };
@@ -99,8 +98,8 @@ export const fetchFollowOrNot = async (setIsFlw, userId, currentUserId) =>  {
     console.log(response.data.data)
     if (response.data.data.find(flwer=>flwer.followerId === currentUserId)){ 
         // console.log('팔로우 하고 있음. ');
-        setIsFlw(true) } else {
-          setIsFlw(false)
+        return true } else {
+          return false
           // console.log('팔로우 하고 있지 않음. ');
         }
     
@@ -112,7 +111,7 @@ export const fetchFollowOrNot = async (setIsFlw, userId, currentUserId) =>  {
 
 
 // follow 요청
-export const sendFollow =  async (setIsFlwed, userId) =>  {
+export const sendFollow =  async (userId) =>  {
   const user = JSON.parse(localStorage.getItem('user'));
   const accessToken = user ? user.accessToken : null;
   const getConfig = { headers: { 'X-Auth-Token': accessToken } };   
@@ -124,7 +123,7 @@ export const sendFollow =  async (setIsFlwed, userId) =>  {
       getConfig 
     );
     // console.log(response.data.message)
-    setIsFlwed(true)
+    return true;
 
   } catch (err) {
     console.log('팔로우 요청 에러')
@@ -133,7 +132,7 @@ export const sendFollow =  async (setIsFlwed, userId) =>  {
 };
 
 // unfollow 요청
-export const sendUnfollow =  async (setIsFlwed, userId) =>  {
+export const sendUnfollow =  async ( userId) =>  {
   const user = JSON.parse(localStorage.getItem('user'));
   const accessToken = user ? user.accessToken : null;
   const getConfig = { headers: { 'X-Auth-Token': accessToken } };  
@@ -145,7 +144,7 @@ export const sendUnfollow =  async (setIsFlwed, userId) =>  {
       getConfig 
     );
     // console.log(response.data.message)
-    setIsFlwed(false)
+    return false;
 
   } catch (err) {
     console.log('언팔로우 요청 에러')

@@ -8,12 +8,13 @@ import createBoardReducer from './features/board/create/createBoardSlice';
 import profileReducer from './features/profile/profileSlice';
 import storage from 'redux-persist/lib/storage';
 import persistReducer from 'redux-persist/es/persistReducer';
-
+import matchSlice from './features/matching/matchSlice';
+import newsReducer from './features/matching/youlangmeCustom/helps/newsSlice';
 const persistConfig = {
   key: 'root',
   storage,
   version: 3,
-  blacklist: ['createBoard', 'modal'],
+  blacklist: ['createBoard', 'modal', 'news'],
 };
 
 const reducer = combineReducers({
@@ -26,6 +27,9 @@ const reducer = combineReducers({
   board: boardReducer,
   createBoard: createBoardReducer,
   profile: profileReducer,
+  match: matchSlice.reducer,
+  // openvidu-news
+  news: newsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
@@ -33,6 +37,10 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

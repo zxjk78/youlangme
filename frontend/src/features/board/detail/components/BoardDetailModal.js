@@ -29,6 +29,7 @@ import classes from './BoardDetailModal.module.scss';
 // etc
 import { API_URL } from '../../../../common/api/http-config';
 
+
 const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
   const [replyList, setReplyList] = useState([]);
@@ -38,6 +39,8 @@ const BoardDetailModal = (props) => {
   const [likeUserVisible, setLikeUserVisible] = useState(false);
   const [likeCnt, setLikeCnt] = useState(0);
   const [replyCnt, setReplyCnt] = useState(0);
+
+  
   const params = useParams();
   const boardId = props?.boardId || params.boardId;
   const replyRef = useRef();
@@ -47,7 +50,7 @@ const BoardDetailModal = (props) => {
     setIsLoading(true);
     (async () => {
       const boardDetail = await fetchBoardInfo(boardId);
-      console.log(boardDetail);
+      // console.log(boardDetail);
       if (!boardDetail) {
         history.replace({
           pathname: '/404',
@@ -70,6 +73,7 @@ const BoardDetailModal = (props) => {
       setReplyCnt(replyList.length);
       setLikeUsers(likeUsers);
       setLikeCnt(likeUsers.length);
+      
 
       setIsLoading(false);
     })();
@@ -99,7 +103,7 @@ const BoardDetailModal = (props) => {
 
     if (result.success) {
       // 부모에게 전달
-      props.likeChangeHandler(result.data.likeCnt);
+      props.likeChangeHandler(result.data.likeCnt, true);
       setLikeCnt(result.data.likeCnt);
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       const addedUser = { id: currentUser.id, name: currentUser.name };
@@ -112,7 +116,7 @@ const BoardDetailModal = (props) => {
     if (result.success) {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       // 부모에게 전달
-      props.likeChangeHandler(result.data.likeCnt);
+      props.likeChangeHandler(result.data.likeCnt, false);
       setLikeCnt(result.data.likeCnt);
       setIsliked(false);
       setLikeUsers((prevState) =>
@@ -136,7 +140,10 @@ const BoardDetailModal = (props) => {
     // delete API 요청
     const data = await deleteBoard(boardId);
     if (data.success === true) {
-      history.goBack();
+      // history.goBack();
+      // window.location.reload();
+      props.closeModalHandler();
+      props.deleteHandler();
     }
   };
   const showLikeUserModal = () => {
@@ -150,107 +157,123 @@ const BoardDetailModal = (props) => {
   };
   return (
     <>
-      {isLoading ? (
-        <div>
-          <CircularProgress />
-        </div>
-      ) : (
-        <Modal closeModalHandler={closeModal} boardDetail>
-          {likeUserVisible && (
-            <LikeUserModal
-              likeUserList={likeUsers}
-              closeModal={likeModalClose}
-            />
-          )}
-
-          <div className={classes.wrapper}>
-            <div className={classes.boardHeader}>
-              <UserInfo
-                user={{
-                  id: boardDetail.userId,
-                  name: boardDetail.userName,
-                }}
+      <Modal closeModalHandler={closeModal} boardDetail>
+        {isLoading ? (
+          <div>
+            <CircularProgress />
+          </div>
+        ) : (
+          <>
+            {likeUserVisible && (
+              <LikeUserModal
+                likeUserList={likeUsers}
+                closeModal={likeModalClose}
               />
-
-              <div className={classes.createdAt}>
-                {createdDateCal(boardDetail.createdTime)}
-              </div>
-            </div>
-            <div className={classes.main}>
-              <div className={classes.contentContainer}>
-                <p>{boardDetail.contents}</p>
-              </div>
-              <div className={classes.photoContainer}>
-                {boardDetail.imgList.length > 3 ? (
-                  <PhotoCarousel pics={boardDetail.imgList} />
-                ) : (
-                  <div>
-                    {boardDetail.imgList.map((image) => (
-                      <BoardImageSrc imgName={image} alt={image} key={image} />
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className={classes.likeReplyCnt}>
-                <div>
-                  <LikeContainer
-                    isLiked={isLiked}
-                    like={likeHandler}
-                    dislike={dislikeHandler}
-                    likeCnt={likeCnt}
-                    showModal={showLikeUserModal}
-                  />
-                </div>
-                {/* <div>
-                  <ChatBubbleOutlineIcon />
-                  {replyList.length}
-                </div> */}
-              </div>
-              <br />
-            </div>
-            {boardDetail.userId ===
-              JSON.parse(localStorage.getItem('currentUser')).id && (
-              <div className={classes.authOptionContainer}>
-                <button type="button" onClick={updateBoardHandler}>
-                  글 수정{' '}
-                </button>
-                <button type="button" onClick={deleteBoardHandler}>
-                  글 삭제
-                </button>
-              </div>
             )}
 
-            <div className={classes.reply}>
-              <div className={classes.header}>
-                <ChatBubbleOutlineIcon />
-                <div>댓글 ({replyCnt}) </div>
+            <div className={classes.wrapper}>
+              <div className={classes.board_detail_container}>
+
+                <div className={classes.boardHeader}>
+                  <div className={classes.boardHeaderUserProfile}>
+                    <UserInfo
+                      user={{
+                        id: boardDetail.userId,
+                        name: props.boardUserName,
+                        nationality: props.boardUserNationality
+                      }}
+                    />
+                  </div>
+
+                  <div className={classes.createdAt}>
+                    {createdDateCal(boardDetail.createdTime)}
+                  </div>
+                </div>
+                <div className={classes.main}>
+                  <div className={classes.contentContainer}>
+                    <p>{boardDetail.contents}</p>
+                  </div>
+                  <div className={classes.photoContainer}>
+                    {boardDetail.imgList.length > 3 ? (
+                      <PhotoCarousel pics={boardDetail.imgList} />
+                    ) : (
+                      <div>
+                        {boardDetail.imgList.map((image) => (
+                          <BoardImageSrc
+                            imgName={image}
+                            alt={image}
+                            key={image}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className={classes.board_footer}>
+                  <div className={classes.likeReplyCnt}>
+                    <div>
+                      <LikeContainer
+                        isLiked={isLiked}
+                        like={likeHandler}
+                        dislike={dislikeHandler}
+                        likeCnt={likeCnt}
+                        showModal={showLikeUserModal}
+                      />
+                    </div>
+                    {/* <div>
+                    <ChatBubbleOutlineIcon />
+                    {replyList.length}
+                  </div> */}
+                  </div>
+                  {boardDetail.userId ===
+                    JSON.parse(localStorage.getItem('currentUser')).id && (
+                    <div className={classes.authOptionContainer}>
+                      <button type="button" onClick={updateBoardHandler}>
+                        수정{' '}
+                      </button>
+                      <button type="button" onClick={deleteBoardHandler}>
+                        삭제
+                      </button>
+                    </div>
+                  )}
+
+                </div>
               </div>
-              <div className={classes.replyContainer}>
-                {replyList.length === 0 ? (
-                  <div className={classes.noReply}>댓글이 없습니다</div>
-                ) : (
-                  replyList.map((reply) => (
-                    <ReplyListItem key={reply.id} commentInfo={reply} />
-                  ))
-                )}
-              </div>
-              <div className={classes.replyInput}>
-                <form onSubmit={addCommentHandler}>
-                  <input
-                    type="text"
-                    placeholder="댓글을 입력하세요"
-                    ref={replyRef}
-                  />
-                  <button>
-                    <SendIcon />
-                  </button>
-                </form>
+
+
+              <div className={classes.reply}>
+                <div className={classes.header}>
+                  <ChatBubbleOutlineIcon sx={{ fontSize: 25, mx:1 }} />
+                  <div>댓글 </div>
+                  <div className={classes.reply_cnt_num}>{replyCnt}</div>
+                  <div>개</div>
+                </div>
+                <div className={classes.replyInput}>
+                  <form onSubmit={addCommentHandler}>
+                    <input
+                      type="text"
+                      placeholder="댓글을 입력하세요"
+                      ref={replyRef}
+                    />
+                    <button>
+                      <SendIcon />
+                    </button>
+                  </form>
+                </div>
+                <div className={classes.replyContainer}>
+                  {replyList.length === 0 ? (
+                    <div className={classes.noReply}>댓글이 없습니다</div>
+                  ) : (
+                    replyList.map((reply) => (
+                      <ReplyListItem key={reply.id} commentInfo={reply} />
+                    ))
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </Modal>
-      )}
+          </>
+        )}
+      </Modal>
     </>
   );
 };

@@ -2,7 +2,7 @@ import { Box, Tab, Tabs } from '@mui/material'
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import PrivateRoute from '../../../common/routes/PrivateRoute'
-import ProfileBoardSummeryList from './profileBoardSummery/ProfileBoardSummeryList'
+import ProfileBoardSummaryList from './profileBoardSummary/ProfileBoardSummaryList'
 import RightProfile from './RightProfile'
 
 // const activeStyle = {
@@ -25,7 +25,7 @@ function ProfileMenu({userId, onChangeTab}) {
 
 
   return (
-    <Box sx={{ width: '90%', mb:2, mx: 'auto'}}>
+    <Box sx={{ width: '100%', mb:2, mx: 'auto'}}>
       <Tabs
         value={value}
         centered

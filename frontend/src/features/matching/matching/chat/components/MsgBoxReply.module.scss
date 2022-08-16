@@ -1,0 +1,12 @@
+.originMsgInfo {
+  border-bottom: solid 1px #d3d3d3;
+
+  & > div:nth-of-type(1) {
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  & > div:nth-of-type(2) {
+    color: #5f5f5f;
+    font-size: 0.8rem;
+  }
+}
