@@ -829,6 +829,8 @@ class VideoRoomComponent extends Component {
               chatDisplay={this.state.chatDisplay}
               close={this.toggleChat}
               messageReceived={this.checkNotification}
+              myLanguage={this.state.myLanguage}
+              yourLanguage={this.state.yourLanguage}
               newsInfo={this.state.newsInfoToShare}
             />
           </div>
@@ -859,6 +861,8 @@ class VideoRoomComponent extends Component {
         {this.state.isHelpModalVisible && (
           <HelpTemplate
             toggleModal={this.toggleHelpModal}
+            myNationality={this.state.myNationality}
+            yourNationality={this.state.yourNationality}
             shareNews={this.shareNewsHandler}
           />
         )}

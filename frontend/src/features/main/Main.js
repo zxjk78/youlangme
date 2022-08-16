@@ -48,6 +48,7 @@ const Main = (props) => {
       {isEvaluationModalVisible && (
         <EvaluationTemplate toggleModal={toggleEvaluationModal} />
       )}
+      {true && <EvaluationTemplate toggleModal={toggleEvaluationModal} />}
 
       <div>
         <Link to="/board/create">게시판 생성작업</Link>
