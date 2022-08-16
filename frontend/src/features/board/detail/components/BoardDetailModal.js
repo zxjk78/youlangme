@@ -169,83 +169,81 @@ const BoardDetailModal = (props) => {
             )}
 
             <div className={classes.wrapper}>
-              <div className={classes.boardHeader}>
-                <div className={classes.boardHeaderUserProfile}>
-                  <UserInfo
-                    user={{
-                      id: boardDetail.userId,
-                      name: props.boardUserName,
-                      nationality: props.boardUserNationality
-                    }}
-                  />
-                </div>
+              <div className={classes.board_detail_container}>
 
-                <div className={classes.createdAt}>
-                  {createdDateCal(boardDetail.createdTime)}
-                </div>
-              </div>
-              <div className={classes.main}>
-                <div className={classes.contentContainer}>
-                  <p>{boardDetail.contents}</p>
-                </div>
-                <div className={classes.photoContainer}>
-                  {boardDetail.imgList.length > 3 ? (
-                    <PhotoCarousel pics={boardDetail.imgList} />
-                  ) : (
-                    <div>
-                      {boardDetail.imgList.map((image) => (
-                        <BoardImageSrc
-                          imgName={image}
-                          alt={image}
-                          key={image}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className={classes.likeReplyCnt}>
-                  <div>
-                    <LikeContainer
-                      isLiked={isLiked}
-                      like={likeHandler}
-                      dislike={dislikeHandler}
-                      likeCnt={likeCnt}
-                      showModal={showLikeUserModal}
+                <div className={classes.boardHeader}>
+                  <div className={classes.boardHeaderUserProfile}>
+                    <UserInfo
+                      user={{
+                        id: boardDetail.userId,
+                        name: props.boardUserName,
+                        nationality: props.boardUserNationality
+                      }}
                     />
                   </div>
-                  {/* <div>
-                  <ChatBubbleOutlineIcon />
-                  {replyList.length}
-                </div> */}
+
+                  <div className={classes.createdAt}>
+                    {createdDateCal(boardDetail.createdTime)}
+                  </div>
                 </div>
-                <br />
+                <div className={classes.main}>
+                  <div className={classes.contentContainer}>
+                    <p>{boardDetail.contents}</p>
+                  </div>
+                  <div className={classes.photoContainer}>
+                    {boardDetail.imgList.length > 3 ? (
+                      <PhotoCarousel pics={boardDetail.imgList} />
+                    ) : (
+                      <div>
+                        {boardDetail.imgList.map((image) => (
+                          <BoardImageSrc
+                            imgName={image}
+                            alt={image}
+                            key={image}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className={classes.board_footer}>
+                  <div className={classes.likeReplyCnt}>
+                    <div>
+                      <LikeContainer
+                        isLiked={isLiked}
+                        like={likeHandler}
+                        dislike={dislikeHandler}
+                        likeCnt={likeCnt}
+                        showModal={showLikeUserModal}
+                      />
+                    </div>
+                    {/* <div>
+                    <ChatBubbleOutlineIcon />
+                    {replyList.length}
+                  </div> */}
+                  </div>
+                  {boardDetail.userId ===
+                    JSON.parse(localStorage.getItem('currentUser')).id && (
+                    <div className={classes.authOptionContainer}>
+                      <button type="button" onClick={updateBoardHandler}>
+                        수정{' '}
+                      </button>
+                      <button type="button" onClick={deleteBoardHandler}>
+                        삭제
+                      </button>
+                    </div>
+                  )}
+
+                </div>
               </div>
-              {boardDetail.userId ===
-                JSON.parse(localStorage.getItem('currentUser')).id && (
-                <div className={classes.authOptionContainer}>
-                  <button type="button" onClick={updateBoardHandler}>
-                    글 수정{' '}
-                  </button>
-                  <button type="button" onClick={deleteBoardHandler}>
-                    글 삭제
-                  </button>
-                </div>
-              )}
+
 
               <div className={classes.reply}>
                 <div className={classes.header}>
-                  <ChatBubbleOutlineIcon />
-                  <div>댓글 ({replyCnt}) </div>
-                </div>
-                <div className={classes.replyContainer}>
-                  {replyList.length === 0 ? (
-                    <div className={classes.noReply}>댓글이 없습니다</div>
-                  ) : (
-                    replyList.map((reply) => (
-                      <ReplyListItem key={reply.id} commentInfo={reply} />
-                    ))
-                  )}
+                  <ChatBubbleOutlineIcon sx={{ fontSize: 25, mx:1 }} />
+                  <div>댓글 </div>
+                  <div className={classes.reply_cnt_num}>{replyCnt}</div>
+                  <div>개</div>
                 </div>
                 <div className={classes.replyInput}>
                   <form onSubmit={addCommentHandler}>
@@ -258,6 +256,15 @@ const BoardDetailModal = (props) => {
                       <SendIcon />
                     </button>
                   </form>
+                </div>
+                <div className={classes.replyContainer}>
+                  {replyList.length === 0 ? (
+                    <div className={classes.noReply}>댓글이 없습니다</div>
+                  ) : (
+                    replyList.map((reply) => (
+                      <ReplyListItem key={reply.id} commentInfo={reply} />
+                    ))
+                  )}
                 </div>
               </div>
             </div>
