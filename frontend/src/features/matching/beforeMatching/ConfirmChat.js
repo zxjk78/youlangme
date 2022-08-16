@@ -1,40 +1,40 @@
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import axios from "axios";
+import axios from 'axios';
 import {
   fetchProfile,
   fetchProfileImg,
-} from "../../profile/LeftProfile/LeftProfileAPI";
+} from '../../profile/LeftProfile/LeftProfileAPI';
 
 // data import
-import { API_URL, accessToken } from "../../../common/api/http-config";
-import { iso_code } from "../../profile/LeftProfile/UserInfo/flagData";
+import { API_URL, accessToken } from '../../../common/api/http-config';
+import { iso_code } from '../../profile/LeftProfile/UserInfo/flagData';
 
 // mui
-import { Avatar, Badge, Button, CircularProgress } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import { Avatar, Badge, Button, CircularProgress } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 // css
-import classes from "./StartMatch.module.scss";
-import { grey } from "@mui/material/colors";
+import classes from './StartMatch.module.scss';
+import { grey } from '@mui/material/colors';
 
 const ColorButton = styled(Button)(({ theme }) => ({
   // color: theme.palette.getContrastText(yellow[500]),
   fontSize: 30,
   fontWeight: 1000,
   lineHeight: 1.5,
-  padding: "20px 20px",
-  margin: "30px 0px 20px 0px",
+  padding: '20px 20px',
+  margin: '30px 0px 20px 0px',
   width: 380,
 
-  border: "1px solid #CAD6E2",
+  border: '1px solid #CAD6E2',
   borderRadius: 20,
-  backgroundColor: "#B865C6",
-  "&:hover": {
-    backgroundColor: "#EC7EFF",
+  backgroundColor: '#B865C6',
+  '&:hover': {
+    backgroundColor: '#EC7EFF',
   },
 }));
 
@@ -52,7 +52,7 @@ const ConfirmChat = (props) => {
     if (props.matchConfirm) {
       setTimeout(() => {
         props.setOpponentId(null);
-        props.setSessionId("");
+        props.setSessionId('');
         props.setMyData(null);
         props.setYourData(null);
         props.setMyProfile(null);
@@ -71,24 +71,25 @@ const ConfirmChat = (props) => {
   const matchingHandler = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const accessToken = user ? user.accessToken : null;
-  
+
     axios
       .post(
         API_URL + `meeting/enter/${props.sessionId}`,
         { yourlanguage: MyInfo.yourlanguage },
         {
           headers: {
-            "Content-Type": "application/json",
-            "X-AUTH-TOKEN": accessToken,
+            'Content-Type': 'application/json',
+            'X-AUTH-TOKEN': accessToken,
           },
         }
       )
       .then((res) => {
         console.log(res.data);
         history.push({
-          pathname: "/match",
+          pathname: '/match',
           state: {
             sessionId: props.sessionId,
+            myUserId: currentUser.id,
             MyInfo: MyInfo,
             youInfo: youInfo,
           },
@@ -104,8 +105,8 @@ const ConfirmChat = (props) => {
         const data = await fetchProfile(currentUser.id);
         if (!data) {
           history.replace({
-            pathname: "/404",
-            message: "존재하지 않는 게시물입니다.",
+            pathname: '/404',
+            message: '존재하지 않는 게시물입니다.',
           });
         }
         const dataImage = await fetchProfileImg(currentUser.id);
@@ -155,7 +156,7 @@ const ConfirmChat = (props) => {
                       src={`http://www.geonames.org/flags/x/${myNationalityCode}.gif`}
                     />
                   }
-                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   overlap="circular"
                 >
                   <Avatar sx={{ width: 250, height: 250 }} src={myImage} />
@@ -174,7 +175,7 @@ const ConfirmChat = (props) => {
                       src={`http://www.geonames.org/flags/x/${yourNationalityCode}.gif`}
                     />
                   }
-                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   overlap="circular"
                 >
                   <Avatar sx={{ width: 250, height: 250 }} src={yourImage} />
@@ -190,7 +191,7 @@ const ConfirmChat = (props) => {
               >
                 {props.myLanguage}
               </div>
-              <SwapHorizIcon sx={{ fontSize: 40, mx: 3, mt: "1px" }} />
+              <SwapHorizIcon sx={{ fontSize: 40, mx: 3, mt: '1px' }} />
               <div
                 className={`${classes.match_success_each_lng} ${classes.custom_text_yellow}`}
               >

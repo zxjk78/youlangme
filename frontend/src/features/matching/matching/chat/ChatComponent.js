@@ -94,7 +94,7 @@ export default class ChatComponent extends Component {
           profileImage.onload = () => {
             avatar.drawImage(profileImage, 0, 0, 60, 60);
           };
-          profileImage.src = `${API_URL}image/profile/${this.props.userId}.jpg`;
+          profileImage.src = `${API_URL}image/profile/${this.props.myUserId}.jpg`;
           // avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
 
           this.props.messageReceived();
