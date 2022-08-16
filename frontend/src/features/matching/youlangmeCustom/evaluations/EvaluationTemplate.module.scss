@@ -3,7 +3,8 @@
   height: 100vh;
   background-color: #fff;
   position: fixed;
-
+  top: 0;
+  right: 0;
   z-index: 10;
   background-color: rgba($color: #000000, $alpha: 0.5);
 }
@@ -16,6 +17,8 @@
   z-index: 20;
   background-color: #fff;
   border-radius: 15px;
+  // 에니메이션 보기
+  animation: moveup 0.5s ease-in 1;
 }
 .header {
   display: flex;
@@ -74,5 +77,16 @@
   .icon {
     margin: 20px;
     size: 3rem;
+  }
+}
+
+@keyframes moveup {
+  from {
+    top: 40vh;
+    opacity: 0.8;
+  }
+  to {
+    top: 25vh;
+    opacity: 1;
   }
 }

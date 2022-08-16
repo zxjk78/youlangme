@@ -21,6 +21,8 @@ const HelpTemplate = (props) => {
   };
   const shareNewsHandler = (newsInfo) => {
     props.shareNews(newsInfo);
+    // news창 끄기
+    props.toggleModal();
   };
   return (
     <>

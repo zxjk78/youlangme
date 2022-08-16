@@ -15,13 +15,13 @@ import { Button } from '@mui/material';
 const RecommendUser = (props) => {
   const [isLoading, setisLoading] = useState(true);
   const [recommendUser, setRecommendUser] = useState([]);
+
   const [recoModalVisible, setRecoModalVisible] = useState(false);
   useEffect(() => {
     (async () => {
       const data = await fetchRecommendUser();
-      console.log(data);
+      // console.log(data);
       setRecommendUser(data);
-      // setRecommendUser(data.slice(0,3));
     })();
 
     setisLoading(false);
@@ -64,8 +64,15 @@ const RecommendUser = (props) => {
                   더보기
                 </Button>
               </div>
-              <div className={classes.main}></div>
-              <div className={classes.footer}></div>
+              <div className={classes.main}>
+                {recommendUser.slice(0, 3).map((item) => (
+                  <RecommendUserInfo
+                    userId={item.id}
+                    name={item.name}
+                    nationality={item.nationality}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </>

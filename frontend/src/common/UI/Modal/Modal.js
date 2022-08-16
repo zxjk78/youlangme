@@ -15,6 +15,7 @@ const ModalOverlay = (props) => {
         }        
         ${props.isBoardDetail && classes.boardDetail}
         ${props.isUserLike && classes.userLike}
+        ${props.isFindPassword && classes.findPassword}
         `}
       >
         <div className={classes.content}>{props.children}</div>
@@ -55,6 +56,7 @@ const Modal = (props) => {
           isImageUpload={props.imageUpload}
           isBoardDetail={props.boardDetail}
           isUserLike={props.userLike}
+          isFindPassword={props.findPassword}
         >
           {props.children}
         </ModalOverlay>,
