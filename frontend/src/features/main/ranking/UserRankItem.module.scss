@@ -6,6 +6,10 @@
   &.myRank {
     background-color: #ffdb59;
   }
+  &:hover {
+    transform: translate(8px, -2px);
+    transition: 0.2s;
+  }
 }
 .container {
   display: grid;
@@ -19,11 +23,9 @@
   }
   .detail {
     display: grid;
-
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
+    grid-template-columns: 200px 40px 100px;
     align-items: center;
+    width: 100%;
   }
 }
 

@@ -54,7 +54,7 @@ export default class ChatComponent extends Component {
     this.copyHandler = this.copyHandler.bind(this);
     this.translateHandler = this.translateHandler.bind(this);
     // 댓글 답글 컴포넌트 요청
-    this.handleReply = this.handleReply.bind(this);
+    this.sendReply = this.sendReply.bind(this);
     // 댓글 답글 컴포넌트 삭제
     this.cancelReply = this.cancelReply.bind(this);
     // 스크롤 테스트
@@ -130,7 +130,6 @@ export default class ChatComponent extends Component {
 
   // messageType: 1 :normal, 2: reply, 3: news
   sendMessage(msgType, data) {
-    // console.log('메세지 보낼때 데이터', msgType, data);
     let message = data.message.replace(/ +(?= )/g, '');
     let originalMsg = '';
     let originalMsgIdx = '';
@@ -222,7 +221,7 @@ export default class ChatComponent extends Component {
       isReply: true,
     });
   }
-  handleReply() {
+  sendReply() {
     this.sendMessage(2, {
       message: this.state.message,
       originMsg: this.state.originalMessage,
@@ -267,17 +266,31 @@ export default class ChatComponent extends Component {
   }
 
   async msgTranslate() {
-    // const myISOCode = iso_code['KOREAN'];
-    // const yourISOCode = iso_code['ENGLISH'];
+    console.log('채팅창 번역');
+    console.log(
+      'props에서 들어온 myLang yourLang',
+      this.props.myLanguage,
+      this.props.yourLanguage
+    );
+    console.log(
+      'state로 전달한 myLang yourLang',
+      this.state.myLanguage,
+      this.state.yourLanguage
+    );
+
     const myISOCode = iso_code[this.state.myLanguage];
     const yourISOCode = iso_code[this.state.yourLanguage];
     const originContent = this.state.message.trim();
+    console.log(
+      '상대 iso, 내 iso, 원본 문자',
+      yourISOCode,
+      myISOCode,
+      originContent
+    );
     if (originContent.length === 0) {
       return;
     }
 
-    console.log(this.state.myLanguage, this.state.yourLanguage);
-    console.log(yourISOCode, myISOCode, originContent);
     const translateMsg = await translate(yourISOCode, myISOCode, originContent);
     this.setState({
       message: translateMsg.slice(1, translateMsg.length - 1),
@@ -382,8 +395,7 @@ export default class ChatComponent extends Component {
                   originalMessageIdx={this.state.originalMessageIdx}
                   messageVal={this.state.message}
                   handleChange={this.handleChange}
-                  handleKeyPress={this.handleReply}
-                  sendReplyBtnClick={this.sendMessage}
+                  sendReply={this.sendReply}
                   cancelModify={this.cancelReply}
                 />
               </div>

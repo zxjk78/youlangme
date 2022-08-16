@@ -26,14 +26,14 @@ export const fetchLanguageRanking = async () => {
     console.log(error);
   }
 };
+
+// 추천유저 받는 API
 export const fetchRecommendUser = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const accessToken = user.accessToken;
 
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  const userId = currentUser.id;
   try {
-    const response = await axios.get(API_URL + `follow/followers/${userId}`, {
+    const response = await axios.get(API_URL + `follow/recommendation`, {
       headers: {
         'X-AUTH-TOKEN': accessToken,
       },

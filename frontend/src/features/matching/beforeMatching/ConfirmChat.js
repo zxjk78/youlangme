@@ -41,7 +41,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
 const ConfirmChat = (props) => {
   const history = useHistory();
   const currentUser = useSelector((state) => state.auth.currentUser);
-  const [MyInfo, setMyInfo] = useState(null);
+  const [myInfo, setMyInfo] = useState(null);
   const [youInfo, setYouInfo] = useState(null);
   const [myImage, setMyImage] = useState(null);
   const [yourImage, setYourImage] = useState(null);
@@ -75,7 +75,7 @@ const ConfirmChat = (props) => {
     axios
       .post(
         API_URL + `meeting/enter/${props.sessionId}`,
-        { yourlanguage: MyInfo.yourlanguage },
+        { yourLanguage: props.yourLanguage },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -90,8 +90,10 @@ const ConfirmChat = (props) => {
           state: {
             sessionId: props.sessionId,
             myUserId: currentUser.id,
-            MyInfo: MyInfo,
+            myInfo: myInfo,
             youInfo: youInfo,
+            myLanguage: props.myLanguage,
+            yourLanguage: props.yourLanguage,
           },
         });
       })
@@ -134,7 +136,7 @@ const ConfirmChat = (props) => {
     })();
   }, [props.matchConfirm, props.opponentId]);
 
-  const myNationalityCode = MyInfo ? iso_code[MyInfo.nationality] : null;
+  const myNationalityCode = myInfo ? iso_code[myInfo.nationality] : null;
   const yourNationalityCode = youInfo ? iso_code[youInfo.nationality] : null;
   // console.log(myNationalityCode, yourNationalityCode);
 
@@ -146,7 +148,7 @@ const ConfirmChat = (props) => {
         <div className={classes.match_wrapper}>
           <div className={classes.confirm_ment}>매칭 성공!</div>
           <div className={classes.matching_pair}>
-            {MyInfo && myImage && (
+            {myInfo && myImage && (
               <div className={classes.match_user}>
                 <Badge
                   badgeContent={
@@ -161,7 +163,7 @@ const ConfirmChat = (props) => {
                 >
                   <Avatar sx={{ width: 250, height: 250 }} src={myImage} />
                 </Badge>
-                <div className={classes.match_user_name}>{MyInfo.name}</div>
+                <div className={classes.match_user_name}>{myInfo.name}</div>
               </div>
             )}
 
@@ -184,7 +186,7 @@ const ConfirmChat = (props) => {
               </div>
             )}
           </div>
-          {MyInfo && youInfo && (
+          {myInfo && youInfo && (
             <div className={classes.match_success_lngs}>
               <div
                 className={`${classes.match_success_each_lng} ${classes.custom_text_grey}`}

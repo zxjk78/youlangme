@@ -37,9 +37,12 @@
 .main {
   .question {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
     flex-direction: column;
+    gap: 20px;
     & > div:nth-of-type(1) {
+      margin-top: 15px;
       background-color: blueviolet;
       width: 200px;
       height: 200px;
@@ -49,17 +52,24 @@
       align-items: center;
     }
 
-    & > div:nth-of-type(3) {
-      font-size: 0.8rem;
+    .notice {
+      text-align: center;
+      & > div:nth-of-type(2) {
+        font-size: 0.8rem;
+      }
     }
   }
   .answer {
-    width: auto;
     height: auto;
     margin: 0px auto;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    & > div {
+      padding: 10px;
+      display: flex;
+      gap: 20px;
+    }
   }
   .icon {
     margin: 20px;

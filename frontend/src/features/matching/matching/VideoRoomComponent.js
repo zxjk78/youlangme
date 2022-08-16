@@ -155,12 +155,12 @@ class VideoRoomComponent extends Component {
       const sessionId = this.props.location.state.sessionId;
       setTimeout(() => {
         const youInfo = this.props.location.state.youInfo;
-        const myInfo = this.props.location.state.MyInfo;
-        const myName = this.props.location.state.MyInfo.name;
-        const myNationality = this.props.location.state.MyInfo.nationality;
+        const myInfo = this.props.location.state.myInfo;
+        const myName = this.props.location.state.myInfo.name;
+        const myNationality = this.props.location.state.myInfo.nationality;
         const yourNationality = this.props.location.state.youInfo.nationality;
-        const myLanguage = this.props.location.state.MyInfo.mylanguage;
-        const yourLanguage = this.props.location.state.MyInfo.yourlanguage;
+        const myLanguage = this.props.location.state.myLanguage;
+        const yourLanguage = this.props.location.state.yourLanguage;
         const myUserId = this.props.location.state.myUserId;
 
         console.log(

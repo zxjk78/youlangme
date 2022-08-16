@@ -34,7 +34,7 @@ const LanguageRanking = (props) => {
             <div>
               <LanguageIcon />
             </div>
-            <div>많이 사용한 언어</div>
+            <div>인기 매칭 언어</div>
           </div>
           <LanguagePieChart languageRanking={langRanking} />
         </div>
