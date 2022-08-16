@@ -277,7 +277,9 @@ export default class ChatComponent extends Component {
     if (originContent.length === 0) {
       return;
     }
-    // console.log(yourISOCode, myISOCode, originContent);
+
+    console.log(this.state.myLanguage, this.state.yourLanguage);
+    console.log(yourISOCode, myISOCode, originContent);
     const translateMsg = await translate(yourISOCode, myISOCode, originContent);
     this.setState({
       message: translateMsg.slice(1, translateMsg.length - 1),
