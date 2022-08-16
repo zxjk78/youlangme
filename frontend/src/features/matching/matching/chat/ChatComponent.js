@@ -191,11 +191,16 @@ export default class ChatComponent extends Component {
     });
   }
   async translateHandler(idx) {
-    // console.log(idx + '번 말풍선 번역작업');
+    console.log(idx + '번 말풍선 번역작업');
+    console.log(
+      '채팅창에 넘어온 언어: 내 언어, 상대 언어',
+      this.state.myLanguage,
+      this.state.yourLanguage
+    );
+
     const originalMsg = this.state.messageList[idx].message;
     // console.log('ref랑 연결된 msgBox들', this.msgBoxContentRef.current);
     const target = this.msgBoxContentRef.current[idx];
-    // console.log(target);
     const myISOCode = iso_code[this.state.myLanguage];
     const yourISOCode = iso_code[this.state.yourLanguage];
     // const myISOCode = iso_code['KOREAN'];
