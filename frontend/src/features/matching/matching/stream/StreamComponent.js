@@ -167,12 +167,11 @@ export default class StreamComponent extends Component {
                 )}
               </IconButton>
             </div>
-            <div>
+            <div className="oppoVolumeButton">
               {!this.props.user.isLocal() && (
                 <IconButton
                   id="volumeButton"
                   color="inherit"
-                  className="oppoVolumeButton"
                   onClick={this.toggleSound}
                 >
                   {this.state.mutedSound ? (
