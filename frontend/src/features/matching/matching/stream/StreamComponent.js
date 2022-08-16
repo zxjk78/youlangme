@@ -125,6 +125,7 @@ export default class StreamComponent extends Component {
               user={this.props.user}
               mutedSound={this.state.mutedSound}
             />
+
             <div id="statusIcons">
               {/* {!this.props.user.isVideoActive() ? (
                 <div id="camIcon">
@@ -166,17 +167,22 @@ export default class StreamComponent extends Component {
                 )}
               </IconButton>
             </div>
-            {/* <div>
+            <div>
               {!this.props.user.isLocal() && (
-                <IconButton id="volumeButton" onClick={this.toggleSound}>
+                <IconButton
+                  id="volumeButton"
+                  color="inherit"
+                  className="navButton"
+                  onClick={this.toggleSound}
+                >
                   {this.state.mutedSound ? (
-                    <VolumeOff color="secondary" />
+                    <MicOff color="secondary" />
                   ) : (
-                    <VolumeUp />
+                    <Mic />
                   )}
                 </IconButton>
               )}
-            </div> */}
+            </div>
           </div>
         ) : null}
       </div>

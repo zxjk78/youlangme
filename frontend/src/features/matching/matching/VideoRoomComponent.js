@@ -53,6 +53,7 @@ class VideoRoomComponent extends Component {
       nationality: '',
       yourNationality: '',
       newsInfoToShare: '',
+      myId: '',
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -163,7 +164,7 @@ class VideoRoomComponent extends Component {
         const myId = this.props.location.state.MyInfo.id;
 
         console.log(
-          `이름:  ${myName}, 내 국적: ${myNationality}, 상대국적: ${yourNationality}, 내 언어: ${myLanguage}, 상대 언어: ${yourLanguage}`
+          `이름:  ${myName}, 내 국적: ${myNationality}, 상대국적: ${yourNationality}, 내 언어: ${myLanguage}, 상대 언어: ${yourLanguage}, 내 아이디: ${myId} `
         );
         this.setState({
           mySessionId: sessionId,
@@ -172,6 +173,7 @@ class VideoRoomComponent extends Component {
           yourNationality: yourNationality,
           mylanguage: myLanguage,
           yourlanguage: yourLanguage,
+          myId: myId,
         });
 
         console.log('세션아이디', sessionId);
@@ -800,8 +802,8 @@ class VideoRoomComponent extends Component {
                     // youlangme Custom
                     camStatusChanged={this.camStatusChanged}
                     micStatusChanged={this.micStatusChanged}
-                    // isVideoActive={localUser.isVideoActive}
-                    // isAudioActive={localUser.isAudioActive}
+                    isVideoActive={localUser.isVideoActive}
+                    isAudioActive={localUser.isAudioActive}
                   />
                 </div>
               )}
@@ -823,7 +825,7 @@ class VideoRoomComponent extends Component {
           <div className="videoroom-chat" style={chatDisplay}>
             <ChatComponent
               user={localUser}
-              userId={`1005`}
+              userId={this.state.myId}
               chatDisplay={this.state.chatDisplay}
               close={this.toggleChat}
               messageReceived={this.checkNotification}
