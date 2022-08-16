@@ -2,9 +2,13 @@ package com.a603.youlangme.dto.feedback;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @AllArgsConstructor
 @Getter
-public class FeedbackRequestDto {
+@NoArgsConstructor
+public class FeedbackRequestDto implements Serializable {
     int feedback;
 }

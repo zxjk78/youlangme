@@ -51,7 +51,7 @@ public class RedisConfig {
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
                 .prefixKeysWith("Language:") // Key Prefix로 "Language:"를 앞에 붙여 저장
-                .entryTtl(Duration.ofMinutes(30)); // 캐시 수명 30분
+                .entryTtl(Duration.ofMinutes(60)); // 캐시 수명 60분
         builder.cacheDefaults(configuration);
         return builder.build();
     }
@@ -63,7 +63,7 @@ public class RedisConfig {
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
                 .prefixKeysWith("Rank:") // Key Prefix로 "Rank:"를 앞에 붙여 저장
-                .entryTtl(Duration.ofMinutes(60)); // 캐시 수명 30분
+                .entryTtl(Duration.ofMinutes(60)); // 캐시 수명 60분
         builder.cacheDefaults(configuration);
         return builder.build();
     }
@@ -75,7 +75,7 @@ public class RedisConfig {
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // Value Serializer 변경
                 .prefixKeysWith("Grass:") // Key Prefix로 "Grass:"를 앞에 붙여 저장
-                .entryTtl(Duration.ofMinutes(15)); // 캐시 수명 30분
+                .entryTtl(Duration.ofMinutes(15)); // 캐시 수명 15분
         builder.cacheDefaults(configuration);
         return builder.build();
     }
