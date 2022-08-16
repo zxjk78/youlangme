@@ -18,6 +18,7 @@ import com.a603.youlangme.service.ResponseService;
 import com.a603.youlangme.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -34,6 +35,7 @@ public class FollowController {
     private final UserService userService;
 
     private final ResponseService responseService;
+
 
 
     // 팔로우 추가
@@ -151,5 +153,10 @@ public class FollowController {
         return responseService.getManyResult(followees);
     }
 
+    @GetMapping("/recommendation")
+    public CommonResult getFollowRecommendation(@ApiIgnore @LoginUser User loginUser) throws Exception {
+
+        return responseService.getManyResult(followService.getFollowRecommendation(loginUser));
+    }
 
 }
