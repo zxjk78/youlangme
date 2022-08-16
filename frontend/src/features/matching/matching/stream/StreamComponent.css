@@ -96,3 +96,11 @@ video {
 #label {
   color: white;
 }
+
+.oppoVolumeButton {
+  height: 40px !important;
+  width: 40px !important;
+  position: relative;
+  bottom: 20px;
+  right: 20px;
+}

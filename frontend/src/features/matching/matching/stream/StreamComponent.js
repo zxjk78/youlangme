@@ -172,7 +172,7 @@ export default class StreamComponent extends Component {
                 <IconButton
                   id="volumeButton"
                   color="inherit"
-                  className="navButton"
+                  className="oppoVolumeButton"
                   onClick={this.toggleSound}
                 >
                   {this.state.mutedSound ? (
