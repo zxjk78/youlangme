@@ -112,12 +112,12 @@ function App() {
             restricted
             exact
             path="/"
-            component={Login}
+            component={Login2}
           ></PublicRoute>
           <PublicRoute
             restricted
             path="/signup"
-            component={SignUp}
+            component={SignUp2}
           ></PublicRoute>
           <PublicRoute path="/social" component={Social}></PublicRoute>
           <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>

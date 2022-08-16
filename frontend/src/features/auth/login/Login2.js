@@ -48,6 +48,10 @@ const validationSchema = yup.object().shape({
 const Login2 = (props) => {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { currentUser } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
+  const history = useHistory();
+
   const dispatch = useDispatch();
   const {
     register,
@@ -64,9 +68,10 @@ const Login2 = (props) => {
       .unwrap()
       .then((res) => {
         console.log(res.response);
+        history.push('/main');
       })
       .catch((err) => {
-        alert(err);
+        alert('에러메세지', err);
       });
   };
 

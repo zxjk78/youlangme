@@ -5,6 +5,7 @@ import UserInfo from '../../profile/LeftProfile/UserInfo/UserInfo';
 
 import classes from './RecommendUserInfo.module.scss';
 import { Button } from '@mui/material';
+import styled from '@emotion/styled';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   fetchFollowOrNot,
@@ -12,21 +13,21 @@ import {
   sendUnfollow,
 } from '../../profile/LeftProfile/Follow/FollowAPI';
 
-const myColorTheme = createTheme({
-  palette: {
-    followBtnColor: {
-      // grey 컬러 '#9BA7AF'
-      main: '#9BA7AF',
-    },
-    unfollowBtnColor: {
-      // yellow color
-      main: '#FFC700',
-    },
-  },
-});
+const FollowButon = styled(Button)`
+  width: 100px;
+  height: 30px;
+  border-radius: 25px;
+  font-weight: bold;
+  background-color: #ffc700;
+`;
+
+const UnFollowButon = styled(FollowButon)`
+  background-color: #9ba7af;
+`;
 
 const RecommendUserInfo = (props) => {
   const userId = props.userId;
+  const userName = props.userName;
   const [isFollowed, setIsFollowed] = useState(false);
   const { currentUser } = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(true);
@@ -66,51 +67,24 @@ const RecommendUserInfo = (props) => {
           <UserInfo
             user={{
               id: userId,
-              name: props.name,
-              nationality: props.nationality,
+              name: userName,
             }}
           />
         </div>
-        <ThemeProvider theme={myColorTheme}>
-          {isFollowed ? (
-            <Button
-              onClick={followHandler}
-              variant="contained"
-              size="small"
-              className={classes.unfollow}
-              color="followBtnColor"
-              sx={{
-                width: '130px',
-                borderRadius: '25px',
-                height: '35px',
-                my: 'auto',
-                fontWeight: 'bold',
-                letterSpacing: 3,
-                color: '#FFFFFF',
-              }}
-            >
-              팔로우 취소
-            </Button>
-          ) : (
-            <Button
-              onClick={followHandler}
-              variant="contained"
-              size="small"
-              color="unfollowBtnColor"
-              sx={{
-                width: '130px',
-                borderRadius: '25px',
-                height: '35px',
-                my: 'auto',
-                letterSpacing: 3,
-                fontWeight: 'bold',
-                color: '#FFFFFF',
-              }}
-            >
-              팔로우
-            </Button>
-          )}
-        </ThemeProvider>
+        {isFollowed ? (
+          <UnFollowButon
+            onClick={followHandler}
+            variant="contained"
+            size="small"
+            className={classes.unfollow}
+          >
+            팔로우 취소
+          </UnFollowButon>
+        ) : (
+          <FollowButon onClick={followHandler} variant="contained" size="small">
+            팔로우
+          </FollowButon>
+        )}
       </div>
     </>
   );
