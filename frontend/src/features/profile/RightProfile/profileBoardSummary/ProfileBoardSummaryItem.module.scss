@@ -17,11 +17,11 @@
   border-bottom: solid 1px #d3d3d3;
   .user_profile {
     // width: 35%;
-    &:hover {
-      background:rgba(237, 231, 223, 0);
-      // border-radius: 15px;
-      padding: 3px;
-    }
+    // &:hover {
+    //   background:rgba(237, 231, 223, 0);
+    //   // border-radius: 15px;
+    //   padding: 3px;
+    // }
 
   }
 
@@ -35,6 +35,10 @@
 }
 .main {
   cursor: pointer;
+  &:hover {
+    transform: translateY(7px);
+    transition: 0.3s;
+  }
   img {
     width: 150px;
     height: 120px;

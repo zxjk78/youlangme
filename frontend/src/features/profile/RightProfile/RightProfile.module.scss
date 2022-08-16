@@ -28,13 +28,28 @@
 
         
         .level {
+  
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          
+          cursor: pointer;
+          &:hover {
+            transform: translateY(-15px);
+            transition: 0.5s;
+            text-shadow: 0px 5px 5px rgba(108, 104, 104, 0.25);
+            // background:rgba(237, 231, 223, 0.588);
+            // // border-radius: 15px;
+            // padding: 3px;
+          }
+
           .trophy {
-            // margin-top: 2%;
-            // margin-bottom: 0%;
+          
+          }
+          .level_name {
+            
+
           }
         }
 
@@ -136,11 +151,25 @@
 
 .modal_badge_image {
   
-
   width: 75px;
   height: 75px;
 }
 
+.active {
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-7px);
+    transition: 0.3s;
+    // background:rgba(237, 231, 223, 0);
+    // // border-radius: 15px;
+    // padding: 3px;
+  }
+}
+
 .disabled {
   filter: grayscale(100%);
+}
+
+.level_modal_name {
+  text-shadow: 0px 3px 3px rgba(108, 104, 104, 0.25);
 }

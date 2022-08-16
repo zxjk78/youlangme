@@ -42,28 +42,28 @@ const MyLevel = (props) => {
       // }
 
 
-      useEffect(() => {
-        (
-          async () => {
-            const levelAndExp = await fetchLevelExp(userId);
-            console.log(levelAndExp)
-            if (!levelAndExp) {
-              history.replace({
-                pathname: '/404',
-                message: '존재하지 않는 게시물입니다.',
-              });
-            }
-            setLevelId(levelAndExp[0]);
-            setExp(levelAndExp[1]);
-            // console.log(levelAndExp[0], levelId)
-            // setTrophyColor(LevelCriteria[levelId][2])
-            setIsLoading(false);
-          })();
-
-        return () => {
-          setIsLoading(true)
+  useEffect(() => {
+    (
+      async () => {
+        const levelAndExp = await fetchLevelExp(userId);
+        console.log(levelAndExp)
+        if (!levelAndExp) {
+          history.replace({
+            pathname: '/404',
+            message: '존재하지 않는 게시물입니다.',
+          });
         }
-      }, [userId]);
+        setLevelId(levelAndExp[0]);
+        setExp(levelAndExp[1]);
+        // console.log(levelAndExp[0], levelId)
+        // setTrophyColor(LevelCriteria[levelId][2])
+        setIsLoading(false);
+      })();
+
+    return () => {
+      setIsLoading(true)
+    }
+  }, [userId]);
 
   return (
     <>
@@ -91,36 +91,43 @@ const MyLevel = (props) => {
           >
             <LevelStatistic setModalOpen={setOpen} 
               userId={userId}
-              levelId={levelId} exp={exp} trophyColor={LevelCriteria[levelId][2]}/>
+              levelId={levelId} exp={exp} trophyColor={LevelCriteria[levelId][2]} detailLevelColor={LevelCriteria[levelId][3]}/>
           </Modal>
 
-          <CardContent sx={{ height: 200, width: 320}} className={classes.level} >
-            <IconButton onClick={levelModalHandler} sx={{ height: 170, width: 170}} >
-              <div>
-                <Badge badgeContent={LevelCriteria[levelId][1]} overlap="circular"
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  sx={{ "& .MuiBadge-badge": { fontSize: 26 ,fontWeight: 'bold', height: 35, width: 35,
-                  borderRadius: '50%', color: 'white',
-                  backgroundColor: '#B865C6', }}}
-                  >
-                  <EmojiEventsIcon sx={{ fontSize: 100, color: LevelCriteria[levelId][2]} } className={classes.trophy} />
-                </Badge>
-                <Typography gutterBottom color={LevelCriteria[levelId][2]} 
-                  // variant="h6" 
-                  component="span"
-                  sx={{ fontSize: 40, fontWeight: 'bold', mr:2}}
-                  >
-                  {LevelCriteria[levelId][0]}</Typography>
+          <CardContent sx={{ height: 200, width: 320}}>
+            {/* <IconButton onClick={levelModalHandler} sx={{ height: 170, width: 170}} > */}
+              <div className={classes.level} onClick={levelModalHandler}>
+                <div className={classes.trophy}>
+                  <Badge badgeContent={LevelCriteria[levelId][1]} overlap="circular"
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    sx={{ "& .MuiBadge-badge": { fontSize: 26 ,fontWeight: 'bold', height: 35, width: 35,
+                    borderRadius: '50%', color: 'white',
+                    backgroundColor: `${LevelCriteria[levelId][3]}`} }}
+                    >
+                    <EmojiEventsIcon sx={{ fontSize: 100, color: LevelCriteria[levelId][2]} } 
+                    />
+                  </Badge>
+
+                </div>
+                <div className={classes.level_name}>
+                  <Typography gutterBottom color={LevelCriteria[levelId][2]} 
+                    // variant="h6" 
+                    component="span"
+                    sx={{ fontSize: 35, fontWeight: 'bold', mx:'auto'}}
+                    >
+                    {LevelCriteria[levelId][0]}</Typography>
+
+                </div>
                 {/* <Typography gutterBottom color="#9BA7AF"
                   variant="h4" component="span"
                   sx={{ fontSize: 50, fontWeight: 'bold'}}
                   >
                   1</Typography> */}
               </div>
-            </IconButton>
+            {/* </IconButton> */}
 
           </CardContent>
         </div>

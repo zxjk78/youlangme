@@ -59,7 +59,7 @@ const ReplyListItem = (props) => {
                   anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   overlap="circular"
                 >
-                  <Avatar sx={{ width: 40, height: 40 }} 
+                  <Avatar sx={{ width: 30, height: 30 }} 
                     src={commentUserImg} />
                 </Badge>
                 <Typography
