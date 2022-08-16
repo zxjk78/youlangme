@@ -778,7 +778,7 @@ class VideoRoomComponent extends Component {
     const mySessionId = this.state.mySessionId;
     const localUser = this.state.localUser;
     const name = this.state.myUserName;
-    const nationality = this.state.nationality;
+    const myNationality = this.state.myNationality;
     var chatDisplay = { display: this.state.chatDisplay };
 
     return (
