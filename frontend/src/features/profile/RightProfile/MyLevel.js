@@ -105,7 +105,7 @@ const MyLevel = (props) => {
                     }}
                     sx={{ "& .MuiBadge-badge": { fontSize: 26 ,fontWeight: 'bold', height: 35, width: 35,
                     borderRadius: '50%', color: 'white',
-                    backgroundColor: `${LevelCriteria[levelId][3]}`} }}
+                    backgroundColor: `${LevelCriteria[levelId][3]}` } }}
                     >
                     <EmojiEventsIcon sx={{ fontSize: 100, color: LevelCriteria[levelId][2]} } 
                     />
