@@ -18,7 +18,7 @@ export const fetchLanguageRanking = async () => {
   const accessToken = user ? user.accessToken : null;
 
   try {
-    const response = await axios.get(API_URL + `user/langlist`, {
+    const response = await axios.get(API_URL + `user/langlist/0`, {
       headers: { 'X-Auth-Token': accessToken },
     });
     return response.data.data;
@@ -43,37 +43,3 @@ export const fetchRecommendUser = async () => {
     console.log(error);
   }
 };
-
-// export const sendFollow = async (userId) => {
-//   const user = JSON.parse(localStorage.getItem('user'));
-//   const accessToken = user.accessToken;
-//   try {
-//     const response = await axios.post(
-//       API_URL + `follow/${userId}`,
-//       {},
-//       {
-//         headers: {
-//           'X-AUTH-TOKEN': accessToken,
-//         },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const sendUnFollow = async (userId) => {
-//   const user = JSON.parse(localStorage.getItem('user'));
-//   const accessToken = user.accessToken;
-//   try {
-//     const response = await axios.delete(API_URL + `follow/${userId}`, {
-//       headers: {
-//         'X-AUTH-TOKEN': accessToken,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
