@@ -21,8 +21,10 @@
 
 .modal {
   position: fixed;
+  // position: absolute;
   height: auto;
   top: 5vh;
+  // top: 50%;
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 30;
@@ -33,7 +35,7 @@
 }
 
 .boardDetail {
-  top: 20vh;
+  top: 10vh;
 }
 .userLike {
   top: 30vh;
