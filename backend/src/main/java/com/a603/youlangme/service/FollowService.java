@@ -90,7 +90,7 @@ public class FollowService {
                     userId(candidate.getId()).
                     userName(candidate.getName()).
                     build());
-            if(cnt==3) break;
+            if(++cnt==3) break;
         }
 
         return res;
@@ -122,14 +122,14 @@ public class FollowService {
         ResponseEntity<String> response = restTemplate.postForEntity(MATCHING_SERVER_URL + "/recommend", bodyJson, String.class);
 
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Float> map = mapper.readValue(response.getBody(), Map.class);
+        Map<String, Double> map = mapper.readValue(response.getBody(), Map.class);
         ArrayList<FollowCandidate> candidates = new ArrayList<>();
         for (String key : map.keySet()) {
             candidates.add(FollowCandidate.of(Long.parseLong(key), map.get(key)));
         }
         candidates.sort((c1,c2)->c2.getSim().compareTo(c1.getSim()));
 
-        return candidates.subList(0,30);
+        return candidates.subList(0,Math.min(30, candidates.size()));
     }
 
 
