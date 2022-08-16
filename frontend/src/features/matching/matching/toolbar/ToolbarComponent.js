@@ -90,13 +90,13 @@ export default class ToolbarComponent extends Component {
     console.log(localUser);
     return (
       <div className="header">
-        <div id="navSessionInfo">
+        {/* <div id="navSessionInfo">
           {this.props.sessionId && (
             <div id="titleContent">
               <span id="session-title">{mySessionId}</span>
             </div>
           )}
-        </div>
+        </div> */}
 
         <div className="buttonsContent">
           <LowerToolBarMenuItem
