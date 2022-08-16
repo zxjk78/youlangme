@@ -49,8 +49,11 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: 'none',
       currentVideoDevice: undefined,
+      // youlangme custom
       nationality: '',
       yourNationality: '',
+      newsInfoToShare: '',
+      myId: '',
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -68,9 +71,11 @@ class VideoRoomComponent extends Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
-    this.nationality = createRef(null);
     // youlangme custom
+    this.nationality = createRef(null);
     this.toggleHelpModal = this.toggleHelpModal.bind(this);
+    this.shareNewsHandler = this.shareNewsHandler.bind(this);
+
     // this.ExitHandler = this.ExitHandler.bind(this);
     //this.toggleEvaluationModal = this.toggleEvaluationModal.bind(this)
   }
@@ -159,7 +164,7 @@ class VideoRoomComponent extends Component {
         const myId = this.props.location.state.MyInfo.id;
 
         console.log(
-          `이름:  ${myName}, 내 국적: ${myNationality}, 상대국적: ${yourNationality}, 내 언어: ${myLanguage}, 상대 언어: ${yourLanguage}`
+          `이름:  ${myName}, 내 국적: ${myNationality}, 상대국적: ${yourNationality}, 내 언어: ${myLanguage}, 상대 언어: ${yourLanguage}, 내 아이디: ${myId} `
         );
         this.setState({
           mySessionId: sessionId,
@@ -168,6 +173,7 @@ class VideoRoomComponent extends Component {
           yourNationality: yourNationality,
           mylanguage: myLanguage,
           yourlanguage: yourLanguage,
+          myId: myId,
         });
 
         console.log('세션아이디', sessionId);
@@ -205,7 +211,7 @@ class VideoRoomComponent extends Component {
     const checker = this.checkSubscribers();
     const user = JSON.parse(localStorage.getItem('user'));
     const accessToken = user ? user.accessToken : null;
-   
+
     if (checker && this.state.timer) {
       axios
         .delete(API_URL + `meeting/end/${this.state.mySessionId}`, {
@@ -274,8 +280,6 @@ class VideoRoomComponent extends Component {
     //       .catch((err) => {
     //         console.log(err.message);
     //       });
-      
-    
   }
 
   joinSession() {
@@ -745,7 +749,10 @@ class VideoRoomComponent extends Component {
   toggleHelpModal(event) {
     this.setState({ isHelpModalVisible: !this.state.isHelpModalVisible });
   }
-
+  shareNewsHandler(newsInfo) {
+    this.setState({ chatDisplay: 'block' });
+    this.setState({ newsInfoToShare: newsInfo });
+  }
   // toggleEvaluationModal(event){
   //   this.setState({isEvaluationModalVisible: !this.state.isEvaluationModalVisible})
   // }
@@ -775,100 +782,86 @@ class VideoRoomComponent extends Component {
     var chatDisplay = { display: this.state.chatDisplay };
 
     return (
-      <div className="container" id="container">
-        <ToolbarComponent
-          sessionId={mySessionId}
-          user={localUser}
-          showNotification={this.state.messageReceived}
-          camStatusChanged={this.camStatusChanged}
-          micStatusChanged={this.micStatusChanged}
-          screenShare={this.screenShare}
-          stopScreenShare={this.stopScreenShare}
-          toggleFullscreen={this.toggleFullscreen}
-          switchCamera={this.switchCamera}
-          leaveSession={this.leaveSession}
-          toggleChat={this.toggleChat}
-        />
-
-        <DialogExtensionComponent
-          showDialog={this.state.showExtensionDialog}
-          cancelClicked={this.closeDialogExtension}
-        />
-
-        <div id="layout" className="bounds">
-          {localUser !== undefined &&
-            localUser.getStreamManager() !== undefined && (
-              <div className="OT_root OT_publisher custom-class" id="localUser">
-                <StreamComponent
-                  user={localUser}
-                  handleNickname={this.nicknameChanged}
-                />
-              </div>
-            )}
-          {this.state.subscribers.map((sub, i) => (
-            <div
-              key={i}
-              className="OT_root OT_publisher custom-class"
-              id="remoteUsers"
-            >
-              <StreamComponent
-                user={sub}
-                streamId={sub.streamManager.stream.streamId}
-              />
-            </div>
-          ))}
-          {localUser !== undefined &&
-            localUser.getStreamManager() !== undefined && (
+      <div
+        className={`videoroom-wrapper${
+          this.state.chatDisplay === 'block' ? '-chat' : ''
+        }`}
+      >
+        <div className="videoroom-main">
+          <div id="layout" className="bounds">
+            {/* <div>임시유저 레이아웃</div> */}
+            {localUser !== undefined &&
+              localUser.getStreamManager() !== undefined && (
+                <div
+                  // className="OT_root OT_publisher custom-class"
+                  id="localUser"
+                >
+                  <StreamComponent
+                    user={localUser}
+                    handleNickname={this.nicknameChanged}
+                    // youlangme Custom
+                    camStatusChanged={this.camStatusChanged}
+                    micStatusChanged={this.micStatusChanged}
+                    isVideoActive={localUser.isVideoActive}
+                    isAudioActive={localUser.isAudioActive}
+                  />
+                </div>
+              )}
+            {this.state.subscribers.map((sub, i) => (
               <div
-                className="OT_root OT_publisher custom-class chat-container"
-                style={chatDisplay}
+                key={i}
+                // className="OT_root OT_publisher custom-class"
+                id="remoteUsers"
               >
-                <ChatComponent
-                  user={localUser}
-                  chatDisplay={this.state.chatDisplay}
-                  close={this.toggleChat}
-                  messageReceived={this.checkNotification}
-                  myNationality={this.state.nationality}
-                  myLanguage={this.state.mylanguage}
-                  yourLanguage={this.state.yourlanguage}
-                  // id값 보내서 img src에 사용
-                  userId={this.state.myId}
+                <StreamComponent
+                  user={sub}
+                  streamId={sub.streamManager.stream.streamId}
                 />
               </div>
-            )}
+            ))}
+          </div>
         </div>
-        <div>{name}</div>
-        <div>{nationality}</div>
+        {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+          <div className="videoroom-chat" style={chatDisplay}>
+            <ChatComponent
+              user={localUser}
+              userId={this.state.myId}
+              chatDisplay={this.state.chatDisplay}
+              close={this.toggleChat}
+              messageReceived={this.checkNotification}
+              newsInfo={this.state.newsInfoToShare}
+            />
+          </div>
+        )}
 
-        {this.state.isHelpModalVisible ? (
+        <div className="videoroom-footer">
+          <ToolbarComponent
+            sessionId={mySessionId}
+            user={localUser}
+            showNotification={this.state.messageReceived}
+            camStatusChanged={this.camStatusChanged}
+            micStatusChanged={this.micStatusChanged}
+            screenShare={this.screenShare}
+            stopScreenShare={this.stopScreenShare}
+            toggleFullscreen={this.toggleFullscreen}
+            switchCamera={this.switchCamera}
+            leaveSession={this.leaveSession}
+            toggleChat={this.toggleChat}
+            toggleHelpModal={this.toggleHelpModal}
+            onbeforeunload={this.onbeforeunload}
+          />
+          <DialogExtensionComponent
+            showDialog={this.state.showExtensionDialog}
+            cancelClicked={this.closeDialogExtension}
+          />
+        </div>
+
+        {this.state.isHelpModalVisible && (
           <HelpTemplate
             toggleModal={this.toggleHelpModal}
-            myNationality={this.state.nationality}
-            yourNationality={this.state.yourNationality}
+            shareNews={this.shareNewsHandler}
           />
-        ) : (
-          <Box
-            sx={{
-              bgcolor: '#000',
-              color: '#fff',
-              position: 'fixed',
-              right: '20px',
-              bottom: '20px',
-            }}
-          >
-            <MenuSpeedDial
-              help={this.toggleHelpModal}
-              quit={this.onbeforeunload}
-            />
-          </Box>
         )}
-        {/* <div>
-          <ExitToAppIcon
-            className="evaluation-btn"
-            fontSize="large"
-            onClick={this.onbeforeunload}
-          />
-        </div> */}
       </div>
     );
   }

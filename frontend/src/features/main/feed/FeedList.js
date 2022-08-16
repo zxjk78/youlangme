@@ -42,12 +42,12 @@ const FeedLIst = (props) => {
         }
         if (rightWeight.current <= leftWeight.current) {
           rightWeight.current = rightWeight.current + weight;
-          console.log(rightWeight.current);
+          // console.log(rightWeight.current);
 
           rightFeed.push(tmp);
         } else {
           leftWeight.current = leftWeight.current + weight;
-          console.log(leftWeight.current);
+          // console.log(leftWeight.current);
           leftFeed.push(tmp);
         }
       }

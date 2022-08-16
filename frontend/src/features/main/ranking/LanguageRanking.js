@@ -16,7 +16,7 @@ const LanguageRanking = (props) => {
   const [langRanking, setLangRanking] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(() => true);
     (async () => {
       const data = await fetchLanguageRanking();
       setLangRanking(() => data);
