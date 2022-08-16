@@ -160,8 +160,8 @@ public class UserController {
         return responseService.getManyResult(grassList);
     }
 
-    @GetMapping("/langlist")
-    public ManyResult<LanguageResponseDto> LanguageList(Long id){
+    @GetMapping("/langlist/{id}")
+    public ManyResult<LanguageResponseDto> LanguageList(@PathVariable("id") Long id){
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User user=((User)authentication.getPrincipal());
