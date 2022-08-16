@@ -28,6 +28,7 @@ const LevelStatistic = (props) => {
   const history = useHistory();
   const userId = props.userId;
   const trophyColor = props.trophyColor
+  const detailLevelColor = props.detailLevelColor;
   const levelId = props.levelId
   const exp = props.exp
   
@@ -61,7 +62,7 @@ const LevelStatistic = (props) => {
       border: `2px solid ${theme.palette.background.paper}`,
       fontSize: 25, fontWeight: 'bold', height: 40, width: 40,
       color: 'white', borderRadius: '50%',
-      backgroundColor: '#B865C6',
+      backgroundColor: detailLevelColor,
       padding: '0 4px',
     },
   }));
@@ -180,6 +181,7 @@ const LevelStatistic = (props) => {
             <Typography gutterBottom color={trophyColor}
               component="span"
               sx={{ fontSize: 40, fontWeight: 'bold', mr:2}}
+              className={classes.level_modal_name}
               >
               {LevelCriteria[levelId][0]}</Typography>
           </StyledBadge>

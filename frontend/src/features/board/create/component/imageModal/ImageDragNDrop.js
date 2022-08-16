@@ -86,7 +86,7 @@ const ImageDragNDrop = (props) => {
                 <img src={imageUpload} alt="" />
                 {/* <CloudUploadOutlinedIcon fontSize="large" /> */}
                 <p>
-                  이미지를 선택하거나 이곳에 올려 주세요. <br />
+                  클릭하여 이미지를 고르거나 이곳에 드래그 해주세요. <br />
                   이미지는 최대 {maxLimit}장까지 업로드 가능합니다.
                 </p>
               </div>

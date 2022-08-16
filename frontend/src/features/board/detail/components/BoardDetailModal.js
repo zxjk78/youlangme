@@ -140,7 +140,10 @@ const BoardDetailModal = (props) => {
     // delete API 요청
     const data = await deleteBoard(boardId);
     if (data.success === true) {
-      history.goBack();
+      // history.goBack();
+      // window.location.reload();
+      props.closeModalHandler();
+      props.deleteHandler();
     }
   };
   const showLikeUserModal = () => {

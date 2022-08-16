@@ -29,6 +29,7 @@ const ProfileBoardSummaryItem = (props) => {
   const boardInfo = props.boardInfo;
   const [likeCnt, setLikeCnt] = useState(boardInfo.likeCnt);
   const [isLiked, setIsLiked] = useState(false);
+
   const [replyCnt, setReplyCnt] = useState(boardInfo.replyCnt);
   const [isLoading, setIsLoading] = useState(true);
   const [boardUserName, setBoardUserName] = useState('');
@@ -50,6 +51,9 @@ const ProfileBoardSummaryItem = (props) => {
     setIsModalVisible(() => false);
     // history.go(0);
   };
+  const deleteBoard = () => {
+    props.deleteHandler();
+  }
 
   useEffect(() => {
     setIsLoading(true);
@@ -88,6 +92,7 @@ const ProfileBoardSummaryItem = (props) => {
                   closeModalHandler={closeModal}
                   likeChangeHandler={likeChange}
                   replyChangeHandler={replyChange}
+                  deleteHandler={deleteBoard}
                 />
               </div>
             )}
