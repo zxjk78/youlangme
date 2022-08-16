@@ -11,7 +11,7 @@ import { API_URL } from '../../../../common/api/http-config';
 import BoardImageUploadModal from './imageModal/BoardImageUploadModal';
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 // mUI
-import { common } from '@mui/material/colors';
+import { common, grey } from '@mui/material/colors';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -19,6 +19,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import classes from './CreateBoardForm.module.scss';
 // static data
 import { MAX_IMAGE_LIMIT } from '../data';
+import { IconButton } from '@mui/material';
 
 // 어떤 방식으로던 이동해옴, 라우터로부터 수정인지 생성인지 알아냄
 
@@ -126,8 +127,8 @@ const CreateBoardForm = () => {
         <div className={classes.wrapper}>
           <div className={classes.container}>
             <div className={classes.title}>
-              <BorderColorIcon />
-              {!boardInfo ? '새 게시물' : '게시물 수정'}
+              <BorderColorIcon sx={{ mr: 2, ml:1}} />
+              {!boardInfo ? '새 게시글' : '게시물 수정'}
             </div>
             <div className={classes.formContainer}>
               <div className={classes.userInfoContainer}>
@@ -157,7 +158,7 @@ const CreateBoardForm = () => {
                               data-index={index}
                               onClick={imageRemoveHandler}
                             >
-                              <HighlightOffIcon sx={{ color: common[500] }} />
+                              <HighlightOffIcon sx={{ color: grey[500] }} />
                             </div>
                             <img src={file.preview} alt="" />
                           </div>
