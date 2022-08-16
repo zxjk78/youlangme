@@ -79,7 +79,6 @@ const ProfileBoardSummaryItem = (props) => {
           </div>
         ) : (
           <>
-          
             {isModalVisible && (
               <div>
                 <BoardDetailModal
@@ -103,30 +102,33 @@ const ProfileBoardSummaryItem = (props) => {
                   <div>{createdDateCal(boardInfo.createdTime, false)}</div>
                 </div>
                 <div className={classes.main} onClick={showDetailModal}>
-                  <div className={classes.contentContainer}>{boardInfo.contents}</div>
-                  <div className={classes.imgContainer}>
-                    {boardInfo.imgList.slice(0, 3).map((image) => (
-                      <BoardImageSrc imgName={image} alt={image} key={image} />
-                    ))}
-                    {/* {boardInfo.imgList.length > 3 && <AddIcon />} */}
+                  <div className={classes.contentContainer}>
+                    <div className={classes.content}>{boardInfo.contents}</div>
+                    <div className={classes.imgContainer}>
+                      {boardInfo.imgList.slice(0, 3).map((image) => (
+                        <BoardImageSrc imgName={image} alt={image} key={image} />
+                      ))}
+                      {/* {boardInfo.imgList.length > 3 && <AddIcon />} */}
+                    </div>
                   </div>
-                </div>
-                <div className={classes.footer}>
-                  <div>
-                    {isLiked ?
-                    <FavoriteIcon sx={{ mr: 1, color: red[500] }}/>
-                    : <FavoriteBorderIcon sx={{ mr: 1, color: '#5c5a5a' }}/>
-                    }
-                    <span className={classes.cnt}>
-                      {likeCnt}
-                    </span>
+                  <div className={classes.footer}>
+                    <div>
+                      {isLiked ?
+                      <FavoriteIcon sx={{ mr: 1, color: red[500] }}/>
+                      : <FavoriteBorderIcon sx={{ mr: 1, color: '#5c5a5a' }}/>
+                      }
+                      <span className={classes.cnt}>
+                        {likeCnt}
+                      </span>
+                    </div>
+                    <div>
+                      <ChatBubbleOutlineIcon sx={{ mr: 1, color: '#5c5a5a'}}/>
+                      <span className={classes.cnt}>
+                        {replyCnt}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <ChatBubbleOutlineIcon sx={{ mr: 1, color: '#5c5a5a'}}/>
-                    <span className={classes.cnt}>
-                      {replyCnt}
-                    </span>
-                  </div>
+
                 </div>
               </div>
             </div> 
