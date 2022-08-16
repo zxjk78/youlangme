@@ -37,6 +37,7 @@ const ProfileBoardSummaryList = (props) => {
     setIsDeleted(() => true);
   }
 
+
   const fetchBoardListPaging = async () => {
     const lastBoardId = userBoardList.at(-1).boardId;
     const data = await fetchUserBoardList(authorId, lastBoardId);
@@ -56,7 +57,7 @@ const ProfileBoardSummaryList = (props) => {
             <div className={classes.container}>
               {isCurrentUser && 
                 <div className={classes.header}>
-                  <CreateNewBoardLink />
+                  <CreateNewBoardLink/>
                 </div>
               }
               <div className={classes.main}>
