@@ -29,6 +29,7 @@ import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -115,12 +116,21 @@ public class SignService {
     @Transactional
     public void findEmail(String email) throws MessagingException {
         User user=userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+
+        Random random=new Random();
+        int num=random.nextInt();
+
+        String newpwd="ssafy!"+String.valueOf(num);
+
         SimpleMailMessage simpleMailMessage =new SimpleMailMessage();
-        simpleMailMessage.setSubject("title");
+        simpleMailMessage.setSubject("YouLangMe 임시 비밀번호 발급입니다");
         simpleMailMessage.setFrom("ssafyskj@gmail.com");
         simpleMailMessage.setTo(email);
-        simpleMailMessage.setText("blabla");
+        simpleMailMessage.setText(newpwd);
 
+        user.updatePwd(passwordEncoder.encode(newpwd));
         javaMailSender.send(simpleMailMessage);
     }
 }
+
+//{bcrypt}$2a$10$zIa6hXkFFTpW9Q1pUhFyC.bjN4jOZvg9GxDFeOvXXEYb6KBF3DiE6

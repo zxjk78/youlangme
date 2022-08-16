@@ -72,6 +72,9 @@ public class SignController {
 
     @PostMapping("/findPwd/{email}")
     public CommonResult findPwd(@PathVariable(value ="email") String email) throws MessagingException {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        User loginUser = (User) authentication.getPrincipal();
         signService.findEmail(email);
         return responseService.getSuccessResult();
     }

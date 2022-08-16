@@ -152,4 +152,8 @@ public class User extends BaseEntity implements UserDetails, Serializable {
 
     @OneToMany(mappedBy = "user")
     private List<MatchingFeedback> feedbacks = new ArrayList<>();
+
+    public void updatePwd(String password){
+        this.password=password;
+    }
 }
