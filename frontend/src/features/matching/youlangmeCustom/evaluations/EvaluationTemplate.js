@@ -42,7 +42,7 @@ const EvaluationTemplate = (props) => {
     axios
       .post(
         API_URL + 'meeting/feedback',
-        { 'feedback': 1 },
+        { feedback: 1 },
         {
           headers: header,
         }
@@ -67,7 +67,7 @@ const EvaluationTemplate = (props) => {
     axios
       .post(
         API_URL + 'meeting/feedback',
-        { 'feedback': 0 },
+        { feedback: 0 },
         {
           headers: header,
         }
@@ -101,7 +101,9 @@ const EvaluationTemplate = (props) => {
               <div>이후의 채팅 매칭에 반영됩니다.</div>
             </div>
             <Stack direction="row" spacing={2} className={classes.answer}>
-              <CustomButton2 onClick={closeSessionTrue} variant="contained">네</CustomButton2>
+              <CustomButton2 onClick={closeSessionTrue} variant="contained">
+                네
+              </CustomButton2>
               <CustomButton1 onClick={closeSessionFalse}>아니오</CustomButton1>
             </Stack>
           </div>

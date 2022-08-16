@@ -35,10 +35,10 @@ export default class ChatComponent extends Component {
       originalMessageIdx: null,
       isReply: false,
       // 번역 관련 state 2
-      myLanguage: props.myLanguage,
-      yourLanguage: props.yourLanguage,
+      myLanguage: this.props.myLanguage,
+      yourLanguage: this.props.yourLanguage,
       // 뉴스 관련 state 1
-      newsInfo: props.newsInfo,
+      newsInfo: this.props.newsInfo,
     };
     this.chatScroll = React.createRef();
 
@@ -55,7 +55,6 @@ export default class ChatComponent extends Component {
     this.translateHandler = this.translateHandler.bind(this);
     // 댓글 답글 컴포넌트 요청
     this.handleReply = this.handleReply.bind(this);
-    // this.handleReplyPressKey = this.handleReplyPressKey.bind(this);
     // 댓글 답글 컴포넌트 삭제
     this.cancelReply = this.cancelReply.bind(this);
     // 스크롤 테스트
@@ -128,13 +127,7 @@ export default class ChatComponent extends Component {
   handlePressKey(event) {
     this.sendMessage(1, { message: this.state.message });
   }
-  // handleReplyPressKey(event) {
-  //   this.sendMessage(2, {
-  //     message: this.state.message,
-  //     originMsg: this.state.originalMessage,
-  //     originIdx: this.state.originalMessageIdx,
-  //   });
-  // }
+
   // messageType: 1 :normal, 2: reply, 3: news
   sendMessage(msgType, data) {
     // console.log('메세지 보낼때 데이터', msgType, data);
@@ -384,7 +377,7 @@ export default class ChatComponent extends Component {
                   originalMessageIdx={this.state.originalMessageIdx}
                   messageVal={this.state.message}
                   handleChange={this.handleChange}
-                  handleKeyPress={this.handleReplyPressKey}
+                  handleKeyPress={this.handleReply}
                   sendReplyBtnClick={this.sendMessage}
                   cancelModify={this.cancelReply}
                 />
