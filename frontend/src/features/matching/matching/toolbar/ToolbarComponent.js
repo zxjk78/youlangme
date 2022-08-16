@@ -125,7 +125,7 @@ export default class ToolbarComponent extends Component {
             deactivateFn={this.micStatusChanged}
             // activateStatus={this.props.user.isAudioActive()}
           />
-          <LowerToolBarMenuItem
+          {/* <LowerToolBarMenuItem
             activate={{
               text: '화면공유 켜기',
               icon: <ScreenShare />,
@@ -136,7 +136,7 @@ export default class ToolbarComponent extends Component {
             }}
             activateFn={this.screenShare}
             deactivateFn={this.stopScreenShare}
-          />
+          /> */}
           <LowerToolBarMenuItem
             activate={{
               text: '채팅 켜기',

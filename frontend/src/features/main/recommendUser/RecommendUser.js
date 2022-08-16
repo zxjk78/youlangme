@@ -19,6 +19,7 @@ const RecommendUser = (props) => {
   useEffect(() => {
     (async () => {
       const data = await fetchRecommendUser();
+      console.log(data);
       setRecommendUser(data);
       // setRecommendUser(data.slice(0,3));
     })();
@@ -47,32 +48,23 @@ const RecommendUser = (props) => {
             <div className={classes.container}>
               <div className={classes.header}>
                 <div className={classes.follow_recom}>
-                  <PersonAddAltIcon sx={{  fontSize: 40,  mr: 2, color: grey[500]}} />
-  
-                  <div>
-                    팔로우 추천
-                  </div> 
+                  <PersonAddAltIcon
+                    sx={{ fontSize: 40, mr: 2, color: grey[500] }}
+                  />
 
+                  <div>팔로우 추천</div>
                 </div>
-                <Button onClick={showRecommendModal}
+                <Button
+                  onClick={showRecommendModal}
                   className={classes.more_follow}
                   size="small"
                   color="inherit"
-                  sx={{ width: '20px', height:'30px'}}>
+                  sx={{ width: '20px', height: '30px' }}
+                >
                   더보기
                 </Button>
               </div>
-              <div className={classes.main}>
-                {recommendUser.slice(0,3).map((reco) => (
-                // {recommendUser.map((reco) => (
-                  <RecommendUserInfo
-                    userId={reco.followerId}
-                    name={reco.name}
-                    nationality={reco.nationality}
-                    key={reco.followerId}
-                  />
-                ))}
-              </div>
+              <div className={classes.main}></div>
               <div className={classes.footer}></div>
             </div>
           </div>

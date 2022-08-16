@@ -96,15 +96,21 @@ const EvaluationTemplate = (props) => {
               <div>
                 <CustomContactIcon />
               </div>
-              <div>아까 전 채팅에 만족하셨나요?</div>
-              <div>이후의 채팅 매칭에 반영됩니다.</div>
+              <div className={classes.notice}>
+                <div>아까 전 채팅에 만족하셨나요?</div>
+                <div>이후의 채팅 매칭에 반영됩니다.</div>
+              </div>
             </div>
-            <Stack direction="row" spacing={2} className={classes.answer}>
-              <CustomButton2 onClick={closeSessionTrue} variant="contained">
-                네
-              </CustomButton2>
-              <CustomButton1 onClick={closeSessionFalse}>아니오</CustomButton1>
-            </Stack>
+            <div className={classes.answer}>
+              <div>
+                <CustomButton2 onClick={closeSessionTrue} variant="contained">
+                  네
+                </CustomButton2>
+                <CustomButton1 onClick={closeSessionFalse}>
+                  아니오
+                </CustomButton1>
+              </div>
+            </div>
           </div>
         </div>
       </div>

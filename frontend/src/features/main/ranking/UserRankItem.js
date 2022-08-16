@@ -25,7 +25,9 @@ const UserRankItem = (props) => {
             <div>
               <UserInfo user={{ id: info.id, name: info.name }} small />
             </div>
-            {info.id === userId && <div className={classes.me}>Me</div>}
+            <div>
+              {info.id === userId && <div className={classes.me}>Me</div>}
+            </div>
             <div>Exp. {info.lv}</div>
           </div>
         </div>
