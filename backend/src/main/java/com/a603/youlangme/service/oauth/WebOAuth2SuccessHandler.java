@@ -5,7 +5,10 @@ import com.a603.youlangme.dto.token.TokenResponseDto;
 import com.a603.youlangme.dto.user.UserSignupRequestDto;
 import com.a603.youlangme.entity.RefreshToken;
 import com.a603.youlangme.entity.User;
+import com.a603.youlangme.entity.UserExp;
+import com.a603.youlangme.repository.LevelRepository;
 import com.a603.youlangme.repository.RefreshTokenRepository;
+import com.a603.youlangme.repository.UserExpRepository;
 import com.a603.youlangme.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +33,8 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final UserExpRepository userExpRepository;
+    private final LevelRepository levelRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -39,7 +44,12 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         User user = userRepository.findByEmail(oAuth2User.getName()).orElse(null);
         if (user == null) {
             user = UserSignupRequestDto.builder().email(oAuth2User.getName()).password("123").build().toEntity(passwordEncoder);
-            userRepository.save(user);
+            User newUser = userRepository.save(user);
+            userExpRepository.save(UserExp.builder()
+                    .user(newUser)
+                    .exp(0)
+                    .level(levelRepository.getReferenceById(1L))
+                    .build());
         }
 
         System.out.println(user.getId() + " " +  user.getRoles());
