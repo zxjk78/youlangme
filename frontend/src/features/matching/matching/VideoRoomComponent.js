@@ -50,7 +50,7 @@ class VideoRoomComponent extends Component {
       chatDisplay: 'none',
       currentVideoDevice: undefined,
       // youlangme custom
-      nationality: '',
+      myNationality: '',
       yourNationality: '',
       newsInfoToShare: '',
       myUserId: '',
@@ -169,7 +169,7 @@ class VideoRoomComponent extends Component {
         this.setState({
           mySessionId: sessionId,
           myUserName: myName,
-          nationality: myNationality,
+          myNationality: myNationality,
           yourNationality: yourNationality,
           mylanguage: myLanguage,
           yourlanguage: yourLanguage,

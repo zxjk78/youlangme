@@ -101,8 +101,10 @@ const EvaluationTemplate = (props) => {
               <div>이후의 채팅 매칭에 반영됩니다.</div>
             </div>
             <Stack direction="row" spacing={2} className={classes.answer}>
-              <CustomButton1>아니오</CustomButton1>
-              <CustomButton2 variant="contained">네</CustomButton2>
+              <CustomButton1 onClick={closeSessionFalse}>아니오</CustomButton1>
+              <CustomButton2 variant="contained" onClick={closeSessionTrue}>
+                네
+              </CustomButton2>
             </Stack>
           </div>
         </div>
