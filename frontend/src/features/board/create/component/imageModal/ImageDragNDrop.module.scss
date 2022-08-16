@@ -1,5 +1,6 @@
 .wrapper {
   height: 300px;
+
 }
 
 .msgStyle {
@@ -8,9 +9,11 @@
   flex-direction: column;
   align-items: center;
   font-size: 0.9rem;
+  cursor: pointer;
+  
   & > img {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     opacity: 0.2;
   }
 }
@@ -32,6 +35,7 @@
   width: 90%;
   height: 90%;
   border: dashed 2px #4b4b4b;
+  
 }
 
 .baseStyle {
@@ -73,7 +77,10 @@
   }
   .isImageLoaded {
     background-color: #b865c6;
-    transition: 1s;
+    // transition: 0.5s;
     cursor: pointer;
+    &:hover {
+      background-color: #68007a;
+    }
   }
 }

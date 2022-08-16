@@ -41,9 +41,12 @@ const ActiveBadge = ({badgeId, title}) => {
       
       {/* disable일때 tooltip 띄우려면 span태그로 감싸줘야함. */}
 
-      <IconButton sx={{ height: 90, width: 90}} onClick={badgeChooseHandler}>
-        <img src={`/badges/${badgeId}.png`} alt="" className={classes.modal_badge_image}/>
-      </IconButton>
+      {/* <IconButton sx={{ height: 90, width: 90}} onClick={badgeChooseHandler}> */}
+      <div onClick={badgeChooseHandler}>
+        <img src={`/badges/${badgeId}.png`} alt="" className={`${classes.modal_badge_image} ${classes.active}`}/>
+      
+      </div>  
+      {/* </IconButton> */}
 
   
     </BadgeTooltip>

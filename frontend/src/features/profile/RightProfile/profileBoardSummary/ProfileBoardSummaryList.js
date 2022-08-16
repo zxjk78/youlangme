@@ -16,6 +16,7 @@ const ProfileBoardSummaryList = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userBoardList, setUserBoardList] = useState([]);
   const [isBoardOver, setIsBoardOver] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   const params = useParams();
   const authorId = params?.userId || props.userId;
   const { currentUser } = useSelector((state) => state.auth);
@@ -30,7 +31,12 @@ const ProfileBoardSummaryList = (props) => {
       setUserBoardList((prevState) => [...data]);
     })();
     setIsLoading(false);
-  }, [authorId]);
+  }, [authorId, isDeleted]);
+
+  const deleteBoard = () => {
+    setIsDeleted(() => true);
+  }
+
 
   const fetchBoardListPaging = async () => {
     const lastBoardId = userBoardList.at(-1).boardId;
@@ -40,6 +46,7 @@ const ProfileBoardSummaryList = (props) => {
     }
     setUserBoardList((prevState) => [...prevState, ...data]);
   };
+
   return (
     <>
       {isLoading ? (
@@ -50,7 +57,7 @@ const ProfileBoardSummaryList = (props) => {
             <div className={classes.container}>
               {isCurrentUser && 
                 <div className={classes.header}>
-                  <CreateNewBoardLink />
+                  <CreateNewBoardLink/>
                 </div>
               }
               <div className={classes.main}>
@@ -58,6 +65,7 @@ const ProfileBoardSummaryList = (props) => {
                   <ProfileBoardSummaryItem
                     key={board.boardId}
                     boardInfo={board}
+                    deleteHandler={deleteBoard}
                   />
                 ))}
               </div>

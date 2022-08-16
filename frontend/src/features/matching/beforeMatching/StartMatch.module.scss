@@ -172,7 +172,8 @@
   align-items: center;
   width: 30%;
   height: 40%;
-  margin: auto;
+  margin-bottom: 70px;
+  // margin: auto;
   // background-color: #B865C6;
   // border: 2px solid #CAD1D8;
   // border-radius: 20px;
@@ -189,7 +190,7 @@
   .ring {
     position:absolute;
 
-    top:55%;
+    top:53%;
     left:50%;
     transform:translate(-50%,-50%);
     width:170px;
