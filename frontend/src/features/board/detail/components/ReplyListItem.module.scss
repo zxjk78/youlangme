@@ -2,34 +2,59 @@
   width: 100%;
 
   & + & {
-    border-top: solid 1px #000;
+    // border-top: solid 1px #000;
     padding-top: 15px;
-    padding-bottom: 15px;
+    // padding-bottom: 15px;
   }
-}
-.header {
-  display: flex;
+  .container {
+    display: flex;
+    justify-content: space-between;
+    .header_content {
+      display: flex;
+      .userContainer {
+        // font-weight: bold;
+        display: flex;
+        .flag {
+          width: 23px;
+          height: 14px
+        }
+        &:hover {
+          // background:rgba(197, 169, 136, 0.286);
+          background:rgba(197, 169, 136, 0);
+          border-radius: 15px;
+          padding: 3px;
+        }
+        // img {
+        //   width: 10px;
+        //   height: 10px;
+        //   border-radius: 70%;
+        //   overflow: hidden;
+        // }
+      }
+  
+      .commentContainer {
+        // width: 70%;
+        margin: auto 10px ;
+        word-break: break-all;
+        // color: #2f2e2e;
+        font-weight: lighter;
+      }
+      
+    }
+    
+    .date {
+      // width: 70px;
+      margin: auto 8px;
+      font-size: 0.8rem;
+      color: #a5a5a5;
+    }
+  }
 
-  justify-content: space-between;
 }
-.userContainer {
-  font-weight: bold;
-  display: flex;
-  img {
-    width: 30px;
-    height: 30px;
-    border-radius: 70%;
-    overflow: hidden;
-  }
-}
+
 .likeCommentCnt {
   & > div {
     display: flex;
   }
 }
 
-.commentContainer {
-  width: 90%;
-  margin: 0px auto;
-  word-break: break-all;
-}

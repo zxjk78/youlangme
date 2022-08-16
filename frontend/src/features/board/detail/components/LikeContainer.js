@@ -33,7 +33,12 @@ const LikeContainer = (props) => {
             </span>
           )}
         </div>
-        <div onClick={showLikeUserModal}>{props.likeCnt}</div>
+        <div onClick={showLikeUserModal}
+          className={classes.like_cnt_ment}>
+          <div>좋아요</div> 
+          <div className={classes.like_cnt_num}>{props.likeCnt}</div> 
+          <div>개</div> 
+        </div>
       </div>
     </>
   );
