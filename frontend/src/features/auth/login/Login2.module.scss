@@ -93,6 +93,9 @@
   color: #b865c6;
   cursor: pointer;
   text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 .otherLogin {
   margin-top: 10px;

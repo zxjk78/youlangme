@@ -7,16 +7,21 @@ import Send from '@material-ui/icons/Send';
 import './ChatComponent.scss';
 import { Tooltip } from '@material-ui/core';
 
-// youlangme custom
+// ------------------- youlangme custom
+// API
+import { translate } from '../../matchAPI';
+// custom component
 import ChatContextMenu from './components/ChatContextMenu';
 import MessageInputNormal from './components/MessageInputNormal';
 import MessageInputReply from './components/MessageInputReply';
 import MsgBoxNormal from './components/MsgBoxNormal';
 import MsgBoxReply from './components/MsgBoxReply';
 import MsgBoxNews from './components/MsgBoxNews';
+// etc
 import { API_URL } from '../../../../common/api/http-config';
-import { translate } from '../../matchAPI';
 import { iso_code } from '../../../../common/utils/data/nationalityData';
+import myProfileDefaultImg from '../../../../assets/chatting/myDefaultProfile.png';
+import yourProfileDefaultImg from '../../../../assets/chatting/yourDefaultProfile.png';
 
 export default class ChatComponent extends Component {
   constructor(props) {
@@ -91,10 +96,27 @@ export default class ChatComponent extends Component {
             'userImg-' + (this.state.messageList.length - 1)
           );
           // 71, 74번째 줄 유저 프사 담는 부분 : 매칭상황이 바뀌었기 때문에 확인해서 props로 유저값 넘겨주는거 어떻게되는지 알아보아야 함.
-          console.log('채팅창 유저정보:', this.props.user);
+          console.log(
+            '유저아이디:',
+            this.props.myUserId,
+            '상대아이디:',
+            this.props.yourUserId,
+            '유저 커낵션아이디',
+            this.props.user.getConnectionId(),
+            '채팅 이벤트 시그널 발신 커넥션아이디',
+            event.from.connectionId
+          );
           // const video = document.getElementById('video-' + data.streamId);
           const avatar = userImg.getContext('2d');
           const profileImage = new Image();
+          // 에러 발생 시
+          profileImage.onerror = () => {
+            if (data.connectionId === this.props.user.getConnectionId()) {
+              profileImage.src = myProfileDefaultImg;
+            } else {
+              profileImage.src = yourProfileDefaultImg;
+            }
+          };
           profileImage.onload = () => {
             avatar.drawImage(profileImage, 0, 0, 60, 60);
           };

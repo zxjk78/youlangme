@@ -40,7 +40,7 @@ const FeedLIst = (props) => {
         } else if (tmp.imgList?.length === 0) {
           weight = 2;
         }
-        if (rightWeight.current <= leftWeight.current) {
+        if (rightWeight.current < leftWeight.current) {
           rightWeight.current = rightWeight.current + weight;
           // console.log(rightWeight.current);
 
@@ -63,7 +63,8 @@ const FeedLIst = (props) => {
   const fetchFeedMoreHandler = async () => {
     const data = await fetchFeedMore(nextFeedId);
     const [rightFeed, leftFeed] = [[], []];
-
+    // 이미지 유무, 피드 타입에 따라 길이가 다르기 때문에
+    // 길이에 가중치를 부여해서 오른쪽 왼쪽 레이아웃 중 짧은 곳에 배치되도록 만듬
     for (let i = 0; i < data.feedResponseDtoList.length; i++) {
       const tmp = data.feedResponseDtoList[i];
       let weight = 1;
@@ -72,7 +73,7 @@ const FeedLIst = (props) => {
       } else if (tmp.imgList?.length === 0) {
         weight = 2;
       }
-      if (rightWeight.current <= leftWeight.current) {
+      if (rightWeight.current < leftWeight.current) {
         rightWeight.current = rightWeight.current + weight;
 
         rightFeed.push(tmp);

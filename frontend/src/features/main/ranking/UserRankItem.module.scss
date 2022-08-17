@@ -7,7 +7,9 @@
     background-color: #ffdb59;
   }
   &:hover {
-    transform: translate(8px, -2px);
+    background-color: #b865c6;
+    transform: translate(5px, -1px);
+
     transition: 0.2s;
   }
 }

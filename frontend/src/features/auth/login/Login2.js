@@ -46,6 +46,9 @@ const SocialLoginButton = styled(Button)`
   height: 40px;
   min-width: 250px;
   background-color: transparent;
+  &:hover {
+    background-color: transparent;
+  }
 `;
 
 const validationSchema = yup.object().shape({
@@ -58,8 +61,7 @@ const validationSchema = yup.object().shape({
 const Login2 = (props) => {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { currentUser } = useSelector((state) => state.auth);
-  const { accessToken } = useSelector((state) => state.auth);
+
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -71,7 +73,6 @@ const Login2 = (props) => {
   } = useForm({ resolver: yupResolver(validationSchema), mode: 'onChange' });
 
   const handleLogin = (formValue) => {
-    // console.log(formValue);
     setLoading(true);
     const { email, password } = formValue;
     dispatch(login({ email, password }))
