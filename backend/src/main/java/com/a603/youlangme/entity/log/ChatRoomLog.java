@@ -21,6 +21,7 @@ public class ChatRoomLog extends BaseEntity {
     private String sessionId;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private ChatRoomLogType logType;
 
     @OneToMany(mappedBy = "chatRoomLog", cascade = CascadeType.ALL)

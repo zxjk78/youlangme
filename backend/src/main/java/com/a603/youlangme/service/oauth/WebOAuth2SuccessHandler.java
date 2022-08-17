@@ -10,6 +10,7 @@ import com.a603.youlangme.repository.LevelRepository;
 import com.a603.youlangme.repository.RefreshTokenRepository;
 import com.a603.youlangme.repository.UserExpRepository;
 import com.a603.youlangme.repository.UserRepository;
+import com.a603.youlangme.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -35,6 +36,7 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserExpRepository userExpRepository;
     private final LevelRepository levelRepository;
+    private final UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -87,5 +89,8 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         response.addCookie(cookie);
 
         getRedirectStrategy().sendRedirect(request, response, "https://i7a603.p.ssafy.io/social");
+
+        // 출석 로그
+        userService.logAttendance(oAuth2User.getName());
     }
 }

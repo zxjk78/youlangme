@@ -40,10 +40,12 @@ public class User extends BaseEntity implements UserDetails, Serializable {
 
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Nationality nationality;
 
     //enum으로 해결
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Gender gender;
 
 
@@ -51,9 +53,11 @@ public class User extends BaseEntity implements UserDetails, Serializable {
     private LocalDate birthDay;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Language mylanguage;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Language yourlanguage;
 
 

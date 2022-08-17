@@ -20,7 +20,7 @@ INSERT INTO exp_activity(`id`,`exp`,`name`,`exp_update_type`) VALUES (1,20,'WRIT
 INSERT INTO exp_activity(`id`,`exp`,`name`,`exp_update_type`) VALUES (2,5,'WRITE_REPLY','ADD');
 -- 분당 경험치 2 획득
 INSERT INTO exp_activity(`id`,`exp`,`name`,`exp_update_type`) VALUES (3,2,'MEETING','MULTI');
---INSERT INTO exp_activity(`id`,`exp`,`name`) VALUES (4,10,'ATTENDANCE');
+INSERT INTO exp_activity(`id`,`exp`,`name`,`exp_update_type`) VALUES (4,10,'ATTENDANCE','ADD');
 
 -- 경험치별 레벨 데이터 테이블
 INSERT INTO level (`id`, `name`, `min_exp`, `max_exp`) VALUES (1,'Bronze3',0,19);

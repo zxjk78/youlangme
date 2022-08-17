@@ -1,6 +1,6 @@
 package com.a603.youlangme.service;
 
-import com.a603.youlangme.entity.Favorite;
+import com.a603.youlangme.entity.meta.Favorite;
 import com.a603.youlangme.repository.FavoriteRepository;
 import com.a603.youlangme.repository.UserFavoriteRepository;
 import lombok.RequiredArgsConstructor;

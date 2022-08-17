@@ -114,7 +114,7 @@ public class LoggingAspect {
         ExpUpdateType expUpdateType = null; // 획득 경험치 계산 방식
         Long activityId = null; // 획득 활동
         Integer multiBase = 0; // 경험치 multi 방식용 곱할 값
-
+        System.out.println("DO EXP GETTING.......###@@@###"+targetId);
         if (action.equalsIgnoreCase("savePost")) {
             activityId = 1L;
             expUpdateType = ExpUpdateType.ADD;
@@ -135,6 +135,11 @@ public class LoggingAspect {
             multiBase = (closeTime-openTime)/60;
             // 대화 시간 n분 미만이면 경험치 획득 불가
             if(multiBase < 1) return;
+        } else if(action.equalsIgnoreCase("logAttendance")){
+            // 하루 한번 로그인 경험치 획득
+            if(targetId.equals(-1L)) return;
+            activityId = 4L;
+            expUpdateType = ExpUpdateType.ADD;
         }
 
         for(User userToUpdate : updateUserList) {

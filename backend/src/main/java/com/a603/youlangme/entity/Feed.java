@@ -23,7 +23,7 @@ public class Feed extends BaseEntity{
     @JoinColumn(name = "feed_log_id")
     private FeedLog feedLog;
 
-    @Column(name = "notification")
+    @Column(name = "notification", length = 20)
     @Enumerated(EnumType.STRING)
     private Notification notification;
 }

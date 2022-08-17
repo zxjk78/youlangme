@@ -1,5 +1,6 @@
 package com.a603.youlangme.entity;
 
+import com.a603.youlangme.entity.meta.Favorite;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

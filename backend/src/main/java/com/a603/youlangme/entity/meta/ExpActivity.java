@@ -19,10 +19,11 @@ import javax.persistence.Enumerated;
 @Getter
 public class ExpActivity extends BaseEntity {
 
-    @Column(unique = true)
+    @Column(unique = true, length=20)
     private String name;
     private Integer exp;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private ExpUpdateType expUpdateType;
 }
