@@ -1,13 +1,8 @@
 .wrapper {
-  // position:relative;
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
-  // justify-content: center;
   width: 710px;
   height: 580px;
   // height: 90%;
-  padding: 10px;
+  padding: 15px 10px;
   background-color: white;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
   border: solid 3px #d3d3d3;
@@ -19,7 +14,6 @@
   justify-content: space-between;
 
   .board_detail_container {
-
     .boardHeader {
       margin: 10px 0px;
       display: flex;
@@ -27,7 +21,7 @@
       gap: 0px 20px;
       .boardHeaderUserProfile {
         &:hover {
-          background:rgba(237, 231, 223, 0);
+          background: rgba(237, 231, 223, 0);
           // border-radius: 15px;
           padding: 3px;
         }
@@ -42,7 +36,7 @@
         align-items: center;
       }
     }
-    
+
     .main {
       background-color: #f5e6f1;
       margin-top: 20px;
@@ -50,7 +44,7 @@
       border: solid 1px #d3d3d3;
       border-radius: 15px;
       min-height: 200px;
-    
+
       .contentContainer {
         padding: 10px;
         // background-color: #b865c6;
@@ -59,16 +53,17 @@
           line-height: 1.5em;
         }
       }
-    
+
       .photoContainer {
         width: auto;
         display: flex;
+        padding: 10px 0px;
         justify-content: flex-start;
-      
         & > div {
-          margin-left: 0px;
+          margin: 0px auto;
         }
-        img {
+        img,
+        .plus {
           box-sizing: border-box;
           margin: 0px auto;
           width: 210px;
@@ -76,14 +71,23 @@
           padding: 5px;
           border-radius: 20px;
         }
+        .plus {
+          background-color: #aeaeae;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 2rem;
+          font-weight: bold;
+          color: #fff;
+          cursor: pointer;
+        }
       }
-    
     }
-    
+
     .board_footer {
       display: flex;
       justify-content: space-between;
-      
+
       .likeReplyCnt {
         margin: 15px 0px 20px 10px;
         // width: 100%;
@@ -94,7 +98,7 @@
         //   margin-right: 30px;
         // }
       }
-    
+
       .authOptionContainer {
         margin: 10px 5px;
         display: flex;
@@ -112,7 +116,7 @@
           background-color: #fff;
           // border: solid 1px;
           // border-color: rgb(255, 217, 27);
-          color: #F0C325;
+          color: #f0c325;
           &:hover {
             background-color: rgb(255, 217, 27);
             color: #fff;
@@ -132,7 +136,6 @@
     }
   }
 
-
   .reply {
     margin-top: 40px;
     margin-bottom: 10px;
@@ -148,9 +151,8 @@
         margin: 0px 3px 0px 8px;
         line-height: 20px;
       }
-      
     }
-  
+
     .replyInput {
       margin: 10px auto;
       padding: 8px;
@@ -196,7 +198,7 @@
       // border: solid 1px #b865c6;
       border-radius: 5px;
       padding: 10px 10px 0px 20px;
-  
+
       overflow: scroll;
     }
   }
@@ -205,6 +207,3 @@
     font-size: 0.8rem;
   }
 }
-
-
-

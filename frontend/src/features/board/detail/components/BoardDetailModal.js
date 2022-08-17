@@ -20,10 +20,12 @@ import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import LikeUserModal from './likeModal/LikeUserModal';
 import PhotoCarousel from './PhotoCarousel/PhotoCarousel';
 import BoardImageSrc from '../../../../common/UI/BoardImageSrc';
+import PhotoModal from './PhotoModal/PhotoModal';
 // mui
 import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PhotoIcon from '@mui/icons-material/Photo';
 // css
 import classes from './BoardDetailModal.module.scss';
 // etc
@@ -36,6 +38,7 @@ const BoardDetailModal = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsliked] = useState(false);
   const [likeUserVisible, setLikeUserVisible] = useState(false);
+  const [fullPhotoVisible, setFullPhotoVisible] = useState(false);
   const [likeCnt, setLikeCnt] = useState(0);
   const [replyCnt, setReplyCnt] = useState(0);
 
@@ -149,12 +152,19 @@ const BoardDetailModal = (props) => {
   const likeModalClose = () => {
     setLikeUserVisible(() => false);
   };
-  const closeModal = () => {
+  const closeDetailModal = () => {
     props.closeModalHandler();
   };
+  const closePhotoModalHandler = () => {
+    setFullPhotoVisible(() => false);
+  };
+  const openPhotoModalHandler = () => {
+    setFullPhotoVisible(() => true);
+  };
+
   return (
     <>
-      <Modal closeModalHandler={closeModal} boardDetail>
+      <Modal closeModalHandler={closeDetailModal} boardDetail>
         {isLoading ? (
           <div>
             <CircularProgress />
@@ -167,6 +177,13 @@ const BoardDetailModal = (props) => {
                 closeModal={likeModalClose}
               />
             )}
+            <PhotoModal
+              pics={boardDetail.imgList}
+              userName={props.boardUserName}
+              open={fullPhotoVisible}
+              close={closePhotoModalHandler}
+              closeModal={likeModalClose}
+            />
 
             <div className={classes.wrapper}>
               <div className={classes.board_detail_container}>
@@ -191,7 +208,28 @@ const BoardDetailModal = (props) => {
                   </div>
                   <div className={classes.photoContainer}>
                     {boardDetail.imgList.length > 3 ? (
-                      <PhotoCarousel pics={boardDetail.imgList} />
+                      <>
+                        {boardDetail.imgList.slice(0, 2).map((image) => (
+                          <BoardImageSrc
+                            imgName={image}
+                            alt={image}
+                            key={image}
+                          />
+                        ))}
+
+                        <div
+                          className={classes.plus}
+                          onClick={openPhotoModalHandler}
+                        >
+                          <div>
+                            <PhotoIcon
+                              sx={{ width: '50px', height: '50px', mt: 1 }}
+                            />
+                          </div>
+                          <div>+</div>
+                          <div>{boardDetail.imgList.length - 2}</div>
+                        </div>
+                      </>
                     ) : (
                       <div>
                         {boardDetail.imgList.map((image) => (
