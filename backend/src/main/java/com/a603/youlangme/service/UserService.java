@@ -4,6 +4,7 @@ import com.a603.youlangme.advice.exception.DataNotFoundException;
 import com.a603.youlangme.advice.exception.UnAllowedAccessException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.cache.Grass;
+import com.a603.youlangme.config.logging.ExpLogging;
 import com.a603.youlangme.dto.ranking.LanguageResponseDto;
 import com.a603.youlangme.dto.ranking.RankLogResponseDto;
 import com.a603.youlangme.dto.user.UserLevelDetailsResponseDto;
@@ -259,7 +260,8 @@ public class UserService {
 
 
     @Transactional
-    public void logAttendance(String email) {
+    @ExpLogging
+    public Long logAttendance(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         AttendanceLog lastLog = attendanceLogRepository.findTop1ByUserOrderByCreatedTimeDesc(user);
 
@@ -267,10 +269,12 @@ public class UserService {
             LocalDate lastLogDate = lastLog.getCreatedTime().toLocalDate();
             LocalDate currentDate = LocalDate.now();
             // 하루 한번 출석으로 인정
-            if (lastLogDate.isEqual(currentDate)) return;
+            if (lastLogDate.isEqual(currentDate)) return -1L;
         }
 
         attendanceLogRepository.save(AttendanceLog.of(user));
+
+        return user.getId();
     }
 
     @Cacheable(value = "Language",key="{#id}",cacheManager = "cacheManager")
@@ -430,6 +434,7 @@ public class UserService {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }
+
 }
 
 class Lang implements Comparable<Lang>{

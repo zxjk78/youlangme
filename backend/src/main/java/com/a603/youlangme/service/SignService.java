@@ -46,6 +46,7 @@ public class SignService {
     private final JavaMailSender javaMailSender;
 
 
+
     @Transactional
     public TokenResponseDto login(UserLoginRequestDto userLoginRequestDto) {
         User user = userRepository.findByEmail(userLoginRequestDto.getEmail()).orElseThrow(EmailLoginFailedException::new);
@@ -65,6 +66,7 @@ public class SignService {
         else {
             savedRefreshToken.updateToken(tokenDto.getRefreshToken());
         }
+
 
         return tokenDto;
     }
