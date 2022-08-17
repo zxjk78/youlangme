@@ -109,7 +109,7 @@ const SignUp2 = () => {
             '#B8D689',
             '#5A9E5D',
           ]}
-          variance={0.9}
+          variance={0.7}
           cellSize={85}
           output={'svg'}
         />
