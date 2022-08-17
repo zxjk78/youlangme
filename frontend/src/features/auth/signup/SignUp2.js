@@ -27,9 +27,15 @@ const CustomButton = styled(Button)`
   min-width: 250px;
   background-color: #b865c6;
   color: #fff;
+  transition: 0.5s;
+
   &:disabled {
-    cursor: pointer;
+    /* cursor: pointer; */
+
     background-color: #d3d3d3;
+  }
+  &:hover {
+    background-color: #7447bb;
   }
 `;
 
