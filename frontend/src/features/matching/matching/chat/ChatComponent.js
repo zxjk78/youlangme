@@ -25,6 +25,10 @@ export default class ChatComponent extends Component {
       messageList: [],
       message: '',
       // youlangmeCustum
+      // 채팅 이미지 관련 state 2
+      myUserId: this.props.myUserId,
+      yourUserId: this.props.yourUserId,
+
       // context 메뉴 관련 state 4
       isCMenuVisible: false,
       clX: null,
@@ -75,6 +79,7 @@ export default class ChatComponent extends Component {
           nickname: data.nickname,
           message: data.message,
           // youlangme custom
+
           originalMessage: data.originalMessage,
           originalIdx: data.originalIdx,
           type: data.type,
@@ -93,7 +98,11 @@ export default class ChatComponent extends Component {
           profileImage.onload = () => {
             avatar.drawImage(profileImage, 0, 0, 60, 60);
           };
-          profileImage.src = `${API_URL}image/profile/${this.props.userId}.jpg`;
+          profileImage.src = `${API_URL}image/profile/${
+            data.connectionId !== this.props.user.getConnectionId()
+              ? this.props.yourUserId
+              : this.props.myUserId
+          }.jpg`;
           // avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
 
           this.props.messageReceived();
@@ -143,7 +152,6 @@ export default class ChatComponent extends Component {
         originalMsgIdx = +data.originIdx;
       } else if (msgType === 3) {
         newsInfo = data.newsInfo;
-        // console.log('뉴스 들어옴');
       }
       if ((message !== '' && message !== ' ') || msgType === 3) {
         const msgData = {
@@ -266,27 +274,10 @@ export default class ChatComponent extends Component {
   }
 
   async msgTranslate() {
-    console.log('채팅창 번역');
-    console.log(
-      'props에서 들어온 myLang yourLang',
-      this.props.myLanguage,
-      this.props.yourLanguage
-    );
-    console.log(
-      'state로 전달한 myLang yourLang',
-      this.state.myLanguage,
-      this.state.yourLanguage
-    );
-
     const myISOCode = iso_code[this.state.myLanguage];
     const yourISOCode = iso_code[this.state.yourLanguage];
     const originContent = this.state.message.trim();
-    console.log(
-      '상대 iso, 내 iso, 원본 문자',
-      yourISOCode,
-      myISOCode,
-      originContent
-    );
+
     if (originContent.length === 0) {
       return;
     }

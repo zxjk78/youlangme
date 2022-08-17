@@ -8,20 +8,21 @@ import { grey } from '@mui/material/colors';
 
 import classes from './RecommendModal.module.scss';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 360,
-  fontWeight: 'bold',
-  backgroundColor: 'background.paper',
-  border: '3px solid #9BA7AF',
-  borderRadius: 5,
-  boxShadow: 24,
-  px: 4,
-  py: 2,
-};
+// const style = {
+//   position: 'absolute',
+//   top: '50%',
+//   left: '50%',
+//   transform: 'translate(-50%, -50%)',
+//   width: 360,
+//   fontWeight: 'bold',
+//   backgroundColor: 'background.paper',
+//   border: '3px solid #9BA7AF',
+//   borderRadius: 5,
+//   boxShadow: 24,
+//   px: 4,
+//   py: 2,
+//   overflowY: 'scroll',
+// };
 
 const CustomCancel = styled(CancelIcon)`
   color: #fff;

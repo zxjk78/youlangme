@@ -25,8 +25,18 @@ const CustomButton = styled(Button)`
   width: 90%;
   height: 40px;
   min-width: 250px;
-  background-color: violet;
+  background-color: #b865c6;
   color: #fff;
+  transition: 0.5s;
+
+  &:disabled {
+    /* cursor: pointer; */
+
+    background-color: #d3d3d3;
+  }
+  &:hover {
+    background-color: #7447bb;
+  }
 `;
 
 // yup schema
@@ -109,7 +119,7 @@ const SignUp2 = () => {
             '#B8D689',
             '#5A9E5D',
           ]}
-          variance={0.9}
+          variance={0.8}
           cellSize={85}
           output={'svg'}
         />
@@ -167,7 +177,7 @@ const SignUp2 = () => {
                     </div>
 
                     <p className={classes.subMenu}>
-                      로그인 하시겠습니까?
+                      로그인 하시겠습니까?{' '}
                       <Link to="/login" className={classes.clickable}>
                         로그인
                       </Link>
