@@ -23,6 +23,8 @@ import Trianglify from 'react-trianglify';
 
 // css
 import classes from './Login2.module.scss';
+// etc
+import logInGoogle from '../../../assets/logInGoogle.png';
 
 const CustomButton = styled(Button)`
   width: 90%;
@@ -30,9 +32,13 @@ const CustomButton = styled(Button)`
   min-width: 250px;
   background-color: #b865c6;
   color: #fff;
+  transition: 0.5s;
   &:disabled {
-    cursor: pointer;
+    /* cursor: pointer; */
     background-color: #d3d3d3;
+  }
+  &:hover {
+    background-color: #7447bb;
   }
 `;
 const SocialLoginButton = styled(Button)`
@@ -159,10 +165,7 @@ const Login2 = (props) => {
               </form>
               <div className={classes.otherLogin}>
                 <SocialLoginButton onClick={googleLogin}>
-                  <img
-                    src="https://developers.google.com/static/identity/images/btn_google_signin_dark_normal_web.png?hl=ko"
-                    alt=""
-                  />
+                  <img src={logInGoogle} alt="구글로그인버튼" />
                 </SocialLoginButton>
               </div>
             </div>

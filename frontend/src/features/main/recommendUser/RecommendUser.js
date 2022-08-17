@@ -60,15 +60,17 @@ const RecommendUser = (props) => {
 
                   <div>팔로우 추천</div>
                 </div>
-                <Button
-                  onClick={showRecommendModal}
-                  className={classes.more_follow}
-                  size="small"
-                  color="inherit"
-                  sx={{ width: '20px', height: '30px', color: '#fff' }}
-                >
-                  + 더보기
-                </Button>
+                {recommendUser.length !== 0 && (
+                  <Button
+                    onClick={showRecommendModal}
+                    className={classes.more_follow}
+                    size="small"
+                    color="inherit"
+                    sx={{ width: '20px', height: '30px', color: '#fff' }}
+                  >
+                    + 더보기
+                  </Button>
+                )}
               </div>
               <div className={classes.main}>
                 {recommendUser.length === 0 ? (

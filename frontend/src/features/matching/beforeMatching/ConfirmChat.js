@@ -90,6 +90,7 @@ const ConfirmChat = (props) => {
           state: {
             sessionId: props.sessionId,
             myUserId: currentUser.id,
+            yourUserId: props.opponentId,
             myInfo: myInfo,
             youInfo: youInfo,
             myLanguage: props.myLanguage,

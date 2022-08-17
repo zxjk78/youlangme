@@ -29,7 +29,6 @@ import classes from './BoardDetailModal.module.scss';
 // etc
 import { API_URL } from '../../../../common/api/http-config';
 
-
 const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
   const [replyList, setReplyList] = useState([]);
@@ -40,7 +39,6 @@ const BoardDetailModal = (props) => {
   const [likeCnt, setLikeCnt] = useState(0);
   const [replyCnt, setReplyCnt] = useState(0);
 
-  
   const params = useParams();
   const boardId = props?.boardId || params.boardId;
   const replyRef = useRef();
@@ -67,13 +65,12 @@ const BoardDetailModal = (props) => {
           setIsliked(true);
         }
       }
-
-      setBoardDetail(boardDetail);
-      setReplyList(replyList);
-      setReplyCnt(replyList.length);
-      setLikeUsers(likeUsers);
-      setLikeCnt(likeUsers.length);
-      
+      console.log(boardDetail);
+      setBoardDetail(() => boardDetail);
+      setReplyList(() => replyList);
+      setReplyCnt(() => replyList.length);
+      setLikeUsers(() => likeUsers);
+      setLikeCnt(() => likeUsers.length);
 
       setIsLoading(false);
     })();
@@ -173,14 +170,13 @@ const BoardDetailModal = (props) => {
 
             <div className={classes.wrapper}>
               <div className={classes.board_detail_container}>
-
                 <div className={classes.boardHeader}>
                   <div className={classes.boardHeaderUserProfile}>
                     <UserInfo
                       user={{
                         id: boardDetail.userId,
                         name: props.boardUserName,
-                        nationality: props.boardUserNationality
+                        nationality: props.boardUserNationality,
                       }}
                     />
                   </div>
@@ -236,14 +232,12 @@ const BoardDetailModal = (props) => {
                       </button>
                     </div>
                   )}
-
                 </div>
               </div>
 
-
               <div className={classes.reply}>
                 <div className={classes.header}>
-                  <ChatBubbleOutlineIcon sx={{ fontSize: 25, mx:1 }} />
+                  <ChatBubbleOutlineIcon sx={{ fontSize: 25, mx: 1 }} />
                   <div>댓글 </div>
                   <div className={classes.reply_cnt_num}>{replyCnt}</div>
                   <div>개</div>
