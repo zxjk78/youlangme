@@ -28,8 +28,12 @@ const CustomButton = styled(Button)`
   width: 90%;
   height: 40px;
   min-width: 250px;
-  background-color: violet;
+  background-color: #b865c6;
   color: #fff;
+  &:disabled {
+    cursor: pointer;
+    background-color: #d3d3d3;
+  }
 `;
 const SocialLoginButton = styled(Button)`
   width: 100%;
@@ -141,7 +145,7 @@ const Login2 = (props) => {
                 </div>
 
                 <p className={classes.subMenu}>
-                  회원가입 하시겠습니까?
+                  회원가입 하시겠습니까?{' '}
                   <Link to="/signup" className={classes.clickable}>
                     회원가입
                   </Link>
