@@ -2,9 +2,12 @@ import './App.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { Switch, BrowserRouter, useHistory, Redirect } from 'react-router-dom';
 import Login from './features/auth/login/Login';
+import Login2 from './features/auth/login/Login2';
 // import { useSelector } from "react-redux";
 
 import SignUp from './features/auth/signup/SignUp';
+import SignUp2 from './features/auth/signup/SignUp2';
+
 import Main from './features/main/Main';
 import MyPage from './features/profile/MyPage';
 import PrivateRoute from './common/routes/PrivateRoute';
@@ -20,11 +23,11 @@ import VideoRoomComponent from './features/matching/matching/VideoRoomComponent'
 import VideoRoomComponentLocal2 from './features/matching/matching/VideoRoomComponentLocal2';
 import NotFound from './features/other/NotFound/NotFound';
 //test
-import Maintmp from "./features/main/Maintmp";
-import ProfileBoardSummaryList from "./features/profile/RightProfile/profileBoardSummary/ProfileBoardSummaryList";
-import Header from "./common/UI/Header/Header";
-import axios from "axios";
-import { API_URL } from "./common/api/http-config";
+import Maintmp from './features/main/Maintmp';
+import ProfileBoardSummaryList from './features/profile/RightProfile/profileBoardSummary/ProfileBoardSummaryList';
+import Header from './common/UI/Header/Header';
+import axios from 'axios';
+import { API_URL } from './common/api/http-config';
 import { resetLogin } from './features/auth/authSlice';
 // import RightProfile from './features/profile/RightProfile/RightProfile';
 // import MyPageBoard from './features/profile/MyPageBoard';
@@ -33,7 +36,7 @@ function App() {
   // const { currentUser } = useSelector((state) => state.auth);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const history = useHistory();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
   const name = Object.keys(currentUser).length != 0 ? currentUser.name : null;
   const reissueToken = () => {
@@ -88,8 +91,8 @@ function App() {
             console.log(response.data.data);
           })
           .catch((err) => {
-            dispatch(resetLogin())
-            history.push('/')
+            dispatch(resetLogin());
+            history.push('/');
           });
       }
     }, 1800000);
@@ -109,12 +112,12 @@ function App() {
             restricted
             exact
             path="/"
-            component={Login}
+            component={Login2}
           ></PublicRoute>
           <PublicRoute
             restricted
             path="/signup"
-            component={SignUp}
+            component={SignUp2}
           ></PublicRoute>
           <PublicRoute path="/social" component={Social}></PublicRoute>
           <PrivateRoute path="/modify" component={ModifyPage}></PrivateRoute>
@@ -157,10 +160,9 @@ function App() {
 
           {/* test용 public route */}
           <PrivateRoute path="/test" component={Maintmp}></PrivateRoute>
-          <PrivateRoute
-            path="/test2/:userId"
-            component={ProfileBoardSummaryList}
-          ></PrivateRoute>
+          <PublicRoute path="/login2" component={Login2}></PublicRoute>
+          <PublicRoute path="/signup2" component={SignUp2}></PublicRoute>
+
           {/* 404 route */}
           <PrivateRoute path="*" component={NotFound}></PrivateRoute>
         </Switch>

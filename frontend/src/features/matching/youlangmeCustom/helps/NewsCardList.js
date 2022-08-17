@@ -81,9 +81,7 @@ const NewsCardList = (props) => {
               </div>
             </div>
             {articles.slice(page * 4, page * 4 + 4).length === 0 ? (
-              <div className={classes.main2}>
-                적합한 검색 결과가 없습니다.- 나중에 꾸미기
-              </div>
+              <div className={classes.main2}>적합한 검색 결과가 없습니다.</div>
             ) : (
               <div className={classes.main}>
                 {articles
