@@ -27,7 +27,7 @@ public class BoardReadResponseDto {
         res.createdTime = board.getCreatedTime();
         res.modifiedTime = board.getModifiedTime();
         res.userId = board.getAuthor().getId();
-        res.userName = board.getAuthor().getUsername();
+        res.userName = board.getAuthor().getName();
 
         for(BoardImg img : boardImgList){
             res.imgList.add(img.getPath());
