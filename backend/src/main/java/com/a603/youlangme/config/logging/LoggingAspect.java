@@ -135,6 +135,8 @@ public class LoggingAspect {
             multiBase = (closeTime-openTime)/60;
             // 대화 시간 n분 미만이면 경험치 획득 불가
             if(multiBase < 1) return;
+        } else if(action.equalsIgnoreCase("")){
+
         }
 
         for(User userToUpdate : updateUserList) {

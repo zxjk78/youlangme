@@ -24,9 +24,11 @@ public class MeetingLog extends BaseEntity {
     private User user;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Language yourLanguage;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private MeetingLogType logType;
 
     // 매칭된 양 사용자의 로그는 하나의 챗룸 로그를 참조한다.

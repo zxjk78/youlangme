@@ -19,7 +19,7 @@ public class FeedLog extends BaseEntity {
     @JoinColumn(name = "actor_id")
     private User actor;
 
-    @Column(name = "log_type")
+    @Column(name = "log_type", length = 20)
     @Enumerated(EnumType.STRING)
     private LogType logType;
 
