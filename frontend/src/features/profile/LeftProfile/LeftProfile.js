@@ -195,7 +195,7 @@ const LeftProfile = (props) => {
               <CardContent>
                 <div className={classes.name}>
                   {profileInfo.name}
-                  { isCurrentUser && <IconButton onClick={modifyModalHandler} sx={{ width: '35px', height: '35px'}}>
+                  { isCurrentUser && <IconButton onClick={modifyModalHandler} sx={{ width: '35px', height: '35px', ml:1}}>
                   <Build
                       sx={{ fontSize: 20, color: grey[500] }}
                     /></IconButton>}

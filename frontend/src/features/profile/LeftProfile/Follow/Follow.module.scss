@@ -1,17 +1,18 @@
 .followBtn {
   margin-top: 15px;
+  margin-bottom: 18px;
   
 }
 
 
 .follow {
   display: flex;
-  margin-top: 10px;
+  // margin-top: 10px;
 
 
   .follow_greys {
     color: #9BA7AF;
-    font-size: small;
+    font-size: 18px;
     cursor: pointer;
     &:hover {
       font-weight: bold;
@@ -23,7 +24,7 @@
   .cnt {
     margin: 3px;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 20px;
     line-height: 24px;
   }
 

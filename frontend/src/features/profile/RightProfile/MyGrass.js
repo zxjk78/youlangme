@@ -80,7 +80,7 @@ const MyGrass = (props) => {
             to="2022-12-31"
             emptyColor="#eeeeee"
             colors={['#61cdbb', '#97e3d5', '#e8c1a0', '#f47560']}
-            margin={{ top: 0, right: 0, bottom: 20, left: 30 }}
+            margin={{ top: 0, right: 0, bottom:20, left: 30 }}
             // yearSpacing={40}
             monthBorderColor="#ffffff"
             dayBorderWidth={2}

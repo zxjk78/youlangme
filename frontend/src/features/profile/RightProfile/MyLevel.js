@@ -107,7 +107,7 @@ const MyLevel = (props) => {
                     borderRadius: '50%', color: 'white',
                     backgroundColor: `${LevelCriteria[levelId][3]}` } }}
                     >
-                    <EmojiEventsIcon sx={{ fontSize: 100, color: LevelCriteria[levelId][2]} } 
+                    <EmojiEventsIcon sx={{ fontSize: 120, color: LevelCriteria[levelId][2]} } 
                     />
                   </Badge>
 
