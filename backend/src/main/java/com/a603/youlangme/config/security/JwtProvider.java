@@ -32,7 +32,7 @@ public class JwtProvider {
     private String secretKey; // application.properties에 작성한 secret key 불러오기, 가급적 별도의 파일에 작성하는게 좋음
     //private final Long accessTokenValidMillisecond = 60 * 60 * 1000L;            //  1 hour
     private final Long accessTokenValidMillisecond = 60 * 60 * 1000L;            //  1 hour
-    private final Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 24 hour
+    private final Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 2 weeks
     private final WebUserDetailsService userDetailsService;
 
     @PostConstruct

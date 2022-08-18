@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Date;
@@ -86,7 +87,14 @@ public class SignService {
     }
 
     @Transactional
-    public TokenResponseDto reissue(TokenRequestDto tokenRequestDto) {
+    public TokenResponseDto reissue(TokenRequestDto tokenRequestDto, HttpServletResponse response) {
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
         if (!jwtProvider.validationToken(tokenRequestDto.getRefreshToken())) {
             throw new RefreshTokenExpiredException();
         }
