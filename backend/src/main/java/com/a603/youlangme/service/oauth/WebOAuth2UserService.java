@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-//http://localhost:8080/oauth2/authorization/google
 
 @Service
 public class WebOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
