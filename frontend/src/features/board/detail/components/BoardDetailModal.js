@@ -73,7 +73,7 @@ const BoardDetailModal = (props) => {
           setIsliked(true);
         }
       }
-      console.log(boardDetail);
+      console.log(boardDetail, 'tnwjd');
       setBoardDetail(() => boardDetail);
       setReplyList(() => replyList);
       setReplyCnt(() => replyList.length);
@@ -210,7 +210,7 @@ const BoardDetailModal = (props) => {
                     <UserInfo
                       user={{
                         id: boardDetail.userId,
-                        name: props.boardUserName,
+                        name: boardDetail.userName,
                         nationality: props.boardUserNationality,
                       }}
                     />
