@@ -54,6 +54,7 @@ class VideoRoomComponent extends Component {
       yourNationality: '',
       newsInfoToShare: '',
       myUserId: '',
+      yourUserId: '',
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -155,16 +156,17 @@ class VideoRoomComponent extends Component {
       const sessionId = this.props.location.state.sessionId;
       setTimeout(() => {
         const youInfo = this.props.location.state.youInfo;
-        const myInfo = this.props.location.state.MyInfo;
-        const myName = this.props.location.state.MyInfo.name;
-        const myNationality = this.props.location.state.MyInfo.nationality;
+        const myInfo = this.props.location.state.myInfo;
+        const myName = this.props.location.state.myInfo.name;
+        const myNationality = this.props.location.state.myInfo.nationality;
         const yourNationality = this.props.location.state.youInfo.nationality;
-        const myLanguage = this.props.location.state.MyInfo.mylanguage;
-        const yourLanguage = this.props.location.state.MyInfo.yourlanguage;
+        const myLanguage = this.props.location.state.myLanguage;
+        const yourLanguage = this.props.location.state.yourLanguage;
         const myUserId = this.props.location.state.myUserId;
+        const yourUserId = this.props.location.state.yourUserId;
 
         console.log(
-          `이름:  ${myName}, 내 국적: ${myNationality}, 상대국적: ${yourNationality}, 내 언어: ${myLanguage}, 상대 언어: ${yourLanguage}, 내 아이디: ${myUserId} `
+          `이름:  ${myName}, 내 국적: ${myNationality}, 상대국적: ${yourNationality}, 내 언어: ${myLanguage}, 상대 언어: ${yourLanguage}, 내 아이디: ${myUserId} 상대 아이디 ${yourUserId}`
         );
         this.setState({
           mySessionId: sessionId,
@@ -174,6 +176,7 @@ class VideoRoomComponent extends Component {
           myLanguage: myLanguage,
           yourLanguage: yourLanguage,
           myUserId: myUserId,
+          yourUserId: yourUserId,
         });
 
         console.log('세션아이디', sessionId);
@@ -832,6 +835,8 @@ class VideoRoomComponent extends Component {
               myLanguage={this.state.myLanguage}
               yourLanguage={this.state.yourLanguage}
               newsInfo={this.state.newsInfoToShare}
+              myUserId={this.state.myUserId}
+              yourUserId={this.state.yourUserId}
             />
           </div>
         )}

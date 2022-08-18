@@ -171,7 +171,7 @@ const LeftProfile = (props) => {
             {profileInfo.name}
           </Typography> */}
           <CardMedia className={classes.avatar}>
-            <div className={classes.profile_img_add_icon}>
+            <div>
               {isCurrentUser && <ProfileImageEdit 
               // getNewProfileImg={updateProfileImg}
               />}      

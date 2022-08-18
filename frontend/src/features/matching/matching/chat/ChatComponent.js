@@ -25,6 +25,10 @@ export default class ChatComponent extends Component {
       messageList: [],
       message: '',
       // youlangmeCustum
+      // 채팅 이미지 관련 state 2
+      myUserId: this.props.myUserId,
+      yourUserId: this.props.yourUserId,
+
       // context 메뉴 관련 state 4
       isCMenuVisible: false,
       clX: null,
@@ -54,7 +58,7 @@ export default class ChatComponent extends Component {
     this.copyHandler = this.copyHandler.bind(this);
     this.translateHandler = this.translateHandler.bind(this);
     // 댓글 답글 컴포넌트 요청
-    this.handleReply = this.handleReply.bind(this);
+    this.sendReply = this.sendReply.bind(this);
     // 댓글 답글 컴포넌트 삭제
     this.cancelReply = this.cancelReply.bind(this);
     // 스크롤 테스트
@@ -75,6 +79,7 @@ export default class ChatComponent extends Component {
           nickname: data.nickname,
           message: data.message,
           // youlangme custom
+
           originalMessage: data.originalMessage,
           originalIdx: data.originalIdx,
           type: data.type,
@@ -93,7 +98,11 @@ export default class ChatComponent extends Component {
           profileImage.onload = () => {
             avatar.drawImage(profileImage, 0, 0, 60, 60);
           };
-          profileImage.src = `${API_URL}image/profile/${this.props.userId}.jpg`;
+          profileImage.src = `${API_URL}image/profile/${
+            data.connectionId !== this.props.user.getConnectionId()
+              ? this.props.yourUserId
+              : this.props.myUserId
+          }.jpg`;
           // avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
 
           this.props.messageReceived();
@@ -130,7 +139,6 @@ export default class ChatComponent extends Component {
 
   // messageType: 1 :normal, 2: reply, 3: news
   sendMessage(msgType, data) {
-    // console.log('메세지 보낼때 데이터', msgType, data);
     let message = data.message.replace(/ +(?= )/g, '');
     let originalMsg = '';
     let originalMsgIdx = '';
@@ -144,7 +152,6 @@ export default class ChatComponent extends Component {
         originalMsgIdx = +data.originIdx;
       } else if (msgType === 3) {
         newsInfo = data.newsInfo;
-        // console.log('뉴스 들어옴');
       }
       if ((message !== '' && message !== ' ') || msgType === 3) {
         const msgData = {
@@ -222,7 +229,7 @@ export default class ChatComponent extends Component {
       isReply: true,
     });
   }
-  handleReply() {
+  sendReply() {
     this.sendMessage(2, {
       message: this.state.message,
       originMsg: this.state.originalMessage,
@@ -267,17 +274,14 @@ export default class ChatComponent extends Component {
   }
 
   async msgTranslate() {
-    // const myISOCode = iso_code['KOREAN'];
-    // const yourISOCode = iso_code['ENGLISH'];
     const myISOCode = iso_code[this.state.myLanguage];
     const yourISOCode = iso_code[this.state.yourLanguage];
     const originContent = this.state.message.trim();
+
     if (originContent.length === 0) {
       return;
     }
 
-    console.log(this.state.myLanguage, this.state.yourLanguage);
-    console.log(yourISOCode, myISOCode, originContent);
     const translateMsg = await translate(yourISOCode, myISOCode, originContent);
     this.setState({
       message: translateMsg.slice(1, translateMsg.length - 1),
@@ -382,8 +386,7 @@ export default class ChatComponent extends Component {
                   originalMessageIdx={this.state.originalMessageIdx}
                   messageVal={this.state.message}
                   handleChange={this.handleChange}
-                  handleKeyPress={this.handleReply}
-                  sendReplyBtnClick={this.sendMessage}
+                  sendReply={this.sendReply}
                   cancelModify={this.cancelReply}
                 />
               </div>

@@ -121,7 +121,7 @@ const Follow = (props) => {
   
     return (
       <ThemeProvider theme={myColorTheme}>
-          { isLoading ?  <CircularProgress />: 
+          { isLoading ?  <CircularProgress color='inherit'/>: 
             <div>
               {!isCurrentUser && <div className={classes.followBtn}>
                 {

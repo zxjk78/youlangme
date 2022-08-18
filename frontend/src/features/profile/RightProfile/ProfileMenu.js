@@ -15,7 +15,11 @@ function ProfileMenu({userId, onChangeTab}) {
   const [value, setValue] = useState('profile');
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    
+    setTimeout(() => {
     onChangeTab(newValue);
+
+    }, 200)
   };
 
   const tabFont = {

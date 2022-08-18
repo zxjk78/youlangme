@@ -31,14 +31,16 @@ const BadgeEdit = (props) => {
     position: 'absolute',
     top: '50%', left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 650,
-    maxHeight: 780,
+    width: 630,
+    // maxHeight: 780,
+    height: 630,
     fontWeight: 'bold',
     backgroundColor: 'background.paper',
     border: '3px solid #9BA7AF',
     borderRadius: 5,
     boxShadow: 24,
     px: 4, py: 2,
+    overflow: 'scroll'
   };
 
   return (

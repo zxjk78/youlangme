@@ -130,7 +130,7 @@ const MyLanguages = (props) => {
               padAngle={0.7}
               sortByValue={true}
               activeOuterRadiusOffset={8}
-              colors={{ scheme: 'accent' }}
+              colors={{ scheme: 'pastel1' }}
               borderWidth={1}
               borderColor={{
                   from: 'color',

@@ -652,6 +652,8 @@ class VideoRoomComponent extends Component {
               close={this.toggleChat}
               messageReceived={this.checkNotification}
               newsInfo={this.state.newsInfoToShare}
+              myLanguage={'KOREAN'}
+              yourLanguage={'ENGLISH'}
             />
           </div>
         )}

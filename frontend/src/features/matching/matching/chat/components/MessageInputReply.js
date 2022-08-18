@@ -36,12 +36,22 @@ const MessageInputReply = (props) => {
     props.handleChange(event.target.value);
   };
   const handleKeyPress = (event) => {
+    if (messageValue.trim().length === 0) {
+      return;
+    }
     if (event.key === 'Enter') {
-      props.sendReplyBtnClick();
+      props.sendReply(2, {
+        message: messageValue,
+        originMsg: originalMessage,
+        originIdx: originalMessageIdx,
+      });
     }
   };
   const handleSendReplyBtnClick = () => {
-    props.sendReplyBtnClick(2, {
+    if (messageValue.trim().length === 0) {
+      return;
+    }
+    props.sendReply(2, {
       message: messageValue,
       originMsg: originalMessage,
       originIdx: originalMessageIdx,
@@ -55,8 +65,6 @@ const MessageInputReply = (props) => {
       <div className={classes.main}>
         <Box
           sx={{
-            // width: '100%',
-            // maxWidth: '100%',
             bgcolor: '#fff',
             borderRadius: '10px',
             padding: '8px',

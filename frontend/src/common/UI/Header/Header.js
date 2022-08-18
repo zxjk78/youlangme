@@ -132,7 +132,12 @@ const Header = () => {
                 <img src={youlangme} className={classes.navbar__logo}/>
               </Link>
               <Link to="/start-intro">
-                <StartIcon sx={{ fontSize: '50px', color: '#FFC700',  ml: 3}}/>
+                <Tooltip title='match'>
+                  <img src={`/match_icon.png`} alt=""
+                    className={classes.match_icon}
+                    />
+                </Tooltip>
+                {/* <StartIcon sx={{ fontSize: '50px', color: '#FFC700',  ml: 3}}/> */}
               </Link>
           </div>
         
@@ -143,7 +148,7 @@ const Header = () => {
               <Button onClick={handleOpenUserMenu} sx={{ py: 1, px:2, width: '100%'}}>
                 {/* 프로필 이미지 넣기! */}
                 {  isLoading ? <CircularProgress /> : 
-                  <Avatar  sx={{ width: 56, height: 56, mr:2}} alt="" src={profileImg} />}
+                  <Avatar  sx={{ width: 40, height: 40, mr:2}} alt="" src={profileImg} />}
                 <Typography
                   sx={{
                     // mr: 2,
@@ -159,7 +164,7 @@ const Header = () => {
               </Button>
             </Tooltip>
             <Menu
-              sx={{ mt: '60px',  }}
+              sx={{ mt: '35px',  }}
               id="profile-menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
