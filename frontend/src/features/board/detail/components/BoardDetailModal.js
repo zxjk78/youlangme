@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createdDateCal } from '../../../../common/utils/functions/commonFunctions';
 import { useParams } from 'react-router-dom';
+
 // API
 import {
   fetchBoardInfo,
@@ -12,22 +13,29 @@ import {
   dislike,
   deleteBoard,
 } from '../../boardAPI';
-import Modal from '../../../../common/UI/Modal/Modal';
+// external module
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 //custom components
+import Modal from '../../../../common/UI/Modal/Modal';
 import ReplyListItem from './ReplyListItem';
 import LikeContainer from './LikeContainer';
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import LikeUserModal from './likeModal/LikeUserModal';
 import PhotoCarousel from './PhotoCarousel/PhotoCarousel';
 import BoardImageSrc from '../../../../common/UI/BoardImageSrc';
+import PhotoModal from './PhotoModal/PhotoModal';
 // mui
 import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PhotoIcon from '@mui/icons-material/Photo';
 // css
 import classes from './BoardDetailModal.module.scss';
 // etc
 import { API_URL } from '../../../../common/api/http-config';
+
+const MySwal = withReactContent(Swal);
 
 const BoardDetailModal = (props) => {
   const [boardDetail, setBoardDetail] = useState(null);
@@ -36,6 +44,7 @@ const BoardDetailModal = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsliked] = useState(false);
   const [likeUserVisible, setLikeUserVisible] = useState(false);
+  const [fullPhotoVisible, setFullPhotoVisible] = useState(false);
   const [likeCnt, setLikeCnt] = useState(0);
   const [replyCnt, setReplyCnt] = useState(0);
 
@@ -130,31 +139,51 @@ const BoardDetailModal = (props) => {
     history.push(`/board/update/${boardId}`);
   };
   const deleteBoardHandler = async () => {
-    const confirm = window.confirm('정말 삭제하시겠습니까?');
-    if (!confirm) {
-      return;
-    }
-    // delete API 요청
-    const data = await deleteBoard(boardId);
-    if (data.success === true) {
-      // history.goBack();
-      // window.location.reload();
-      props.closeModalHandler();
-      props.deleteHandler();
-    }
+    MySwal.fire({
+      icon: 'warning',
+      title: '게시글을 삭제하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: '#d11a2a', // confrim 버튼 색깔 지정
+      cancelButtonColor: '#d3d3d3', // cancel 버튼 색깔 지정
+
+      confirmButtonText: '네 삭제합니다.', // confirm 버튼 텍스트 지정
+      cancelButtonText: '아니오 그만둘래요.', // cancel 버튼 텍스트 지정
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteBoard(boardId).then(() => {
+          MySwal.fire({
+            icon: 'success',
+            iconColor: '#d11a2a',
+            title: '게시글이 삭제 되었습니다.',
+          });
+          props.closeModalHandler();
+          props.deleteHandler();
+        });
+        return;
+      }
+    });
   };
+
   const showLikeUserModal = () => {
     setLikeUserVisible((prevState) => !prevState);
   };
   const likeModalClose = () => {
     setLikeUserVisible(() => false);
   };
-  const closeModal = () => {
+  const closeDetailModal = () => {
     props.closeModalHandler();
   };
+  const closePhotoModalHandler = () => {
+    setFullPhotoVisible(() => false);
+  };
+  const openPhotoModalHandler = () => {
+    setFullPhotoVisible(() => true);
+  };
+
   return (
     <>
-      <Modal closeModalHandler={closeModal} boardDetail>
+      <Modal closeModalHandler={closeDetailModal} boardDetail>
         {isLoading ? (
           <div>
             <CircularProgress />
@@ -167,6 +196,13 @@ const BoardDetailModal = (props) => {
                 closeModal={likeModalClose}
               />
             )}
+            <PhotoModal
+              pics={boardDetail.imgList}
+              userName={props.boardUserName}
+              open={fullPhotoVisible}
+              close={closePhotoModalHandler}
+              closeModal={likeModalClose}
+            />
 
             <div className={classes.wrapper}>
               <div className={classes.board_detail_container}>
@@ -189,9 +225,30 @@ const BoardDetailModal = (props) => {
                   <div className={classes.contentContainer}>
                     <p>{boardDetail.contents}</p>
                   </div>
-                  <div className={classes.photoContainer}>
+                  <div
+                    className={classes.photoContainer}
+                    onClick={openPhotoModalHandler}
+                  >
                     {boardDetail.imgList.length > 3 ? (
-                      <PhotoCarousel pics={boardDetail.imgList} />
+                      <>
+                        {boardDetail.imgList.slice(0, 2).map((image) => (
+                          <BoardImageSrc
+                            imgName={image}
+                            alt={image}
+                            key={image}
+                          />
+                        ))}
+
+                        <div className={classes.plus}>
+                          <div>
+                            <PhotoIcon
+                              sx={{ width: '50px', height: '50px', mt: 1 }}
+                            />
+                          </div>
+                          <div>+</div>
+                          <div>{boardDetail.imgList.length - 2}</div>
+                        </div>
+                      </>
                     ) : (
                       <div>
                         {boardDetail.imgList.map((image) => (

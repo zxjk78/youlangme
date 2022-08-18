@@ -2,12 +2,15 @@
   background-color: #fff;
   border-radius: 8px;
   padding: 10px 6px;
-  // scss의 중첩 클래스 표현은 이렇게 가능
+
+  // scss의 한 태그에서 클래스 여러개 표현은 이렇게 가능
   &.myRank {
     background-color: #ffdb59;
   }
   &:hover {
-    transform: translate(8px, -2px);
+    background-color: #b865c6;
+    transform: translate(5px, -1px);
+
     transition: 0.2s;
   }
 }

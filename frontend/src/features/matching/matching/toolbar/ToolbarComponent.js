@@ -108,6 +108,7 @@ export default class ToolbarComponent extends Component {
               text: '비디오 끄기',
               icon: <Videocam />,
             }}
+            activateStatus={true}
             activateFn={this.camStatusChanged}
             deactivateFn={this.camStatusChanged}
             // activateStatus={this.props.user.isVideoActive()}
@@ -121,6 +122,7 @@ export default class ToolbarComponent extends Component {
               text: '마이크 끄기',
               icon: <Mic />,
             }}
+            activateStatus={true}
             activateFn={this.micStatusChanged}
             deactivateFn={this.micStatusChanged}
             // activateStatus={this.props.user.isAudioActive()}

@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 
 //react-router
 import { Link, useHistory } from 'react-router-dom';
-import { API_URL } from '../../../common/api/http-config';
 
 // redux
 import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
 import { getUser, login } from '../authSlice';
+
+// external module
+import Trianglify from 'react-trianglify';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 // form
 import { useForm } from 'react-hook-form';
@@ -18,12 +22,11 @@ import Modal from '../../../common/UI/Modal/Modal';
 // external component
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
-// module
-import Trianglify from 'react-trianglify';
 
 // css
 import classes from './Login2.module.scss';
 // etc
+import { API_URL } from '../../../common/api/http-config';
 import logInGoogle from '../../../assets/logInGoogle.png';
 
 const CustomButton = styled(Button)`
@@ -46,6 +49,9 @@ const SocialLoginButton = styled(Button)`
   height: 40px;
   min-width: 250px;
   background-color: transparent;
+  &:hover {
+    background-color: transparent;
+  }
 `;
 
 const validationSchema = yup.object().shape({
@@ -55,11 +61,13 @@ const validationSchema = yup.object().shape({
     .required('이메일을 입력해 주세요.'),
   password: yup.string().required('비밀번호를 입력해 주세요.'),
 });
+
+const MySwal = withReactContent(Swal);
+
 const Login2 = (props) => {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { currentUser } = useSelector((state) => state.auth);
-  const { accessToken } = useSelector((state) => state.auth);
+
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -71,7 +79,6 @@ const Login2 = (props) => {
   } = useForm({ resolver: yupResolver(validationSchema), mode: 'onChange' });
 
   const handleLogin = (formValue) => {
-    // console.log(formValue);
     setLoading(true);
     const { email, password } = formValue;
     dispatch(login({ email, password }))
@@ -81,7 +88,13 @@ const Login2 = (props) => {
         history.push('/main');
       })
       .catch((err) => {
-        alert('에러메세지', err);
+        // 에러메세지를 보고 어떤유형의 에러인지 판단해야함 - 안타깝게도 이렇게 뜸: Request failed with status code 500
+        // sweetalert2 로변경부분
+        MySwal.fire({
+          icon: 'error',
+          title: '로그인 실패',
+          text: '아이디 또는 비밀번호를 다시 확인해 주세요.',
+        });
       });
   };
 

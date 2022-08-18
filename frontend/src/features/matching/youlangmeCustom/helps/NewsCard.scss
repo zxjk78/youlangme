@@ -10,7 +10,7 @@ $blue: #341cac;
 
 .card {
   width: 240px;
-  height: 320px;
+  height: 290px;
   display: block;
   margin: 10px auto;
   background-color: #fff;
@@ -20,10 +20,6 @@ $blue: #341cac;
   &:hover {
     box-shadow: 2px 2px 2px #bebebf;
     cursor: pointer;
-
-    .button-primary {
-      transform: translate(10px, 0);
-    }
   }
 }
 
@@ -50,8 +46,9 @@ $blue: #341cac;
 }
 
 .card-body {
-  padding: 8px;
-  padding-top: 0px;
+  // padding: 5px;
+  padding-right: 8px;
+  padding-left: 8px;
   background-color: #fff;
   width: 100%;
   h5 {
@@ -75,7 +72,7 @@ $blue: #341cac;
 
   /* 여러 줄 줄이기 위한 코드 3줄 */
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   word-break: break-all;
   overflow: hidden;
@@ -90,11 +87,13 @@ $blue: #341cac;
   font-family: inherit;
   background-color: transparent;
   color: $blue;
-  font-size: 15px;
+  font-size: 12px;
   transition: 0.25s;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
+    transform: translate(5px, 0);
+    transition: 0.5s;
   }
 
   i {

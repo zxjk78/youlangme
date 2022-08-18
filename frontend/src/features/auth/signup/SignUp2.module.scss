@@ -67,7 +67,7 @@
     .errorMsg {
       width: 80%;
       font-size: 0.5rem;
-      height: 8px;
+      white-space: pre-wrap;
       color: #000;
     }
     .subMenu {
@@ -90,4 +90,7 @@
   color: #b865c6;
   text-decoration: none;
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }

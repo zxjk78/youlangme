@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import TranslateIcon from '@mui/icons-material/Translate';
 const CustomButton = styled.button`
-  background-color: purple !important;
-  color: #fff !important;
+  /* background-color: ; */
+  color: grey !important;
   width: 30px !important;
   border: none;
   border-radius: 70%;

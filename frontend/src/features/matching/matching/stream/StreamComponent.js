@@ -4,8 +4,8 @@ import OvVideoComponent from './OvVideo';
 
 import MicOff from '@material-ui/icons/MicOff';
 import VideocamOff from '@material-ui/icons/VideocamOff';
-import VolumeUp from '@material-ui/icons/VolumeUp';
-import VolumeOff from '@material-ui/icons/VolumeOff';
+import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
+import HeadsetOffIcon from '@mui/icons-material/HeadsetOff';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -133,19 +133,16 @@ export default class StreamComponent extends Component {
                 </div>
               ) : null} */}
 
-              <IconButton
-                color="inherit"
-                className="navButton"
-                id="navCamButton"
-                onClick={this.camStatusChanged}
-              >
-                {this.props.user !== undefined &&
-                this.props.user.isVideoActive() ? (
-                  <Videocam />
-                ) : (
+              {this.props.user !== undefined &&
+              this.props.user.isVideoActive() ? null : (
+                <IconButton
+                  color="inherit"
+                  className="navButton"
+                  id="navCamButton"
+                >
                   <VideocamOff color="secondary" />
-                )}
-              </IconButton>
+                </IconButton>
+              )}
 
               {/* {!this.props.user.isAudioActive() ? (
                 <div id="micIcon">
@@ -153,19 +150,16 @@ export default class StreamComponent extends Component {
                 </div>
               ) : null} */}
 
-              <IconButton
-                color="inherit"
-                className="navButton"
-                id="navMicButton"
-                onClick={this.micStatusChanged}
-              >
-                {this.props.user !== undefined &&
-                this.props.user.isAudioActive() ? (
-                  <Mic />
-                ) : (
+              {this.props.user !== undefined &&
+              this.props.user.isAudioActive() ? null : (
+                <IconButton
+                  color="inherit"
+                  className="navButton"
+                  id="navMicButton"
+                >
                   <MicOff color="secondary" />
-                )}
-              </IconButton>
+                </IconButton>
+              )}
             </div>
             <div className="oppoVolumeButton">
               {!this.props.user.isLocal() && (
@@ -175,9 +169,9 @@ export default class StreamComponent extends Component {
                   onClick={this.toggleSound}
                 >
                   {this.state.mutedSound ? (
-                    <MicOff color="secondary" />
+                    <HeadsetOffIcon color="secondary" />
                   ) : (
-                    <Mic />
+                    <HeadsetMicIcon />
                   )}
                 </IconButton>
               )}

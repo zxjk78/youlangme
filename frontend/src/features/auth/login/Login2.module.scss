@@ -80,8 +80,8 @@
     .errorMsg {
       width: 80%;
       font-size: 0.5rem;
-      height: 8px;
-      color: #fff;
+      white-space: pre-wrap;
+      color: #000;
     }
     .subMenu {
       font-size: 0.8rem;
@@ -93,6 +93,10 @@
   color: #b865c6;
   cursor: pointer;
   text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 .otherLogin {
   margin-top: 10px;
