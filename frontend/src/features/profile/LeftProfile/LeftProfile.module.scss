@@ -14,7 +14,7 @@
   .avatar {
     // justify-content: center;
     text-align: center;
-    margin-top: 1%;
+    margin-top: 5%;
 
 
     .flag {
@@ -24,12 +24,12 @@
   }
 
   .profile_content {
-    margin-top: 5px;
+    margin-top: 10px;
 
     .name {
-      margin: 10px 3px 5px 20px;
+      margin: 10px 7px 20px 20px;
       font-weight: bold;
-      font-size: 30px;
+      font-size: 45px;
       letter-spacing: 3px;
     }
 
@@ -39,9 +39,9 @@
       flex-direction: column;
       // justify-content: space-between;
       width: 100%;
-      margin-top: 12px;
-      min-height: 105px;
-      max-height: 140px;
+      margin-top: 30px;
+      min-height: 150px;
+      max-height: 160px;
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid #CAD6E2;
       border-radius: 20px;
@@ -62,9 +62,9 @@
 
     .rest_info {
       width: 100%;
-      margin-top: 10px;
+      margin-top: 20px;
       // margin-bottom: 20px;
-      padding: 10px 10px 10px 20px;
+      padding: 15px 10px 15px 20px;
 
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid #CAD6E2;

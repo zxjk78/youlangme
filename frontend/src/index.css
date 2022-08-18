@@ -16,8 +16,9 @@ code {
 .main_wrapper {
   display: flex;
   width: 85%;
-  height: 630px;
-  margin: auto;
+  /* height: 630px; */
+  min-height: 85vh;
+  margin: 10px auto 10px auto;
   /* background: #F9F3EE !important; */
   background: #F9F3EE;
  
