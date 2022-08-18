@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Date;
@@ -60,6 +61,7 @@ public class SignService {
                 .tokenKey(user.getId())
                 .token(tokenDto.getRefreshToken())
                 .build();
+
         RefreshToken savedRefreshToken = refreshTokenRepository.findByTokenKey(user.getId()).orElse(null);
         if (savedRefreshToken == null)
             refreshTokenRepository.save(refreshToken);

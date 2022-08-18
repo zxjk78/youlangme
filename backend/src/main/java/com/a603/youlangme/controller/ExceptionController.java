@@ -1,6 +1,7 @@
 package com.a603.youlangme.controller;
 
 import com.a603.youlangme.advice.exception.AccessDeniedException;
+import com.a603.youlangme.advice.exception.AccessTokenExpiredException;
 import com.a603.youlangme.advice.exception.AuthenticationEntryPointException;
 import com.a603.youlangme.response.CommonResult;
 import io.swagger.annotations.Api;
@@ -18,6 +19,11 @@ public class ExceptionController {
     @GetMapping("/entryPoint")
     public CommonResult entrypointException() {
         throw new AuthenticationEntryPointException();
+    }
+
+    @GetMapping("/accessTokenExpired")
+    public CommonResult accessTokenExpiredException() {
+        throw new AccessTokenExpiredException();
     }
 
     @GetMapping("/accessDenied")

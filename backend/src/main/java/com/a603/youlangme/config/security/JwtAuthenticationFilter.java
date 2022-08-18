@@ -23,7 +23,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = jwtProvider.resolveToken((HttpServletRequest) request); // HTTP 메세지의 헤더에서 JWT 토큰 가져옴
-        if (token != null && jwtProvider.validationToken(token)) { // 토큰이 있는지와 토큰의 유효성 검사
+
+        if (token != null && jwtProvider.checkExpiredToken(token, request)) { // 토큰이 있는지와 토큰의 유효성 검사
             Authentication authentication = jwtProvider.getAuthentication(token); // Authentication 객체 생성
             SecurityContextHolder.getContext().setAuthentication(authentication); // Authentication 객체를 SecurityContextHolder에 저장, 인증 객체를 전역적으로 사용 가능
             //Authentication은 SecurityContext에 저장되고 SecurityContext는 결과적으로 ThreadLocal에 저장됨 (SecurityContextHolder가 ThreadLocal에 저장되게 함)

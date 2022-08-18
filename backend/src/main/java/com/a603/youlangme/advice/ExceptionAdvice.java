@@ -96,4 +96,10 @@ public class  ExceptionAdvice {
     protected CommonResult sessionNotFoundException(HttpServletRequest request, SessionNotFoundException e) {
         return responseService.getFailResult(ErrorCode.SessionNotFoundException.getCode(), ErrorCode.SessionNotFoundException.getMessage());
     }
+
+    @ExceptionHandler(AccessTokenExpiredException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult accessTokenExpiredException(HttpServletRequest request, AccessTokenExpiredException e) {
+        return responseService.getFailResult(ErrorCode.AccessTokenExpiredException.getCode(), ErrorCode.AccessTokenExpiredException.getMessage());
+    }
 }

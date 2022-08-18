@@ -52,9 +52,6 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        CharacterEncodingFilter filter = new CharacterEncodingFilter();
-        filter.setEncoding("UTF-8");
-        filter.setForceEncoding(true);
 
         http.cors().and()
                 .httpBasic().disable() // 초기 설정은 비 인증시 로그인 폼으로 리다이렉트 되는데 REST API 이므로 disable
@@ -62,7 +59,7 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Jwt로 인증하므로 세션이 필요하지 않음
                 .and()
                 .authorizeRequests() // exception Handling을 위해 permit
-                .antMatchers("/login/**", "/signup/**", "/reissue", "/oauth2/**", "/exception/**", "/home", "/user/image/**", "/image/**","/findPwd/**","/redis/**").permitAll() // 로그인, 회원가입은 누구나 허용
+                .antMatchers("/login/**", "/signup/**", "/reissue", "/oauth2/**", "/exception/**", "/home", "/user/image/**", "/image/**","/findPwd/**","/redis/**", "/log-out/**").permitAll() // 로그인, 회원가입은 누구나 허용
                 .anyRequest().hasRole("USER")
 
                 .and()
@@ -75,7 +72,6 @@ public class SecurityConfiguration {
                 .accessDeniedHandler(new WebAccessDeniedHandler())
 
                 .and()
-                .addFilterBefore(filter, CsrfFilter.class)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
                 .authorizationEndpoint()
@@ -99,15 +95,4 @@ public class SecurityConfiguration {
         return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
                 "/swagger-ui/index.html", "/webjars/**", "/swagger/**", "/swagger-ui/**", "/resources/**");
     }
-
-
-    public void configure(WebSecurity web) throws Exception {
-        web.httpFirewall(defaultHttpFirewall());
-    }
-
-    @Bean
-    public HttpFirewall defaultHttpFirewall() {
-        return new DefaultHttpFirewall();
-    }
-
 }

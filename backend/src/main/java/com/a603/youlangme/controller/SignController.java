@@ -19,12 +19,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Api(tags = "1. SignUp / LogIn")
 @RequiredArgsConstructor
@@ -36,11 +40,19 @@ public class SignController {
 
     @ApiOperation(value = "로그인", notes = "이메일로 로그인 수행")
     @PostMapping("/login")
-    public OneResult<TokenResponseDto> login (
+    public OneResult<TokenResponseDto> login (HttpServletResponse response,
             @ApiParam(value = "로그인 DTO", required = true) @RequestBody UserLoginRequestDto userLoginRequestDto) {
         TokenResponseDto tokenDto = signService.login(userLoginRequestDto);
         // 출석 로그
         userService.logAttendance(userLoginRequestDto.getEmail());
+        Cookie cookie = new Cookie("refreshTokenCookie", tokenDto.getRefreshToken());
+        cookie.setMaxAge(14 * 24 * 60 * 60);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+
         return responseService.getOneResult(tokenDto);
     }
 
@@ -55,14 +67,20 @@ public class SignController {
     @ApiOperation(value = "Access Token, Refresh Token 재발급",
             notes = "Access Token 만료시 회원 검증 후 Refresh Token을 검증해서 두 Token을 재발급")
     @PostMapping("/reissue")
-    public OneResult<TokenResponseDto> reissue(
-            @ApiParam(value = "토큰 재발급 DTO", required = true)
-            @RequestBody TokenRequestDto tokenRequestDto) {
+    public OneResult<TokenResponseDto> reissue(@CookieValue(value = "refreshTokenCookie", required = false) Cookie refresh, HttpServletResponse response, @ApiParam(value = "토큰 재발급 DTO", required = true) @RequestBody TokenRequestDto tokenRequestDto) {
             return responseService.getOneResult(signService.reissue(tokenRequestDto));
     }
 
     @DeleteMapping("/log-out")
-    public CommonResult logout () {
+    public CommonResult logout (@CookieValue(value = "refreshTokenCookie", required = false) Cookie refresh, HttpServletResponse response) {
+        System.out.println(refresh.getValue());
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User loginUser = (User) authentication.getPrincipal();
