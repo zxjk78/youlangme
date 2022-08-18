@@ -44,14 +44,14 @@ public class SignController {
             @ApiParam(value = "로그인 DTO", required = true) @RequestBody UserLoginRequestDto userLoginRequestDto) {
         TokenResponseDto tokenDto = signService.login(userLoginRequestDto);
         // 출석 로그
-        userService.logAttendance(userLoginRequestDto.getEmail());
+        //userService.logAttendance(userLoginRequestDto.getEmail());
+
         Cookie cookie = new Cookie("refreshTokenCookie", tokenDto.getRefreshToken());
         cookie.setMaxAge(14 * 24 * 60 * 60);
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
-
 
         return responseService.getOneResult(tokenDto);
     }
@@ -74,7 +74,7 @@ public class SignController {
     @DeleteMapping("/log-out")
     public CommonResult logout (@CookieValue(value = "refreshTokenCookie", required = false) Cookie refresh, HttpServletResponse response) {
         System.out.println(refresh.getValue());
-        Cookie cookie = new Cookie("refreshToken", null);
+        Cookie cookie = new Cookie("refreshTokenCookie", null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
         cookie.setSecure(true);
