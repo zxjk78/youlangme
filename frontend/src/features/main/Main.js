@@ -18,6 +18,8 @@ import LanguageRanking from './ranking/LanguageRanking';
 
 // css
 import classes from './Main.module.scss';
+import axios from 'axios';
+import { API_URL } from '../../common/api/http-config';
 
 const Main = (props) => {
   const location = useLocation();
@@ -25,6 +27,7 @@ const Main = (props) => {
   // 위 두 조건 충족 못하면 modify로
   // const { currentUser } = useSelector((state) => state.auth);
   const currentUser = localStorage.getItem('currentUser');
+  const [isLoading, setIsLoading] = useState(false)
 
   const chattingExit = location.state
     ? location.state.props.chattingExit
@@ -32,7 +35,7 @@ const Main = (props) => {
   const [isEvaluationModalVisible, setIsEvaluationModalVisble] =
     useState(chattingExit);
 
-  const [isLoading, setIsLoading] = useState(true);
+
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -44,32 +47,49 @@ const Main = (props) => {
         history.push('/');
       });
   };
-  useEffect(() => {
-    dispatch(getUser());
-  }, []);
+
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem("user"));
+    let accessToken = user ? user.accessToken : null;
+    axios.get(API_URL + 'user/login-user',  {
+      headers: { "X-Auth-Token": accessToken },
+    }).then((res) => {if(!res.data.data.name){
+      dispatch(getUser())
+      console.log(res.data.data.name)
+      history.push('/modify')
+    }else{
+      dispatch(getUser())
+      setIsLoading(true)
+    }})
+  }, [])
+
+  // useEffect(() => {
+  //   dispatch(getUser())
+  
+  // }, []);
 
   const toggleEvaluationModal = (event) => {
     setIsEvaluationModalVisble(!isEvaluationModalVisible);
   };
 
   // if (currentUser.name === null) {
-  if (currentUser === null || currentUser.name === null) {
-    history.push('/modify');
-  } else {
-    // console.log(
-    //   currentUser,
-    //   currentUser.name,
-    //   localStorage.getItem('currentUser')
-    // );
-    // 무한렌더링 되어버림
-    // setIsLoading(false);
-  }
+  // if (currentUser === null || currentUser.name === null) {
+  //   history.push('/modify');
+  // } else {
+  //   // console.log(
+  //   //   currentUser,
+  //   //   currentUser.name,
+  //   //   localStorage.getItem('currentUser')
+  //   // );
+  //   // 무한렌더링 되어버림
+  //   // setIsLoading(false);
+  // }
   return (
     <>
       {isEvaluationModalVisible && (
         <EvaluationTemplate toggleModal={toggleEvaluationModal} />
       )}
-      {currentUser !== null && currentUser.name !== null && (
+      {setIsLoading && (
         <div>
           <div className={classes.main_container}>
             <div className={classes['feed-container']}>
@@ -81,7 +101,7 @@ const Main = (props) => {
             </div>
 
             <div className={classes['languageRanking-container']}>
-              {/* <LanguageRanking /> */}
+              <LanguageRanking />
             </div>
             <div className={classes['followRecommand-container']}>
               <RecommendUser />
