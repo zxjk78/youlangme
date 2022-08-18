@@ -101,11 +101,11 @@ export default class ToolbarComponent extends Component {
         <div className="buttonsContent">
           <LowerToolBarMenuItem
             activate={{
-              text: '비디오 켜기',
+              text: '비디오 시작',
               icon: <VideocamOff color="secondary" />,
             }}
             deactivate={{
-              text: '비디오 끄기',
+              text: '비디오 종료',
               icon: <Videocam />,
             }}
             activateStatus={true}
@@ -115,11 +115,11 @@ export default class ToolbarComponent extends Component {
           />
           <LowerToolBarMenuItem
             activate={{
-              text: '마이크 켜기',
+              text: '음소거 해제',
               icon: <MicOff color="secondary" />,
             }}
             deactivate={{
-              text: '마이크 끄기',
+              text: '음소거',
               icon: <Mic />,
             }}
             activateStatus={true}

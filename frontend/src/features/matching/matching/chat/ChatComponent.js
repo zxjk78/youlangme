@@ -95,33 +95,40 @@ export default class ChatComponent extends Component {
           const userImg = document.getElementById(
             'userImg-' + (this.state.messageList.length - 1)
           );
+          const chatUserId = userImg.dataset.send;
           // 71, 74번째 줄 유저 프사 담는 부분 : 매칭상황이 바뀌었기 때문에 확인해서 props로 유저값 넘겨주는거 어떻게되는지 알아보아야 함.
           console.log(
-            '유저아이디:',
+            'myUserId:',
             this.props.myUserId,
-            '상대아이디:',
+            'yourUserId:',
             this.props.yourUserId,
-            '유저 커낵션아이디',
+            'this.props.user.getConnectionId():',
             this.props.user.getConnectionId(),
-            '채팅 이벤트 시그널 발신 커넥션아이디',
-            event.from.connectionId
+            ' event.from.connectionId:',
+            event.from.connectionId,
+            'chatUserId:',
+            chatUserId
           );
           // const video = document.getElementById('video-' + data.streamId);
           const avatar = userImg.getContext('2d');
           const profileImage = new Image();
           // 에러 발생 시
           profileImage.onerror = () => {
-            if (data.connectionId === this.props.user.getConnectionId()) {
+            if (chatUserId === this.props.user.getConnectionId()) {
+              console.log('내 이미지 없음');
+
               profileImage.src = myProfileDefaultImg;
             } else {
+              console.log('상대 이미지 없음');
               profileImage.src = yourProfileDefaultImg;
             }
           };
           profileImage.onload = () => {
+            console.log('이미지 canvas에 담기', profileImage.src);
             avatar.drawImage(profileImage, 0, 0, 60, 60);
           };
           profileImage.src = `${API_URL}image/profile/${
-            data.connectionId !== this.props.user.getConnectionId()
+            chatUserId !== this.props.user.getConnectionId()
               ? this.props.yourUserId
               : this.props.myUserId
           }.jpg`;
@@ -344,6 +351,7 @@ export default class ChatComponent extends Component {
                     width="60"
                     height="60"
                     className="user-img"
+                    data-send={data.connectionId}
                   />
                   <div
                     className="msg-detail"

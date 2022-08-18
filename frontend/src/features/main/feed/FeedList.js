@@ -105,7 +105,7 @@ const FeedLIst = (props) => {
             ) : (
               <>
                 <div className={classes.feedArea1}>
-                  {rightFolloweeFeedList.map((item) => {
+                  {leftFolloweeFeedList.map((item) => {
                     let tmp;
                     if (item.logType === 'WRITE_POST') {
                       tmp = (
@@ -126,7 +126,7 @@ const FeedLIst = (props) => {
                   })}
                 </div>
                 <div className={classes.feedArea2}>
-                  {leftFolloweeFeedList.map((item) => {
+                  {rightFolloweeFeedList.map((item) => {
                     let tmp;
                     if (item.logType === 'WRITE_POST') {
                       tmp = (
