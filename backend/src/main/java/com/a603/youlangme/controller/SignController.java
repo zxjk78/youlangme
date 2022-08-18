@@ -44,7 +44,7 @@ public class SignController {
             @ApiParam(value = "로그인 DTO", required = true) @RequestBody UserLoginRequestDto userLoginRequestDto) {
         TokenResponseDto tokenDto = signService.login(userLoginRequestDto);
         // 출석 로그
-        //userService.logAttendance(userLoginRequestDto.getEmail());
+        userService.logAttendance(userLoginRequestDto.getEmail());
 
         Cookie cookie = new Cookie("refreshTokenCookie", tokenDto.getRefreshToken());
         cookie.setMaxAge(14 * 24 * 60 * 60);
