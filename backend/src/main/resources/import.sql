@@ -291,51 +291,51 @@ INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_
     INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2001,'2021-08-29 14:24:31.503768','영어 어려워 ㅠ',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5001,2001,1,7603,0)
 
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2002,'2021-09-03 14:24:31.503768','영어 너무 어려워요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2002,'2022-01-03 14:24:31.503768','영어 너무 어려워요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5002,2002,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2003,'2021-09-03 14:24:31.503768','영어 너무 어려워요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2003,'2022-01-21 14:24:31.503768','영어 너무 어려워요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5003,2003,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2004,'2021-09-05 12:24:31.503768','영어 너무 어려워요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2004,'2022-01-20 12:24:31.503768','영어 너무 어려워요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5004,2004,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2005,'2021-09-05 14:24:31.503768','영어 너무 어려워요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2005,'2022-01-22 14:24:31.503768','영어 너무 어려워요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5005,2005,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2006,'2021-09-07 14:24:31.503768','영어 너무 어려워요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2006,'2022-01-23 14:24:31.503768','영어 너무 어려워요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5006,2006,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2007,'2021-09-08 14:24:31.503768','영어 너무 어려워요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2007,'2022-01-23 14:24:31.503768','영어 너무 어려워요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5007,2007,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2008,'2021-09-13 14:24:31.503768','영어 너무 어려워요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2008,'2022-01-24 14:24:31.503768','영어 너무 어려워요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5008,2008,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2009,'2021-09-15 14:24:31.503768','영어 너무 어려워요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2009,'2022-01-24 14:24:31.503768','영어 너무 어려워요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5009,2009,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2010,'2021-09-26 14:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2010,'2022-01-29 14:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5010,2010,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2011,'2021-10-21 12:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2011,'2022-01-29 12:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5011,2011,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2012,'2021-10-21 14:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2012,'2022-01-29 14:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5012,2012,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2013,'2021-10-21 15:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2013,'2022-01-30 15:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5013,2013,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2014,'2021-11-11 14:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2014,'2022-02-03 14:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5014,2014,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2015,'2021-11-12 14:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2015,'2022-02-03 14:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5015,2015,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2016,'2021-11-13 14:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2016,'2022-02-05 14:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5016,2016,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2017,'2021-11-27 14:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2017,'2022-02-05 14:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5017,2017,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2018,'2021-12-18 14:24:31.503768','영어 공부 재밌어요',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2018,'2022-02-07 14:24:31.503768','영어 공부 재밌어요',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5018,2018,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2019,'2022-01-21 14:24:31.503768','오늘 만난 영국 아저씨는 매우 친절했어요 Thank you sir :)',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2019,'2022-02-09 14:24:31.503768','오늘 만난 영국 아저씨는 매우 친절했어요 Thank you sir :)',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5019,2019,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2020,'2022-01-22 14:24:31.503768','Somebody help me!!',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2020,'2022-02-10 14:24:31.503768','Somebody help me!!',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5020,2020,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2021,'2022-01-23 14:24:31.503768','Slow and steady win the race.  천천히 그리고 꾸준히 가는 자가 경주에서 승리한다.',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2021,'2022-02-11 14:24:31.503768','Slow and steady win the race.  천천히 그리고 꾸준히 가는 자가 경주에서 승리한다.',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5021,2021,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2022,'2022-01-25 12:24:31.503768','Heaven helps those who help themselves. 하늘은 스스로 돕는 자를 돕는다.',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2022,'2022-02-21 12:24:31.503768','Heaven helps those who help themselves. 하늘은 스스로 돕는 자를 돕는다.',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5022,2022,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2023,'2022-01-25 13:24:31.503768','오늘 만난 영국 아저씨는 매우 친절했어요 Thank you sir :)',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2023,'2022-02-25 13:24:31.503768','오늘 만난 영국 아저씨는 매우 친절했어요 Thank you sir :)',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5023,2023,1,7603,0)
-    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2024,'2022-02-12 14:24:31.503768','Somebody help me!!',7603);
+    INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2024,'2022-02-27 14:24:31.503768','Somebody help me!!',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5024,2024,1,7603,0)
     INSERT INTO board(`id`,`created_time`,`contents`,`author_id`) VALUES(2025,'2022-03-03 14:24:31.503768',' A little learning is a dangerous thing.',7603);
     INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_base`) VALUES (5025,2025,1,7603,0)
