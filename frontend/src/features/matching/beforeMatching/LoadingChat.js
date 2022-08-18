@@ -1,62 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 // css
-import classes from './StartMatch.module.scss'
-
-//mui
-import { Box } from '@mui/material';
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
-import { styled } from '@mui/material/styles';
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 20,
-  borderRadius: 10,
-  // [`&.${linearProgressClasses.colorPrimary}`]: {
-  //   backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 100 : 800],
-  // },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: '#B865C6' 
-    // theme.palette.mode === 'light' ? '#B865C6' : '#B865C6',
-  },
-}));
+import classes from './LoadingChat.module.scss'
 
 
 const LoadingChat = () => {
-  // const [progress, setProgress] = useState(0);
 
-  useEffect(()=> {
-    // const timer = setInterval(() => {
-    //   setProgress((oldProgress) => {
-    //     if (oldProgress === 100) {
-    //       return 0;
-    //     }
-    //     const diff = Math.random() * 10;
-    //     return Math.min(oldProgress + diff, 100);
-    //   });
-    // },500);
-
-    // return () => {
-    //   clearInterval(timer);
-    // };
-  }, []);
-
+  
   return (
-    <div className={`${classes.match_wrapper} ${classes.intro_bg}`}>
+    <>
+    <div className={classes.match_wrapper}>
+      <div className={classes.container}>
+        <div className={`${classes.dot} ${classes.dot_1}`}></div>
+        <div className={`${classes.dot} ${classes.dot_2}`}></div>
+        <div className={`${classes.dot} ${classes.dot_3}`}></div>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+          <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"/>
+          </filter>
+        </defs>
+      </svg>
+
       <div className={classes.loading_box}>
         <div className={classes.loading_ment}>최적의 상대를</div>
         <div className={classes.loading_ment}>찾고 있어요...!</div>
-        <div className={classes.ring}>
-          Loading
-          <span className={classes.ring_side}></span>
-        </div>
-      </div>
-      {/* <Box sx={{ width: '70%', height:'50px', mb: 5}}>
-        <BorderLinearProgress color="secondary" 
-          // value={progress} 
-        />
-      </Box> */}
+      </div>  
     </div>
+    </>   
+    
+      // <div className={classes.loading_container}>
+      //   <div className={classes.circle}></div>
+      //   <div className={classes.square}></div>
+      //   <div className={classes.triangle}></div>
+      //   <div className={classes.logo}></div>
+      //   <div className={classes.shadow}></div>
+      // </div> 
 
   );
 };
