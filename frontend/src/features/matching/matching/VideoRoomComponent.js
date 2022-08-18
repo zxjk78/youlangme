@@ -856,6 +856,11 @@ class VideoRoomComponent extends Component {
             toggleChat={this.toggleChat}
             toggleHelpModal={this.toggleHelpModal}
             onbeforeunload={this.onbeforeunload}
+            // youlangme custom
+            myNationality={this.state.myNationality}
+            yourNationality={this.state.yourNationality}
+            // myNationality={`CHINA`}
+            // yourNationality={`JAPAN`}
           />
           <DialogExtensionComponent
             showDialog={this.state.showExtensionDialog}

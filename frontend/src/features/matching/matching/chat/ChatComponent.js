@@ -97,34 +97,34 @@ export default class ChatComponent extends Component {
           );
           const chatUserId = userImg.dataset.send;
           // 71, 74번째 줄 유저 프사 담는 부분 : 매칭상황이 바뀌었기 때문에 확인해서 props로 유저값 넘겨주는거 어떻게되는지 알아보아야 함.
-          console.log(
-            'myUserId:',
-            this.props.myUserId,
-            'yourUserId:',
-            this.props.yourUserId,
-            'this.props.user.getConnectionId():',
-            this.props.user.getConnectionId(),
-            ' event.from.connectionId:',
-            event.from.connectionId,
-            'chatUserId:',
-            chatUserId
-          );
+          // console.log(
+          //   'myUserId:',
+          //   this.props.myUserId,
+          //   'yourUserId:',
+          //   this.props.yourUserId,
+          //   'this.props.user.getConnectionId():',
+          //   this.props.user.getConnectionId(),
+          //   ' event.from.connectionId:',
+          //   event.from.connectionId,
+          //   'chatUserId:',
+          //   chatUserId
+          // );
           // const video = document.getElementById('video-' + data.streamId);
           const avatar = userImg.getContext('2d');
           const profileImage = new Image();
           // 에러 발생 시
           profileImage.onerror = () => {
             if (chatUserId === this.props.user.getConnectionId()) {
-              console.log('내 이미지 없음');
+              // console.log('내 이미지 없음');
 
               profileImage.src = myProfileDefaultImg;
             } else {
-              console.log('상대 이미지 없음');
+              // console.log('상대 이미지 없음');
               profileImage.src = yourProfileDefaultImg;
             }
           };
           profileImage.onload = () => {
-            console.log('이미지 canvas에 담기', profileImage.src);
+            // console.log('이미지 canvas에 담기', profileImage.src);
             avatar.drawImage(profileImage, 0, 0, 60, 60);
           };
           profileImage.src = `${API_URL}image/profile/${
@@ -227,12 +227,12 @@ export default class ChatComponent extends Component {
     });
   }
   async translateHandler(idx) {
-    console.log(idx + '번 말풍선 번역작업');
-    console.log(
-      '채팅창에 넘어온 언어: 내 언어, 상대 언어',
-      this.state.myLanguage,
-      this.state.yourLanguage
-    );
+    // console.log(idx + '번 말풍선 번역작업');
+    // console.log(
+    //   '채팅창에 넘어온 언어: 내 언어, 상대 언어',
+    //   this.state.myLanguage,
+    //   this.state.yourLanguage
+    // );
 
     const originalMsg = this.state.messageList[idx].message;
     // console.log('ref랑 연결된 msgBox들', this.msgBoxContentRef.current);
