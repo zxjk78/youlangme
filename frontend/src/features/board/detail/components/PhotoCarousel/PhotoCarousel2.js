@@ -59,7 +59,7 @@ const PhotoCarousel2 = (props) => {
             width: '100%',
             maxHeight: '300px',
             position: 'absolute',
-            top: '15%',
+            top: '20%',
           }}
           src={`${API_URL}image/board/${pictures[imageIndex]}`}
           custom={direction}
@@ -85,12 +85,17 @@ const PhotoCarousel2 = (props) => {
           }}
         />
       </AnimatePresence>
-      <div className={classes['next']} onClick={() => paginate(1)}>
-        {'‣'}
-      </div>
-      <div className={classes['prev']} onClick={() => paginate(-1)}>
-        {'‣'}
-      </div>
+      {/* 화살표 삭제 넣을 수 있으면 넣기 */}
+      {imageIndex !== 0 && (
+        <div className={classes['prev']} onClick={() => paginate(-1)}>
+          {'‣'}
+        </div>
+      )}
+      {imageIndex !== pictures.length - 1 && (
+        <div className={classes['next']} onClick={() => paginate(1)}>
+          {'‣'}
+        </div>
+      )}
     </>
   );
 };

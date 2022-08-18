@@ -10,12 +10,12 @@ import styled from '@emotion/styled';
 import classes from './PhotoModal.module.scss';
 const CustomBox = styled(Box)`
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
   height: 400px;
-  background-color: #fff;
+  background-color: #000;
   border-radius: 15px;
   box-shadow: 24px;
 `;

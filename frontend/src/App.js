@@ -1,4 +1,5 @@
 import './App.css';
+import './assets/global.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { Switch, BrowserRouter, useHistory, Redirect } from 'react-router-dom';
 import Login from './features/auth/login/Login';
@@ -40,7 +41,6 @@ function App() {
   const { currentUser } = useSelector((state) => state.auth);
   const name = Object.keys(currentUser).length != 0 ? currentUser.name : null;
 
- 
   const reissueToken = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const accessToken = user ? user.accessToken : null;
@@ -52,7 +52,8 @@ function App() {
           accessToken: accessToken,
           refreshToken: refreshToken,
         },
-        { withCredentials: true,
+        {
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -64,9 +65,9 @@ function App() {
         console.log(response.data.data);
       })
       .catch((err) => {
-        dispatch(resetLogin())
-        localStorage.clear()
-        history.push('/')
+        dispatch(resetLogin());
+        localStorage.clear();
+        history.push('/');
       });
   };
 
@@ -116,7 +117,8 @@ function App() {
               accessToken: accessToken,
               refreshToken: refreshToken,
             },
-            { withCredentials: true,
+            {
+              withCredentials: true,
               headers: {
                 'Content-Type': 'application/json',
               },
@@ -128,8 +130,8 @@ function App() {
             console.log(response.data.data);
           })
           .catch((err) => {
-            dispatch(resetLogin())
-            history.push('/')
+            dispatch(resetLogin());
+            history.push('/');
           });
       }
     }, 1800000);

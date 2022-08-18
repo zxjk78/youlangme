@@ -225,7 +225,10 @@ const BoardDetailModal = (props) => {
                   <div className={classes.contentContainer}>
                     <p>{boardDetail.contents}</p>
                   </div>
-                  <div className={classes.photoContainer}>
+                  <div
+                    className={classes.photoContainer}
+                    onClick={openPhotoModalHandler}
+                  >
                     {boardDetail.imgList.length > 3 ? (
                       <>
                         {boardDetail.imgList.slice(0, 2).map((image) => (
@@ -236,10 +239,7 @@ const BoardDetailModal = (props) => {
                           />
                         ))}
 
-                        <div
-                          className={classes.plus}
-                          onClick={openPhotoModalHandler}
-                        >
+                        <div className={classes.plus}>
                           <div>
                             <PhotoIcon
                               sx={{ width: '50px', height: '50px', mt: 1 }}
