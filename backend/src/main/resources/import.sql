@@ -48,7 +48,7 @@ INSERT INTO level (`id`, `name`, `min_exp`, `max_exp`) VALUES (16,'Master',1500,
 -- 기본 정보
 INSERT INTO user VALUES(7603,'2021-08-20 09:30:22.232051','2021-08-21 16:30:22.232051','1999-07-02','hello!','youlangme@gmail.com','MALE',null,'KOREAN','김시연','KOREA','{bcrypt}$2a$10$nS6Pwn1EjWlnRLfi4N0.0.eZ6an/uFD218q1KPp0uix3MfPRGsDEK','ENGLISH');
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (7603,'ROLE_USER');
-INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (7603,0,1,7603);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (7603,1669,16,7603);
 -- 관심사
 INSERT INTO user_favorite VALUES(2001,'2021-08-20 09:30:22.232051','2021-08-20 09:30:22.232051',4,7603);
 INSERT INTO user_favorite VALUES(2002,'2021-08-20 09:30:22.232051','2021-08-20 09:30:22.232051',5,7603);
@@ -369,7 +369,7 @@ INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_
 -- 기본 정보
 INSERT INTO user VALUES(9322,'2022-04-20 09:30:22.232051','2022-04-20 16:30:22.232051','1992-02-02','hello!','consultant123@test.com','MALE',null,'ENGLISH','컨설턴트님','USA','{bcrypt}$2a$10$heQsbD189gKgMWS/cjI1aOspSkngIkXFDJppLo0mvA8JkOd/gTDY6','KOREAN');
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (9322,'ROLE_USER');
-INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (9322,0,1,9322);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (9322,666,11,9322);
 -- 관심사
 INSERT INTO user_favorite VALUES(2004,'2022-08-20 09:30:22.232051','2022-08-20 09:30:22.232051',4,9322);
 INSERT INTO user_favorite VALUES(2005,'2022-08-20 09:30:22.232051','2022-08-20 09:30:22.232051',5,9322);
@@ -479,7 +479,7 @@ INSERT INTO exp_acquisition_log(`id`,`target_id`,`activity_id`,`user_id`,`multi_
 -- 기본 정보
 INSERT INTO user VALUES(9777,'2022-04-20 09:30:22.232051','2022-04-20 16:30:22.232051','1997-08-12','hello!','coach123@test.com','FEMALE',null,'ENGLISH','코치님','USA','{bcrypt}$2a$10$heQsbD189gKgMWS/cjI1aOspSkngIkXFDJppLo0mvA8JkOd/gTDY6','KOREAN');
 INSERT INTO user_roles(`user_id`,`roles`) VALUES (9777,'ROLE_USER');
-INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (9777,0,1,9777);
+INSERT INTO user_exp(`id`,`exp`,`level_id`,`user_id`) VALUES (9777,378,8,9777);
 -- 관심사
 INSERT INTO user_favorite VALUES(2007,'2022-08-20 09:30:22.232051','2022-08-20 09:30:22.232051',4,9777);
 INSERT INTO user_favorite VALUES(2008,'2022-08-20 09:30:22.232051','2022-08-20 09:30:22.232051',5,9777);
