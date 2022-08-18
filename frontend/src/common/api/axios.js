@@ -76,17 +76,20 @@ axios.interceptors.response.use(
             config,
             response : {data}
           } = error;
+        console.log(config, data)
         const code = data.code
         const originalRequest = config;
         if (code === 1013) {
         // if (error.response.data.message === "") {
           if (!isTokenRefreshing){
             isTokenRefreshing = true
+            console.log("reissue 전")
             const user = JSON.parse(localStorage.getItem('user'));
             let accessToken = user ? user.accessToken : null;
-            let refreshToken = user ? user.refreshToken : null;
-            axios.post(API_URL+"reissue", {accessToken: accessToken, refreshToken: refreshToken}, {withCredentials: true})
+            // let refreshToken = user ? user.refreshToken : null
+            axios.post(API_URL+"reissue", {"accessToken": accessToken}, {withCredentials: true})
               .then(response => {
+                console.log("reissue 정상")
                 localStorage.setItem('user', JSON.stringify(response.data.data))
                 newAccessToken = response.data.data.accessToken
                 isTokenRefreshing = false;
@@ -94,10 +97,11 @@ axios.interceptors.response.use(
                 // return axios(originalRequest)
                 onTokenRefreshed(newAccessToken);
               })
-              // .catch((err) =>{
-              //   localStorage.clear()
-              //   window.location.href = '/'
-              // })
+              .catch((err) =>{
+                console.log("reissue 마무리")
+                localStorage.clear()
+                window.location.href = '/main'
+              })
           }
           const retryOriginalRequest = new Promise((resolve) => {
               addRefreshSubscriber((accessToken) => {
@@ -107,7 +111,7 @@ axios.interceptors.response.use(
           });
           return retryOriginalRequest;
         // }
-      }
+      } 
       return Promise.reject(error);
     }
   );
