@@ -174,7 +174,7 @@ public class UserService {
         // 댓글 개수
         Integer replyCnt = expLogRepository.countByUserAndActivity(user, expActivityRepository.getReferenceById(2L));
         // 총 출석 일수
-        Integer attendanceCnt = attendanceLogRepository.countByUser(user);
+        Integer attendanceCnt = expLogRepository.countByUserAndActivity(user, expActivityRepository.getReferenceById(4L));
 
         UserLevelDetailsResponseDto res = UserLevelDetailsResponseDto.builder().
                 meetingTime(meetingTime).
