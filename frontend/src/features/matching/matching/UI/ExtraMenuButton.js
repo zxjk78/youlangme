@@ -56,7 +56,8 @@ export default function ExtraMenuButton(props) {
   const myNationality = props.myNationality;
   const yourNationality = props.yourNationality;
   console.log(myNationality, yourNationality);
-  const isNewsActive = defineNewsActive(myNationality, yourNationality);
+  // const isNewsActive = defineNewsActive(myNationality, yourNationality);
+  const isNewsActive = true
   console.log('뉴스 활성화 가능?', isNewsActive);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
