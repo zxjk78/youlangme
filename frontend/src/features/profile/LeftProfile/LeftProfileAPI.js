@@ -5,6 +5,7 @@ import { API_URL, user, accessToken, getConfig } from '../../../common/api/http-
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { profileActions } from '../profileSlice';
+import axios1 from '../../../common/api/axios';
 
 
 // const config = {
