@@ -46,6 +46,7 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "react-spring": "^9.5.2",
     "react-trianglify": "^3.0.3",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",

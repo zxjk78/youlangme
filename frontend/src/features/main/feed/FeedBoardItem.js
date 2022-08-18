@@ -67,6 +67,7 @@ const FeedLIstItem = (props) => {
           closeModalHandler={closeModal}
           likeChangeHandler={likeChange}
           replyChangeHandler={replyChange}
+          boardUserNationality={boardUserNationality}
         />
       )}
       <div className={classes.wrapper} onClick={showBoardDetailModal}>
