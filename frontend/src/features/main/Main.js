@@ -81,7 +81,7 @@ const Main = (props) => {
             </div>
 
             <div className={classes['languageRanking-container']}>
-              {/* <LanguageRanking /> */}
+              <LanguageRanking />
             </div>
             <div className={classes['followRecommand-container']}>
               <RecommendUser />
