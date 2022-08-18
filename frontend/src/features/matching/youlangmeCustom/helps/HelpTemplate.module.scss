@@ -8,6 +8,7 @@
   height: 100%;
   max-height: 80vh;
   border-radius: 20px;
+  font-family: Arial, Helvetica, sans-serif !important;
 }
 .container {
 }
@@ -27,6 +28,9 @@
   & > div {
     margin: 0px 20px;
   }
+}
+.main {
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .footer {

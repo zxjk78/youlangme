@@ -673,6 +673,8 @@ class VideoRoomComponent extends Component {
             toggleChat={this.toggleChat}
             toggleHelpModal={this.toggleHelpModal}
             onbeforeunload={this.onbeforeunload}
+            myNationality={`JAPAN`}
+            yourNationality={`KOREA`}
           />
           <DialogExtensionComponent
             showDialog={this.state.showExtensionDialog}
@@ -684,6 +686,8 @@ class VideoRoomComponent extends Component {
           <HelpTemplate
             toggleModal={this.toggleHelpModal}
             shareNews={this.shareNewsHandler}
+            myNationality={this.state.myNationality}
+            yourNationality={this.state.yourNationality}
           />
         )}
       </div>

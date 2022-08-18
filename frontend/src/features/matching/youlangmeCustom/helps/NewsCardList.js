@@ -25,8 +25,7 @@ const NewsCardList = (props) => {
   const [page, setPage] = useState(0);
   const myNationality = props.myNationality;
   const yourNationality = props.yourNationality;
-  // const myNationality = 'USA';
-  // const yourNationality = 'JAPAN';
+
   useEffect(() => {
     (async () => {
       // 내 국가 언어, 상대 국가 뉴스 받는 api

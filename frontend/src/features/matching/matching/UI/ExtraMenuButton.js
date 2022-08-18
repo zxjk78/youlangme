@@ -9,6 +9,9 @@ import Box from '@mui/material/Box';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
+
+import { defineNewsActive } from '../../../../common/utils/functions/commonFunctions';
+
 const MenuCustom = styled(Menu)`
   & ul {
     display: flex;
@@ -50,6 +53,11 @@ const BoxCustom = styled(Box)`
 `;
 
 export default function ExtraMenuButton(props) {
+  const myNationality = props.myNationality;
+  const yourNationality = props.yourNationality;
+  console.log(myNationality, yourNationality);
+  const isNewsActive = defineNewsActive(myNationality, yourNationality);
+  console.log('뉴스 활성화 가능?', isNewsActive);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -98,12 +106,14 @@ export default function ExtraMenuButton(props) {
           horizontal: 'left',
         }}
       >
-        <MenuItemCustom onClick={newsHandler}>
-          <span>
-            <NewspaperIcon />
-          </span>
-          <span>News</span>
-        </MenuItemCustom>
+        {isNewsActive && (
+          <MenuItemCustom onClick={newsHandler}>
+            <span>
+              <NewspaperIcon />
+            </span>
+            <span>News</span>
+          </MenuItemCustom>
+        )}
         <MenuItemCustom onClick={exitHandler}>
           <span>
             <LogoutIcon />
