@@ -1,6 +1,6 @@
-export const API_URL = 'http://localhost:8080/';
+// export const API_URL = 'http://localhost:8080/';
 
-// export const API_URL = 'https://i7a603.p.ssafy.io/api/';
+export const API_URL = 'https://i7a603.p.ssafy.io/api/';
 
 export const user = JSON.parse(localStorage.getItem('user'));
 

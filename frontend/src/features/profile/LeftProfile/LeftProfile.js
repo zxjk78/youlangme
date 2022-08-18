@@ -193,18 +193,21 @@ const LeftProfile = (props) => {
           <div className={classes.profile_content}>
             {profileInfo && (
               <CardContent>
-                <Typography
+                <div className={classes.name}>
+                  {profileInfo.name}
+                  { isCurrentUser && <IconButton onClick={modifyModalHandler} sx={{ width: '35px', height: '35px'}}>
+                  <Build
+                      sx={{ fontSize: 20, color: grey[500] }}
+                    /></IconButton>}
+                </div>
+                {/* <Typography
                   className={classes.name}
                   sx={{ fontWeight: 'bold', letterSpacing: 3, fontSize: 30 }}
                   gutterBottom
                   component="div"
                 >
                   {profileInfo.name}
-                  { isCurrentUser && <IconButton onClick={modifyModalHandler} sx={{ width: '35px', height: '35px'}}>
-                  <Build
-                      sx={{ fontSize: 20, color: grey[500] }}
-                    /></IconButton>}
-                </Typography>
+                </Typography> */}
                 <Follow profileUserId={userId} />
 
                 <Card className={classes.description_card}>
