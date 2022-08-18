@@ -16,7 +16,6 @@ export const getRefreshToken = () => {
   return user ? user.refreshToken : null;
 };
 
-
 export const getConfig = { headers: { 'X-Auth-Token': accessToken } };
 
 export const postConfig = {

@@ -66,7 +66,7 @@ const RecommendUser = (props) => {
                     className={classes.more_follow}
                     size="small"
                     color="inherit"
-                    sx={{ width: '20px', height: '30px', color: '#fff' }}
+                    sx={{ width: '70px', height: '30px', color: '#fff' }}
                   >
                     + 더보기
                   </Button>
@@ -77,7 +77,7 @@ const RecommendUser = (props) => {
                   <div className={classes.noReco}>
                     <div>
                       <CelebrationIcon />
-                      <span>당신은 이미 모두의 친구입니다.</span>
+                      <span>회원님은 이미 모두의 친구입니다.</span>
                     </div>
                   </div>
                 ) : (

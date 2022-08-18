@@ -31,11 +31,10 @@
 }
 // 한번에 2개씩 4개 들어가는 뉴스 카드 그리드 레이아웃
 .main {
-  height: 680px;
-  // padding: 8px;
+  height: 650px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: 1fr 1fr;
 }
 .loading {
   margin-top: 45%;
