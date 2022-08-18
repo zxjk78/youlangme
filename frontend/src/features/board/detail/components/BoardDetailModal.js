@@ -22,7 +22,6 @@ import ReplyListItem from './ReplyListItem';
 import LikeContainer from './LikeContainer';
 import UserInfo from '../../../profile/LeftProfile/UserInfo/UserInfo';
 import LikeUserModal from './likeModal/LikeUserModal';
-import PhotoCarousel from './PhotoCarousel/PhotoCarousel';
 import BoardImageSrc from '../../../../common/UI/BoardImageSrc';
 import PhotoModal from './PhotoModal/PhotoModal';
 // mui
