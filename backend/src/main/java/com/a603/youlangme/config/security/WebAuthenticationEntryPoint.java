@@ -15,9 +15,16 @@ public class WebAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         Integer exception = (Integer)request.getAttribute("exception");
-        if (exception == ErrorCode.AccessTokenExpiredException.getCode())
-            response.sendRedirect("/exception/accessTokenExpired");
-        else
-            response.sendRedirect("/exception/entryPoint");
+        if (exception == ErrorCode.AccessTokenExpiredException.getCode()) {
+            response.sendRedirect("/api/exception/accessTokenExpired");
+            // local
+            // response.sendRedirect("/exception/accessTokenExpired");
+
+        }
+        else {
+            response.sendRedirect("/api/exception/entryPoint");
+            // local
+            // response.sendRedirect("/exception/entryPoint");
+        }
     }
 }

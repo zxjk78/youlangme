@@ -59,7 +59,7 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Jwt로 인증하므로 세션이 필요하지 않음
                 .and()
                 .authorizeRequests() // exception Handling을 위해 permit
-                .antMatchers("/login/**", "/signup/**", "/reissue", "/oauth2/**", "/exception/**", "/home", "/user/image/**", "/image/**","/findPwd/**","/redis/**", "/log-out/**").permitAll() // 로그인, 회원가입은 누구나 허용
+                .antMatchers("/login/**", "/signup/**", "/reissue", "/oauth2/**", "/exception/**", "/home", "/user/image/**", "/image/**","/findPwd/**","/redis/**").permitAll() // 로그인, 회원가입은 누구나 허용
                 .anyRequest().hasRole("USER")
 
                 .and()

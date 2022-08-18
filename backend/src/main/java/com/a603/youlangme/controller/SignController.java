@@ -1,7 +1,11 @@
 package com.a603.youlangme.controller;
 
 
+import com.a603.youlangme.advice.exception.RefreshTokenExpiredException;
+import com.a603.youlangme.advice.exception.RefreshTokenNotFoundException;
 import com.a603.youlangme.advice.exception.UserNotFoundException;
+import com.a603.youlangme.dto.token.AccessTokenRequestDto;
+import com.a603.youlangme.dto.token.AccessTokenResponseDto;
 import com.a603.youlangme.dto.token.TokenRequestDto;
 import com.a603.youlangme.dto.token.TokenResponseDto;
 import com.a603.youlangme.dto.user.UserLoginRequestDto;
@@ -19,11 +23,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -40,20 +46,20 @@ public class SignController {
 
     @ApiOperation(value = "로그인", notes = "이메일로 로그인 수행")
     @PostMapping("/login")
-    public OneResult<TokenResponseDto> login (HttpServletResponse response,
+    public OneResult<AccessTokenResponseDto> login (HttpServletResponse response,
             @ApiParam(value = "로그인 DTO", required = true) @RequestBody UserLoginRequestDto userLoginRequestDto) {
         TokenResponseDto tokenDto = signService.login(userLoginRequestDto);
         // 출석 로그
         userService.logAttendance(userLoginRequestDto.getEmail());
 
-        Cookie cookie = new Cookie("refreshTokenCookie", tokenDto.getRefreshToken());
+        Cookie cookie = new Cookie("refreshToken", tokenDto.getRefreshToken());
         cookie.setMaxAge(14 * 24 * 60 * 60);
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
-        return responseService.getOneResult(tokenDto);
+        return responseService.getOneResult(new AccessTokenResponseDto(tokenDto.getAccessToken(), tokenDto.getAccessTokenExpireDate()));
     }
 
     @ApiOperation(value = "회원가입", notes = "회원가입 수행")
@@ -67,14 +73,26 @@ public class SignController {
     @ApiOperation(value = "Access Token, Refresh Token 재발급",
             notes = "Access Token 만료시 회원 검증 후 Refresh Token을 검증해서 두 Token을 재발급")
     @PostMapping("/reissue")
-    public OneResult<TokenResponseDto> reissue(@CookieValue(value = "refreshTokenCookie", required = false) Cookie refresh, HttpServletResponse response, @ApiParam(value = "토큰 재발급 DTO", required = true) @RequestBody TokenRequestDto tokenRequestDto) {
-            return responseService.getOneResult(signService.reissue(tokenRequestDto));
+    public OneResult<AccessTokenResponseDto> reissue(@ApiIgnore  @CookieValue(value = "refreshToken", required = false) Cookie refresh, HttpServletRequest request, HttpServletResponse response, @ApiParam(value = "토큰 재발급 DTO", required = true) @RequestBody AccessTokenRequestDto accessTokenRequestDto) {
+        if (refresh == null)
+            throw new RefreshTokenExpiredException();
+        TokenRequestDto tokenRequestDto = new TokenRequestDto(accessTokenRequestDto.getAccessToken(), refresh.getValue());
+        TokenResponseDto tokenDto = signService.reissue(tokenRequestDto, response);
+
+        Cookie cookie = new Cookie("refreshToken", tokenDto.getRefreshToken());
+        cookie.setMaxAge(14 * 24 * 60 * 60);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+        return responseService.getOneResult(new AccessTokenResponseDto(tokenDto.getAccessToken(), tokenDto.getAccessTokenExpireDate()));
     }
 
     @DeleteMapping("/log-out")
-    public CommonResult logout (@CookieValue(value = "refreshTokenCookie", required = false) Cookie refresh, HttpServletResponse response) {
-        System.out.println(refresh.getValue());
-        Cookie cookie = new Cookie("refreshTokenCookie", null);
+    public CommonResult logout (@ApiIgnore @CookieValue(value = "refreshToken", required = false) Cookie refresh, HttpServletResponse response) {
+        //System.out.println(refresh.getValue());
+        Cookie cookie = new Cookie("refreshToken", null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
         cookie.setSecure(true);
