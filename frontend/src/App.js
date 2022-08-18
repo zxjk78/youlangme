@@ -52,7 +52,7 @@ function App() {
           accessToken: accessToken,
           refreshToken: refreshToken,
         },
-        {
+        { withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -116,7 +116,7 @@ function App() {
               accessToken: accessToken,
               refreshToken: refreshToken,
             },
-            {
+            { withCredentials: true,
               headers: {
                 'Content-Type': 'application/json',
               },

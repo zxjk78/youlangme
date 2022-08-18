@@ -35,6 +35,7 @@ export const logout = createAsyncThunk("LOGOUT", async (thunkAPI) => {
   let accessToken = user ? user.accessToken : null;
   try {
     const response = await axios.delete(API_URL + "log-out", {
+      withCredentials: true,
       headers: { "X-Auth-Token": accessToken },
     });
     window.localStorage.clear();
