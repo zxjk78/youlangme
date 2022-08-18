@@ -77,9 +77,7 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
         Date date = new Date(now.getTime() + accessTokenValidMillisecond);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + date);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + simpleDateFormat.format(date));
         return TokenResponseDto.builder()
                 .grantType("Bearer") // Bearer : JWT 혹은 OAuth에 대한 토큰을 사용한다는 의미
                 .accessToken(accessToken)
