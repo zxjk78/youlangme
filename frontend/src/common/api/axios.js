@@ -96,6 +96,7 @@ axios.interceptors.response.use(
               })
               .catch((err) =>{
                 localStorage.clear()
+                window.location.href = '/'
               })
           }
           const retryOriginalRequest = new Promise((resolve) => {
