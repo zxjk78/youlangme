@@ -21,16 +21,16 @@ const ReplyListItem = (props) => {
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const commentUserProfileInfo = await fetchProfile(commentUserInfo.pid);
+      const commentUserProfileInfo = await fetchProfile(commentUserInfo.userId);
       console.log(commentUserAllInfo);
-      const  commentUserProfileImg= await fetchProfileImg(commentUserInfo.pid);
+      const commentUserProfileImg= await fetchProfileImg(commentUserInfo.userId);
 
       setCommentUserAllInfo(commentUserProfileInfo);
       setCommentUserImg(commentUserProfileImg);
 
       setIsLoading(false);
     })();
-  }, [commentUserInfo.pid]);
+  }, [commentUserInfo.userId]);
 
   return (
     <>
@@ -40,13 +40,13 @@ const ReplyListItem = (props) => {
         <div className={classes.container}>
           <div className={classes.header_content}>
             <Link
-              to={`/profile/${commentUserInfo.pid}`}
+              to={`/profile/${commentUserInfo.userId}`}
               style={{ textDecoration: 'none', color: 'black' }}
             >
               <div className={classes.userContainer}>
                 {/* <UserInfo
                   user={{
-                    id: commentUserInfo.pid,
+                    id: commentUserInfo.userId,
                     name: commentUserInfo.userName,
                     nationality: commentUserNationality,
                   }}
