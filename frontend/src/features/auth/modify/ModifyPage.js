@@ -2,7 +2,7 @@ import ModifyUserInfo from './ModifyUserInfo';
 import styled from 'styled-components';
 
 //bg image
-import backImg from '../../../assets/background_temp.png';
+import backImg from '../../../assets/youlangme_bg.jpg';
 
 const Wrapper = styled.div`
   background-image: url(${backImg});
