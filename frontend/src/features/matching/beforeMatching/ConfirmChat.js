@@ -75,7 +75,7 @@ const ConfirmChat = (props) => {
     axios
       .post(
         API_URL + `meeting/enter/${props.sessionId}`,
-        { yourlanguage: myInfo.yourlanguage },
+        { 'yourLanguage': props.yourlanguage },
         {
           headers: {
             'Content-Type': 'application/json',
