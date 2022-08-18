@@ -3,6 +3,7 @@ package com.a603.youlangme.config.logging;
 
 
 import com.a603.youlangme.advice.exception.DataNotFoundException;
+import com.a603.youlangme.advice.exception.UserNotFoundException;
 import com.a603.youlangme.entity.Feed;
 import com.a603.youlangme.entity.Follow;
 import com.a603.youlangme.entity.log.ChatRoomLog;
@@ -99,9 +100,18 @@ public class LoggingAspect {
 
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
-        User loginUser = ((User) authentication.getPrincipal());
+
 
         String action = jp.getSignature().getName();
+
+        User loginUser = null;
+        try {
+            loginUser = ((User) authentication.getPrincipal());
+        } catch(Exception e) {
+            if(action.equalsIgnoreCase("logAttendance"))
+                loginUser =  userRepository.findById(targetId).orElseThrow(UserNotFoundException::new);
+            else throw new UserNotFoundException();
+        }
 
         // 원하는 Activity를 어떻게 넣어줘야 하나? 꼭 조회를 해야할까?
         // getOne을 이용? -> getReferenceById로 바뀜
