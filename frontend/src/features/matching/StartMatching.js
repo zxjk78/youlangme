@@ -34,9 +34,9 @@ const StartMatching = () => {
   } else if (!matchLoading && matchConfirm) {
     return (
       <ConfirmChat
-        myLanguage={myLanguage}
-        yourLanguage={yourLanguage}
-        sessionId={sessionId}
+      myLanguage={myLanguage}
+      yourLanguage={yourLanguage}
+      sessionId={sessionId}
         setMatching={setMatching}
         setMyData={setMyData}
         setYourData={setYourData}
@@ -48,7 +48,7 @@ const StartMatching = () => {
         setOpponentId={setOpponentId}
         opponentId={opponentId}
       ></ConfirmChat>
-    );
-  }
-};
+      );
+    }
+  };
 export default StartMatching;

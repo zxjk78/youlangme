@@ -29,7 +29,7 @@ function ProfileMenu({userId, onChangeTab}) {
 
 
   return (
-    <Box sx={{ width: '100%', mb:2, mx: 'auto'}}>
+    <Box sx={{ width: '100%', mb:2, mx: 'auto', height:'43px'}}>
       <Tabs
         value={value}
         centered

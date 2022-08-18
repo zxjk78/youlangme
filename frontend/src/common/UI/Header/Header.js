@@ -133,7 +133,7 @@ const Header = () => {
               </Link>
               <Link to="/start-intro">
                 <Tooltip title='match'>
-                  <img src={`/match_icon.png`} alt=""
+                  <img src={`/match_icon3.png`} alt=""
                     className={classes.match_icon}
                     />
                 </Tooltip>
@@ -164,7 +164,7 @@ const Header = () => {
               </Button>
             </Tooltip>
             <Menu
-              sx={{ mt: '35px',  }}
+              sx={{ mt: '55px',  }}
               id="profile-menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{

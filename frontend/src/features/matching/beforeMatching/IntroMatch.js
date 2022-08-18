@@ -21,7 +21,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
   fontWeight: 1000,
   lineHeight: 1.5,
   padding: "10px 20px",
-  width: 300,
+  width: 330,
 
   border: "1px solid #CAD6E2",
   borderRadius: 14,
@@ -44,7 +44,7 @@ const IntroMatch = () => {
       <div className={classes.match_intro}>시작하시겠습니까?</div>
       <ColorButton
         variant="contained"
-        sx={{ mt: 3 }}
+        sx={{ mt: 4 }}
         onClick={matchStartHandler}
       >
         시작!
