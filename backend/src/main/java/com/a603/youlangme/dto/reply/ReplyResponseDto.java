@@ -20,7 +20,7 @@ public class ReplyResponseDto {
 
     private LocalDateTime createDate;
 
-    private Long pid;
+    private Long userId;
 
     private String userName;
 }
