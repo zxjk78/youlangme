@@ -27,7 +27,6 @@ const Main = (props) => {
   // 위 두 조건 충족 못하면 modify로
   // const { currentUser } = useSelector((state) => state.auth);
   const currentUser = localStorage.getItem('currentUser');
-  const [isLoading, setIsLoading] = useState(false)
 
   const chattingExit = location.state
     ? location.state.props.chattingExit
@@ -35,7 +34,7 @@ const Main = (props) => {
   const [isEvaluationModalVisible, setIsEvaluationModalVisble] =
     useState(chattingExit);
 
-
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -47,26 +46,21 @@ const Main = (props) => {
         history.push('/');
       });
   };
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
 
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem("user"));
     let accessToken = user ? user.accessToken : null;
-    axios.get(API_URL + 'user/login-user',  {
+    axios.get(API_URL + 'user/login-user', {
       headers: { "X-Auth-Token": accessToken },
-    }).then((res) => {if(!res.data.data.name){
-      dispatch(getUser())
-      console.log(res.data.data.name)
-      history.push('/modify')
-    }else{
-      dispatch(getUser())
-      setIsLoading(true)
-    }})
+    })
+      .then((res) => {if(res.data.data.name){
+        setIsLoading(false)
+        history.push('/main')
+      }else{history.push('/modify')}})
   }, [])
-
-  // useEffect(() => {
-  //   dispatch(getUser())
-  
-  // }, []);
 
   const toggleEvaluationModal = (event) => {
     setIsEvaluationModalVisble(!isEvaluationModalVisible);
@@ -89,7 +83,7 @@ const Main = (props) => {
       {isEvaluationModalVisible && (
         <EvaluationTemplate toggleModal={toggleEvaluationModal} />
       )}
-      {setIsLoading && (
+      {!isLoading && currentUser !== null && currentUser.name !== null && (
         <div>
           <div className={classes.main_container}>
             <div className={classes['feed-container']}>
