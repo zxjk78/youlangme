@@ -39,6 +39,8 @@ function App() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
   const name = Object.keys(currentUser).length != 0 ? currentUser.name : null;
+
+ 
   const reissueToken = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const accessToken = user ? user.accessToken : null;
@@ -50,7 +52,7 @@ function App() {
           accessToken: accessToken,
           refreshToken: refreshToken,
         },
-        {
+        { withCredentials: true,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -62,9 +64,44 @@ function App() {
         console.log(response.data.data);
       })
       .catch((err) => {
-        alert(err.message);
+        dispatch(resetLogin())
+        localStorage.clear()
+        history.push('/')
       });
   };
+
+  // useEffect(() => {
+  //     const user = JSON.parse(localStorage.getItem('user'));
+  //     const accessToken = user ? user.accessToken : null;
+  //     const refreshToken = user ? user.refreshToken : null;
+  //     if (accessToken && refreshToken) {
+  //       axios
+  //         .post(
+  //           API_URL + 'reissue',
+  //           {
+  //             accessToken: accessToken,
+  //             refreshToken: refreshToken,
+  //           },
+  //           {
+  //             headers: {
+  //               'Content-Type': 'application/json',
+  //             },
+  //           }
+  //         )
+  //         .then((response) => {
+  //           console.log(response.data)
+  //           localStorage.removeItem('user');
+  //           localStorage.setItem('user', JSON.stringify(response.data.data));
+  //           console.log(response.data.data);
+  //         })
+  //         .catch((err) => {
+  //           console.log(err.message)
+  //           dispatch(resetLogin())
+  //           window.localStorage.clear()
+  //           history.push('/')
+  //         });
+  //     }
+  // }, [isLoggedIn]);
 
   useEffect(() => {
     let timer1Id = setInterval(() => {
@@ -79,7 +116,7 @@ function App() {
               accessToken: accessToken,
               refreshToken: refreshToken,
             },
-            {
+            { withCredentials: true,
               headers: {
                 'Content-Type': 'application/json',
               },
@@ -91,8 +128,8 @@ function App() {
             console.log(response.data.data);
           })
           .catch((err) => {
-            dispatch(resetLogin());
-            history.push('/');
+            dispatch(resetLogin())
+            history.push('/')
           });
       }
     }, 1800000);

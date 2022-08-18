@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
-import HighlightOff from '@material-ui/icons/HighlightOff';
+import ClearIcon from '@mui/icons-material/Clear';
 import Send from '@material-ui/icons/Send';
 
 import './ChatComponent.scss';
@@ -320,9 +320,9 @@ export default class ChatComponent extends Component {
           style={styleChat}
         >
           <div id="chatToolbar">
-            <div>상대방과의 대화</div>
+            <div>채팅</div>
             <div id="chat-closeButton" onClick={this.close}>
-              <HighlightOff />
+              <ClearIcon />
             </div>
           </div>
           <div className="message-wrap" ref={this.chatScroll}>

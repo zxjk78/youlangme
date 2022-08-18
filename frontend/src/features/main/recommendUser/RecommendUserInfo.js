@@ -19,10 +19,19 @@ const FollowButon = styled(Button)`
   border-radius: 25px;
   font-weight: bold;
   background-color: #ffc700;
+  &:hover {
+    background-color: #C79E0C;
+    
+  }
 `;
 
 const UnFollowButon = styled(FollowButon)`
   background-color: #9ba7af;
+  &:hover {
+
+    background-color: #6D7276;
+    
+  }
 `;
 
 const RecommendUserInfo = (props) => {
