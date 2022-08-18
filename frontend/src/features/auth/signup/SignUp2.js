@@ -136,7 +136,8 @@ const SignUp2 = () => {
         <div className={classes.container}>
           <div className={classes.picContainer}> </div>
           <div className={classes.loginContainer}>
-            <div className={classes.loginHeader}>Sign Up</div>
+            {/* <div className={classes.loginHeader}>Sign Up</div> */}
+            <div className={classes.loginHeader}>회원가입</div>
             <div className={classes.loginForm}>
               <form onSubmit={handleSubmit(handleRegister)}>
                 {successful ? (

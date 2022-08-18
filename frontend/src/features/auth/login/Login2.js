@@ -141,7 +141,8 @@ const Login2 = (props) => {
         <div className={classes.container}>
           <div className={classes.picContainer}> </div>
           <div className={classes.loginContainer}>
-            <div className={classes.loginHeader}>LogIn</div>
+            <div className={classes.loginHeader}>로그인</div>
+            {/* <div className={classes.loginHeader}>LogIn</div> */}
             <div className={classes.loginForm}>
               <form onSubmit={handleSubmit(handleLogin)}>
                 <input
