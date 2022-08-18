@@ -8,6 +8,16 @@ import EvaluationTemplate from '../matching/youlangmeCustom/evaluations/Evaluati
 
 import UserInfo from '../profile/LeftProfile/UserInfo/UserInfo';
 
+// custom component
+import FeedLIst from './feed/FeedList';
+import UserRanking from './ranking/UserRanking';
+import RecommendUser from './recommendUser/RecommendUser';
+import LanguageRanking from './ranking/LanguageRanking';
+// external component
+
+// css
+import classes from './Main.module.scss';
+
 const Main = (props) => {
   const location = useLocation();
   const { currentUser } = useSelector((state) => state.auth);
@@ -41,31 +51,29 @@ const Main = (props) => {
   // const { user } = useSelector((state) => state.auth);
   // console.log(user);
   return (
-    <div>
-      {/* {currentUser.name && <Header/>} */}
-      <h2>이곳은 임시 홈페이지</h2>
-
+    <>
       {isEvaluationModalVisible && (
         <EvaluationTemplate toggleModal={toggleEvaluationModal} />
       )}
-      {/* {true && <EvaluationTemplate toggleModal={toggleEvaluationModal} />} */}
 
-      <div>
-        <Link to="/board/create">게시판 생성작업</Link>
-      </div>
-      <div>
-        <Link to="/test">메인페이지 임시</Link>
-      </div>
+      <div className={classes.main_container}>
+        <div className={classes['feed-container']}>
+          <FeedLIst />
+        </div>
 
-      <div>
-        <Link to={`/profile/${currentUser.id}`}>프로필 작업</Link>
-      </div>
-      <div>
-        <Link to="/modify">수정</Link>
-      </div>
+        <div className={classes['userRanking-container']}>
+          <UserRanking />
+        </div>
 
-      <button onClick={logoutHandler}>로그아웃</button>
-    </div>
+        <div className={classes['languageRanking-container']}>
+          <LanguageRanking />
+        </div>
+        <div className={classes['followRecommand-container']}>
+          <RecommendUser />
+        </div>
+      </div>
+      <div className={classes.footer}></div>
+    </>
   );
 };
 
