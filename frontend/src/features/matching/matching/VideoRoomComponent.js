@@ -837,6 +837,8 @@ class VideoRoomComponent extends Component {
               newsInfo={this.state.newsInfoToShare}
               myUserId={this.state.myUserId}
               yourUserId={this.state.yourUserId}
+              isVideoActive={localUser.isVideoActive}
+              isAudioActive={localUser.isAudioActive}
             />
           </div>
         )}

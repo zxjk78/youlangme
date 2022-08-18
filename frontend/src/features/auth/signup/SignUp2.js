@@ -58,7 +58,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .test(
       'len',
-      '10 ~ 20글자의 영숫자, 특수문자의 조합으로 입력해 주세요.',
+      '10 ~ 20글자의 영문자, 숫자, 특수문자의 조합으로 입력해 주세요.',
       (val) =>
         val &&
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
