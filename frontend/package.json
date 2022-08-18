@@ -50,6 +50,8 @@
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
+    "sweetalert2": "^11.4.28",
+    "sweetalert2-react-content": "^4.2.0",
     "translate-google-api": "^1.0.4",
     "trianglify": "^4.1.1",
     "web-vitals": "^2.1.4",

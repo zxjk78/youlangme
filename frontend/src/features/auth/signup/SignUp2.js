@@ -11,6 +11,8 @@ import * as Yup from 'yup';
 
 // module
 import Trianglify from 'react-trianglify';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 // external component
 import Box from '@mui/material/Box';
 
@@ -56,7 +58,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .test(
       'len',
-      '비밀번호는 10글자 이상 20글자 이하의 영어, 숫자, 특수문자의 조합입니다.',
+      '10 ~ 20글자의 영숫자, 특수문자의 조합으로 입력해 주세요.',
       (val) =>
         val &&
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
@@ -65,9 +67,11 @@ const validationSchema = Yup.object().shape({
     )
     .required('비밀번호를 입력해 주세요'),
   checkPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], '패스워드가 일치하지 않습니다.')
+    .oneOf([Yup.ref('password'), null], '비밀번호가 일치하지 않습니다.')
     .required('비밀번호를 다시 입력해 주세요'),
 });
+
+const MySwal = withReactContent(Swal);
 
 const SignUp2 = () => {
   const [successful, setSuccessful] = useState(false);
@@ -96,7 +100,11 @@ const SignUp2 = () => {
       })
       .catch((err) => {
         setSuccessful(false);
-        alert('회원가입이 실패했습니다.');
+        MySwal.fire({
+          icon: 'error',
+          title: '회원가입 실패',
+          text: '중복된 이메일입니다.',
+        });
         history.push('/signup');
       });
   };
