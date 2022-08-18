@@ -1,14 +1,11 @@
 import axios from 'axios';
 import { nationalityNewsMapping } from '../../common/utils/data/nationalityData';
 import { API_URL } from '../../common/api/http-config';
-
+import { defineNewsActive } from '../../common/utils/functions/commonFunctions';
 export const fetchNews2 = async (myCountry, yourCountry) => {
   const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
-  // 그냥 중국은 버림
-  if (
-    myCountry === 'CHINA' ||
-    (myCountry === 'JAPAN' && yourCountry === 'CHINA')
-  ) {
+
+  if (!defineNewsActive(myCountry, yourCountry)) {
     return { articles: [] };
   }
   const oppoCountry = nationalityNewsMapping[myCountry][yourCountry];

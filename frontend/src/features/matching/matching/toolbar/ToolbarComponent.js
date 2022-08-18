@@ -30,6 +30,8 @@ export default class ToolbarComponent extends Component {
     super(props);
     this.state = {
       fullscreen: false,
+      myNationality: this.props.myNationality,
+      yourNationality: this.props.yourNationality,
     };
     this.camStatusChanged = this.camStatusChanged.bind(this);
     this.micStatusChanged = this.micStatusChanged.bind(this);
@@ -154,6 +156,8 @@ export default class ToolbarComponent extends Component {
           <ExtraMenuButton
             news={this.toggleHelpModal}
             quit={this.onbeforeunload}
+            myNationality={this.props.myNationality}
+            yourNationality={this.props.yourNationality}
           />
         </div>
       </div>

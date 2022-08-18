@@ -89,3 +89,45 @@ export const imgResizing = async (oldFile) => {
 
   return loadToCanvas(convertedImg, oldFile.size);
 };
+
+// 나라로 뉴스 가능한지 계산
+export const defineNewsActive = (myNationality, yourNationality) => {
+  const newsActive = {
+    KOREA: {
+      USA: true,
+      JAPAN: true,
+      CHINA: true,
+      SPAIN: true,
+      KOREA: true,
+    },
+    JAPAN: {
+      USA: true,
+      JAPAN: true,
+      CHINA: false,
+      SPAIN: true,
+      KOREA: true,
+    },
+    CHINA: {
+      USA: true,
+      JAPAN: false,
+      CHINA: false,
+      SPAIN: false,
+      KOREA: true,
+    },
+    USA: {
+      USA: true,
+      JAPAN: true,
+      CHINA: true,
+      SPAIN: true,
+      KOREA: true,
+    },
+    SPAIN: {
+      USA: true,
+      JAPAN: true,
+      CHINA: false,
+      SPAIN: false,
+      KOREA: true,
+    },
+  };
+  return newsActive[myNationality][yourNationality];
+};
