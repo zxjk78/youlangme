@@ -16,7 +16,7 @@ import styled from '@emotion/styled';
 import classes from './FeedList.module.scss';
 
 const MoreCircularProgress = styled(CircularProgress)`
-  color: #808080;
+  color: #d580ff;
 `;
 
 const FeedLIst = (props) => {
@@ -104,8 +104,8 @@ const FeedLIst = (props) => {
           </div>
           <div className={classes.main}>
             {isLoading ? (
-              <div>
-                <CircularProgress size={60} />
+              <div className={classes.loading}>
+                <MoreCircularProgress size="3rem" />
               </div>
             ) : (
               <>
