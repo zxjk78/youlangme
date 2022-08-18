@@ -8,6 +8,15 @@ export let accessToken = user ? user.accessToken : null;
 
 export let refreshToken = user ? user.refreshToken : null;
 
+export const getToken = () => {
+  return user ? user.accessToken : null;
+};
+
+export const getRefreshToken = () => {
+  return user ? user.refreshToken : null;
+};
+
+
 export const getConfig = { headers: { 'X-Auth-Token': accessToken } };
 
 export const postConfig = {
