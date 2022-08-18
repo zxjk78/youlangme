@@ -17,11 +17,10 @@ code {
   display: flex;
   width: 85%;
   /* height: 630px; */
-  min-height: 85vh;
+  height: 85vh;
   margin: 10px auto 10px auto;
   /* background: #F9F3EE !important; */
   background: #F9F3EE;
- 
   border: 2px solid #CAD1D8;
   /* border-radius: 12px !important; */
   border-radius: 12px;
