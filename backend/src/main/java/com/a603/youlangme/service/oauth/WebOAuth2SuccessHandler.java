@@ -13,6 +13,7 @@ import com.a603.youlangme.repository.UserRepository;
 import com.a603.youlangme.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -45,7 +46,7 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
         User user = userRepository.findByEmail(oAuth2User.getName()).orElse(null);
         if (user == null) {
-            user = UserSignupRequestDto.builder().email(oAuth2User.getName()).password("123").build().toEntity(passwordEncoder);
+            user = UserSignupRequestDto.builder().email(oAuth2User.getName()).password(oAuth2User.getName()).build().toEntity(passwordEncoder);
             User newUser = userRepository.save(user);
             userExpRepository.save(UserExp.builder()
                     .user(newUser)
@@ -54,7 +55,6 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
                     .build());
         }
 
-        System.out.println(user.getId() + " " +  user.getRoles());
         TokenResponseDto tokenDto = jwtProvider.createTokenDto(user.getId(), user.getRoles());
 
         RefreshToken refreshToken = RefreshToken.builder()
@@ -67,7 +67,6 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         else {
             savedRefreshToken.updateToken(tokenDto.getRefreshToken());
         }
-        System.out.println(tokenDto.toString());
         log.info("Principal에서 꺼낸 OAuth2User = {}", oAuth2User);
 
         Cookie cookie = new Cookie("accessToken", tokenDto.getAccessToken());
@@ -86,6 +85,13 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         cookie.setPath("/");
         cookie.setHttpOnly(false);
         cookie.setMaxAge(300);
+        response.addCookie(cookie);
+
+        cookie = new Cookie("refreshTokenCookie", tokenDto.getRefreshToken());
+        cookie.setMaxAge(14 * 24 * 60 * 60);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
         response.addCookie(cookie);
 
         getRedirectStrategy().sendRedirect(request, response, "https://i7a603.p.ssafy.io/social");
