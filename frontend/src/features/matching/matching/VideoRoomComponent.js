@@ -197,7 +197,7 @@ class VideoRoomComponent extends Component {
     setTimeout(() => {
       this.setState({ timer: true });
       console.log(this.state.timer);
-    }, 60000);
+    }, 30000);
 
     // this.joinSession();
   }

@@ -104,43 +104,43 @@ function App() {
   //     }
   // }, [isLoggedIn]);
 
-  useEffect(() => {
-    let timer1Id = setInterval(() => {
-      const user = JSON.parse(localStorage.getItem('user'));
-      const accessToken = user ? user.accessToken : null;
-      const refreshToken = user ? user.refreshToken : null;
-      if (isLoggedIn) {
-        axios
-          .post(
-            API_URL + 'reissue',
-            {
-              accessToken: accessToken,
-              refreshToken: refreshToken,
-            },
-            {
-              withCredentials: true,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          )
-          .then((response) => {
-            localStorage.removeItem('user');
-            localStorage.setItem('user', JSON.stringify(response.data.data));
-            console.log(response.data.data);
-          })
-          .catch((err) => {
-            dispatch(resetLogin());
-            history.push('/');
-          });
-      }
-    }, 1800000);
-    return () => {
-      if (!isLoggedIn) {
-        clearInterval(timer1Id);
-      }
-    };
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   let timer1Id = setInterval(() => {
+  //     const user = JSON.parse(localStorage.getItem('user'));
+  //     const accessToken = user ? user.accessToken : null;
+  //     const refreshToken = user ? user.refreshToken : null;
+  //     if (isLoggedIn) {
+  //       axios
+  //         .post(
+  //           API_URL + 'reissue',
+  //           {
+  //             accessToken: accessToken,
+  //             refreshToken: refreshToken,
+  //           },
+  //           {
+  //             withCredentials: true,
+  //             headers: {
+  //               'Content-Type': 'application/json',
+  //             },
+  //           }
+  //         )
+  //         .then((response) => {
+  //           localStorage.removeItem('user');
+  //           localStorage.setItem('user', JSON.stringify(response.data.data));
+  //           console.log(response.data.data);
+  //         })
+  //         .catch((err) => {
+  //           dispatch(resetLogin());
+  //           history.push('/');
+  //         });
+  //     }
+  //   }, 1800000);
+  //   return () => {
+  //     if (!isLoggedIn) {
+  //       clearInterval(timer1Id);
+  //     }
+  //   };
+  // }, [isLoggedIn]);
 
   return (
     <div class="App">

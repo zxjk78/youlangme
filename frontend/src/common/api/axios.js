@@ -94,9 +94,10 @@ axios.interceptors.response.use(
                 // return axios(originalRequest)
                 onTokenRefreshed(newAccessToken);
               })
-              .catch((err) =>{
-                localStorage.clear()
-              })
+              // .catch((err) =>{
+              //   localStorage.clear()
+              //   window.location.href = '/'
+              // })
           }
           const retryOriginalRequest = new Promise((resolve) => {
               addRefreshSubscriber((accessToken) => {

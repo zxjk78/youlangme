@@ -18,6 +18,8 @@ import LanguageRanking from './ranking/LanguageRanking';
 
 // css
 import classes from './Main.module.scss';
+import axios from 'axios';
+import { API_URL } from '../../common/api/http-config';
 
 const Main = (props) => {
   const location = useLocation();
@@ -48,28 +50,40 @@ const Main = (props) => {
     dispatch(getUser());
   }, []);
 
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem("user"));
+    let accessToken = user ? user.accessToken : null;
+    axios.get(API_URL + 'user/login-user', {
+      headers: { "X-Auth-Token": accessToken },
+    })
+      .then((res) => {if(res.data.data.name){
+        setIsLoading(false)
+        history.push('/main')
+      }else{history.push('/modify')}})
+  }, [])
+
   const toggleEvaluationModal = (event) => {
     setIsEvaluationModalVisble(!isEvaluationModalVisible);
   };
 
   // if (currentUser.name === null) {
-  if (currentUser === null || currentUser.name === null) {
-    history.push('/modify');
-  } else {
-    // console.log(
-    //   currentUser,
-    //   currentUser.name,
-    //   localStorage.getItem('currentUser')
-    // );
-    // 무한렌더링 되어버림
-    // setIsLoading(false);
-  }
+  // if (currentUser === null || currentUser.name === null) {
+  //   history.push('/modify');
+  // } else {
+  //   // console.log(
+  //   //   currentUser,
+  //   //   currentUser.name,
+  //   //   localStorage.getItem('currentUser')
+  //   // );
+  //   // 무한렌더링 되어버림
+  //   // setIsLoading(false);
+  // }
   return (
     <>
       {isEvaluationModalVisible && (
         <EvaluationTemplate toggleModal={toggleEvaluationModal} />
       )}
-      {currentUser !== null && currentUser.name !== null && (
+      {!isLoading && currentUser !== null && currentUser.name !== null && (
         <div>
           <div className={classes.main_container}>
             <div className={classes['feed-container']}>
@@ -81,7 +95,7 @@ const Main = (props) => {
             </div>
 
             <div className={classes['languageRanking-container']}>
-              {/* <LanguageRanking /> */}
+              <LanguageRanking />
             </div>
             <div className={classes['followRecommand-container']}>
               <RecommendUser />
