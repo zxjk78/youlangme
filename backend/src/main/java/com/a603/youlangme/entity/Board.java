@@ -13,7 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Board extends BaseEntity {
 
-    @Lob
+    @Column(length=2000)
+    //@Lob
     private String contents;
 
     @JoinColumn(name="author_id")
@@ -22,6 +23,12 @@ public class Board extends BaseEntity {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Reply> replyList = new ArrayList<>();
+
+    @OneToMany(mappedBy="board", cascade = CascadeType.ALL)
+    private List<BoardImg> imgList = new ArrayList<>();
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<UserBoardLike> userBoardLikes = new ArrayList<>();
+
 
     //엔티티 용
     public static Board of(String contents, User author) {

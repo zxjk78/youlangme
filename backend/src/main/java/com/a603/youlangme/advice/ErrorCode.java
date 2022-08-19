@@ -16,8 +16,16 @@ public enum ErrorCode {
     RefreshTokenExpiredException(1006, "리프레시 토큰이 만료됨, 재로그인 필요"),
     RefreshTokenNotFoundException(1007, "리프레시 토큰이 DB에 존재하지 않음"),
     UnAllowedAccessException(1008, "허용하지 않는 접근 방식"),
-    DataNotFoundException(1009, "DB에 데이터가 존재하지 않음")
+    DataNotFoundException(1009, "DB에 데이터가 존재하지 않음"),
+    ImgSaveFailException(1010, "이미지 저장에 실패함"),
+
+    EmailNotFount(1011,"가입된 이메일 없음"),
+    SessionNotFoundException(1012,"현재 미팅 세션이 존재하지 않음"),
+
+    AccessTokenExpiredException(1013, "엑세스 토큰이 만료됨, 재발급 필요")
     ;
+
+
 
     private int code;
     private String message;

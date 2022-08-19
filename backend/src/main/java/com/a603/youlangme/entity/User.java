@@ -1,17 +1,22 @@
 package com.a603.youlangme.entity;
 
+import com.a603.youlangme.dto.user.UserSetBasicInfoRequestDto;
 import com.a603.youlangme.enums.Gender;
 import com.a603.youlangme.enums.Language;
 import com.a603.youlangme.enums.Nationality;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +26,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User extends BaseEntity implements UserDetails {
+public class User extends BaseEntity implements UserDetails, Serializable {
 
     @Column(unique = true, nullable = true, length = 30)
     String name;
@@ -33,35 +38,37 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, length = 100)
     String password;
 
-    @Column(nullable = false)
-    private int age;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Nationality nationality;
 
     //enum으로 해결
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Gender gender;
 
-    private Long exp = 0L;
+
+    @Column(nullable = true)
+    private LocalDate birthDay;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Language mylanguage;
 
     @Enumerated(EnumType.STRING)
+    @Column(length=20)
     private Language yourlanguage;
 
-
-    // Profile start
 
     @Column(nullable = true, length = 50)
     private String description;
 
-    @Column(nullable = true, length = 50)
+    @Column(nullable = true, length = 255)
     private String image;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserBadge> userBadges = new ArrayList<>();
+    private List<UserBoardLike> userBoardLikes = new ArrayList<>();
 
     public void updateDescription(String description) {
         this.description = description;
@@ -70,10 +77,6 @@ public class User extends BaseEntity implements UserDetails {
     public void updateImage(String image) {
         this.image = image;
     }
-
-    // Profile end
-
-
 
 
     @ElementCollection(fetch = FetchType.EAGER) // Proxy 객체가 반환되어 권한을 제대로 확인할 수 없는 경우를 방지
@@ -133,10 +136,28 @@ public class User extends BaseEntity implements UserDetails {
     private  List<UserFavorite> userFavorites;
 
 
-    public void updateBasicInfo(String name, Language myLanguage, Language yourLanguage, Nationality nationality) {
-        this.name = name;
-        this.mylanguage = myLanguage;
-        this.yourlanguage = yourLanguage;
-        this.nationality = nationality;
+    public void updateBasicInfo(UserSetBasicInfoRequestDto basicInfo) {
+        this.name = basicInfo.getName();
+        this.mylanguage = basicInfo.getMyLanguage();
+        this.yourlanguage = basicInfo.getYourLanguage();
+        this.nationality = basicInfo.getNationality();
+        this.gender = basicInfo.getGender();
+        this.birthDay = basicInfo.getBirthDay();
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Feed> feedList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserExp expInfo;
+    public int getAge() {
+        return LocalDate.now().getYear() - this.birthDay.getYear();
+    }
+
+    @OneToMany(mappedBy = "user")
+    private List<MatchingFeedback> feedbacks = new ArrayList<>();
+
+    public void updatePwd(String password){
+        this.password=password;
     }
 }

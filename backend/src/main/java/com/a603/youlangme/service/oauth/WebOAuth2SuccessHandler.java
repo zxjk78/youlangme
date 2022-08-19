@@ -5,10 +5,15 @@ import com.a603.youlangme.dto.token.TokenResponseDto;
 import com.a603.youlangme.dto.user.UserSignupRequestDto;
 import com.a603.youlangme.entity.RefreshToken;
 import com.a603.youlangme.entity.User;
+import com.a603.youlangme.entity.UserExp;
+import com.a603.youlangme.repository.LevelRepository;
 import com.a603.youlangme.repository.RefreshTokenRepository;
+import com.a603.youlangme.repository.UserExpRepository;
 import com.a603.youlangme.repository.UserRepository;
+import com.a603.youlangme.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -30,6 +35,9 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final UserExpRepository userExpRepository;
+    private final LevelRepository levelRepository;
+    private final UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -38,11 +46,15 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
         User user = userRepository.findByEmail(oAuth2User.getName()).orElse(null);
         if (user == null) {
-            user = UserSignupRequestDto.builder().email(oAuth2User.getName()).password("123").build().toEntity(passwordEncoder);
-            userRepository.save(user);
+            user = UserSignupRequestDto.builder().email(oAuth2User.getName()).password(oAuth2User.getName()).build().toEntity(passwordEncoder);
+            User newUser = userRepository.save(user);
+            userExpRepository.save(UserExp.builder()
+                    .user(newUser)
+                    .exp(0)
+                    .level(levelRepository.getReferenceById(1L))
+                    .build());
         }
 
-        System.out.println(user.getId() + " " +  user.getRoles());
         TokenResponseDto tokenDto = jwtProvider.createTokenDto(user.getId(), user.getRoles());
 
         RefreshToken refreshToken = RefreshToken.builder()
@@ -55,27 +67,30 @@ public class WebOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         else {
             savedRefreshToken.updateToken(tokenDto.getRefreshToken());
         }
-        System.out.println(tokenDto.toString());
         log.info("Principal에서 꺼낸 OAuth2User = {}", oAuth2User);
 
         Cookie cookie = new Cookie("accessToken", tokenDto.getAccessToken());
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setMaxAge(300);
         response.addCookie(cookie);
+
+//        cookie = new Cookie("refreshToken", tokenDto.getRefreshToken());
+//        cookie.setPath("/");
+//        cookie.setHttpOnly(false);
+//        cookie.setMaxAge(300);
+//        response.addCookie(cookie);
 
         cookie = new Cookie("refreshToken", tokenDto.getRefreshToken());
+        cookie.setMaxAge(14 * 24 * 60 * 60);
         cookie.setPath("/");
+        cookie.setSecure(true);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(300);
         response.addCookie(cookie);
 
-        cookie = new Cookie("accessTokenExpireDate", String.valueOf(tokenDto.getAccessTokenExpireDate()));
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(300);
-        response.addCookie(cookie);
+        getRedirectStrategy().sendRedirect(request, response, "https://i7a603.p.ssafy.io/social");
 
-        getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/social");
+        // 출석 로그
+        userService.logAttendance(oAuth2User.getName());
     }
 }

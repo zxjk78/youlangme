@@ -5,10 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,13 +14,13 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
     @Id
-    @GeneratedValue
-    Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @CreatedDate // 생성된 시간 저장
-    private LocalDateTime createdDate;
+    private LocalDateTime createdTime;
 
     @LastModifiedDate // Entity의 값을 변경할 때 시간 갱신 저장
-    private LocalDateTime modifiedDate;
+    private LocalDateTime modifiedTime;
 
 }

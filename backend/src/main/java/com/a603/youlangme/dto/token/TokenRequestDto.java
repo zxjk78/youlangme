@@ -1,19 +1,12 @@
 package com.a603.youlangme.dto.token;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class TokenRequestDto {
     String accessToken;
     String refreshToken;
-    @Builder
-    public TokenRequestDto(String accessToken, String refresshToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refresshToken;
-    }
 }

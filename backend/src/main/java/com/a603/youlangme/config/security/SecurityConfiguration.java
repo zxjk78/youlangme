@@ -1,6 +1,7 @@
 package com.a603.youlangme.config.security;
 
 
+import com.a603.youlangme.config.logging.LoggingFilter;
 import com.a603.youlangme.service.oauth.WebOAuth2SuccessHandler;
 import com.a603.youlangme.service.oauth.WebOAuth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,15 +11,22 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
@@ -44,13 +52,14 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http.cors().and()
                 .httpBasic().disable() // 초기 설정은 비 인증시 로그인 폼으로 리다이렉트 되는데 REST API 이므로 disable
                 .csrf().disable() // REST API 이므로 상태를 저장하지 않기 때문에 CSRF 보안을 설정할 필요가 없으므로 disable
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Jwt로 인증하므로 세션이 필요하지 않음
                 .and()
                 .authorizeRequests() // exception Handling을 위해 permit
-                .antMatchers("/login/**", "/signup/**", "/reissue", "/oauth2/**", "/exception/**", "/home").permitAll() // 로그인, 회원가입은 누구나 허용
+                .antMatchers("/login/**", "/signup/**", "/reissue", "/oauth2/**", "/exception/**", "/home", "/user/image/**", "/image/**","/findPwd/**","/redis/**").permitAll() // 로그인, 회원가입은 누구나 허용
                 .anyRequest().hasRole("USER")
 
                 .and()
@@ -84,6 +93,6 @@ public class SecurityConfiguration {
     public WebSecurityCustomizer webSecurityCustomizer() {
         // Swagger 관련 Url 예외처리
         return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
-                "/swagger-ui/index.html", "/webjars/**", "/swagger/**", "/swagger-ui/**");
+                "/swagger-ui/index.html", "/webjars/**", "/swagger/**", "/swagger-ui/**", "/resources/**");
     }
 }
