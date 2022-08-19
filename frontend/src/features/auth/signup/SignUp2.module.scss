@@ -1,0 +1,96 @@
+.backdrop {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: -1;
+  opacity: 0.7;
+}
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.picContainer {
+  background-image: url('../../../assets/youlangme_bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 30px 0px 0px 30px;
+}
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  padding: 0px 10px;
+  width: 50%;
+  min-width: 300px;
+
+  height: 60%;
+  min-height: 500px;
+
+  background: #fff;
+  border-radius: 0px 30px 30px 0px;
+  .loginHeader {
+    margin-top: 40px;
+    margin-left: 10px;
+    color: #b865c6;
+    font-size: 2.3rem;
+    font-weight: bold;
+  }
+  .loginForm {
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    input {
+      width: 90%;
+      height: 40px;
+      border: none;
+      border-radius: 25px;
+      padding: 0px 15px;
+      outline: solid 1px #b865c6;
+      &:focus {
+        outline: solid 2px #b865c6;
+      }
+    }
+    .errorMsg {
+      width: 80%;
+      font-size: 0.5rem;
+      white-space: pre-wrap;
+      color: #000;
+    }
+    .subMenu {
+      font-size: 0.8rem;
+      color: #000;
+    }
+  }
+}
+
+.signUpIngMsg {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.clickable {
+  color: #b865c6;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}

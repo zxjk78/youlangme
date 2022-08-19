@@ -1,0 +1,26 @@
+.main_container {
+  width: 80%;
+  height: 85%;
+  max-height: 85vh;
+  margin: 15px auto;
+  // border: solid 2px #d3d3d3;
+  border-radius: 20px;
+  display: grid;
+  grid-template-rows: 2fr 1fr 2fr;
+  grid-template-columns: 4.5fr 1.5fr;
+  gap: 15px;
+}
+
+.feed-container {
+  grid-area: 1/1/4/2;
+}
+
+.userRanking-container {
+  grid-area: 1/2/2/2;
+}
+.languageRanking-container {
+  grid-area: 2/2/3/2;
+}
+.followRecommand-container {
+  grid-area: 3/2/4/2;
+}

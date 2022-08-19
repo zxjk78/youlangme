@@ -1,0 +1,10 @@
+.main {
+  & > div:first-child {
+    display: grid;
+    grid-template-columns: 4fr 30px 100px;
+    gap: 5px;
+  }
+}
+.sendBtn {
+  align-self: center;
+}

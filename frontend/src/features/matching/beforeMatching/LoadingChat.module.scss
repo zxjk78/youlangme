@@ -1,0 +1,342 @@
+
+.container {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  // margin-top: 50px;
+  top: 12%;
+  // bottom: ;
+  left: 0;
+  right: 0;
+  margin: auto;
+  filter: url('#goo');
+  animation: rotate_move 4s ease-in-out infinite;
+}
+
+.dot { 
+  width: 110px;
+  height: 110px;
+  border-radius: 80%;
+  background-color: #000;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.dot_3 {
+  background-color: #ffe386;
+  animation: dot_3_move 4s ease infinite;
+}
+
+.dot_2 {
+  background-color: #10beae;
+  animation: dot_2_move 4s ease infinite;
+}
+
+.dot_1 {
+  background-color: #f74d75;
+  animation: dot_1_move 4s ease infinite;
+}
+
+@keyframes dot_3_move {
+  20% {transform: scale(1)}
+  45% {transform: translateY(-18px) scale(.45)}
+  60% {transform: translateY(-40px) scale(.45)}
+  80% {transform: translateY(-40px) scale(.45)}
+  100% {transform: translateY(0px) scale(1)}
+}
+
+@keyframes dot_2_move {
+  20% {transform: scale(1)}
+  45% {transform: translate(-16px, 12px) scale(.45)}
+  60% {transform: translate(-40px, 40px) scale(.45)}
+  80% {transform: translate(-40px, 40px) scale(.45)}
+  100% {transform: translateY(0px) scale(1)}
+}
+
+@keyframes dot_1_move {
+  20% {transform: scale(1)}
+  45% {transform: translate(16px, 12px) scale(.45)}
+  60% {transform: translate(40px, 40px) scale(.45)}
+  80% {transform: translate(40px, 40px) scale(.45)}
+  100% {transform: translateY(0px) scale(1)}
+}
+
+@keyframes rotate_move {
+  55% {transform: rotate(0deg)}
+  80% {transform: rotate(360deg)}
+  100% {transform: rotate(360deg)}
+}
+
+
+
+
+
+.match_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 85%;
+  height: 85vh;
+  margin: auto;
+  /* background: #F9F3EE !important; */
+  /* background: #F9F3EE; */
+  border: 2px solid #CAD1D8;
+  /* border-radius: 12px !important; */
+  border-radius: 12px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: #B865C6;
+}
+
+
+
+
+
+.loading_box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: 40%;
+  // margin-bottom: 200px;
+  // margin: auto;
+  // background-color: #B865C6;
+  // border: 2px solid #CAD1D8;
+  // border-radius: 20px;
+  // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  .loading_ment {
+    margin-bottom: 14px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 48px;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 1px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+// @import url('https://fonts.googleapis.com/css?family=Raleway:200');
+
+// // body{
+// //   font-family: 'Raleway', sans-serif;
+// // }
+
+// .shadow{
+//   width:60px;
+//   height:4px;
+//   background-color:rgba(0,0,0,.1);
+//   border-radius:3px;
+//   animation:shadow 5s ease-in-out infinite;
+//   margin:auto;
+//   position:absolute;
+//   bottom:-4px;
+//   left:0;
+//   right:0;
+  
+// }
+
+// @keyframes shadow{
+//   0%{
+//     width:60px;
+//   }
+//   10%{
+//     width:10px;
+//   }
+//   20%{
+//     width:60px;
+//   }
+//   30%{
+//     width:10px;
+//   }
+//   40%{
+//     width:60px;
+//   }
+//   50%{
+//     width:10px;
+//   }
+//   60%{
+//     width:60px;
+//   }
+//   70%{
+//     width:10px;
+//   }
+//   92%{
+//     width:10px;
+//   }
+//   100%{
+//     width:60px;
+//   }
+// }
+
+
+// .logo{
+//   position:absolute;
+//   bottom:0;
+//   width: 300px;
+//   // text-align:center;
+//   // margin: auto;
+//   color:#3498db;
+//   font-size:30px;
+//   // margin-left:-20px;
+//   opacity:0;
+//   animation: logo 5s ease-in-out infinite;
+// }
+
+// @keyframes logo{
+//   0%{
+//     transform:translateY(0);opacity:0;
+//   }
+//   59%{
+//     transform:translateY(0);opacity:0;
+//   }
+//   60%{
+//     opacity:1;
+//   }
+//   70%{
+//     transform:translateY(-95px);
+//   }
+//   92%{
+//     transform:translateY(-95px);
+//   }
+//   100%{
+//     transform:translateY(0);opacity:1;
+//   }
+// }
+
+// .loading_container{
+//   width:60px;
+//   height:250px;
+//   position:Relative;
+//   margin: auto;
+//   position: absolute;
+//   top: 50%; left: 50%;
+//   -webkit-transform: translate(-50%,-50%);
+//       -ms-transform: translate(-50%,-50%);
+//           transform: translate(-50%,-50%);
+// }
+
+// .circle{
+//   width:55px;
+//   height:55px;
+//   border:2px solid #2ecc71;
+//   background-color:#FFFFFF;
+//   border-radius:50%;
+//   position:absolute;
+//   bottom:0;
+//   animation: circle 5s ease-in-out infinite;
+// }
+
+// @keyframes circle{
+//   0%{
+//     transform:translateY(0);
+//   }
+//   10%{
+//     transform:translateY(-190px);
+//   }
+//   20%{
+//     transform:translateY(0) scaleY(1.2);opacity:1;
+//   }
+//   20.1%{
+//     opacity:0;
+//   }
+//   100%{opacity:0;}
+// }
+
+// .square{
+//   width:55px;
+//   height:55px;
+//   border:2px solid #f1c40f;
+//   background-color:#FFFFFF;
+//   position:absolute;
+//   bottom:0;
+//   opacity:0;
+//   animation: square 5s ease-in-out infinite;
+// }
+
+// @keyframes square{
+//   0%{
+//     transform:translateY(0);opacity:0;
+//   }
+//   19%{
+//     transform:translateY(0);opacity:0;
+//   }
+//   20%{
+//     opacity:1;
+//   }
+//   30%{
+//     transform:translateY(-190px) rotate(90deg);
+//   }
+//   40%{
+//     transform:translateY(0) rotate(180deg);opacity:1;
+//   }
+//   40.1%{
+//     transform:translateY(0);opacity:0;
+//   }
+//   100%{opacity:0;}
+// }
+
+// .triangle{
+//   width:0;
+//   height:0;
+//   border-left:30px solid transparent;
+//   border-right:30px solid transparent;
+//   border-bottom:50px solid #9b59b6;
+//   position:absolute;
+//   bottom:0;
+//   animation: triangle 5s ease-in-out infinite;
+//   opacity:0;
+// }
+
+// .triangle::after{
+//   content:"";
+//   width:0;
+//   height:0;
+//   border-left:26px solid transparent;
+//   border-right:26px solid transparent;
+//   border-bottom:44px solid white;
+//   position:absolute;
+//   bottom:-48px;
+//   left:-26px;
+// }
+
+
+// @keyframes triangle{
+//   0%{
+//     transform:translateY(0);opacity:0;
+//   }
+//   39%{
+//     transform:translateY(0);opacity:0;
+//   }
+//   40%{
+//     opacity:1;
+//   }
+//   50%{
+//     transform:translateY(-190px) rotate(60deg);
+//   }
+//   60%{
+//     transform:translateY(0) rotate(120deg);opacity:1;
+//   }
+//   60.1%{
+//     transform:translateY(0);opacity:0;
+//   }
+//   100%{opacity:0;}
+// }

@@ -1,0 +1,54 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  // background-color: bisque;
+  border: 1px solid #cad6e2;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.container {
+  height: 100%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  // font-weight: bold;
+  // font-size: 1.2rem;
+  background-color: #b865c6;
+  border-radius: 15px 15px 0px 0px;
+  padding: 10px;
+  .follow_recom {
+    display: flex;
+    margin-left: 10px;
+    div {
+      font-size: 1.2rem;
+      font-weight: bold;
+
+      color: #fff;
+      line-height: 30px;
+    }
+  }
+  .more_follow {
+    line-height: 30px;
+  }
+}
+.main {
+  height: 70%;
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.noReco {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-size: 1.3rem;
+  font-weight: bold;
+  span {
+    margin-left: 10px;
+  }
+}

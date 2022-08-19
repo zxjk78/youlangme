@@ -1,0 +1,30 @@
+.main > div:first-child {
+  display: grid;
+  .grid1 {
+    grid-column-start: 1;
+    grid-column-end: 6;
+    & > div:nth-of-type(1) {
+      font-size: 0.9rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      & > * {
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+    }
+  }
+  .originalMessage {
+    margin-left: 10px;
+  }
+  .grid2 {
+    grid-column-start: 1;
+    grid-column-end: 5;
+  }
+  .grid3 {
+    grid-column-start: 5;
+    grid-column-end: 6;
+    display: flex;
+    align-items: center;
+  }
+}

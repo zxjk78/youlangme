@@ -1,0 +1,136 @@
+.wrapper {
+  width: 70%;
+  height: auto;
+  margin: 30px auto;
+  padding: 30px 0px;
+  background-color: #f9f3ee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px #94a2ab;
+  border-radius: 15px;
+  .container {
+    width: 70%;
+    height: 90%;
+  }
+  .formContainer {
+    border: solid 1px #d3d3d3;
+    border-radius: 15px;
+    background-color: #fcf9f6;
+    padding: 15px;
+  }
+  .title {
+    color: #94a2ab;
+    margin-bottom: 15px;
+    font-size: 25px;
+    font-weight: bold;
+  }
+  .userInfoContainer {
+    padding-bottom: 15px;
+    border-bottom: solid 1px #d3d3d3;
+    margin: 5px 8px;
+  }
+  //form
+
+  form {
+    margin-top: 18px;
+
+    textarea {
+      display: block;
+      width: 80%;
+      margin: 0px auto;
+      padding: 15px;
+      border: solid 1px #d3d3d3;
+      border-radius: 15px;
+      background-color: #f9f3ee;
+      box-shadow: 5px 5px 5px #d3d3d3;
+      font-size: 1.1rem;
+      // font-weight: bold;
+      &:focus {
+        border: solid 2px #ffc700;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+        outline: none;
+        transform: translateY(-5px);
+        transition: 0.3s;
+      }
+
+      resize: none;
+    }
+    .imageAndButtonContainer {
+      display: flex;
+      width: 80%;
+      margin: 15px auto;
+      flex-direction: column;
+      gap: 10px;
+      // justify-content: space-between;
+      // align-items: center;
+      .imageContainer {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        img,
+        .addPhotoButton {
+          width: 100px;
+          height: 100px;
+          border-radius: 10px;
+        }
+        .addPhotoButton {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: #d9d9d9;
+          cursor: pointer;
+          &:hover {
+            background-color: rgb(154, 153, 154);
+            font-weight: bold;
+            color: #f9f3ee;
+            transform: translateY(-3px);
+            transition: 0.3s;
+          }
+        }
+        .fileImage {
+          position: relative;
+
+          .removeImgButton {
+            padding: 1px;
+            position: absolute;
+            cursor: pointer;
+            right: 0;
+            &:hover {
+              transform: translateY(-3px);
+              transition: 0.3s;
+            }
+          }
+        }
+      }
+
+      .buttonContainer {
+        display: flex;
+        justify-content: flex-end;
+        button {
+          width: 100px;
+          margin: 0px 10px;
+          padding: 5px;
+          border: none;
+          border-radius: 5px;
+          color: #fff;
+          background-color: #94a2ab;
+          cursor: pointer;
+          &:hover {
+            background-color: rgb(102, 100, 101);
+            font-weight: bold;
+          }
+        }
+        button + button {
+          background-color: #ffc700;
+          &:hover {
+            background-color: #ffaa00;
+            // color: #fff;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+.container {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+
+  .like_cnt_ment {
+    display: flex;
+    font-size: 13px;
+
+  }
+
+  & > div:nth-of-type(2) {
+    // box-sizing: border-box;
+    // width: 30px;
+    height: 30px;
+    padding: 10px 10px;
+    text-align: center;
+    line-height: 8px;
+    &:hover {
+      font-weight: bold;
+    }
+  }
+  .like_cnt_num {
+    font-weight: bold;
+    font-size: 17px;
+    margin: 0px 3px 0px 6px;
+    line-height: 7px;
+  }
+}
+
+.likeUserList {
+  width: 400px;
+  padding: 8px;
+  right: 200px;
+  position: absolute;
+  background-color: #fff;
+  border-radius: 15px;
+
+  & > div:first-child {
+    border-bottom: solid 1px #d3d3d3;
+  }
+  img {
+    width: 50px;
+    height: 50px;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+// @keyframes clickHeart {
+//   0%,
+//   100% {
+//     top: 0;
+//   }
+//   50% {
+//     top: -10px;
+//   }
+// }

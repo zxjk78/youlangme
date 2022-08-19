@@ -1,0 +1,36 @@
+// .uploaderWrapper{
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+  
+  
+// }
+
+.upload_profile_image{
+  display: flex;
+  flex-direction: column;
+  .choose_file_btn {
+    margin-left: auto;
+    margin-top: 3%
+  }
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+
+.upload_buttons {
+  margin-top: 30px;
+  
+}
+
+.profile_img_add_icon {
+  position: absolute;
+  left: 23%;
+  top: 16px;
+  // text-align: end;
+  // margin-right: 15%;
+
+}
