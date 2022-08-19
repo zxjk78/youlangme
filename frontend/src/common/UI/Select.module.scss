@@ -1,0 +1,42 @@
+.container {
+  position: relative;
+  .selected {
+    border-bottom: solid 2px black;
+    button {
+      background: #fff;
+      width: 100px;
+      border: none;
+    }
+  }
+  .options {
+    width: 100px;
+    padding: 7px 0px;
+    position: absolute;
+
+    background-color: #fff;
+    list-style: none;
+    font-size: 0.8rem;
+    text-align: center;
+    left: 0;
+    border: {
+      style: solid;
+      color: rgb(201, 84, 255);
+      width: 2px;
+      radius: 15px;
+    }
+  }
+}
+
+li {
+  padding: 5px 15px 5px;
+  transition: 0.1s;
+  &:hover {
+    background-color: rgb(199, 80, 185);
+  }
+
+  & + & {
+    border: {
+      top: 1px solid rgb(201, 84, 255);
+    }
+  }
+}
