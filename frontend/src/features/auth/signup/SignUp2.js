@@ -58,7 +58,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .test(
       'len',
-      '10 ~ 20글자의 영숫자, 특수문자의 조합으로 입력해 주세요.',
+      '10 ~ 20글자의 영문자, 숫자, 특수문자의 조합으로 입력해 주세요.',
       (val) =>
         val &&
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
@@ -136,7 +136,8 @@ const SignUp2 = () => {
         <div className={classes.container}>
           <div className={classes.picContainer}> </div>
           <div className={classes.loginContainer}>
-            <div className={classes.loginHeader}>Sign Up</div>
+            {/* <div className={classes.loginHeader}>Sign Up</div> */}
+            <div className={classes.loginHeader}>회원가입</div>
             <div className={classes.loginForm}>
               <form onSubmit={handleSubmit(handleRegister)}>
                 {successful ? (

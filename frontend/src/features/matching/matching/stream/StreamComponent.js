@@ -140,7 +140,7 @@ export default class StreamComponent extends Component {
                   className="navButton"
                   id="navCamButton"
                 >
-                  <VideocamOff color="secondary" />
+                  <VideocamOff />
                 </IconButton>
               )}
 
@@ -157,7 +157,7 @@ export default class StreamComponent extends Component {
                   className="navButton"
                   id="navMicButton"
                 >
-                  <MicOff color="secondary" />
+                  <MicOff />
                 </IconButton>
               )}
             </div>
@@ -169,7 +169,7 @@ export default class StreamComponent extends Component {
                   onClick={this.toggleSound}
                 >
                   {this.state.mutedSound ? (
-                    <HeadsetOffIcon color="secondary" />
+                    <HeadsetOffIcon />
                   ) : (
                     <HeadsetMicIcon />
                   )}

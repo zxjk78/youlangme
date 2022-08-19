@@ -30,6 +30,9 @@ export default class ToolbarComponent extends Component {
     super(props);
     this.state = {
       fullscreen: false,
+
+      isVideoActive: this.props.isVideoActive,
+      isAudioActive: this.props.isAudioActive,
       // myNationality: this.props.myNationality,
       // yourNationality: this.props.yourNationality,
     };
@@ -103,28 +106,28 @@ export default class ToolbarComponent extends Component {
         <div className="buttonsContent">
           <LowerToolBarMenuItem
             activate={{
-              text: '비디오 시작',
-              icon: <VideocamOff color="secondary" />,
-            }}
-            deactivate={{
               text: '비디오 종료',
               icon: <Videocam />,
             }}
-            activateStatus={true}
+            deactivate={{
+              text: '비디오 시작',
+              icon: <VideocamOff color="secondary" />,
+            }}
+            activateStatus={this.state.isVideoActive}
             activateFn={this.camStatusChanged}
             deactivateFn={this.camStatusChanged}
             // activateStatus={this.props.user.isVideoActive()}
           />
           <LowerToolBarMenuItem
             activate={{
-              text: '음소거 해제',
-              icon: <MicOff color="secondary" />,
-            }}
-            deactivate={{
               text: '음소거',
               icon: <Mic />,
             }}
-            activateStatus={true}
+            deactivate={{
+              text: '음소거 해제',
+              icon: <MicOff color="secondary" />,
+            }}
+            activateStatus={this.state.isAudioActive}
             activateFn={this.micStatusChanged}
             deactivateFn={this.micStatusChanged}
             // activateStatus={this.props.user.isAudioActive()}

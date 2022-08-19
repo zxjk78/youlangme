@@ -11,8 +11,13 @@ import CreateNewBoardLink from '../../board/create/component/CreateNewBoardLink'
 // external component
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CircularProgress from '@mui/material/CircularProgress';
+import styled from '@emotion/styled';
 
 import classes from './FeedList.module.scss';
+
+const MoreCircularProgress = styled(CircularProgress)`
+  color: #d580ff;
+`;
 
 const FeedLIst = (props) => {
   const [followeeFeedList, setFolloweeFeedList] = useState([]);
@@ -99,8 +104,8 @@ const FeedLIst = (props) => {
           </div>
           <div className={classes.main}>
             {isLoading ? (
-              <div>
-                <CircularProgress size={60} />
+              <div className={classes.loading}>
+                <MoreCircularProgress size="3rem" />
               </div>
             ) : (
               <>
@@ -152,8 +157,16 @@ const FeedLIst = (props) => {
           <div className={classes.footer}>
             {nextFeedId !== -1 && (
               <div className={classes.more} onClick={fetchFeedMoreHandler}>
-                <div>더보기</div>
-                <ExpandMoreIcon />
+                {isLoading ? (
+                  <>
+                    <MoreCircularProgress size="1rem" />
+                  </>
+                ) : (
+                  <>
+                    <div>더보기</div>
+                    <ExpandMoreIcon />
+                  </>
+                )}
               </div>
             )}
           </div>
