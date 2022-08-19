@@ -157,7 +157,10 @@ const FeedLIst = (props) => {
           <div className={classes.footer}>
             {nextFeedId !== -1 && (
               <div className={classes.more} onClick={fetchFeedMoreHandler}>
-                {isLoading ? (
+                  <div>더보기</div>
+                  <ExpandMoreIcon />
+
+                {/* {isLoading ? (
                   <>
                     <MoreCircularProgress size="1rem" />
                   </>
@@ -166,7 +169,7 @@ const FeedLIst = (props) => {
                     <div>더보기</div>
                     <ExpandMoreIcon />
                   </>
-                )}
+                )} */}
               </div>
             )}
           </div>
