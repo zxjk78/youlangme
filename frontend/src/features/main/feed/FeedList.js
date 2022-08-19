@@ -24,7 +24,7 @@ const FeedLIst = (props) => {
   const [rightFolloweeFeedList, setRightFolloweeFeedList] = useState([]);
   const [leftFolloweeFeedList, setLeftFolloweeFeedList] = useState([]);
 
-  const [nextFeedId, setNextFeedId] = useState(0);
+  const [nextFeedId, setNextFeedId] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
   const [isFeedOver, setIsFeedOver] = useState(false);
 
