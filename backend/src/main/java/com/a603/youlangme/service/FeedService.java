@@ -31,6 +31,7 @@ public class FeedService {
             FeedLog feedLog = feed.getFeedLog();
             if (feedLog.getLogType() == LogType.WRITE_POST) {
                 Board board = boardRepository.findBoardById(feedLog.getDetail());
+                if (board == null) continue;
                 List<BoardImg> boardImgList = boardImgRepository.findAllByBoard(board);
                 List<String> images = new ArrayList<>();
                 for (BoardImg img : boardImgList) {
