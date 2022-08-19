@@ -1,0 +1,131 @@
+.container {
+  justify-content: center;
+  border-radius: 15px;
+}
+.formCancel {
+  display: inline;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.formContainer {
+  border: solid 5px #b865c6;
+
+  display: flex;
+  align-items: center;
+  width: 400px;
+  // height: 700px;
+  padding: 30px 15px;
+  // padding-top: 30px;
+  // padding-bottom: 30px;
+  color: #000;
+  font-size: 1rem;
+  border-radius: 15px;
+
+  background-color: #fff;
+
+  text-align: left;
+
+  form {
+    width: 80%;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px 0px;
+    justify-content: space-around;
+    h5 {
+      margin: 5px 0px;
+    }
+
+    .nationSelect {
+      width: 300px;
+      margin: 0px auto;
+    }
+    label {
+      font-weight: bold;
+    }
+
+    .nicknameContainer {
+      display: flex;
+      justify-content: flex-start;
+      // border-bottom: solid 1px black;
+
+      input {
+        width: 75%;
+        height: 40px;
+        border: none;
+        background-color: transparent;
+        align-self: flex-end;
+      }
+      input:focus {
+        outline: none;
+        border-bottom: solid 2px #b865c6;
+      }
+      Button {
+        width: 35%;
+        height: 40px;
+      }
+    }
+
+    .nationGenderContainer {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
+    .languageSelectionContainer {
+      & > div {
+        width: 100%;
+        // margin: 0px auto;
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+    .interestContainer {
+      .interestCnt {
+        font-weight: bold;
+        color: #3b3b3b;
+      }
+      p {
+        margin: 0;
+        padding: 2px;
+        font-size: 0.9rem;
+      }
+      .chipsContaier {
+        width: 350px;
+        margin-left: -15px;
+        * {
+          margin: 8px;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}
+
+.birthdayContainer {
+  width: 90%;
+}
+
+.submitBtn {
+  display: flex;
+  justify-content: center;
+}
+
+.nicknameCheckBtn {
+  background-color: #d3d3d3;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.needDupCheck {
+  color: #fff;
+  background-color: #f4b8ff;
+  transition-duration: 0.5s;
+}
+.uniqueName {
+  color: #fff;
+  background-color: #b865c6;
+  transition-duration: 0.2s;
+}

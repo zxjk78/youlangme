@@ -22,18 +22,23 @@ const SignUp = () => {
     email: Yup.string()
       .test(
         "len",
-        "The email must be between 3 and 20 characters.",
+        "이메일 형식으로 입력하세요.",
         (val) =>
-          val && val.toString().length >= 3 && val.toString().length <= 20
+          val && /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/.test(val)
+         
       )
       .required("This field is required!"),
 
     password: Yup.string()
       .test(
         "len",
-        "The password must be between 6 and 40 characters.",
+        "패스워드는 10글자 이상 20글자 이하의 영어, 숫자, 특수문자의 조합입니다.",
         (val) =>
-          val && val.toString().length >= 6 && val.toString().length <= 40
+          val &&
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
+            val
+          )
+
       )
       .required("This field is required!"),
 
@@ -56,8 +61,9 @@ const SignUp = () => {
         setSuccessful(true);
         history.push("/");
       })
-      .catch(() => {
+      .catch((err) => {
         setSuccessful(false);
+        alert("회원가입이 실패했습니다.")
         history.push("/signup");
       });
   };

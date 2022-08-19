@@ -1,66 +1,80 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-
-import { login } from "../authSlice";
-// import GoogleButton from "./Forms/GoogleButton";
-import classes from "./Login.module.scss";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+// redux
+import { getUser, login } from '../authSlice';
+// external module
+import axios from 'axios';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { API_URL } from '../../../common/api/http-config';
+// custom component
+import ChangePassword from './ChangePassword';
+import Modal from '../../../common/UI/Modal/Modal';
+// css
+import classes from './Login.module.scss';
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { currentUser } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
 
   // const { message } = useSelector((state) => state.message);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+
+  const showModalHandler = () => {
+    setIsModalVisible(() => true);
+  };
+  // const { isLoggedIn } = useSelector((state) => state.auth);
+
   // useEffect(() => {
   //   dispatch(clearMessage());
   // }, [dispatch]);
 
   const initialValues = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
-
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required("This field is required!"),
-    password: Yup.string().required("This field is required!"),
+    email: Yup.string().required('This field is required!'),
+    password: Yup.string().required('This field is required!'),
   });
 
   const handleLogin = (formValue) => {
+    setLoading(true);
     const { email, password } = formValue;
-    const data = {
-      email,
-      password,
-    };
-    console.log(data);
 
     dispatch(login({ email, password }))
       .unwrap()
-      .then(() => {
-        if (isLoggedIn) {
-          history.push("/modify");
-        }
+      .then((res) => {
+        console.log(res.response);
       })
-      .catch(() => {
-        setLoading(false);
+      .catch((err) => {
+        alert(err);
       });
   };
 
-  // const googleLogin = () => {
-  //   dispatch(socialLogin())
-  //     .unwrap()
+  const googleLogin = () => {
+    // dispatch(socialLogin())
+    //   .unwrap()
 
-  //     .catch(() => {
-  //       setLoading(false);
-  //     });
-  // };
-
+    //   .catch(() => {
+    //     setLoading(false);
+    //   });
+    window.location.href = API_URL + 'oauth2/authorization/google';
+  };
+  const closeModal = () => {
+    setIsModalVisible(() => false);
+  };
   return (
     <div className={classes.login}>
+      {isModalVisible && (
+        <Modal closeModalHandler={closeModal}>
+          <ChangePassword></ChangePassword>
+        </Modal>
+      )}
       <div className={classes.login__form}>
         <Formik
           initialValues={initialValues}
@@ -96,9 +110,10 @@ const Login = (props) => {
             </div>
           </Form>
         </Formik>
-        {/* <GoogleButton /> */}
-        {/* <button onClick={googleLogin}>테스트용 구글 </button> */}
+
+        <button onClick={googleLogin}>테스트용 구글</button>
         <Link to="/signup">회원가입 하시겠습니까?</Link>
+        <span onClick={showModalHandler}>비밀번호를 잊으셨나요?</span>
       </div>
     </div>
   );

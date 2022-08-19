@@ -1,0 +1,176 @@
+.right_profile {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  // height: 100%;
+  // margin-top: 1%;
+  margin-left: 5%;
+  margin-right: 3%;
+  
+  .wrapper_level_activity {
+    display: flex;
+    flex-direction: row;
+    height: 37%;
+    margin-top: 10px;
+
+    .level_container {
+      width: 40%;
+      
+      .level_card {
+        width: 75%;
+        // height: 50%;
+        // margin-top: 0px;
+        // margin-bottom: 20px;
+        // margin: 15px 10px 12px 20px;
+        
+        // background: rgba(255, 255, 255, 0.2);
+        // border: 1px solid #CAD6E2;
+        // border-radius: 20px;
+
+        
+        .level {
+  
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          
+          cursor: pointer;
+          &:hover {
+            transform: translateY(-15px);
+            transition: 0.5s;
+            text-shadow: 0px 5px 5px rgba(108, 104, 104, 0.25);
+            // background:rgba(237, 231, 223, 0.588);
+            // // border-radius: 15px;
+            // padding: 3px;
+          }
+
+          .trophy {
+          
+          }
+          .level_name {
+            
+
+          }
+        }
+
+      }
+    }
+
+    .activity_container {
+      width: 60%;
+      
+      .activity_card {
+        width: 100%;
+        // height: 300px;
+        height: 75%;
+        // margin-top: 20px;
+        // margin-bottom: 20px;
+        // margin: 15px 10px 12px 20px;
+        
+        // background: rgba(255, 255, 255, 0.2);
+        // // border: 1px solid #CAD6E2;
+        // border-radius: 20px;
+        // // text-align: center;
+        
+        .my_activity {
+          height: 100%;
+          width: 100%;
+          // padding-bottom: 15px;
+          // margin-bottom: 0px;
+        }
+      }
+    }
+
+
+  }
+
+  .badge_container {
+    // display: ;
+    width: 92%;
+    height: 25%;
+    margin-top: 1px;
+
+    .badge_card {
+      margin-top: 2%;
+      // height: 70%;
+      // background: rgba(255, 255, 255, 0.2);
+      // border: 1px solid #CAD6E2;
+      // border-radius: 20px;
+      
+      .badge_image {
+        margin-left: 2%;
+        width: 115px;
+        height: 110px;
+      }
+
+    }
+  }
+
+  .grass_container {
+    width: 92%;
+    height: 30%;
+    // margin-top: 1%;
+    .grass_card {
+      height: 100%;
+      // background: rgba(255, 255, 255, 0.2);
+      // border: 1px solid #CAD6E2;
+      // border-radius: 20px;
+    }
+  }
+}
+
+
+
+.modal_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin-top: 2%;
+}
+
+.modal_level_badge {
+  margin-top: 4%;
+}
+
+.level_detail_chart {
+  height: 80%;
+  width: 100%;
+}
+
+
+.badge_select_box {
+  margin-top: 2%;
+
+  .each_badge_list {
+    margin-top: 2%;
+
+  }
+
+}
+
+.modal_badge_image {
+  
+  width: 75px;
+  height: 75px;
+}
+
+.active {
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-7px);
+    transition: 0.3s;
+    // background:rgba(237, 231, 223, 0);
+    // // border-radius: 15px;
+    // padding: 3px;
+  }
+}
+
+.disabled {
+  filter: grayscale(100%);
+}
+
+.level_modal_name {
+  text-shadow: 0px 3px 3px rgba(108, 104, 104, 0.25);
+}

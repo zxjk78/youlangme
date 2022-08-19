@@ -1,0 +1,37 @@
+.wrapper {
+  width: auto;
+  background-color: #fff;
+  position: absolute;
+  top: 30px;
+  right: 50px;
+  z-index: 10;
+  height: 100%;
+  max-height: 80vh;
+  border-radius: 20px;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+.container {
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  color: #fff;
+  background-color: blueviolet;
+  height: 60px;
+  font-weight: bold;
+  border-radius: 20px 20px 0 0;
+
+  font-size: 1.2rem;
+  & > div {
+    margin: 0px 20px;
+  }
+}
+.main {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.footer {
+}

@@ -1,0 +1,37 @@
+.wrapper {
+  width: 330px;
+  height: 450px;
+  // background-color: aqua;
+  background-color: #fff;
+  border: solid 2px #d3d3d3;
+  border-radius: 15px;
+  padding: 15px;
+  overflow: scroll;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding-bottom: 10px;
+  border-bottom: solid 1px #d3d3d3;
+}
+.close {
+  color: #6a6a6a;
+  cursor: pointer;
+}
+.container {
+  margin: 20px 5px 3px 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  .like_each_user {
+    &:hover {
+      background:rgba(237, 231, 223, 0);
+      // border-radius: 15px;
+      padding: 3px;
+    }
+  }
+}

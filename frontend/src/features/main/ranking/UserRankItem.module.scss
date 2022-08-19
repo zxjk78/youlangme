@@ -1,0 +1,38 @@
+.wrapper {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px 6px;
+
+  // scss의 한 태그에서 클래스 여러개 표현은 이렇게 가능
+  &.myRank {
+    background-color: #ffdb59;
+  }
+  &:hover {
+    background-color: #b865c6;
+    transform: translate(5px, -1px);
+
+    transition: 0.2s;
+  }
+}
+.container {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  .rank {
+    color: #000;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .detail {
+    display: grid;
+    grid-template-columns: 200px 40px 100px;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+.me {
+  font-weight: bold;
+  margin-right: 10px;
+}

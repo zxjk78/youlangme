@@ -1,0 +1,12 @@
+.recommendUser {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin-left: 10px;
+  .recom_user_profile {
+    margin-left: 10px;
+    width: 50%;
+    // height: 20px;
+  }
+}
